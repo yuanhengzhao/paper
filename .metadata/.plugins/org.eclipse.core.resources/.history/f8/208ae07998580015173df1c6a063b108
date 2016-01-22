@@ -1,0 +1,251 @@
+# Parser to for Soc Hourly Production Report forms submitted from ProntoForms
+class ProntoForms::SocHourlyProductionReportParser < AbstractFormParser
+
+  # name of the form according to ProntoForms
+  NAME = "Soc Hourly Production Report"
+  # Returns the highest version number this parser is capable of parsing.
+  #
+  # @return [numeric] highest version number this parser is capable of parsing
+  def max_version
+    7
+  end
+
+  # Attempts to convert the hash provided into a database object.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @param result [Forms::SocHourlyProductionReport] object to update, nil if a new object should be created
+  # @return [ActiveRecord] instance of the object
+  # @raise [ParserException] if the hash could not be parsed for whatever reason
+  def parse(form_hash, result = nil)
+    result ||= Forms::SocHourlyProductionReport.new
+
+    # assign common values
+    ProntoForms::SourceParser.get_common_answer_values(form_hash, result)
+
+    if result.version.to_i <= 2
+      handle_answers_before_version2(form_hash,result)
+    elsif result.version.to_i <= 3
+      handle_answers_before_version3(form_hash,result)
+    elsif result.version.to_i <= 6
+      handle_answers_before_version4(form_hash,result)
+    elsif result.version.to_i <= max_version
+      handle_answers_before_version7(form_hash,result)
+    end
+
+    return result
+  end
+
+  private
+  def handle_answers_before_version7(form_hash, result)
+    
+    # the latest version is 4 at this point
+    # Page 1
+    result.crew                = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 2)[0]
+    result.supervisor          = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 3)[0]
+    result.supervisor_name     = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 4)[0]
+    result.date                = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 6)[0]
+    result.reported_time       = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 7)[0]
+    result.ampm                = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 8)[0]
+
+    # Pages 2-5
+    for i in 1..4
+      result.send("press_#{i}_cct=",           ProntoForms::SourceParser.get_answer_values(form_hash, i, 1)[0])
+      result.send("p#{i}lut=",                 ProntoForms::SourceParser.get_answer_values(form_hash, i, 2)[0])
+      result.send("p#{i}m=",                   ProntoForms::SourceParser.get_answer_values(form_hash, i, 3)[0])
+      result.send("press_#{i}_curing_cycle=",  ProntoForms::SourceParser.get_answer_values(form_hash, i, 5)[0])
+      result.send("press_#{i}_downtime=",      ProntoForms::SourceParser.get_answer_values(form_hash, i, 6)[0])
+      result.send("press_#{i}_downtime_desc=", ProntoForms::SourceParser.get_answer_values(form_hash, i, 7)[0])
+      ProntoForms::SourceParser.handle_image(result, form_hash, i, 8, "press_#{i}_chart")
+    end
+
+    # Page 6
+    for i in 1..4
+      result.send("press_#{i}_blanks=", ProntoForms::SourceParser.get_answer_values(form_hash, 5, i)[0])
+    end
+    
+    # Page 7
+    result.splicing_rolls    = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 0)[0]
+    result.splicing_pounds   = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 1)[0]
+    
+    # Page 8
+    for i in 1..4
+      result.send("press_#{i}_treads=",     ProntoForms::SourceParser.get_answer_values(form_hash, 7, i-1)[0])
+      result.send("press_#{i}_efficiency=", ProntoForms::SourceParser.get_answer_values(form_hash, 7, 5+i)[0])
+    end
+
+    result.total_treads         = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 4)[0]
+    result.total_blanks         = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 5)[0]
+    result.projected_total      = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 10)[0]
+    result.overall_efficiency   = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 11)[0]
+    result.comments             = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 12)[0]
+    result.end_of_shift         = (ProntoForms::SourceParser.get_answer_values(form_hash, 7, 13)[0] == "Yes")
+
+    # Page 9
+    result.employee_scheduled   = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 0)[0]
+    result.absent_employees     = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 1)[0]
+    result.overtime_employees   = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 2)[0]
+    result.total_employees      = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 3)[0]
+    result.incidents            = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 4)[0]
+    result.incident_type1       = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 5)[0]
+    result.incident_type2       = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 6)[0]
+    result.incident_type3       = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 7)[0]
+    result.shift_notes          = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 8)[0]
+    result.press_1_2p           = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 9)[0]
+    result.press_2_2p           = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 10)[0]
+    result.press_3_2p           = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 11)[0]
+    result.press_4_2p           = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 12)[0]
+    result.buffer1_2pc_gen      = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 13)[0]
+    result.buffer2_2pc_gen      = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 14)[0]
+    result.p1_cured_waste       = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 15)[0]
+    result.p2_cured_waste       = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 16)[0]
+    result.p3_cured_waste       = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 17)[0]
+    result.p4_cured_waste       = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 18)[0]
+  end
+  
+  def handle_answers_before_version2(form_hash, result)
+
+    # Page 1
+    result.crew                 = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 14)[0]
+    result.supervisor           = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 15)[0]
+    result.supervisor_name      = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 16)[0]
+    result.date                 = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 17)[0]
+    result.reported_time        = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 18)[0]
+    result.ampm                 = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 19)[0]
+
+    # Pages 2-5
+    for i in 1..4
+      result.send("press_#{i}_cct=",          ProntoForms::SourceParser.get_answer_values(form_hash, i, 0)[0])
+      result.send("press_#{i}_curing_cycle=", ProntoForms::SourceParser.get_answer_values(form_hash, i, 2)[0])
+      result.send("press_#{i}_blanks=",       ProntoForms::SourceParser.get_answer_values(form_hash, i, 3)[0])
+      result.send("press_#{i}_treads=",       ProntoForms::SourceParser.get_answer_values(form_hash, i, 4)[0])
+      result.send("press_#{i}_2p=",           ProntoForms::SourceParser.get_answer_values(form_hash, i, 5)[0])
+      result.send("press_#{i}_downtime=",     ProntoForms::SourceParser.get_answer_values(form_hash, i, 6)[0])
+      result.send("press_#{i}_efficiency=",   ProntoForms::SourceParser.get_answer_values(form_hash, i, 7)[0])
+    end
+
+    # Page 6
+    result.total_treads         = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 0)[0]
+    result.total_blanks         = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 1)[0]
+    result.projected_total      = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 2)[0]
+    result.overall_efficiency   = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 3)[0]
+    result.comments             = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 4)[0]
+  end
+
+  def handle_answers_before_version3(form_hash, result)
+    
+    # Page 1
+    result.p1lut               = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 5)[0]
+    result.p2lut               = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 6)[0]
+    result.p3lut               = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 7)[0]
+    result.p4lut               = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 8)[0]
+    
+    result.crew                = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 10)[0]
+    result.supervisor          = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 11)[0]
+    result.supervisor_name     = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 12)[0]
+    result.date                = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 13)[0]
+    result.reported_time       = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 14)[0]
+    result.ampm                = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 15)[0]
+
+    # Pages 2-5
+    for i in 1..4
+      result.send("press_#{i}_cct=",           ProntoForms::SourceParser.get_answer_values(form_hash, i, 1)[0])
+      result.send("p#{i}m=",                   ProntoForms::SourceParser.get_answer_values(form_hash, i, 2)[0])
+      result.send("press_#{i}_curing_cycle=",  ProntoForms::SourceParser.get_answer_values(form_hash, i, 4)[0])
+      result.send("press_#{i}_downtime=",      ProntoForms::SourceParser.get_answer_values(form_hash, i, 5)[0])
+      result.send("press_#{i}_downtime_desc=", ProntoForms::SourceParser.get_answer_values(form_hash, i, 6)[0])
+      result.send("press_#{i}_2p=",            ProntoForms::SourceParser.get_answer_values(form_hash, 7, 8+i)[0])
+      ProntoForms::SourceParser.handle_image(result, form_hash, i, 7, "press_#{i}_chart")
+    end
+
+    # Page 6
+    for i in 1..4
+      result.send("press_#{i}_blanks=", ProntoForms::SourceParser.get_answer_values(form_hash, 5, i-1)[0])
+    end
+
+    # Page 7
+    for i in 1..4
+      result.send("press_#{i}_treads=",     ProntoForms::SourceParser.get_answer_values(form_hash, 6, i-1)[0])
+      result.send("press_#{i}_efficiency=", ProntoForms::SourceParser.get_answer_values(form_hash, 6, 5+i)[0])
+    end
+
+    result.total_treads         = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 4)[0]
+    result.total_blanks         = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 5)[0]
+    result.projected_total      = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 10)[0]
+    result.overall_efficiency   = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 11)[0]
+    result.comments             = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 12)[0]
+    result.end_of_shift         = (ProntoForms::SourceParser.get_answer_values(form_hash, 6, 13)[0] == "Yes")
+
+    # Page 8
+    result.employee_scheduled   = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 0)[0]
+    result.absent_employees     = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 1)[0]
+    result.overtime_employees   = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 2)[0]
+    result.total_employees      = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 3)[0]
+    result.incidents            = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 4)[0]
+    result.incident_type1       = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 5)[0]
+    result.incident_type2       = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 6)[0]
+    result.incident_type3       = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 7)[0]
+    result.shift_notes          = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 8)[0]
+    result.press_1_2p           = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 9)[0]
+    result.press_2_2p           = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 10)[0]
+    result.press_3_2p           = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 11)[0]
+    result.press_4_2p           = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 12)[0]
+  end
+  
+  def handle_answers_before_version4(form_hash, result)
+    
+    # the latest version is 4 at this point
+    # Page 1
+    result.crew                = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 2)[0]
+    result.supervisor          = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 3)[0]
+    result.supervisor_name     = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 4)[0]
+    result.date                = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 6)[0]
+    result.reported_time       = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 7)[0]
+    result.ampm                = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 8)[0]
+
+    # Pages 2-5
+    for i in 1..4
+      result.send("press_#{i}_cct=",           ProntoForms::SourceParser.get_answer_values(form_hash, i, 1)[0])
+      result.send("p#{i}lut=",                 ProntoForms::SourceParser.get_answer_values(form_hash, i, 2)[0])
+      result.send("p#{i}m=",                   ProntoForms::SourceParser.get_answer_values(form_hash, i, 3)[0])
+      result.send("press_#{i}_curing_cycle=",  ProntoForms::SourceParser.get_answer_values(form_hash, i, 5)[0])
+      result.send("press_#{i}_downtime=",      ProntoForms::SourceParser.get_answer_values(form_hash, i, 6)[0])
+      result.send("press_#{i}_downtime_desc=", ProntoForms::SourceParser.get_answer_values(form_hash, i, 7)[0])
+      result.send("press_#{i}_2p=",            ProntoForms::SourceParser.get_answer_values(form_hash, 7, 8+i)[0])
+      ProntoForms::SourceParser.handle_image(result, form_hash, i, 8, "press_#{i}_chart")
+    end
+
+    # Page 6
+    for i in 1..4
+      result.send("press_#{i}_blanks=", ProntoForms::SourceParser.get_answer_values(form_hash, 5, i)[0])
+    end
+
+    # Page 7
+    for i in 1..4
+      result.send("press_#{i}_treads=",     ProntoForms::SourceParser.get_answer_values(form_hash, 6, i-1)[0])
+      result.send("press_#{i}_efficiency=", ProntoForms::SourceParser.get_answer_values(form_hash, 6, 5+i)[0])
+    end
+
+    result.total_treads         = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 4)[0]
+    result.total_blanks         = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 5)[0]
+    result.projected_total      = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 10)[0]
+    result.overall_efficiency   = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 11)[0]
+    result.comments             = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 12)[0]
+    result.end_of_shift         = (ProntoForms::SourceParser.get_answer_values(form_hash, 6, 13)[0] == "Yes")
+
+    # Page 8
+    result.employee_scheduled   = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 0)[0]
+    result.absent_employees     = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 1)[0]
+    result.overtime_employees   = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 2)[0]
+    result.total_employees      = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 3)[0]
+    result.incidents            = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 4)[0]
+    result.incident_type1       = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 5)[0]
+    result.incident_type2       = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 6)[0]
+    result.incident_type3       = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 7)[0]
+    result.shift_notes          = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 8)[0]
+    result.press_1_2p           = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 9)[0]
+    result.press_2_2p           = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 10)[0]
+    result.press_3_2p           = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 11)[0]
+    result.press_4_2p           = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 12)[0]
+  end
+
+end

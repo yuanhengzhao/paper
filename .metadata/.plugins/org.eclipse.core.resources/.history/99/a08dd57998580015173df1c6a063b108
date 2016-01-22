@@ -1,0 +1,42 @@
+module Reparseable
+  extend ActiveSupport::Concern
+  
+  # Repopulates the current object with the details specified in the submission document overwiting
+  # any local changes and potentially correcting problems caused by errant parsers. If the parser
+  # could not parse the submission, the current object is destroyed and replaced with an unrecognized
+  # form object.
+  #
+  # @return [Object] instance of the created model or nil if it could not be parsed
+  
+  def reparse
+    begin
+      # use the source to determine which parser to use, throw an exception if no match found
+      parse_service = ParserService.new
+      source_parser = parse_service.get_source_parser(self.source)
+      raise ParserException, "Unrecognized source" if source_parser.nil?
+      
+      # delegate to source parser passing original submission
+      submission = Paperclip.io_adapters.for(self.submission).read
+      result = source_parser.parse(submission, self)
+      
+      # attempt to save current object
+      ActiveRecord::Base.transaction do
+        unless result.save
+          raise ParserException, result.errors * "\n"
+        end
+      end
+    rescue ParserException => e
+      succeed = false
+      
+      # re-parsing the source has left this object in an unrecognized state, store as such
+      result = Forms::UnrecognizedSubmission.new({ :source => source, :reason => e.message, :submission => self.submission })
+      result.save
+      
+      # delete current object since it is now invalid
+      self.destroy
+    end
+    
+    # return the new object
+    result
+  end
+end

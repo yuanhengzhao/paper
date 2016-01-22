@@ -1,0 +1,13 @@
+require_relative '../../spec_helper'
+
+describe Forms::EnpsReport do
+  it "should be included in Forms.list" do
+    expect(Forms.list).to include described_class
+  end
+  
+  it "has a valid factory" do
+    expect(build(:enps_report)).to be_valid
+  end
+  
+  it_behaves_like "reparseable"
+end

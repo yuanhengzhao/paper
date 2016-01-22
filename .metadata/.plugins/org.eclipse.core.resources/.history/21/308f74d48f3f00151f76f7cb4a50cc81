@@ -1,0 +1,73 @@
+# Environment variables used by the application.
+# Do not commit this file back to the repository if it has production values in it.
+
+# app URL
+URL_PROTOCOL: http
+URL_DOMAIN: localhost
+URL_PORT: '3000'
+
+# ID and secret to use when doing Google OAuth
+GOOGLE_CLIENT_ID: "950710546709-jar0ccrb0578ab3s6t7dc9aof2cf09rv.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET: "YQoZFXSUpSzWlspdHcRuxbtj"
+
+# Connection settings for Google account to email from
+GMAIL_ADDRESS: smtp.gmail.com
+GMAIL_PORT: "587"
+GMAIL_DOMAIN: "robinsonsolutions.com"
+GMAIL_USER_NAME: "no-reply@robinsonsolutions.com"
+GMAIL_PASSWORD: "@CrkJ3323"
+GMAIL_AUTHENTICATION: "plain"
+GMAIL_ENABLE_STARTTLS_AUTO: "true"
+
+# key used by Devise in production
+DEVISE_SECRET_KEY: ~
+
+# AWS region
+AWS_REGION: "us-east-1"
+
+test:
+  AWS_ACCESS_KEY_ID: 'AKIAJEDHF4YTJH2BROGQ'
+  AWS_SECRET_ACCESS_KEY: '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'
+  S3_BUCKET_NAME: 'robinsonsolutions-forms-test'
+  DB_ADAPTER: "mysql2"
+  DB_HOST: "localhost"
+  DB_PORT: "3306"
+  DB_NAME: "formdata_test_spec"
+  DB_USER: "scheduling"
+  DB_PASS: "Rob123"
+  PRONTO_FORMS_KEY: a214499055
+  PRONTO_FORMS_SECRET: SEKEEyo7CBOI+KxivJ1YHhwQ1UIBhS7arcuR7VlCLkPGgBstz627/B+m3/TD+rLF
+  PRONTO_FORMS_VERSION: 1
+
+development:
+  AWS_ACCESS_KEY_ID: 'AKIAJEDHF4YTJH2BROGQ'
+  AWS_SECRET_ACCESS_KEY: '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'
+  S3_BUCKET_NAME: 'robinsonsolutions-forms-test'
+  
+  DB_ADAPTER: "mysql2"
+  DB_HOST: "localhost"
+  DB_PORT: "3306"
+  DB_NAME: "formdata_test"
+  DB_USER: "root"
+  DB_PASS: "sirius"
+  QUEUE_URL: 'https://sqs.us-east-1.amazonaws.com:443/185303224100/forms-prontoforms-test-queue'
+  QUEUE_INTERVAL: '15'
+  
+  LDAP_BASE: 'DC=corp,DC=robinsonsolutions,DC=com'
+  LDAP_HOST: 'ldap.corp.robinsonsolutions.com'
+  LDAP_PASSWORD: 'ldap417h'
+  LDAP_PORT: '389'
+  LDAP_USERNAME: 'CN=Ldap,OU=Application Accounts,DC=corp,DC=robinsonsolutions,DC=com'
+  PRONTO_FORMS_KEY: 'a214499055'
+  PRONTO_FORMS_SECRET: 'SEKEEyo7CBOI+KxivJ1YHhwQ1UIBhS7arcuR7VlCLkPGgBstz627/B+m3/TD+rLF'
+  PRONTO_FORMS_VERSION: '1'
+  ADMIN_EMAIL: 'hzhao@robinsonsolutions.com'
+  
+production:
+  DB_ADAPTER: "mysql2"
+  DB_HOST: "sculptor.c4dd91liq1gz.us-east-1.rds.amazonaws.com"
+  DB_PORT: "3306"
+  DB_NAME: "formdata"
+  DB_USER: "root"
+  DB_PASS: "hhtDjADUdpWaWFRssdQuRr67xHGB"
+  SECRET_KEY_BASE: "34d2ffb4ee8d1c55a91d17d26bc751cb77c62c720255b8abf1493f663f8845397e18ee8a841f10f4fa42325055ffc6ec83f1fe3d8ec7b09a591b20ddf5811454"

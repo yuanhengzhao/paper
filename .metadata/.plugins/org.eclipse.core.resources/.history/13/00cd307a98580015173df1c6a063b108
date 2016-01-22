@@ -1,0 +1,1412 @@
+{
+    "identifier": "1817376566",
+    "version": "v1",
+    "zone": "UTC",
+    "referenceNumber": "20141202185726-1817376566",
+    "state": "Complete",
+    "deviceSubmitDate": {
+        "time": "2014-12-02T13:57:25-05:00",
+        "zone": "America/Toronto"
+    },
+    "shiftedDeviceSubmitDate": "2014-12-02T18:57:25Z",
+    "serverReceiveDate": "2014-12-02T18:57:27Z",
+    "form": {
+        "identifier": "141882312",
+        "versionIdentifier": "152338703",
+        "name": "Janitorial Checklist",
+        "version": 2,
+        "formSpaceIdentifier": "191571046",
+        "formSpaceName": "Site - Tonawanda Forms"
+    },
+    "user": {
+        "identifier": "131590062",
+        "username": "nshakoori@robinsonsolutions.com",
+        "displayName": "Naeimeh Shakoori-Najafi (nshakoori@robinsonsolutions.com)"
+    },
+    "dispatcher": null,
+    "geoStamp": {
+        "success": true,
+        "captureTimestamp": {
+            "provided": {
+                "time": "2014-12-02T13:56:40-05:00",
+                "zone": "America/Toronto"
+            },
+            "shifted": "2014-12-02T18:56:40Z"
+        },
+        "errorMessage": null,
+        "source": "GPS",
+        "coordinates": {
+            "latitude": 43.65210021385673,
+            "longitude": -79.38199674619622,
+            "altitude": 112.598
+        },
+        "address": "Queen Street West, Toronto, ON, CA"
+    },
+    "pages": [
+        {
+            "name": "QR Code",
+            "answers": [
+                {
+                    "label": "zone_qr_code",
+                    "dataType": "Barcode",
+                    "question": "Zone QR Code",
+                    "values": [
+                        {
+                            "type": "QrCode",
+                            "data": "HKC-01/GM/Oshawa/Trim/L-44/2nd/Mens///"
+                        }
+                    ]
+                },
+                {
+                    "label": "confirm",
+                    "dataType": "FreeText",
+                    "question": "Confirm QR Code",
+                    "values": [
+                        "HKC-01/GM/Oshawa/Trim/L-44/2nd/Mens///"
+                    ]
+                },
+                {
+                    "label": "qr_client",
+                    "dataType": "FreeText",
+                    "question": "Client",
+                    "values": [
+                        "GM"
+                    ]
+                },
+                {
+                    "label": "qr_site",
+                    "dataType": "FreeText",
+                    "question": "Site",
+                    "values": [
+                        "Oshawa"
+                    ]
+                },
+                {
+                    "label": "qr_shop",
+                    "dataType": "FreeText",
+                    "question": "Shop",
+                    "values": [
+                        "Trim"
+                    ]
+                },
+                {
+                    "label": "qr_location",
+                    "dataType": "FreeText",
+                    "question": "Location",
+                    "values": [
+                        "L-44"
+                    ]
+                },
+                {
+                    "label": "qr_floor",
+                    "dataType": "FreeText",
+                    "question": "Floor",
+                    "values": [
+                        "2nd"
+                    ]
+                },
+                {
+                    "label": "qr_type_mwu",
+                    "dataType": "FreeText",
+                    "question": "Type",
+                    "values": [
+                        "Mens"
+                    ]
+                },
+                {
+                    "label": "qr_reference",
+                    "dataType": "FreeText",
+                    "question": "Reference",
+                    "values": []
+                },
+                {
+                    "label": "qr_plant_id",
+                    "dataType": "FreeText",
+                    "question": "Plant ID",
+                    "values": []
+                },
+                {
+                    "label": "area_type",
+                    "dataType": "FreeText",
+                    "question": "Area Type",
+                    "values": [
+                        "Cafeteria / Kitchenette"
+                    ]
+                },
+                {
+                    "label": "Goto",
+                    "dataType": "FreeText",
+                    "question": "Goto",
+                    "values": [
+                        "Cafeteria / Kitchenette"
+                    ],
+                    "selectOptions": [
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "Office"
+                        },
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "Conference / Training Room"
+                        },
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "Halls / Reception"
+                        },
+                        {
+                            "selected": true,
+                            "other": false,
+                            "value": "Cafeteria / Kitchenette"
+                        },
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "Break Area / Team Room"
+                        },
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "Lab / GSC"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Office",
+            "answers": [
+                {
+                    "label": "NReotiib(ymrta).",
+                    "dataType": "Information",
+                    "question": "Now Rate each of the items identified below (your must rate them all).",
+                    "values": []
+                },
+                {
+                    "label": "fi",
+                    "dataType": "FreeText",
+                    "question": "First Impression",
+                    "values": []
+                },
+                {
+                    "label": "floor",
+                    "dataType": "FreeText",
+                    "question": "Floor and baseboard?",
+                    "values": []
+                },
+                {
+                    "label": "trash",
+                    "dataType": "FreeText",
+                    "question": "Trash empty and clean?",
+                    "values": []
+                },
+                {
+                    "label": "ledges",
+                    "dataType": "FreeText",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean?",
+                    "values": []
+                },
+                {
+                    "label": "windows",
+                    "dataType": "FreeText",
+                    "question": "Windows clean?",
+                    "values": []
+                },
+                {
+                    "label": "chairs",
+                    "dataType": "FreeText",
+                    "question": "Chairs clean?",
+                    "values": []
+                },
+                {
+                    "label": "drinking_fount",
+                    "dataType": "FreeText",
+                    "question": "Drinking fountains clean?",
+                    "values": []
+                },
+                {
+                    "label": "tables",
+                    "dataType": "FreeText",
+                    "question": "Tables clean?",
+                    "values": []
+                },
+                {
+                    "label": "FI-n",
+                    "dataType": "Integer",
+                    "question": "First Impression - numeric",
+                    "values": []
+                },
+                {
+                    "label": "FI-i",
+                    "dataType": "Integer",
+                    "question": "First Impression - include",
+                    "values": []
+                },
+                {
+                    "label": "Fab?-n",
+                    "dataType": "Integer",
+                    "question": "Floor and baseboard? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Fab?-i",
+                    "dataType": "Integer",
+                    "question": "Floor and baseboard? - include",
+                    "values": []
+                },
+                {
+                    "label": "Teac?-n",
+                    "dataType": "Integer",
+                    "question": "Trash empty and clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Teac?-i",
+                    "dataType": "Integer",
+                    "question": "Trash empty and clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "L,dtahsac?-n",
+                    "dataType": "Integer",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "L,dtahsac?-i",
+                    "dataType": "Integer",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "Wc?-n",
+                    "dataType": "Integer",
+                    "question": "Windows clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Wc?-i",
+                    "dataType": "Integer",
+                    "question": "Windows clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "Cc?-n",
+                    "dataType": "Integer",
+                    "question": "Chairs clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Cc?-i",
+                    "dataType": "Integer",
+                    "question": "Chairs clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "Dfc?-n",
+                    "dataType": "Integer",
+                    "question": "Drinking fountains clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Dfc?-i",
+                    "dataType": "Integer",
+                    "question": "Drinking fountains clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "Tc?-n",
+                    "dataType": "Integer",
+                    "question": "Tables clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Tc?-i",
+                    "dataType": "Integer",
+                    "question": "Tables clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "GoTo 2",
+                    "dataType": "FreeText",
+                    "question": "GoTo",
+                    "values": [],
+                    "selectOptions": [
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "GOTO"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Conference / Training Room",
+            "answers": [
+                {
+                    "label": "NReotiib(ymrta). 1",
+                    "dataType": "Information",
+                    "question": "Now Rate each of the items identified below (your must rate them all).",
+                    "values": []
+                },
+                {
+                    "label": "fi 1",
+                    "dataType": "FreeText",
+                    "question": "First Impression",
+                    "values": []
+                },
+                {
+                    "label": "floor 1",
+                    "dataType": "FreeText",
+                    "question": "Floor and baseboard?",
+                    "values": []
+                },
+                {
+                    "label": "trash 1",
+                    "dataType": "FreeText",
+                    "question": "Trash empty and clean?",
+                    "values": []
+                },
+                {
+                    "label": "ledges 1",
+                    "dataType": "FreeText",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean?",
+                    "values": []
+                },
+                {
+                    "label": "windows 1",
+                    "dataType": "FreeText",
+                    "question": "Windows clean?",
+                    "values": []
+                },
+                {
+                    "label": "vents_grilles 1",
+                    "dataType": "FreeText",
+                    "question": "Vents and grilles clean?",
+                    "values": []
+                },
+                {
+                    "label": "chairs 1",
+                    "dataType": "FreeText",
+                    "question": "Chairs clean?",
+                    "values": []
+                },
+                {
+                    "label": "drinking_fount 1",
+                    "dataType": "FreeText",
+                    "question": "Drinking fountains clean?",
+                    "values": []
+                },
+                {
+                    "label": "FI-n 1",
+                    "dataType": "Integer",
+                    "question": "First Impression - numeric",
+                    "values": []
+                },
+                {
+                    "label": "FI-i 1",
+                    "dataType": "Integer",
+                    "question": "First Impression - include",
+                    "values": []
+                },
+                {
+                    "label": "Fab?-n 1",
+                    "dataType": "Integer",
+                    "question": "Floor and baseboard? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Fab?-i 1",
+                    "dataType": "Integer",
+                    "question": "Floor and baseboard? - include",
+                    "values": []
+                },
+                {
+                    "label": "Teac?-n 1",
+                    "dataType": "Integer",
+                    "question": "Trash empty and clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Teac?-i 1",
+                    "dataType": "Integer",
+                    "question": "Trash empty and clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "L,dtahsac?-n 1",
+                    "dataType": "Integer",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "L,dtahsac?-i 1",
+                    "dataType": "Integer",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "Wc?-n 1",
+                    "dataType": "Integer",
+                    "question": "Windows clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Wc?-i 1",
+                    "dataType": "Integer",
+                    "question": "Windows clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "Vagc?-n",
+                    "dataType": "Integer",
+                    "question": "Vents and grilles clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Vagc?-i",
+                    "dataType": "Integer",
+                    "question": "Vents and grilles clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "Cc?-n 1",
+                    "dataType": "Integer",
+                    "question": "Chairs clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Cc?-i 1",
+                    "dataType": "Integer",
+                    "question": "Chairs clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "Dfc?-n 1",
+                    "dataType": "Integer",
+                    "question": "Drinking fountains clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Dfc?-i 1",
+                    "dataType": "Integer",
+                    "question": "Drinking fountains clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "GoTo 3",
+                    "dataType": "FreeText",
+                    "question": "GoTo",
+                    "values": [],
+                    "selectOptions": [
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "GOTO"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Halls / Reception",
+            "answers": [
+                {
+                    "label": "NReotiib(ymrta). 2",
+                    "dataType": "Information",
+                    "question": "Now Rate each of the items identified below (your must rate them all).",
+                    "values": []
+                },
+                {
+                    "label": "fi 2",
+                    "dataType": "FreeText",
+                    "question": "First Impression",
+                    "values": []
+                },
+                {
+                    "label": "floor 2",
+                    "dataType": "FreeText",
+                    "question": "Floor and baseboard?",
+                    "values": []
+                },
+                {
+                    "label": "trash 2",
+                    "dataType": "FreeText",
+                    "question": "Trash empty and clean?",
+                    "values": []
+                },
+                {
+                    "label": "ledges 2",
+                    "dataType": "FreeText",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean?",
+                    "values": []
+                },
+                {
+                    "label": "windows 2",
+                    "dataType": "FreeText",
+                    "question": "Windows clean?",
+                    "values": []
+                },
+                {
+                    "label": "vents_grilles 2",
+                    "dataType": "FreeText",
+                    "question": "Vents and grilles clean?",
+                    "values": []
+                },
+                {
+                    "label": "chairs 2",
+                    "dataType": "FreeText",
+                    "question": "Chairs clean?",
+                    "values": []
+                },
+                {
+                    "label": "drinking_fount 2",
+                    "dataType": "FreeText",
+                    "question": "Drinking fountains clean?",
+                    "values": []
+                },
+                {
+                    "label": "tables 1",
+                    "dataType": "FreeText",
+                    "question": "Tables clean?",
+                    "values": []
+                },
+                {
+                    "label": "microwaves",
+                    "dataType": "FreeText",
+                    "question": "Microwave clean?",
+                    "values": []
+                },
+                {
+                    "label": "sinks",
+                    "dataType": "FreeText",
+                    "question": "Sinks clean?",
+                    "values": []
+                },
+                {
+                    "label": "dispensers",
+                    "dataType": "FreeText",
+                    "question": "All dispensers are full and clean?",
+                    "values": []
+                },
+                {
+                    "label": "FI-n 2",
+                    "dataType": "Integer",
+                    "question": "First Impression - numeric",
+                    "values": []
+                },
+                {
+                    "label": "FI-i 2",
+                    "dataType": "Integer",
+                    "question": "First Impression - include",
+                    "values": []
+                },
+                {
+                    "label": "Fab?-n 2",
+                    "dataType": "Integer",
+                    "question": "Floor and baseboard? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Fab?-i 2",
+                    "dataType": "Integer",
+                    "question": "Floor and baseboard? - include",
+                    "values": []
+                },
+                {
+                    "label": "Teac?-n 2",
+                    "dataType": "Integer",
+                    "question": "Trash empty and clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Teac?-i 2",
+                    "dataType": "Integer",
+                    "question": "Trash empty and clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "L,dtahsac?-n 2",
+                    "dataType": "Integer",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "L,dtahsac?-i 2",
+                    "dataType": "Integer",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "Wc?-n 2",
+                    "dataType": "Integer",
+                    "question": "Windows clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Wc?-i 2",
+                    "dataType": "Integer",
+                    "question": "Windows clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "Vagc?-n 1",
+                    "dataType": "Integer",
+                    "question": "Vents and grilles clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Vagc?-i 1",
+                    "dataType": "Integer",
+                    "question": "Vents and grilles clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "Cc?-n 2",
+                    "dataType": "Integer",
+                    "question": "Chairs clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Cc?-i 2",
+                    "dataType": "Integer",
+                    "question": "Chairs clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "Dfc?-n 2",
+                    "dataType": "Integer",
+                    "question": "Drinking fountains clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Dfc?-i 2",
+                    "dataType": "Integer",
+                    "question": "Drinking fountains clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "Tc?-n 1",
+                    "dataType": "Integer",
+                    "question": "Tables clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Tc?-i 1",
+                    "dataType": "Integer",
+                    "question": "Tables clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "Mc?-n",
+                    "dataType": "Integer",
+                    "question": "Microwave clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Mc?-i",
+                    "dataType": "Integer",
+                    "question": "Microwave clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "Sc?-n",
+                    "dataType": "Integer",
+                    "question": "Sinks clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Sc?-i",
+                    "dataType": "Integer",
+                    "question": "Sinks clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "Adafac?-n",
+                    "dataType": "Integer",
+                    "question": "All dispensers are full and clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Adafac?-i",
+                    "dataType": "Integer",
+                    "question": "All dispensers are full and clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "GoTo 4",
+                    "dataType": "FreeText",
+                    "question": "GoTo",
+                    "values": [],
+                    "selectOptions": [
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "GOTO"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Cafeteria / Kitchenette",
+            "answers": [
+                {
+                    "label": "NReotiib(ymrta). 3",
+                    "dataType": "Information",
+                    "question": "Now Rate each of the items identified below (your must rate them all).",
+                    "values": []
+                },
+                {
+                    "label": "fi 3",
+                    "dataType": "FreeText",
+                    "question": "First Impression",
+                    "values": [
+                        "Green"
+                    ]
+                },
+                {
+                    "label": "floor 3",
+                    "dataType": "FreeText",
+                    "question": "Floor and baseboard?",
+                    "values": [
+                        "Green"
+                    ]
+                },
+                {
+                    "label": "trash 3",
+                    "dataType": "FreeText",
+                    "question": "Trash empty and clean?",
+                    "values": [
+                        "Green"
+                    ]
+                },
+                {
+                    "label": "ledges 3",
+                    "dataType": "FreeText",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean?",
+                    "values": [
+                        "Green"
+                    ]
+                },
+                {
+                    "label": "windows 3",
+                    "dataType": "FreeText",
+                    "question": "Windows clean?",
+                    "values": [
+                        "Green"
+                    ]
+                },
+                {
+                    "label": "vents_grilles 3",
+                    "dataType": "FreeText",
+                    "question": "Vents and grilles clean?",
+                    "values": [
+                        "Green"
+                    ]
+                },
+                {
+                    "label": "chairs 3",
+                    "dataType": "FreeText",
+                    "question": "Chairs clean?",
+                    "values": [
+                        "Green"
+                    ]
+                },
+                {
+                    "label": "tables 2",
+                    "dataType": "FreeText",
+                    "question": "Tables clean?",
+                    "values": [
+                        "Green"
+                    ]
+                },
+                {
+                    "label": "microwaves 1",
+                    "dataType": "FreeText",
+                    "question": "Microwave clean?",
+                    "values": [
+                        "Green"
+                    ]
+                },
+                {
+                    "label": "dispensers 1",
+                    "dataType": "FreeText",
+                    "question": "All dispensers are full and clean?",
+                    "values": [
+                        "N/A"
+                    ]
+                },
+                {
+                    "label": "FI-n 3",
+                    "dataType": "Integer",
+                    "question": "First Impression - numeric",
+                    "values": [
+                        "3"
+                    ]
+                },
+                {
+                    "label": "FI-i 3",
+                    "dataType": "Integer",
+                    "question": "First Impression - include",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "Fab?-n 3",
+                    "dataType": "Integer",
+                    "question": "Floor and baseboard? - numeric",
+                    "values": [
+                        "3"
+                    ]
+                },
+                {
+                    "label": "Fab?-i 3",
+                    "dataType": "Integer",
+                    "question": "Floor and baseboard? - include",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "Teac?-n 3",
+                    "dataType": "Integer",
+                    "question": "Trash empty and clean? - numeric",
+                    "values": [
+                        "3"
+                    ]
+                },
+                {
+                    "label": "Teac?-i 3",
+                    "dataType": "Integer",
+                    "question": "Trash empty and clean? - include",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "L,dtahsac?-n 3",
+                    "dataType": "Integer",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean? - numeric",
+                    "values": [
+                        "3"
+                    ]
+                },
+                {
+                    "label": "L,dtahsac?-i 3",
+                    "dataType": "Integer",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean? - include",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "Wc?-n 3",
+                    "dataType": "Integer",
+                    "question": "Windows clean? - numeric",
+                    "values": [
+                        "3"
+                    ]
+                },
+                {
+                    "label": "Wc?-i 3",
+                    "dataType": "Integer",
+                    "question": "Windows clean? - include",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "Vagc?-n 2",
+                    "dataType": "Integer",
+                    "question": "Vents and grilles clean? - numeric",
+                    "values": [
+                        "3"
+                    ]
+                },
+                {
+                    "label": "Vagc?-i 2",
+                    "dataType": "Integer",
+                    "question": "Vents and grilles clean? - include",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "Cc?-n 3",
+                    "dataType": "Integer",
+                    "question": "Chairs clean? - numeric",
+                    "values": [
+                        "3"
+                    ]
+                },
+                {
+                    "label": "Cc?-i 3",
+                    "dataType": "Integer",
+                    "question": "Chairs clean? - include",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "Tc?-n 2",
+                    "dataType": "Integer",
+                    "question": "Tables clean? - numeric",
+                    "values": [
+                        "3"
+                    ]
+                },
+                {
+                    "label": "Tc?-i 2",
+                    "dataType": "Integer",
+                    "question": "Tables clean? - include",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "Mc?-n 1",
+                    "dataType": "Integer",
+                    "question": "Microwave clean? - numeric",
+                    "values": [
+                        "3"
+                    ]
+                },
+                {
+                    "label": "Mc?-i 1",
+                    "dataType": "Integer",
+                    "question": "Microwave clean? - include",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "Adafac?-n 1",
+                    "dataType": "Integer",
+                    "question": "All dispensers are full and clean? - numeric",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "Adafac?-i 1",
+                    "dataType": "Integer",
+                    "question": "All dispensers are full and clean? - include",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "GoTo 5",
+                    "dataType": "FreeText",
+                    "question": "GoTo",
+                    "values": [
+                        "GOTO"
+                    ],
+                    "selectOptions": [
+                        {
+                            "selected": true,
+                            "other": false,
+                            "value": "GOTO"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Break Area / Team Room",
+            "answers": [
+                {
+                    "label": "NReotiib(ymrta). 4",
+                    "dataType": "Information",
+                    "question": "Now Rate each of the items identified below (your must rate them all).",
+                    "values": []
+                },
+                {
+                    "label": "fi 4",
+                    "dataType": "FreeText",
+                    "question": "First Impression",
+                    "values": []
+                },
+                {
+                    "label": "floor 5",
+                    "dataType": "FreeText",
+                    "question": "Floor and baseboard?",
+                    "values": []
+                },
+                {
+                    "label": "trash 4",
+                    "dataType": "FreeText",
+                    "question": "Trash empty and clean?",
+                    "values": []
+                },
+                {
+                    "label": "ledges 4",
+                    "dataType": "FreeText",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean?",
+                    "values": []
+                },
+                {
+                    "label": "windows 4",
+                    "dataType": "FreeText",
+                    "question": "Windows clean?",
+                    "values": []
+                },
+                {
+                    "label": "vents_grilles 4",
+                    "dataType": "FreeText",
+                    "question": "Vents and grilles clean?",
+                    "values": []
+                },
+                {
+                    "label": "sinks 1",
+                    "dataType": "FreeText",
+                    "question": "Sinks clean?",
+                    "values": []
+                },
+                {
+                    "label": "dispensers 2",
+                    "dataType": "FreeText",
+                    "question": "All dispensers are full and clean?",
+                    "values": []
+                },
+                {
+                    "label": "guard_rails",
+                    "dataType": "FreeText",
+                    "question": "Guard Rails clean?",
+                    "values": []
+                },
+                {
+                    "label": "FI-n 4",
+                    "dataType": "Integer",
+                    "question": "First Impression - numeric",
+                    "values": []
+                },
+                {
+                    "label": "FI-i 4",
+                    "dataType": "Integer",
+                    "question": "First Impression - include",
+                    "values": []
+                },
+                {
+                    "label": "Fab?-n 4",
+                    "dataType": "Integer",
+                    "question": "Floor and baseboard? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Fab?-i 4",
+                    "dataType": "Integer",
+                    "question": "Floor and baseboard? - include",
+                    "values": []
+                },
+                {
+                    "label": "Teac?-n 4",
+                    "dataType": "Integer",
+                    "question": "Trash empty and clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Teac?-i 4",
+                    "dataType": "Integer",
+                    "question": "Trash empty and clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "L,dtahsac?-n 4",
+                    "dataType": "Integer",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "L,dtahsac?-i 4",
+                    "dataType": "Integer",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "Wc?-n 4",
+                    "dataType": "Integer",
+                    "question": "Windows clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Wc?-i 4",
+                    "dataType": "Integer",
+                    "question": "Windows clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "Vagc?-n 3",
+                    "dataType": "Integer",
+                    "question": "Vents and grilles clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Vagc?-i 3",
+                    "dataType": "Integer",
+                    "question": "Vents and grilles clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "Sc?-n 1",
+                    "dataType": "Integer",
+                    "question": "Sinks clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Sc?-i 1",
+                    "dataType": "Integer",
+                    "question": "Sinks clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "Adafac?-n 2",
+                    "dataType": "Integer",
+                    "question": "All dispensers are full and clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Adafac?-i 2",
+                    "dataType": "Integer",
+                    "question": "All dispensers are full and clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "GRc?-n",
+                    "dataType": "Integer",
+                    "question": "Guard Rails clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "GRc?-i",
+                    "dataType": "Integer",
+                    "question": "Guard Rails clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "GoTo 6",
+                    "dataType": "FreeText",
+                    "question": "GoTo",
+                    "values": [],
+                    "selectOptions": [
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "GOTO"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Lab / GSC",
+            "answers": [
+                {
+                    "label": "NReotiib(ymrta). 5",
+                    "dataType": "Information",
+                    "question": "Now Rate each of the items identified below (your must rate them all).",
+                    "values": []
+                },
+                {
+                    "label": "fi 5",
+                    "dataType": "FreeText",
+                    "question": "First Impression",
+                    "values": []
+                },
+                {
+                    "label": "floor 4",
+                    "dataType": "FreeText",
+                    "question": "Floor and baseboard?",
+                    "values": []
+                },
+                {
+                    "label": "trash 5",
+                    "dataType": "FreeText",
+                    "question": "Trash empty and clean?",
+                    "values": []
+                },
+                {
+                    "label": "ledges 5",
+                    "dataType": "FreeText",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean?",
+                    "values": []
+                },
+                {
+                    "label": "sinks 2",
+                    "dataType": "FreeText",
+                    "question": "Sinks clean?",
+                    "values": []
+                },
+                {
+                    "label": "guard_rails 1",
+                    "dataType": "FreeText",
+                    "question": "Guard Rails clean?",
+                    "values": []
+                },
+                {
+                    "label": "FI-n 5",
+                    "dataType": "Integer",
+                    "question": "First Impression - numeric",
+                    "values": []
+                },
+                {
+                    "label": "FI-i 5",
+                    "dataType": "Integer",
+                    "question": "First Impression - include",
+                    "values": []
+                },
+                {
+                    "label": "Fab?-n 5",
+                    "dataType": "Integer",
+                    "question": "Floor and baseboard? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Fab?-i 5",
+                    "dataType": "Integer",
+                    "question": "Floor and baseboard? - include",
+                    "values": []
+                },
+                {
+                    "label": "Teac?-n 5",
+                    "dataType": "Integer",
+                    "question": "Trash empty and clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Teac?-i 5",
+                    "dataType": "Integer",
+                    "question": "Trash empty and clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "L,dtahsac?-n 5",
+                    "dataType": "Integer",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "L,dtahsac?-i 5",
+                    "dataType": "Integer",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "Sc?-n 2",
+                    "dataType": "Integer",
+                    "question": "Sinks clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "Sc?-i 2",
+                    "dataType": "Integer",
+                    "question": "Sinks clean? - include",
+                    "values": []
+                },
+                {
+                    "label": "GRc?-n 1",
+                    "dataType": "Integer",
+                    "question": "Guard Rails clean? - numeric",
+                    "values": []
+                },
+                {
+                    "label": "GRc?-i 1",
+                    "dataType": "Integer",
+                    "question": "Guard Rails clean? - include",
+                    "values": []
+                }
+            ]
+        },
+        {
+            "name": "Are Repairs Required?",
+            "answers": [
+                {
+                    "label": "are_repairs_required",
+                    "dataType": "FreeText",
+                    "question": "Are repairs required?",
+                    "values": [
+                        "No"
+                    ],
+                    "selectOptions": [
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "Yes"
+                        },
+                        {
+                            "selected": true,
+                            "other": false,
+                            "value": "No"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Repair List",
+            "answers": [
+                {
+                    "label": "list_repairs",
+                    "dataType": "FreeText",
+                    "question": "List all reapairs required",
+                    "values": []
+                }
+            ]
+        },
+        {
+            "name": "Comment/Image/Ratings",
+            "answers": [
+                {
+                    "label": "comments",
+                    "dataType": "FreeText",
+                    "question": "General comments",
+                    "values": [
+                        "comment"
+                    ]
+                },
+                {
+                    "label": "images",
+                    "dataType": "Image",
+                    "question": "Images",
+                    "values": [
+                        {
+                            "identifier": "269544228892",
+                            "filename": "12D73D84-CB98-4F07-95D5-AD950074A0A6.jpg",
+                            "contentType": "image/jpeg",
+                            "bytes": "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"
+                        }
+                    ]
+                },
+                {
+                    "label": "sum_total",
+                    "dataType": "Integer",
+                    "question": "Sum Total",
+                    "values": [
+                        "27"
+                    ]
+                },
+                {
+                    "label": "Sum Includes",
+                    "dataType": "Integer",
+                    "question": "Sum Includes",
+                    "values": [
+                        "9"
+                    ]
+                },
+                {
+                    "label": "overall_rate",
+                    "dataType": "Decimal",
+                    "question": "Overall rate",
+                    "values": [
+                        "3"
+                    ]
+                }
+            ]
+        }
+    ]
+}

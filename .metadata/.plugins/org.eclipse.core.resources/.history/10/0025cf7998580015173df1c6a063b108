@@ -1,0 +1,113 @@
+class Forms::EnpsReportsController < ApplicationController
+  
+  FORM_NAME = "enps reports"
+  
+  include DatatableServerSideProcessing
+  include XlsxReportProcessing
+  
+  before_action :authenticate_user!
+  
+  load_and_authorize_resource :except => [:update_export, :download_export, :submission]
+  
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  
+  add_breadcrumb "forms", :forms_index_path
+  add_breadcrumb "enps reports", :forms_enps_reports_path
+  
+  # If you are adding something here you also have to edit the view and the JavaScript file, related to the form
+  DATATABLES_COLUMNS = [ "id", "username", "device_submit_date", "exclude" ]
+  
+  def index
+    # @enps_reports is automatically loaded
+  end
+
+  def show
+    # @enps_report is automatically loaded
+    add_breadcrumb "enps report #{@enps_report.id}", :forms_enps_report_path
+  end
+  
+  # Overwrites the model's existing properties with the contents of the original submission document attached.
+  def reparse
+    # @enps_report is automatically loaded
+    result = @enps_report.reparse
+    # render the show action associated with the result object
+    render action: 'show', location: result
+  end
+  
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html { redirect_to forms_enps_reports_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS
+        }
+        # call concern function using collection of all records the user has access to
+        @enps_reports = Forms::EnpsReport.accessible_by(current_ability)
+        render :json => datatable_data(@enps_reports, params, options)
+      }
+    end
+  end
+  
+  def change_exclude # active / deactivate the exclude
+    authorize! :read, Forms::EnpsReport
+    begin
+      @enps_report = Forms::EnpsReport.find(params[:id])
+      if @enps_report.exclude
+        @enps_report.exclude = false
+      else
+        @enps_report.exclude = true
+      end
+      if @enps_report.save
+        respond_to do |format|
+          format.json { render :json => @enps_report.exclude, status: :ok }
+        end
+      else
+        respond_to do |format|
+          format.json { render :json => @enps_report.exclude, status: :not_acceptable}
+        end
+      end
+    rescue => e
+      respond_to do |format|
+        format.json { render text:e.message, status: :not_acceptable }
+      end
+    end
+  end
+  
+  def update_export
+    authorize! :read, Forms::EnpsReport
+    
+    begin
+      raise "No data in this form."  if Forms::EnpsReport.all.count == 0
+      @export = generate_xlsx(Forms::EnpsReport, FORM_NAME, Forms::EnpsReport.maximum("updated_at"))
+      respond_to do |format|
+        format.json { render :json => @export, status: :ok  }
+      end
+    rescue => e
+      respond_to do |format|
+        format.json { render text:e.message, status: :not_acceptable }
+      end
+    end  
+  end
+  
+  def download_export
+    authorize! :read, Forms::EnpsReport
+    @export = Report::FormExport.find_by(form_name: FORM_NAME)
+    redirect_to(@export.attachment.expiring_url(10))
+  end
+
+  def submission
+    authorize! :read, Forms::EnpsReport
+    @enps_report = Forms::EnpsReport.find(params[:id])
+    authorize! :read, @enps_report
+    redirect_to(@enps_report.submission.expiring_url(10))
+  end
+
+  private
+  
+  def record_not_found(exception)
+    # redirect back to index if id not found
+    flash[:alert] = exception.message
+    redirect_to forms_enps_reports_path
+  end
+end

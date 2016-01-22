@@ -1,0 +1,45 @@
+# Forms::SafetyObservation's Model
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user
+# - version (string) - current version of the form
+# - altitude (decimal(20,20)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,20)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,20)) - longitude of the user's location when submitted the form
+# - source (string) - name of the provider, for example,"prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+
+# - task_observed (string) - name of the task
+# - site (string) - name of site/city - "Cambridge", "Oshawa", etc.
+# - shop (string) - name of area in site - "North Paint", "ED Weld", etc.
+# - shift (string) - name of the shift - "Day Shift", "Afternoon Shift", etc.
+# - all_safe (string) - either "All Safe" or "Issue"
+# - safe_acts_observed (text) - description of safe acts
+# - unsafe_acts_observed (text) - description of unsafe acts
+# - pbr (text) - comma separated list of people behaviors/reactions
+# - ep (text) - comma separated list of unsafe ergonomics/positions 
+# - ws (text) - comma separated list of unsafe work standards
+# - ppe (text) - comma separated list of unsafe acts related to PPE
+# - etws (text) - comma separated list of unsafe equipment/tools
+# - fs (text) - comma separated list of issues related to 5S
+# - image1 (attachment) - image associated with unsafe act
+# - image2 (attachment) - additional image associated with unsafe act
+# - signature (attachment) - signature of the person completing the form
+
+class Forms::SafetyObservation < ActiveRecord::Base
+  has_attached_file :image1
+  validates_attachment_content_type :image1, :content_type => /\Aimage/
+
+  has_attached_file :image2
+  validates_attachment_content_type :image2, :content_type => /\Aimage/
+  
+  has_attached_file :signature
+  validates_attachment_content_type :signature, :content_type => /\Aimage/
+  
+  include HasSubmission
+  include Reparseable
+end

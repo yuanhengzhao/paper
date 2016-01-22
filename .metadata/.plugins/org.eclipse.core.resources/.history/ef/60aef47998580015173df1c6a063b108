@@ -1,0 +1,1 @@
+json.extract! @unrecognized_submission, :id, :source, :reason, :created_at, :updated_at

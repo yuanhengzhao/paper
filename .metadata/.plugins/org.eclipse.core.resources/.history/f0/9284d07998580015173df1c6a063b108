@@ -1,0 +1,116 @@
+class Forms::SocHourlyProductionReportsController < ApplicationController
+  
+  FORM_NAME = "soc hourly production reports"
+  
+  include DatatableServerSideProcessing
+  include XlsxReportProcessing
+  
+  before_action :authenticate_user!
+  
+  load_and_authorize_resource :except => [:update_export, :download_export, :submission, :press_1_chart, :press_2_chart, :press_3_chart, :press_4_chart]
+  
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  
+  add_breadcrumb "forms", :forms_index_path
+  add_breadcrumb "soc hourly production reports", :forms_soc_hourly_production_reports_path
+  
+  DATATABLES_COLUMNS = [ "id", "username", "device_submit_date" ]
+  
+  def index
+    # @soc_hourly_production_reports is automatically loaded
+  end
+
+  def show
+    # @soc_hourly_production_report is automatically loaded
+    add_breadcrumb "soc hourly production report #{@soc_hourly_production_report.id}", :forms_soc_hourly_production_report_path
+  end
+  
+  # Overwrites the model's existing properties with the contents of the original submission document attached.
+  def reparse
+    # @soc_hourly_production_report is automatically loaded
+    result = @soc_hourly_production_report.reparse
+    # render the show action associated with the result object
+    render action: 'show', location: result
+  end
+  
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html { redirect_to forms_soc_hourly_production_reports_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS
+        }
+        
+        # call concern function using collection of all records the user has access to
+        @soc_hourly_production_reports = Forms::SocHourlyProductionReport.accessible_by(current_ability)
+        render :json => datatable_data(@soc_hourly_production_reports, params, options)
+      }
+    end
+  end
+  
+  def update_export
+    authorize! :read, Forms::SocHourlyProductionReport
+    
+    begin
+      raise "No data in this form."  if Forms::SocHourlyProductionReport.all.count == 0
+      @export = generate_xlsx(Forms::SocHourlyProductionReport, FORM_NAME, Forms::SocHourlyProductionReport.maximum("updated_at"))
+      respond_to do |format|
+        format.json { render :json => @export, status: :ok  }
+      end
+    rescue => e
+      respond_to do |format|
+        format.json { render text:e.message, status: :not_acceptable }
+      end
+    end  
+  end
+  
+  def download_export
+    authorize! :read, Forms::SocHourlyProductionReport
+    @export = Report::FormExport.find_by(form_name: FORM_NAME)
+    redirect_to(@export.attachment.expiring_url(10))
+  end
+
+  def submission
+    authorize! :read, Forms::SocHourlyProductionReport
+    @soc_hourly_production_report = Forms::SocHourlyProductionReport.find(params[:id])
+    authorize! :read, @soc_hourly_production_report
+    redirect_to(@soc_hourly_production_report.submission.expiring_url(10))
+  end
+  
+  def press_1_chart
+    authorize! :read, Forms::SocHourlyProductionReport
+    @soc_hourly_production_report = Forms::SocHourlyProductionReport.find(params[:id])
+    authorize! :read, @soc_hourly_production_report
+    redirect_to(@soc_hourly_production_report.press_1_chart.expiring_url(10))
+  end
+  
+  def press_2_chart
+    authorize! :read, Forms::SocHourlyProductionReport
+    @soc_hourly_production_report = Forms::SocHourlyProductionReport.find(params[:id])
+    authorize! :read, @soc_hourly_production_report
+    redirect_to(@soc_hourly_production_report.press_2_chart.expiring_url(10))
+  end
+  
+  def press_3_chart
+    authorize! :read, Forms::SocHourlyProductionReport
+    @soc_hourly_production_report = Forms::SocHourlyProductionReport.find(params[:id])
+    authorize! :read, @soc_hourly_production_report
+    redirect_to(@soc_hourly_production_report.press_3_chart.expiring_url(10))
+  end
+  
+  def press_4_chart
+    authorize! :read, Forms::SocHourlyProductionReport
+    @soc_hourly_production_report = Forms::SocHourlyProductionReport.find(params[:id])
+    authorize! :read, @soc_hourly_production_report
+    redirect_to(@soc_hourly_production_report.press_4_chart.expiring_url(10))
+  end
+  
+  private
+  
+  def record_not_found(exception)
+    # redirect back to index if id not found
+    flash[:alert] = exception.message
+    redirect_to forms_soc_hourly_production_reports_path
+  end
+end

@@ -1,0 +1,9 @@
+require 'spec_helper'
+
+describe Forms::BoothEliminatorChecklistsController do
+  it_behaves_like "a form controller" do
+    let(:model) { Forms::BoothEliminatorChecklist }
+    let(:image_fields) { [ :photo_r1, :photo_r2, :photo_c1, :photo_b1 ] }
+    let(:pre_model_name) { "" }
+  end
+end

@@ -1,0 +1,62 @@
+# Migrate to import iform data to database
+#
+# Area Inspection's model
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user
+# - version (string) - current version of the form
+# - altitude (decimal(20,20)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,20)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,20)) - longitude of the user's location when submitted the form
+# - source (string) - name of the provider, for example,"prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+
+# - inspection_date (date) - date of the inspection
+# - client (string) - client's name
+# - site (string) - site's name
+# - shop (string) - shop's name
+# - equipment_area_type (string) - type of the equipment/area
+# - deck_area (string) - name of the equipment/area
+# - abnormality (string) - yes/no answer to a question
+# - comments (text) - comments
+# - image1 (attachment)
+# - image2 (attachment)
+# - image3 (attachment)
+
+class Iforms::AreaInspectionMigrate < Iforms::AbstractIformMigrate
+
+  def get_record(item_hash,dir)
+    record = Forms::AreaInspection.new
+    get_common_answer_values(record,item_hash)
+    
+    record.inspection_date = item_hash["inspection_date"]
+    record.site = item_hash["site"]
+    record.shop = item_hash["plant"]
+    record.equipment_area_type = item_hash["equipmentarea_type"]
+    record.deck_area = item_hash["deck__area"]
+    record.abnormality = item_hash["abnormality1"]
+    record.comments = item_hash["comments"]
+    record.image1 = create_image_attachment(item_hash,"picture_1",dir)
+    record.image2 = create_image_attachment(item_hash,"picture_2",dir)
+    record.image3 = create_image_attachment(item_hash,"picture_3",dir)
+    
+    return record
+  end
+  
+end
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,292 @@
+# Class to handle interacting with our ProntoForms account
+class ProntoForms::RestService
+  # User groups as configured in ProntoForms
+  class GROUP
+    OPERATIONS         = { :id => "2101548123", :name => 'Operations Group' }
+    CAMBRIDGE          = { :id => "2101538130", :name => 'Cambridge Users' }
+    INGERSOLL          = { :id => "2101538131", :name => 'Ingersoll Users' }
+    LAWTON             = { :id => "2101538132", :name => 'Lawton Users' }
+    OSHAWA             = { :id => "2101538133", :name => 'Oshawa Users' }
+    SOCIAL_CIRCLE      = { :id => "2101538135", :name => 'Social Circle Users' }
+    TONAWANDA          = { :id => "2101538136", :name => 'Tonawanda Users' }
+    WOODSTOCK          = { :id => "2101538137", :name => 'Woodstock Users' }
+    TECHNOLOGY         = { :id => "2101538138", :name => 'Technology Group' }
+    SITE_MANAGERS      = { :id => "2101538139", :name => 'Site Managers' }
+    SAFETY_REPS        = { :id => "2101546072", :name => 'Safety Representatives' }
+    TRAINING           = { :id => "2101549093", :name => 'Training Group' }
+    SENIOR_MANAGEMENT  = { :id => "2101772016", :name => 'Senior Management' }
+    ROBINSON_USERS     = { :id => "2101642298", :name => 'Robinson Users' }
+
+    # array of ProntoForm groups where a user's membership should not be altered by their LDAP record
+    SPECIAL       = [
+      { :id => "2101678073", :name => 'E-Scrub Group' },
+      { :id => "2101587007", :name => 'SOC Testers' },
+      { :id => "2101814018", :name => 'Jkk testers' },
+      { :id => "2101701145", :name => 'Safety Testers' },
+      { :id => "2101840103", :name => 'Toyota Battery Inspectors (TEST)' }
+    ]
+  end
+
+  # Constructs the object internally connecting to the ProntoForms API and LDAP server using
+  # environment variables.
+  def initialize
+    # wrapper for REST calls
+    @prontoforms = ProntoForms::Api.new(PRONTOFORMS_API[:key], PRONTOFORMS_API[:secret], PRONTOFORMS_API[:version])
+
+    # LDAP connection
+    @ldap = Net::LDAP.new({
+      :host => LDAP_CONFIG[:host],
+      :port => LDAP_CONFIG[:port],
+      :base => LDAP_CONFIG[:base],
+      :encryption => LDAP_CONFIG[:encryption],
+      :auth => LDAP_CONFIG[:auth]
+    })
+  end
+
+  # Synchronizes our ProntoForms user set with the members of the grpProntoForms group in LDAP.
+  def synchronize_users
+    # get the user sets from both sources
+    pronto_users = @prontoforms.get_users["pageData"]
+    ldap_users = get_ldap_users
+    failed_users = []
+
+    # for each LDAP user
+    ldap_users.each do |ldap_user|
+    # that has an email address
+      unless ldap_user[:mail].blank?
+
+        # get groups and address according to LDAP entry
+        groups = map_to_groups(ldap_user)
+        address = map_to_address(ldap_user)
+        
+        # check if a matching ProntoForms user exists
+        pronto_match = pronto_users.select { |x| x["email"] == ldap_user[:mail][0].downcase }
+        if pronto_match.length == 0
+          # user needs to be created
+          new_user = {
+            "username" => ldap_user[:mail][0].downcase,
+            "email" => ldap_user[:mail][0].downcase,
+            "role" => "ProntoMobileOnly",
+            "firstName" => ldap_user[:givenname][0],
+            "lastName" => ldap_user[:sn][0],
+            "sendWelcomeEmail" => true,
+            "groupIds" => groups,
+            "address" => address
+          }
+
+          # attempt to create user, log error, and skip
+          begin
+            @prontoforms.create_user(new_user)
+          rescue => e
+            Rails.logger.error "Creating user with payload #{new_user.to_json} caused error: #{e.message}"
+            failed_users << ldap_user[:mail][0]
+          end
+        else
+        # user exists -- get full details from ProntoForms
+          pronto_user = @prontoforms.get_user_by_id(pronto_match[0]["identifier"])
+          
+          changes = {}
+          changes["groupIds"] = groups unless pronto_user["groupIds"].sort == groups.sort
+          changes["address"] = address unless pronto_user["address"] == address  
+          #puts "changes = #{changes}"
+          if !changes.empty?
+            begin
+              @prontoforms.update_user(pronto_user["identifier"], changes)
+              #puts "#{pronto_user["identifier"]} #{pronto_user["identifier"]["address"]}"
+            rescue => e
+              Rails.logger.error "Updating user [#{pronto_user['identifier']}] with payload #{changes.to_json} caused error: #{e.message}"
+              failed_users << ldap_user[:mail][0]
+            end
+          end
+          
+        end
+      end
+    end
+    return failed_users
+  end
+
+  # Synchronizes our ProntoForms user set with the members of the grpProntoForms group in LDAP.
+  def synchronize_trainees
+    # get the user sets from both sources
+    pronto_users = @prontoforms.get_users["pageData"]
+    ldap_users = get_ldap_trainees
+    failed_users = []
+
+    # for each LDAP user
+    unless ldap_users.nil?
+      ldap_users.each do |ldap_user|
+      # that has an email address
+        unless ldap_user[:mail].blank?
+          # check if a matching ProntoForms user exists
+          pronto_match = pronto_users.select { |x| x["email"] == ldap_user[:mail][0].downcase }
+          if pronto_match.length == 0
+            # user needs to be created
+            new_user = {
+              "username" => ldap_user[:mail][0].downcase,
+              "email" => ldap_user[:mail][0].downcase,
+              "role" => "ProntoMobileOnly",
+              "firstName" => ldap_user[:givenname][0],
+              "lastName" => ldap_user[:sn][0],
+              "sendWelcomeEmail" => true,
+              "groupIds" => [ ProntoForms::RestService::GROUP::TRAINING[:id] ],
+              "address" => map_to_address(ldap_user)
+            }
+            begin
+              @prontoforms.create_user(new_user)
+            rescue => e
+              Rails.logger.error "Creating user with payload #{new_user.to_json} caused error: #{e.message}"
+              failed_users << ldap_user[:mail][0]
+            end
+          end
+        # ignore existing users
+        end
+      end
+    end
+    return failed_users
+  end
+
+  private
+
+  # Retrieves the members of grpProntoFormUsers in Active Directory
+  #
+  # @return [Array<Net::LDAP::Entry>] objects representing the members of the group
+  def get_ldap_users
+    get_ldap_members("CN=grpProntoFormUsers,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com")
+  end
+
+  # Retrieves the members of grpProntoFormTraining in Active Directory
+  #
+  # @return [Array<Net::LDAP::Entry>] objects representing the members of the group
+  def get_ldap_trainees
+    get_ldap_members("CN=grpProntoFormTraining,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com")
+  end
+
+  # Helper method to get the members of the given group. Filters results to the attributes of interest.
+  #
+  # @param group [String] distinguished name of the group in LDAP
+  # @return [Array<Net::LDAP::Entry>] collection of LDAP entries for the members
+  def get_ldap_members(group)
+    filter = Net::LDAP::Filter.eq("memberOf", group)
+    attributes = ['mail', 'givenName', 'sn', 'department', 'physicalDeliveryOfficeName', 'memberOf', 'company']
+    @ldap.search(:filter => filter, :attributes => attributes)
+  end
+  
+  # Helper method to get the address hash of the user based on the physicaldeliveryofficename attribute
+  #
+  # @param member [Net::LDAP::Entry] object representing a single user
+  # @return [Hash] hash of the address the following format { city: ..., address2: ... }, or empty if not able to determine
+  def map_to_address(member)
+    address = {}
+    
+    unless member[:physicaldeliveryofficename].nil?
+      address["city"] = member[:physicaldeliveryofficename][0]
+      
+      if member[:physicaldeliveryofficename].include?('Cambridge') or member[:physicaldeliveryofficename].include?('Woodstock')
+        address["address2"] = 'Toyota'
+      end
+
+      if member[:physicaldeliveryofficename].include?('Ingersoll') or member[:physicaldeliveryofficename].include?('Oshawa') or member[:physicaldeliveryofficename].include?('Tonawanda')
+        address["address2"] = 'GM'
+      end
+
+      if member[:physicaldeliveryofficename].include?('Lawton') or member[:physicaldeliveryofficename].include?('Social Circle')
+        address["address2"] = 'Goodyear'
+      end
+      
+      if member[:physicaldeliveryofficename].include?('Spartanburg')
+        address["address2"] = 'BMW'
+      end
+      
+      # default values if could not be determined
+      if address["city"] == nil
+        address["city"] = "unknown"
+      end
+      if address["address2"] == nil
+        address["address2"] = "unknown"
+      end
+    end
+    
+    address
+  end
+
+  # Uses the attributes of the user to determine which groups that user should be a part of.
+  #
+  # @param member [Net::LDAP::Entry] object representing a single user
+  # @param current_group_ids [Collection<String>] collection of ProntoForm groups IDs the user is already a member of, defaults to the empty array
+  # @return [Array<int>] array of ProntoForm group IDs to be used when creating this user
+  def map_to_groups(member, current_group_ids = [])
+    groups = Array.new
+
+    # identify any special groups the user is already a member of and add to new list
+    current_group_ids.each do |current_group_id|
+      if ProntoForms::RestService::GROUP::SPECIAL.any?{ |special_group| special_group[:id] == current_group_id }
+        # use a hash because 'map' is called on 'groups' later and will expect a hash
+        groups << { :id => current_group_id }
+      end
+    end
+
+    # departments
+    unless member[:department].nil?
+      if member[:department].include?('Technology')
+        groups << ProntoForms::RestService::GROUP::TECHNOLOGY
+      end
+    end
+
+    # sites
+    unless member[:physicaldeliveryofficename].nil?
+      if member[:physicaldeliveryofficename].include?('Cambridge')
+        groups << ProntoForms::RestService::GROUP::CAMBRIDGE
+      end
+
+      if member[:physicaldeliveryofficename].include?('Ingersoll')
+        groups << ProntoForms::RestService::GROUP::INGERSOLL
+      end
+
+      if member[:physicaldeliveryofficename].include?('Lawton')
+        groups << ProntoForms::RestService::GROUP::LAWTON
+      end
+
+      if member[:physicaldeliveryofficename].include?('Oshawa')
+        groups << ProntoForms::RestService::GROUP::OSHAWA
+      end
+
+      if member[:physicaldeliveryofficename].include?('Social Circle')
+        groups << ProntoForms::RestService::GROUP::SOCIAL_CIRCLE
+      end
+
+      if member[:physicaldeliveryofficename].include?('Tonawanda')
+        groups << ProntoForms::RestService::GROUP::TONAWANDA
+      end
+
+      if member[:physicaldeliveryofficename].include?('Woodstock')
+        groups << ProntoForms::RestService::GROUP::WOODSTOCK
+      end
+    end
+
+    # groups
+    unless member[:memberof].nil?
+      if member[:memberof].include?('CN=grpSafety,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com')
+        groups << ProntoForms::RestService::GROUP::SAFETY_REPS
+      end
+
+      if member[:memberof].include?('CN=grpSiteManagers,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com')
+        groups << ProntoForms::RestService::GROUP::SITE_MANAGERS
+      end
+      
+      if member[:memberof].include?('CN=grpSeniorManagement,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com')
+        groups << ProntoForms::RestService::GROUP::SENIOR_MANAGEMENT
+      end
+    end
+    
+    # company
+    unless member[:company].nil?
+      if member[:company].include?('Robinson Solutions') or member[:company].include?('Robinson Innovations')
+        groups << ProntoForms::RestService::GROUP::ROBINSON_USERS
+      end
+    end
+    
+    # reduce collection to just the ids
+    ids = groups.map { |x| x[:id] }
+    ids
+  end
+end

@@ -1,0 +1,5 @@
+class AddSiteAndShopToBatteryInspection < ActiveRecord::Migration
+  def change
+    add_column :forms_battery_inspections, :shop, :string
+  end
+end

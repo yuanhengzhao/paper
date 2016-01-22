@@ -1,0 +1,15 @@
+FactoryGirl.define do
+  factory :area_inspection, class: Forms::AreaInspection do
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions', 'fake.json'), 'text/plain') }
+    
+    factory :area_inspection_valid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'area_inspection', 'valid.json'), 'text/plain') }
+    end
+    
+    factory :area_inspection_invalid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'area_inspection', 'too_many_pictures.json'), 'text/plain') }
+    end
+  end
+end

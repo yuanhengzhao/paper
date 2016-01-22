@@ -1,0 +1,3 @@
+<% title "New #{@option_group_name}" %>
+
+<%= render 'form' %>

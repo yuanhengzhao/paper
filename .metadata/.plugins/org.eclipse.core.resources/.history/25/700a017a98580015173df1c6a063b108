@@ -1,0 +1,8 @@
+class ConsolidateDowntimeFieldsInShiftReport < ActiveRecord::Migration
+  def change
+    remove_column :forms_shift_reports, :soc_downtime
+    remove_column :forms_shift_reports, :woodstock_downtime
+    remove_column :forms_shift_reports, :cambridge_downtime
+    add_column :forms_shift_reports, :downtime, :integer  
+  end
+end

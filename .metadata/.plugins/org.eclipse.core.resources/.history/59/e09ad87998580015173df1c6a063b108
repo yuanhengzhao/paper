@@ -1,0 +1,91 @@
+# Restroom Checklist model. On site evaluation of a restroom in a customer's site.
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms 
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user 
+# - version (string) - current version of the form
+# - altitude (decimal(20,20)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,20)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,20)) - longitude of the user's location when submitted the form
+# - source (string) - name of the provider, for example,"prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+
+# - client (string) - name of customer - "Toyota", "GM", etc.
+# - site (string) - name of site/city - "Cambridge", "Oshawa", etc.
+# - shop (string) - name of area in site - "North Paint", "ED Weld", etc.
+# - location (string) - name of area in shop - "H1", "A5", etc.
+# - floor (string) - floor of the shop - "2nd", etc.
+# - type_mwu (string) - type of restroom - "Mens", "Womens", "Unisex"
+# - reference (string) - additional information about restroom - "Medical"
+# - plant_id (string) - id of plant
+# - fi (string) - first impression - "Green", "Yellow", "Red"
+# - cv (string) - ceiling/vents - "Green", "Yellow", "Red"
+# - wc (string) - walls/ceramic - "Green", "Yellow", "Red"
+# - pw (string) - partition walls - "Green", "Yellow", "Red"
+# - disp (string) - dispensers - "Green", "Yellow", "Red"
+# - floor_baseboard (string) - floors/baseboards - "Green", "Yellow", "Red"
+# - mirror (string) - mirrors/doors - "Green", "Yellow", "Red"
+# - sink (string) - sinks/bradleys - "Green", "Yellow", "Red"
+# - locker (string) - lockers - "Green", "Yellow", "Red"
+# - light (string) - light fixtures - "Green", "Yellow", "Red"
+# - ut (string) - urinals and toilets - "Green", "Yellow", "Red"
+# - fg (string) - feminine hygiene and garbage disposals - "Green", "Yellow", "Red"
+# - sh (string) - showers - "Green", "Yellow", "Red"
+# - sw (string) - stairwells - "Green", "Yellow", "Red"
+# - safety (string) - safety procedures have been followed - "Green", "Yellow", "Red"
+# - eq (string) - equipment returned - "Green", "Yellow", "Red"
+# - fives (string) - 5"S" janitor closets clean - "Green", "Yellow", "Red"
+# - checksheet (string) - whether the restroom checksheet was signed - "Yes", "No"
+# - overall_rate (decimal(3,3)) -  overall score out of three
+# - are_repairs_required (string) - "Yes"/"No"
+# - list_repairs (string) - list of repairs required
+# - comments (string) - comments
+# - photo1 (attachment) - photo taken in the restroom
+# - photo2 (attachment) - photo taken in the restroom
+# - ignore (boolean) - true if the restroom under inspection has been decommissioned and will never be inspected again, false otherwise.
+
+class Forms::RestroomChecklist < ActiveRecord::Base
+  
+  has_attached_file :photo1
+  validates_attachment_content_type :photo1, :content_type => /\Aimage/
+  
+  has_attached_file :photo2
+  validates_attachment_content_type :photo2, :content_type => /\Aimage/
+
+  include HasSubmission
+  include Reparseable
+  
+  scope :unique_restrooms, -> { group(:reference, :type_mwu, :floor, :location, :shop, :site, :client) }
+  
+  def restroom_code
+    return "#{self.reference}-#{self.type_mwu}-#{self.floor}-#{self.location}-#{self.shop}-#{self.site}-#{self.client}"
+  end
+  
+  def self.get_from_restroom_code (code)
+    item = code.split("-")
+    nomalize_restroom_hash(item)
+    records = Forms::RestroomChecklist.where("reference = \"#{item[0]}\" or (\"#{item[0]}\" = \"\" and reference is null)")
+                                      .where("type_mwu  = \"#{item[1]}\" or (\"#{item[1]}\" = \"\" and type_mwu is null)")
+                                      .where("floor     = \"#{item[2]}\" or (\"#{item[2]}\" = \"\" and floor is null)")
+                                      .where("location  = \"#{item[3]}\" or (\"#{item[3]}\" = \"\" and location is null)")
+                                      .where("shop      = \"#{item[4]}\" or (\"#{item[4]}\" = \"\" and shop is null)")
+                                      .where("site      = \"#{item[5]}\" or (\"#{item[5]}\" = \"\" and site is null)")
+                                      .where("client    = \"#{item[6]}\" or (\"#{item[6]}\" = \"\" and client is null)")
+  end
+  
+  def self.set_ignore(restroom_code, ignore)
+    records = Forms::RestroomChecklist.get_from_restroom_code(restroom_code).update_all(ignore: ignore)
+  end
+  
+  private
+  def self.nomalize_restroom_hash(item)
+    for n in 0..item.length-1
+      if item[n].empty?
+        item[n] = nil
+      end
+    end
+  end
+end

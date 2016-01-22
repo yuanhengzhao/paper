@@ -1,0 +1,191 @@
+require_relative '../../spec_helper'
+
+describe ProntoForms::PreTaskSafetyPlanParser do
+
+  let(:missing_images) { "/assets/missing.jpg" }
+
+  it "should have a NAME constant with the expected value" do
+    ProntoForms::PreTaskSafetyPlanParser::NAME.should eq("Pre Task Safety Plan")
+  end
+
+  describe "max_version" do
+    subject { ProntoForms::PreTaskSafetyPlanParser.new }
+    it "should not throw an error" do
+      lambda { subject.max_version }.should_not raise_error
+    end
+  end
+
+  describe "parse" do
+
+  # call the parse method on a parameter defined in the sub-describes
+    subject {ProntoForms::PreTaskSafetyPlanParser.new.parse(form_hash)}
+
+    # ensure that form_hash has been properly set for the specs
+    before(:each) do
+      form_hash.should_not be_nil
+    end
+
+    describe "for a hash missing pages" do
+
+      let(:form_hash) {
+        f = Rails.root.join('spec', 'resources', 'forms', 'pre_task_safety_plan', 'missing_pages.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+
+      it "should throw a parser error" do
+        lambda { subject }.should raise_error(ParserException, "Could not find expected answer [page: 0][answer: 16]")
+      end
+
+    end
+
+    describe "for a hash with too many pictures" do
+
+      let(:form_hash) {
+        f = Rails.root.join('spec', 'resources', 'forms', 'pre_task_safety_plan', 'too_many_pictures.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+
+      it "should throw a parser error" do
+        lambda { subject }.should raise_error(ParserException, "Too many images attached to form")
+      end
+
+    end
+
+    describe "for a valid hash" do
+
+      let(:form_hash) {
+        f = Rails.root.join('spec', 'resources', 'forms', 'pre_task_safety_plan', 'valid.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+
+      let(:expected) {
+
+        o = Forms::PreTaskSafetyPlan.new
+        o.id = nil
+        o.reference_number = "20140822140822-1814902834"
+        o.server_receive_date = "2014-08-22T14:08:23.000Z"
+        o.device_submit_date = "2014-08-22T14:08:11.000Z"
+        o.username = "mliao@robinsonsolutions.com"
+        o.version = "2"
+        o.altitude = nil
+        o.latitude = "43.6521341"
+        o.longitude = "-79.3821372"
+        o.source = "prontoforms"
+
+        o.task = "jddjj "
+        o.site = "Tonawanda"
+        o.shop = "Plant 4"
+        o.task_location = "hjjk"
+        o.q1 = "Yes"
+        o.q2 = "I have an SOP for this work"
+        o.q4 = "Yes"
+        o.list_ppe = "hhh\nghhhh"
+        o.q5 = "No"
+        o.list_potential_hazar = "hhhj\nhjjj"
+        o.q6 = "Yes"
+        o.q7 = "No"
+        o.list_tools = "hhhhd\nhhjj"
+        o.q8 = "Yes"
+        o.job_plan = "hhjjhh\n\njjn"
+        o.job_specific_details = "nhgg\n\njj"
+        o.tm_names = "hjjj\njjj"
+        o.signature_file_name = "signature_2014-08-22_10-07-16-312.png"
+        o.signature_content_type = "image/png"
+        o.signature_file_size = 5616
+        o.signature_updated_at = "2014-08-22T14:33:16.131Z"
+        o.c1 = "Yes"
+        o.c2 = "No"
+        o.c3 = "N/A"
+        o.c4 = "Yes"
+        o.c5 = "No"
+        o.c6 = "No"
+        o.c7 = "No"
+        o.c8 = "N/A"
+        o.c9 = "Yes"
+        o.c10 = "N/A"
+        o.ptd1 = "No"
+        o.ptd1_text = "ghjjb"
+        o.ptd2 = "No"
+        o.ptd2_text = "hjojj"
+        o.ptd3 = "Yes"
+        o.ptd3_text = nil
+        o.ptd4 = "N/A"
+        o.ptd4_text = nil
+        o.ptd5 = "No"
+        o.ptd5_text = "ghjj"
+        o.comments = "jhcfv"
+        o.created_at = nil
+        o.updated_at = nil
+        return o
+      }
+
+      it "should return a Forms::PreTaskSafetyPlan object" do
+        subject.should be_a_kind_of(Forms::PreTaskSafetyPlan)
+      end
+
+      it "should be valid" do
+        expect(subject).to  be_valid
+        expect(expected).to be_valid
+      end
+
+      describe "should match expected" do
+
+        before(:each) do
+          subject.save
+          subject.reload
+        end
+        it "should have the same base form values" do
+          expect(subject).to have_same_base_form_attributes_as(expected)
+        end
+
+        its("task") { should eq(expected.task) }
+        its("site") { should eq(expected.site) }
+        its("shop") { should eq(expected.shop) }
+        its("task_location") { should eq(expected.task_location) }
+        its("q1") { should eq(expected.q1) }
+        its("q2") { should eq(expected.q2) }
+        its("q4") { should eq(expected.q4) }
+        its("list_ppe") { should eq(expected.list_ppe) }
+        its("q5") { should eq(expected.q5) }
+        its("list_potential_hazar") { should eq(expected.list_potential_hazar) }
+        its("q6") { should eq(expected.q6) }
+        its("q7") { should eq(expected.q7) }
+        its("list_tools") { should eq(expected.list_tools) }
+        its("q8") { should eq(expected.q8) }
+        its("job_plan") { should eq(expected.job_plan) }
+        its("job_specific_details") { should eq(expected.job_specific_details) }
+        its("tm_names") { should eq(expected.tm_names) }
+
+        its("signature") { should_not be_nil }
+        its("signature") { should_not eq(missing_images) }
+        its("signature_content_type") { should eq(expected.signature_content_type) }
+        its("signature_file_name") { should eq(expected.signature_file_name) }
+        its("signature_file_size") { should eq(expected.signature_file_size) }
+
+        its("c1") { should eq(expected.c1) }
+        its("c2") { should eq(expected.c2) }
+        its("c3") { should eq(expected.c3) }
+        its("c4") { should eq(expected.c4) }
+        its("c5") { should eq(expected.c5) }
+        its("c6") { should eq(expected.c6) }
+        its("c7") { should eq(expected.c7) }
+        its("c8") { should eq(expected.c8) }
+        its("c9") { should eq(expected.c9) }
+        its("c10") { should eq(expected.c10) }
+        its("ptd1") { should eq(expected.ptd1) }
+        its("ptd1_text") { should eq(expected.ptd1_text) }
+        its("ptd2") { should eq(expected.ptd2) }
+        its("ptd2_text") { should eq(expected.ptd2_text) }
+        its("ptd3") { should eq(expected.ptd3) }
+        its("ptd3_text") { should eq(expected.ptd3_text) }
+        its("ptd4") { should eq(expected.ptd4) }
+        its("ptd4_text") { should eq(expected.ptd4_text) }
+        its("ptd5") { should eq(expected.ptd5) }
+        its("ptd5_text") { should eq(expected.ptd5_text) }
+        its("comments") { should eq(expected.comments) }
+
+      end
+    end
+  end
+
+end

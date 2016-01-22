@@ -1,0 +1,162 @@
+require_relative '../../spec_helper'
+
+describe ProntoForms::SafetyObservationParser do
+
+  let(:missing_images) { "/assets/missing.jpg" }
+
+  it "should have a NAME constant with the expected value" do
+    ProntoForms::SafetyObservationParser::NAME.should eq("Safety Observation form")
+  end
+
+  describe "max_version" do
+    subject { ProntoForms::SafetyObservationParser.new }
+    it "should not throw an error" do
+      lambda { subject.max_version }.should_not raise_error
+    end
+  end
+
+  describe "parse" do
+
+  # call the parse method on a parameter defined in the sub-describes
+    subject {ProntoForms::SafetyObservationParser.new.parse(form_hash)}
+
+    # ensure that form_hash has been properly set for the specs
+    before(:each) do
+      form_hash.should_not be_nil
+    end
+
+    describe "for a hash missing pages" do
+
+      let(:form_hash) {
+        f = Rails.root.join('spec', 'resources', 'forms', 'safety_observation', 'missing_pages.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+
+      it "should throw a parser error" do
+        lambda { subject }.should raise_error(ParserException, "Could not find expected answer [page: 0][answer: 3]")
+      end
+
+    end
+
+    describe "for a hash with too many pictures" do
+
+      let(:form_hash) {
+        f = Rails.root.join('spec', 'resources', 'forms', 'safety_observation', 'too_many_pictures.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+
+      it "should throw a parser error" do
+        lambda { subject }.should raise_error(ParserException, "Too many images attached to form")
+      end
+
+    end
+
+    describe "for a valid hash" do
+
+      let(:form_hash) {
+        f = Rails.root.join('spec', 'resources', 'forms', 'safety_observation', 'valid.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+
+      let(:expected) {
+
+        o = Forms::SafetyObservation.new
+
+        o.id = nil,
+        o.reference_number = "20140822122204-1814899663"
+        o.server_receive_date = "2014-08-22T12:22:08.000Z"
+        o.device_submit_date = "2014-08-22T12:21:53.000Z"
+        o.username = "mliao@robinsonsolutions.com"
+        o.version = "9"
+        o.altitude = nil
+        o.latitude = "43.6521213"
+        o.longitude = "-79.38213260000001"
+        o.source = "prontoforms"
+
+        o.task_observed = "hjjjjj "
+        o.site = "Tonawanda"
+        o.shop = "Plant 4"
+        o.shift = "Night shift"
+        o.all_safe = "Issue"
+        o.safe_acts_observed = nil
+        o.unsafe_acts_observed = "hjjj"
+        o.pbr = "Stop Working / hiding,Changing Job process / position,Adding / adjusting PPF"
+        o.ep = "Contact with extreme temperatures,Expose to hazardous substances,Striking / struck by object"
+        o.ws = "Work standards not exist / unavailable,Work standards is unknown / not understood,ghjj"
+        o.ppe = "Head,Eyes / face,Respiratory system,Trunk"
+        o.etws = "Inadequate for the Job,Lack integrity / unsafe condition,Not used properly"
+        o.fs = "Standard not available / unknown / not understood,Standard not followed"
+        o.image1_file_name = "images.jpg"
+        o.image1_content_type = "image/jpeg"
+        o.image1_file_size = 3653
+        o.image1_updated_at = "2014-08-22T13:15:33.060Z"
+        o.image2_file_name = "Logos-Small-Icons-icon.png"
+        o.image2_content_type = "image/png"
+        o.image2_file_size = 3655
+        o.image2_updated_at = "2014-08-22T13:15:33.181Z"
+        o.signature_file_name = "signature_2014-08-22_08-21-47-141.png"
+        o.signature_content_type = "image/png"
+        o.signature_file_size = 9844
+        o.signature_updated_at = "2014-08-22T13:15:33.242Z"
+
+        return o
+      }
+
+      it "should return a Forms::SafetyObservation object" do
+        subject.should be_a_kind_of(Forms::SafetyObservation)
+      end
+
+      it "should be valid" do
+        expect(subject).to  be_valid
+        expect(expected).to be_valid
+      end
+
+      describe "should match expected" do
+
+        before(:each) do
+          subject.save
+          subject.reload
+        end
+
+        it "should have the same base form values" do
+          expect(subject).to have_same_base_form_attributes_as(expected)
+        end
+
+        its("task_observed") { should eq(expected.task_observed) }
+        its("site") { should eq(expected.site) }
+        its("shop") { should eq(expected.shop) }
+        its("shift") { should eq(expected.shift) }
+        its("all_safe") { should eq(expected.all_safe) }
+        its("safe_acts_observed") { should eq(expected.safe_acts_observed) }
+        its("unsafe_acts_observed") { should eq(expected.unsafe_acts_observed) }
+        its("pbr") { should eq(expected.pbr) }
+        its("ep") { should eq(expected.ep) }
+        its("ws") { should eq(expected.ws) }
+        its("ppe") { should eq(expected.ppe) }
+        its("etws") { should eq(expected.etws) }
+        its("fs") { should eq(expected.fs) }
+
+        its("image1") { should_not be_nil }
+        its("image1") { should_not eq(missing_images) }
+        its("image1_content_type") { should eq(expected.image1_content_type) }
+        its("image1_file_name") { should eq(expected.image1_file_name) }
+        its("image1_file_size") { should eq(expected.image1_file_size) }
+
+        its("image2") { should_not be_nil }
+        its("image2") { should_not eq(missing_images) }
+        its("image2_content_type") { should eq(expected.image2_content_type) }
+        its("image2_file_name") { should eq(expected.image2_file_name) }
+        its("image2_file_size") { should eq(expected.image2_file_size) }
+
+        its("signature") { should_not be_nil }
+        its("signature") { should_not eq(missing_images) }
+        its("signature_content_type") { should eq(expected.signature_content_type) }
+        its("signature_file_name") { should eq(expected.signature_file_name) }
+        its("signature_file_size") { should eq(expected.signature_file_size) }
+
+      end
+    end
+
+  end
+
+end

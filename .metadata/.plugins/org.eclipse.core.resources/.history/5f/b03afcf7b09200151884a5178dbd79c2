@@ -1,0 +1,17 @@
+<% title "ProntoForms" %>
+
+<% if can? :sync, Security::User %>
+<ul>
+    <li>
+    	<span class="action-pronto-forms" data-action="synchronize_users">Synchronize User Group</span>
+    	<p>This action will create user accounts for any members of <em>grpProntoFormsUsers</em> that do
+    		not already have them and update the group membership of any existing users if necessary.</p>
+    </li>
+    <li>
+    	<span class="action-pronto-forms" data-action="synchronize_trainees">Synchronize Training Group</span>
+    	<p>This action will create user accounts for any members of <em>grpProntoFormsTraining</em> that
+    		do not already have them and place them in the <em>Training</em> group. Any existing users will
+    		not be modified.</p>
+    </li>
+</ul>
+<% end %>

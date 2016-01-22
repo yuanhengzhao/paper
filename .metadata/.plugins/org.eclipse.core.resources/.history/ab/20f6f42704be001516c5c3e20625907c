@@ -1,0 +1,55 @@
+<!--
+	<% title "External Users" %>
+
+<div class="login-group">
+	<div class="login-section">
+		<div class="header">Log in</div>
+		<%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "devise-form"} ) do |f| %>
+		<div class="body">
+			<div>
+				<%= f.label :email %>
+				<%= f.email_field :email, autofocus: true %>
+			</div>
+			<div>
+				<%= f.label :password %>
+				<%= f.password_field :password, autocomplete: "off" %>
+			</div>
+		</div>
+		<div class="action"><%= f.submit "Log in", { class: "button-submit" }%></div>
+		<% end %>
+		<div class="footer"><%= link_to "First time logging in? Forgot your password?", new_user_password_path %></div>
+	</div>
+</div>
+-->
+<% title "Sign In" %>
+<div class="row sign-in">
+	<div class="col-sm-6">
+		<div class="panel panel-default form-panel">
+			<div class="panel-body">
+				<h1>Robinson Users</h1>
+				<p class="robinson-sign-in-msg">Sign in with your Robinson Google account</p>
+				<%= link_to "Sign in", user_omniauth_authorize_path(:google_oauth2),class:"btn btn-primary btn-lg submit" %>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<div class="panel panel-default form-panel">
+			<div class="panel-body">
+				<h1>External Users</h1>
+				<%= form_for(Security::User.new, as: :user, url: user_session_url) do |f| %>
+				<div class="form-group">
+					<%= f.email_field :email, autofocus: true, class:"form-control", placeholder: "Email"  %>
+				</div>
+
+				<div class="form-group">
+					<%= f.password_field :password, autocomplete: "off", class:"form-control", placeholder: "Password"   %>
+				</div>
+
+				<%= f.submit "Sign in", class:"btn btn-primary btn-lg" %>
+				<% end %>
+
+				<%= render "devise/shared/links" %>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,39 @@
+require "spec_helper"
+
+describe DataSources::SiteShiftsController do
+  describe "routing" do
+
+    it "routes to #index" do
+      get("/data_sources/site_shifts").should route_to("data_sources/site_shifts#index")
+    end
+
+    it "routes to #new" do
+      get("/data_sources/site_shifts/new").should route_to("data_sources/site_shifts#new")
+    end
+
+    it "routes to #show" do
+      get("/data_sources/site_shifts/1").should route_to("data_sources/site_shifts#show", :id => "1")
+    end
+
+    it "routes to #edit" do
+      get("/data_sources/site_shifts/1/edit").should route_to("data_sources/site_shifts#edit", :id => "1")
+    end
+
+    it "routes to #create" do
+      post("/data_sources/site_shifts").should route_to("data_sources/site_shifts#create")
+    end
+
+    it "routes to #update" do
+      put("/data_sources/site_shifts/1").should route_to("data_sources/site_shifts#update", :id => "1")
+    end
+
+    it "routes to #destroy" do
+      delete("/data_sources/site_shifts/1").should route_to("data_sources/site_shifts#destroy", :id => "1")
+    end
+    
+    it "routes to #datatable" do
+      get("/data_sources/site_shifts/datatable").should route_to("data_sources/site_shifts#datatable")
+    end
+
+  end
+end

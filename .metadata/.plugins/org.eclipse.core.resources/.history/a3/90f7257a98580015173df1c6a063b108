@@ -1,0 +1,15 @@
+FactoryGirl.define do
+  factory :task_inspection, class: Forms::TaskInspection do
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions', 'fake.json'), 'text/plain') }
+    
+    factory :task_inspection_valid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'task_inspection', '1_task.json'), 'text/plain') }
+    end
+    
+    factory :task_inspection_invalid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'task_inspection', 'too_many_pictures.json'), 'text/plain') }
+    end
+  end
+end

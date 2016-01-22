@@ -1,0 +1,14 @@
+jQuery ->  
+  # datatable for submissions page
+  datatable = $("#task_inspections_datatable").DataTable
+    "processing": true
+    "serverSide": true
+    "ajax": "/forms/task_inspections/datatable.json"
+    "columns": [
+      { "data": "id" },
+      { "data": "username" },
+      { "data": "device_submit_date", "render": (data, type, full) -> new Date(data) }
+      { "data": "id", "searchable": false, "orderable": false, "render": ( data, type, full ) ->
+        '<a href="/forms/task_inspections/' + data + '" target="_blank">Show</a>'
+      }
+    ]

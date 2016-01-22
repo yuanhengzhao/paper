@@ -1,0 +1,542 @@
+require 'rails_helper'
+RSpec.describe ReportsController, type: :controller do
+
+  describe "GET index" do
+    subject { get :index, {} }
+    
+    before(:each) do
+      login_user(user) unless user.nil?
+    end
+    
+    describe "who is the author" do
+      let(:report) { FactoryGirl.create(:report, author: user) }
+      before(:each) { expect(user).to eq(report.author) }
+      
+      describe "for a regular user" do 
+        let(:user){ FactoryGirl.create(:user) }
+        
+        it "returns http success" do
+          subject
+          expect(response).to have_http_status(:success)
+        end
+      end
+      
+      describe "for a reader user" do
+        let(:user){ FactoryGirl.create(:reader) }
+        
+        it "returns http success" do
+          subject
+          expect(response).to have_http_status(:success)
+        end
+      end
+      
+      describe "for a safety coordinator user" do
+        let(:user){ FactoryGirl.create(:safety_coordinator) }
+        
+        it "returns http success" do
+          subject
+          expect(response).to have_http_status(:success)
+        end
+      end
+      
+      describe "for a safety director user" do
+        let(:user){ FactoryGirl.create(:safety_director) }
+        
+        it "returns http success" do
+          subject
+          expect(response).to have_http_status(:success)
+        end
+      end
+      
+      describe "for an admin user" do
+        let(:user){ FactoryGirl.create(:admin) }
+        
+        it "returns http success" do
+          subject
+          expect(response).to have_http_status(:success)
+        end
+      end   
+    end
+
+    describe "who is not the author" do
+      let(:report) { FactoryGirl.create(:report) }
+      before(:each) { expect(user).to_not eq(report.author) }
+       
+      describe "for an anonymous user" do
+        let(:user) { nil }
+        
+        it "should redirect to sigin in page" do
+          subject
+          expect(response).to redirect_to(new_user_session_url)
+        end
+      end
+      
+      describe "for a regular user" do 
+        let(:user) {FactoryGirl.create(:user)}
+        
+      
+          it "returns the empty array for @reports" do
+            subject
+            expect(assigns(:reports)).to be_empty
+          end
+        end
+      
+      describe "for a reader user" do
+        let(:user) {FactoryGirl.create(:reader)}
+      
+        it "returns the empty array for @reports" do
+          subject
+          expect(assigns(:reports)).to be_empty
+        end
+      end
+      
+      describe "for a safety coordinator user" do
+        let(:user) { FactoryGirl.create(:safety_coordinator) }
+        
+        it "returns the empty array for @reports" do
+          subject
+          expect(assigns(:reports)).to be_empty
+        end
+      end
+      
+      describe "for a safety director user" do
+        let(:user) { FactoryGirl.create(:safety_director) }
+        
+        it "returns the empty array for @reports" do
+          subject
+          expect(assigns(:reports)).to be_empty
+        end
+      end
+      
+      describe "for an admin user" do
+        let(:user) { FactoryGirl.create(:admin) }
+        
+        it "returns http success" do
+          subject
+          expect(response).to have_http_status(:success)
+        end
+      end
+    end
+  end
+
+  describe "GET show" do
+    let(:report) { FactoryGirl.create(:report) }
+    subject { get :show, {:id => report.id, :format => "json"} }
+    
+    before(:each) do
+      login_user(user) unless user.nil?
+    end
+    
+    describe " who is the author" do
+      let(:report) { FactoryGirl.create(:report, author: user) }
+      before(:each) { expect(user).to eq(report.author) }
+      
+      describe "for a regular user" do 
+        let(:user){ FactoryGirl.create(:user) }
+        
+        it "assigns the requested report as json" do
+          subject
+           #the request has succeeded.
+          expect(response.status).to be(200)
+           #The type of the response is json.
+          expect(assigns(:report)).to eq(report)
+        end
+      end
+      
+      describe "for a reader user" do
+        let(:user){ FactoryGirl.create(:reader) }
+        
+        it "assigns the requested report as json" do
+          subject
+           #the request has succeeded.
+          expect(response.status).to be(200)
+           #The type of the response is json.
+          expect(assigns(:report)).to eq(report)
+        end
+      end
+      
+      describe "for a safety coordinator user" do
+        let(:user){ FactoryGirl.create(:safety_coordinator) }
+        
+        it "assigns the requested report as json" do
+          subject
+           #the request has succeeded.
+          expect(response.status).to be(200)
+           #The type of the response is json.
+          expect(assigns(:report)).to eq(report)
+        end
+      end
+      
+      describe "for a safety director user" do
+        let(:user){ FactoryGirl.create(:safety_director) }
+        
+        it "assigns the requested report as json" do
+          subject
+           #the request has succeeded.
+          expect(response.status).to be(200)
+           #The type of the response is json.
+          expect(assigns(:report)).to eq(report)
+        end
+      end
+      
+      describe "for an admin user" do
+        let(:user){ FactoryGirl.create(:admin) }
+        
+        it "assigns the requested report as json" do
+          subject
+           #the request has succeeded.
+          expect(response.status).to be(200)
+           #The type of the response is json.
+          expect(assigns(:report)).to eq(report)
+        end
+      end    
+    end
+    
+    describe "who is not the author" do
+      let(:report) { FactoryGirl.create(:report) }
+      before(:each) { expect(user).to_not eq(report.author) }
+      
+      describe "for an anonymous user" do
+        let(:user) { nil }
+        
+        it "should redirect to sign in page" do
+          subject
+          expect(response).to_not be_success()
+        end
+      end
+      
+      describe "for a regular user" do
+        let(:user) { FactoryGirl.create(:user) }
+        
+        it "should be denied" do
+          expect {
+            subject
+          }.to raise_error(CanCan::AccessDenied)
+        end
+      end
+      
+      describe "for a reader user" do
+        let(:user) { FactoryGirl.create(:reader) }
+        
+        it "should be denied" do
+          expect {
+            subject
+          }.to raise_error(CanCan::AccessDenied)
+        end
+      end
+      
+      describe "for a safety coordinator user" do
+        let(:user) { FactoryGirl.create(:safety_coordinator) }
+        
+        it "should be denied" do
+          expect {
+            subject
+          }.to raise_error(CanCan::AccessDenied)
+        end
+      end
+      
+      describe "for a safety director user" do
+        let(:user) { FactoryGirl.create(:safety_director) }
+        
+        it "should be denied" do
+          expect {
+            subject
+          }.to raise_error(CanCan::AccessDenied)
+        end
+      end
+      
+      describe "for an admin user" do
+        let(:user) { FactoryGirl.create(:admin) }
+        
+        it "assigns the requested report as json" do
+          subject
+           #the request has succeeded.
+          expect(response.status).to be(200)
+           #The type of the response is json.
+          expect(assigns(:report)).to eq(report)
+        end
+      end
+    end
+  end
+
+  describe "DELETE destroy" do
+    
+    before(:each) do
+      login_user(user) unless user.nil?
+    end
+    
+    describe "who is the author" do
+      let(:report) { FactoryGirl.create(:report, author: user) }
+      before(:each) { expect(user).to eq(report.author) }
+      subject { delete :destroy, {:id => report.to_param} }
+      
+      describe "for a regular user" do 
+        let(:user){ FactoryGirl.create(:user) }
+        
+        it "destroys the requested report" do
+          expect {
+            subject
+          }.to change(Report, :count).by(-1)
+        end
+        
+        it "redirects to the reports list" do
+          subject
+          expect(response).to redirect_to(reports_index_path)
+        end
+      end
+      
+      describe "for a reader user" do
+        let(:user){ FactoryGirl.create(:reader) }
+        
+        it "destroys the requested report" do
+          expect {
+            subject
+          }.to change(Report, :count).by(-1)
+        end
+        
+        it "redirects to the reports list" do
+          subject
+          expect(response).to redirect_to(reports_index_path)
+        end
+      end
+      
+      describe "for a safety coordinator user" do
+        let(:user){ FactoryGirl.create(:safety_coordinator) }
+        
+        it "destroys the requested report" do
+          expect {
+            subject
+          }.to change(Report, :count).by(-1)
+        end
+        
+        it "redirects to the reports list" do
+          subject
+          expect(response).to redirect_to(reports_index_path)
+        end
+      end
+      
+      describe "for a safety director user" do
+        let(:user){ FactoryGirl.create(:safety_director) }
+        
+        it "destroys the requested report" do
+          expect {
+            subject
+          }.to change(Report, :count).by(-1)
+        end
+        
+        it "redirects to the reports list" do
+          subject
+          expect(response).to redirect_to(reports_index_path)
+        end
+      end
+      
+      describe "for an admin user" do
+        let(:user){ FactoryGirl.create(:admin) }
+        
+        it "destroys the requested report" do
+         
+          expect {
+            subject
+          }.to change(Report, :count).by(-1)
+        end
+        
+        it "redirects to the reports list" do
+          subject
+          expect(response).to redirect_to(reports_index_path)
+        end
+      end
+    end
+    
+    describe "who is not the author" do
+      let(:report) { FactoryGirl.create(:report) }
+      before(:each) { expect(user).to_not eq(report.author) }
+      subject { delete :destroy, {:id => report.to_param} }
+      
+      describe "for an anonymous user" do
+        let(:user) { nil }
+        
+        it "should redirect to sign in page" do
+          subject
+          expect(response).to redirect_to(new_user_session_url)
+        end
+      end
+      
+      describe "for regular user" do  
+        let(:user) { FactoryGirl.create(:user) }
+        
+        it "should be denied" do
+          expect {
+            subject
+          }.to raise_error(CanCan::AccessDenied)
+        end
+      end
+      
+      describe "for a reader user" do
+        let(:user) { FactoryGirl.create(:reader) }
+        
+        it "should be denied" do
+          expect {
+            subject
+          }.to raise_error(CanCan::AccessDenied)
+        end
+      end
+      
+      describe "for a safety coordinator user" do
+        let(:user) { FactoryGirl.create(:safety_coordinator) }
+        
+        it "should be denied" do
+          expect {
+            subject
+          }.to raise_error(CanCan::AccessDenied)
+        end
+      end
+      
+      describe "for a safety director user" do
+        let(:user) { FactoryGirl.create(:safety_director) }
+        
+         it "should be denied" do
+          expect {
+            subject
+          }.to raise_error(CanCan::AccessDenied)
+        end
+      end
+      
+      describe "for an admin user" do
+        let(:user) { FactoryGirl.create(:admin) }
+        
+        it "destroys the requested report" do
+         
+          expect {
+            subject
+          }.to change(Report, :count).by(-1)
+        end
+        
+        it "redirects to the reports list" do
+          subject
+          expect(response).to redirect_to(reports_index_path)
+        end
+      end
+    end
+  end 
+
+  describe "POST download" do
+    
+    before(:each) do
+      login_user(user) unless user.nil?
+    end
+    
+    describe "who is the author" do
+      let(:report) { FactoryGirl.create(:report, author: user) }
+      before(:each) { expect(user).to eq(report.author) }
+      subject { post :download, {:id => report.to_param} }
+      
+      describe "for a regular user" do 
+        let(:user){ FactoryGirl.create(:user) }
+        
+        it "redirects to the Report's Paperclip attachment" do
+          subject
+          expect(response).to redirect_to report.attachment.expiring_url(10)
+        end
+      end
+      
+      describe "for a reader user" do
+        let(:user){ FactoryGirl.create(:reader) }
+        
+        it "redirects to the Report's Paperclip attachment" do
+          subject
+          expect(response).to redirect_to report.attachment.expiring_url(10)
+        end
+      end
+      
+      describe "for a safety coordinator user" do
+        let(:user){ FactoryGirl.create(:safety_coordinator) }
+        
+        it "redirects to the Report's Paperclip attachment" do
+          subject
+          expect(response).to redirect_to report.attachment.expiring_url(10)
+        end
+      end
+      
+      describe "for a safety director user" do
+        let(:user){ FactoryGirl.create(:safety_director) }
+        
+        it "redirects to the Report's Paperclip attachment" do
+          subject
+          expect(response).to redirect_to report.attachment.expiring_url(10)
+        end
+      end
+      
+      describe "for an admin user" do
+        let(:user){ FactoryGirl.create(:admin) }
+        
+        it "redirects to the Report's Paperclip attachment" do
+          subject
+          expect(response).to redirect_to report.attachment.expiring_url(10)
+        end
+      end   
+    end
+    
+    describe "who is not the author" do
+      let(:report) { FactoryGirl.create(:report) }
+      before(:each) { expect(user).to_not eq(report.author) }
+      subject { post :download, {:id => report.to_param} }
+      describe "for an anonymous user" do
+        let(:user) { nil }
+        
+        it "should redirect to sign in page" do
+          subject
+          expect(response).to redirect_to(new_user_session_url)
+        end
+      end
+      
+      describe "for regular user" do  
+        let(:user) { FactoryGirl.create(:user) }
+        
+        it "should be denied" do
+          expect {
+            subject
+          }.to raise_error(CanCan::AccessDenied)
+        end
+      end
+      
+      describe "for a reader user" do
+        let(:user) { FactoryGirl.create(:reader) }
+        
+        it "should be denied" do
+          expect {
+            subject
+          }.to raise_error(CanCan::AccessDenied)
+        end
+      end
+      
+      describe "for a safety coordinator user" do
+        let(:user) { FactoryGirl.create(:safety_coordinator) }
+        
+        it "should be denied" do
+          expect {
+            subject
+          }.to raise_error(CanCan::AccessDenied)
+        end
+      end
+      
+      describe "for a safety director user" do
+        let(:user) { FactoryGirl.create(:safety_director) }
+        
+         it "should be denied" do
+          expect {
+            subject
+          }.to raise_error(CanCan::AccessDenied)
+        end
+      end
+      
+      describe "for an admin user" do
+      let(:user) { FactoryGirl.create(:admin) }
+      
+        it "redirects to the Report's Paperclip attachment" do
+          subject
+          expect(response).to redirect_to report.attachment.expiring_url(10)
+        end
+      end
+    end
+  end
+end

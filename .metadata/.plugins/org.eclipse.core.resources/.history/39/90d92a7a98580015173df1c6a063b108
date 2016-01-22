@@ -1,0 +1,4 @@
+site,shop,barcode,unit_number
+site1,shop1,1001,1234
+"site2 ,",shop2,1002,5678
+site3 space,shop3,1003,9111

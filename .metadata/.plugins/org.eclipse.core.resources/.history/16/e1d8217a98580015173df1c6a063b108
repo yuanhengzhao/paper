@@ -1,0 +1,9 @@
+require 'spec_helper'
+
+describe Forms::SocHourlyProductionReportsController do
+  it_behaves_like "a form controller" do
+    let(:model) { Forms::SocHourlyProductionReport }
+    let(:image_fields) { [ :press_1_chart, :press_2_chart, :press_3_chart, :press_4_chart ] }
+    let(:pre_model_name) { "" }
+  end
+end

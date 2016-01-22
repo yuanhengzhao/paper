@@ -1,0 +1,15 @@
+FactoryGirl.define do
+  factory :soc_incident_report, class: Forms::SocIncidentReport do
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions', 'fake.json'), 'text/plain') }
+    
+    factory :soc_incident_report_valid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'soc_incident_report', 'valid.json'), 'text/plain') }
+    end
+    
+    factory :soc_incident_report_invalid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'soc_incident_report', 'missing_pages.json'), 'text/plain') }
+    end
+  end
+end

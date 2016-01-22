@@ -1,0 +1,52 @@
+class Report::RenderJob
+  
+  # called when job is created
+  def initialize(form, export)
+   @export = export
+   @form = form
+   
+   @export.status = Report::FormExport::UPDATING
+   @export.save
+  end
+  
+  # called when job is activated
+  def perform
+    records = @form.all
+    attachment = nil
+    Axlsx::Package.new do |p|
+      p.workbook.add_worksheet(:name => @export.form_name) do |sheet|
+        if records.length > 0 
+          keys = records[0].attributes.keys.select {|k| !(k.include? "_file_size" or k.include? "_updated_at" or k.include? "_content_type" or k.include? "_file_name")}
+          sheet.add_row keys , {:b => true}
+          
+          records.each do |record|
+            row = []
+            record.attributes.each do |k,v| 
+              row << v if keys.include? k   
+            end
+            sheet.add_row row
+          end
+        end
+      end
+      
+      attachment = p.to_stream
+    end
+    
+    @export.attachment = create_attachment(attachment, @export.form_name)
+    @export.status = Report::FormExport::AVAILABLE
+    @export.save
+  end
+  
+  # helper function to assemble structure for attaching file
+  private
+  def create_attachment(attachment_io, form_name)
+    if attachment_io.nil?
+      return nil 
+    end
+    attachment_io.class.class_eval { attr_accessor :original_filename, :content_type }
+    attachment_io.content_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    attachment_io.original_filename = "#{form_name}.xlsx"
+    return attachment_io
+  end
+  
+end

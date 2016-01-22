@@ -1,0 +1,51 @@
+class FormExtensions::JigCleaningRecordsController < ApplicationController
+  
+  include DatatableServerSideProcessing
+  
+  before_action :authenticate_user!
+  
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  
+  add_breadcrumb "forms", :forms_index_path
+  add_breadcrumb "jig cleanings", :forms_jig_cleanings_path
+  add_breadcrumb "jig cleaning records", :form_extensions_jig_cleaning_records_path
+  
+  DATATABLES_COLUMNS = [ "id", "jig_cleaning_id", "jig_type", "time_in", "time_out", "machine", "cycle", "count", "extra_time" ]
+  
+  def index
+    @jig_cleaning_records = FormExtensions::JigCleaningRecord.all
+    authorize! :read, Forms::JigCleaning
+  end
+
+  def show
+    authorize! :read, Forms::JigCleaning
+    @jig_cleaning_record = FormExtensions::JigCleaningRecord.find(params[:id])
+    add_breadcrumb "jig cleaning record #{@jig_cleaning_record.id}", :form_extensions_jig_cleaning_record_path
+  end
+  
+  # server-side processing method for jquery datatable
+  def datatable
+    authorize! :read, Forms::JigCleaning
+    
+    respond_to do |format|
+      format.html { redirect_to form_extensions_jig_cleaning_records_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS
+        }
+        
+        # call concern function using collection of all records the user has access to
+        @jig_cleaning_records = FormExtensions::JigCleaningRecord.all
+        render :json => datatable_data(@jig_cleaning_records, params, options)
+      }
+    end
+  end
+  
+  private
+  
+  def record_not_found(exception)
+    # redirect back to index if id not found
+    flash[:alert] = exception.message
+    redirect_to forms_jig_cleanings_path
+  end
+end

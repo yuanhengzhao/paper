@@ -1,0 +1,105 @@
+require 'rails_helper'
+require 'spec_helper'
+
+RSpec.describe "incidents/datatable", :type => :view do
+  let(:building) { FactoryGirl.create(:building) }
+  let(:safety_rep) { FactoryGirl.create(:safety_coordinator) }
+  let(:incident_type) { "Test Type" }
+  let(:incidents) { 0 }
+  let!(:incident1) { FactoryGirl.create(:incident,
+          incident_time: "2013-12-01 12:00:00",
+          building: building,
+          column: "Column",
+          supervisor: "Supervisor",
+          shift: "Shift",
+          employee: "Employee",
+          job: "Job",
+          safety_rep: safety_rep,
+          incident_class: "Incident Class",
+          incident_type: incident_type,
+          body_part: "body_part",
+          body_location: "body_location",
+          description: "Description",
+          report_time: "2013-12-03 12:00:00",
+          corrective_action: "Corrective Action",
+          wsib_recordable: "Wsib Recordable",
+          wsib_form_7: "Wsib Form 7",
+          wsib_lost_time: "Wsib Lost Time",
+          wsib_claim: "Wsib Claim",
+          osha_recordable: "Osha Recordable",
+          osha_lost_time: "Osha Lost Time",
+          modified_work_days: 1,
+          lost_days: 2,
+          implemented: "Implemented",
+          comment: "Comment",
+          ready_to_submit_investigation: false
+          ) }
+  let!(:incident2) { FactoryGirl.create(:incident,
+          incident_time: "2014-02-14 12:00:00",
+          building: building,
+          column: "Column",
+          supervisor: "Supervisor",
+          shift: "Shift",
+          employee: "Employee",
+          job: "Job",
+          safety_rep: safety_rep,
+          incident_class: "Incident Class",
+          incident_type: incident_type,
+          body_location: "body_location",
+          body_part: "body_part",
+          description: "Description",
+          report_time: "2014-02-14 12:30:00",
+          corrective_action: "Corrective Action",
+          wsib_recordable: "Wsib Recordable",
+          wsib_form_7: "Wsib Form 7",
+          wsib_lost_time: "Wsib Lost Time",
+          wsib_claim: "Wsib Claim",
+          osha_recordable: "Osha Recordable",
+          osha_lost_time: "Osha Lost Time",
+          modified_work_days: 1,
+          lost_days: 2,
+          implemented: "Implemented",
+          comment: "Comment",
+          ready_to_submit_investigation: true
+          ) }
+  let!(:incident3) { FactoryGirl.create(:incident,
+          incident_time: "2014-03-08 20:00:00",
+          building: building,
+          column: "Column",
+          supervisor: "Supervisor",
+          shift: "Shift",
+          employee: "Employee",
+          job: "Job",
+          safety_rep: safety_rep,
+          incident_class: "Incident Class",
+          incident_type: incident_type,
+          body_location: "body_location",
+          body_part: "body_part",
+          description: "Description",
+          report_time: "2014-03-09 23:30:00",
+          corrective_action: "Corrective Action",
+          wsib_recordable: "Wsib Recordable",
+          wsib_form_7: "Wsib Form 7",
+          wsib_lost_time: "Wsib Lost Time",
+          wsib_claim: "Wsib Claim",
+          osha_recordable: "Osha Recordable",
+          osha_lost_time: "Osha Lost Time",
+          modified_work_days: 1,
+          lost_days: 2,
+          implemented: "Implemented",
+          comment: "Comment",
+          ready_to_submit_investigation: true,
+          closed_date:"2014-03-12 12:00:00"
+          ) }
+  
+  
+  before(:each) do
+    incidents = Incident.all
+    expect(incidents.size).to eq(3)
+    assign(:incidents, incidents)
+  end
+  
+  it "works" do
+    expect{ render }.to_not raise_error
+  end
+end

@@ -1,0 +1,67 @@
+# Facade class to separate all of the form parsing implementation from the classes that will submit forms for parsing.
+class ParserService
+  
+  # Attempts to create a database object for the submission located at the provided path for the provided source.
+  #
+  # @param source [String] the form provider key, i.e. `prontoforms`, `iforms`, etc.
+  # @param submission [String] content of the form submission
+  # @return [Object] instance of the created model or an instance of Forms::UnrecognizedSubmission if it could not be parsed
+  def parse(source, submission)
+    # verify arguments
+    raise(ArgumentError, ":source cannot be blank") if source.blank?
+    raise(ArgumentError, ":submission cannot be blank") if submission.blank?
+    
+    # reference of object to be returned
+    result = nil
+    
+    begin
+      # use the source to determine which parser to use, throw an exception if no match found
+      source_parser = get_source_parser(source)
+      raise ParserException, "Unrecognized source" if source_parser.nil?
+      
+      # delegate to source parser
+      result = source_parser.parse(submission)
+    rescue ParserException => e
+      # fail to parse currently, store details for later parsing
+      result = Forms::UnrecognizedSubmission.new({ :source => source, :reason => e.message })
+    end
+    
+    #attach the original submission to the model
+    result.submission = create_submission_attachment(submission)
+    
+    result.save! unless result.nil?
+    
+    return result
+  end
+
+  
+  # Returns the parsing class to use for the provided source, nil if no match found.
+  #
+  # @param source [String] the form provider key, i.e. `prontoforms`, `iforms`, etc.
+  # @return [Object] instance of the source specific parser if known, otherwise nil
+  def get_source_parser(source)
+    # return appropriate parser based on source value
+    return ProntoForms::SourceParser.new if source == "prontoforms"
+    
+    # return nil if no match found
+    return nil
+  end
+  
+  # Static function to create a Paperclip attachment object from
+  # the json data of the form
+  #
+  # @param source [String] the form provider key, i.e. `prontoforms`, `iforms`, etc.
+  # @param submission [String] json data of the form
+  # @return [Object] paperclip attachment object
+  def create_submission_attachment(submission)
+    return nil if submission.nil?
+    attachment = StringIO.new(submission)
+    attachment.class.class_eval { attr_accessor :original_filename, :content_type }
+    attachment.content_type = "text/plain"
+    attachment.original_filename = "submission.json"
+    return attachment
+  end
+ 
+  
+  
+end

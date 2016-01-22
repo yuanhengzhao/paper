@@ -1,0 +1,6 @@
+<% title "Restroom Checklists" %>
+<%= render :partial => 'forms/form_export_section', :locals => {:extra_buttons => [ (link_to "Manage Restrooms", restrooms_forms_restroom_checklists_url) ], :update_url => update_export_forms_restroom_checklists_url(format: :json), :download_url => download_export_forms_restroom_checklists_url} %>
+
+<table id="restroom_checklists_datatable" class="display<%= (can?(:manage, Forms::RestroomChecklist) ? ' admin' : '') %>">
+	<%= render :partial => 'forms/form_header_footer' %>
+</table>

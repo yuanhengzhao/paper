@@ -1,0 +1,81 @@
+require 'spec_helper'
+require 'json'
+
+describe Forms::PunchlistFormsController do
+  it_behaves_like "a form controller" do
+    let(:model) { Forms::PunchlistForm }
+    let(:image_fields) { [ :picture1, :picture2, :picture3, :picture4, :picture5, :picture6, :picture7, :picture8 ] }
+    let(:pre_model_name) { "" }
+  end
+
+  describe "index.json" do
+    
+    render_views
+
+    RSpec.shared_examples "index.json response" do
+      
+      it "should render the correct json" do
+        response.should be_success
+        hash = JSON.parse(response.body)
+        expect(hash[0]["id"]).to eq(pl1.id)
+        expect(hash[1]["id"]).to eq(pl2.id)
+        expect(hash[0]["reference_number"]).to eq("reference_number")
+        expect(hash[1]["reference_number"]).to eq("reference_number")
+        expect(hash[0]["username"]).to eq("username")
+        expect(hash[1]["username"]).to eq("username")
+        expect(hash[0]["status"]).to eq("status")
+        expect(hash[1]["status"]).to eq("status")
+        expect(hash[0]["customer"]).to eq("customer")
+        expect(hash[1]["customer"]).to eq("customer")
+        expect(hash[0]["shop"]).to eq("shop")
+        expect(hash[1]["shop"]).to eq("shop")
+        expect(hash[0]["project_area"]).to eq("project_area")
+        expect(hash[1]["project_area"]).to eq("project_area")
+        expect(hash[0]["level"]).to eq("level")
+        expect(hash[1]["level"]).to eq("level")
+        expect(hash[0]["els_number"]).to eq("els_number")
+        expect(hash[1]["els_number"]).to eq("els_number")
+        expect(hash[0]["picture1"]).to eq("http://test.host/forms/punchlist_forms/#{pl1.id}/picture1")
+        expect(hash[1]["picture1"]).to eq("http://test.host/forms/punchlist_forms/#{pl2.id}/picture1")
+        expect(hash[0]["picture2"]).to eq("http://test.host/forms/punchlist_forms/#{pl1.id}/picture2")
+        expect(hash[1]["picture2"]).to eq("http://test.host/forms/punchlist_forms/#{pl2.id}/picture2")
+        expect(hash[0]["picture3"]).to eq("http://test.host/forms/punchlist_forms/#{pl1.id}/picture3")
+        expect(hash[1]["picture3"]).to eq("http://test.host/forms/punchlist_forms/#{pl2.id}/picture3")
+        expect(hash[0]["picture4"]).to eq("http://test.host/forms/punchlist_forms/#{pl1.id}/picture4")
+        expect(hash[1]["picture4"]).to eq("http://test.host/forms/punchlist_forms/#{pl2.id}/picture4")
+        expect(hash[0]["picture5"]).to eq("http://test.host/forms/punchlist_forms/#{pl1.id}/picture5")
+        expect(hash[1]["picture5"]).to eq("http://test.host/forms/punchlist_forms/#{pl2.id}/picture5")
+        expect(hash[0]["picture6"]).to eq("http://test.host/forms/punchlist_forms/#{pl1.id}/picture6")
+        expect(hash[1]["picture6"]).to eq("http://test.host/forms/punchlist_forms/#{pl2.id}/picture6")
+        expect(hash[0]["picture7"]).to eq("http://test.host/forms/punchlist_forms/#{pl1.id}/picture7")
+        expect(hash[1]["picture7"]).to eq("http://test.host/forms/punchlist_forms/#{pl2.id}/picture7")
+        expect(hash[0]["picture8"]).to eq("http://test.host/forms/punchlist_forms/#{pl1.id}/picture8")
+        expect(hash[1]["picture8"]).to eq("http://test.host/forms/punchlist_forms/#{pl2.id}/picture8")
+      end
+    end
+
+    describe "Basic Authentication Scheme" do
+      let!(:pl1) {create(:punchlist_form_valid)}
+      let!(:pl2) {create(:punchlist_form_valid)}
+      before(:each) do
+        user = create(:admin)
+        request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(user.email, 'secret123')
+        get :index, format: :json
+      end
+
+      it_behaves_like "index.json response"
+    end
+
+    describe "Common user login scenario" do
+      let!(:pl1) {create(:punchlist_form_valid)}
+      let!(:pl2) {create(:punchlist_form_valid)}
+      before(:each) do
+        sign_in create(:admin)
+        get :index, format: :json
+      end
+
+      it_behaves_like "index.json response"
+    end
+    
+  end
+end

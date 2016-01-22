@@ -1,0 +1,4 @@
+class AddBodyPartStringToIncident < ActiveRecord::Migration
+  def change
+  end
+end

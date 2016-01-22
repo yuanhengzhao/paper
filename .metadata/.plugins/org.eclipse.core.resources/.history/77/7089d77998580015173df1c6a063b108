@@ -1,0 +1,39 @@
+# Battery Inspection's model
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user
+# - version (string) - current version of the form
+# - altitude (decimal(20,15)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,16)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,16)) - longitude of the user's location when submitted the form
+# - source (string) - name of the provider, for example,"prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+
+# - site (string) - site of the user
+# - shop (string) - shop of the battery
+# - equipment_bar_code (string) - equipment bar code
+# - equipment_unit_number (string) - equipment unit number
+# - unit_accessible (boolean) - is the unit accessible?
+# - battery_temperature (integer) - battery temperature
+# - faults_exist (boolean) - true if battery has a fault, false otherwise
+# - faults (text) - battery faults
+# - bad_cables (boolean) - is the condition of the cable bad?
+# - water_filled (boolean) - is filled with water?
+# - blown_valves (boolean) - are valves blown?
+# - valve_malfunction (string) - "None"/"Valve Leak"/"Valves Not Accepting Water"
+# - valves_to_change (text) - the valves need to change
+# - battery_cleaned (boolean) - is the battery cleaned?
+# - comments (text) - are
+# - photo (attachment) - photo of the battery
+
+class Forms::BatteryInspection < ActiveRecord::Base
+  has_attached_file :photo
+  validates_attachment_content_type :photo, :content_type => /\Aimage/
+  
+  include HasSubmission
+  include Reparseable
+end

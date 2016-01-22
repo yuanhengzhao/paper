@@ -1,0 +1,69 @@
+<% title "Net Promoter Score #{@net_promoter_score.id}" %>
+
+<div class="container">
+	<table class="table table-striped table-hover admin-responsive-table form-table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Value</th>
+				</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>reference_number</td><td><%= @net_promoter_score.reference_number %></td>
+			</tr>
+			<tr>
+				<td>server_receive_date</td><td><%= @net_promoter_score.server_receive_date %></td>
+			</tr>
+			<tr>
+				<td>device_submit_date</td><td><%= @net_promoter_score.device_submit_date %></td>
+			</tr>
+			<tr>
+				<td>username</td><td><%= @net_promoter_score.username %></td>
+			</tr>
+			<tr>
+				<td>version</td><td><%= @net_promoter_score.version %></td>
+			</tr>
+			<tr>
+				<td>altitude</td><td><%= @net_promoter_score.altitude %></td>
+			</tr>
+			<tr>
+				<td>latitude</td><td><%= @net_promoter_score.latitude %></td>
+			</tr>
+			<tr>
+				<td>longitude</td><td><%= @net_promoter_score.longitude %></td>
+			</tr>
+			<tr>
+				<td>source</td><td><%= @net_promoter_score.source %></td>
+			</tr>
+			<tr>
+				<td>customer</td><td><%= @net_promoter_score.client %></td>
+			</tr>
+			<tr>
+				<td>site</td><td><%= @net_promoter_score.site %></td>
+			</tr>
+			<tr>
+				<td>shop</td><td><%= @net_promoter_score.shop %></td>
+			</tr>
+			<tr>
+				<td>contact</td><td><%= @net_promoter_score.contact %></td>
+			</tr>
+			<tr>
+				<td>title</td><td><%= @net_promoter_score.title %></td>
+			</tr>
+			<tr>
+				<td>impact_level</td><td><%= @net_promoter_score.impact_level %></td>
+			</tr>
+			<tr>
+				<td>department</td><td><%= @net_promoter_score.department %></td>
+			</tr>
+			<tr>
+				<td>score</td><td><%= @net_promoter_score.nps %></td>
+			</tr>
+			<tr>
+				<td>suggestion</td><td><%= @net_promoter_score.suggestion %></td>
+			</tr>
+		</tbody>
+	</table>
+<%= render :partial => 'forms/form_submission_section', :locals => { :submission_path => submission_forms_net_promoter_score_path(@net_promoter_score), :reparse_path => reparse_forms_net_promoter_score_path(@net_promoter_score) } %>
+</div>

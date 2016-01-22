@@ -1,0 +1,65 @@
+class TransferPhotosAttributesFromIncidentsToAttachments < ActiveRecord::Migration
+    
+  def up
+    {
+      "investigation_photo1" => 0,
+      "investigation_photo2" => 0,
+      "photo_modified_work_form_signed1" => 1,
+      "photo_modified_work_form_signed2" => 1,
+     "photo_medical_doc1" => 2,
+     "photo_medical_doc2" => 2,
+     "photo_medical_doc3" => 2,
+      "implemented_support_file1" => 3,
+      "implemented_support_file2" => 3,
+      "implemented_support_file3" => 3,
+      " implemented_support_file4" => 3
+    }.each do |photo, group|
+      incident_to_attachment("#{photo}_file_name".to_sym, "#{photo}_content_type".to_sym, "#{photo}_file_size".to_sym, "#{photo}_updated_at".to_sym, group)
+    end
+  end
+  
+  def down
+    {"investigation_photo1" => 0,
+     "investigation_photo2" => 0,
+     "photo_modified_work_form_signed1" => 1,
+     "photo_modified_work_form_signed2" => 1,
+     "photo_medical_doc1" => 2,
+     "photo_medical_doc2" => 2,
+     "photo_medical_doc3" => 2,
+     "implemented_support_file1" => 3,
+     "implemented_support_file2" => 3,
+     "implemented_support_file3" => 3,
+     "implemented_support_file4" => 3
+    }.each do |photo, group|
+      attachment_back_to_incident("#{photo}_file_name".to_sym, "#{photo}_content_type".to_sym, "#{photo}_file_size".to_sym, "#{photo}_updated_at".to_sym, group)
+    end
+  end
+  
+  def incident_to_attachment( name, type, size, updated_at, group )
+    photos = select_all("SELECT id AS incident_id, #{ name } AS file_name, #{ type } AS file_type, #{ size } AS file_size, #{ updated_at } AS file_updated_at FROM incidents where #{ type } is not null")
+    photos.each do |photo|
+      puts execute("insert into attachments(`incident_id`, `file_file_name`, `file_content_type`, `file_file_size`, `file_updated_at`, `group`) 
+      values(#{photo['incident_id']}, '#{photo['file_name']}', '#{photo['file_type']}', #{photo['file_size']}, \"#{photo['file_updated_at'].to_s(:db)}\", #{group});")
+      
+      #Clean the data in incidents.
+      puts execute(" update incidents set #{ name }=null, #{ type }=null, #{ size }=null, #{ updated_at }=null;")
+    end
+  end
+  
+  def attachment_back_to_incident( name, type, size, updated_at, group )
+    update <<-SQL
+      UPDATE incidents
+      LEFT JOIN attachments ON incidents.id = attachments.incident_id
+      SET incidents.#{ name } = attachments.file_file_name, 
+          incidents.#{ type } =  attachments.file_content_type,
+          incidents.#{ size } =  attachments.file_file_size,
+          incidents.#{ updated_at } =  attachments.file_updated_at
+        SQL
+    
+    #Clean the data in attachments.
+    delete <<-SQL
+      DELETE FROM attachments where 
+          `group` = #{ group }
+        SQL
+  end
+end

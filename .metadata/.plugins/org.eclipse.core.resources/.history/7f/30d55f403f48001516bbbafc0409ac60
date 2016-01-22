@@ -1,0 +1,21 @@
+require 'rails_helper'
+
+RSpec.describe "admin/options/new", :type=> :view do
+  let(:options){
+    [
+      FactoryGirl.create(:option, group: "body_location")
+    ]
+  }
+  before(:each) do
+    assign(:option, Option.new)
+  end
+
+  it "renders new option form" do
+    render
+
+    assert_select "form[action=?][method=?]", admin_new_option_path, "post" do
+
+      assert_select "input#option_value[name=?]", "option[value]"
+    end
+  end
+end

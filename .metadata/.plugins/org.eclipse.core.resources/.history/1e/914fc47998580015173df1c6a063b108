@@ -1,0 +1,17 @@
+# Place all the behaviors and hooks related to the matching controller here.
+# All this logic will automatically be available in application.js.
+# You can use CoffeeScript in this file: http://coffeescript.org/
+jQuery ->  
+  # datatable for submissions page
+  datatable = $("#shift_reports_datatable").DataTable
+    "processing": true
+    "serverSide": true
+    "ajax": "/forms/shift_reports/datatable.json"
+    "columns": [
+      { "data": "id" },
+      { "data": "username" },
+      { "data": "device_submit_date", "render": (data, type, full) -> new Date(data) }
+      { "data": "id", "searchable": false, "orderable": false, "render": ( data, type, full ) ->
+        '<a href="/forms/shift_reports/' + data + '" target="_blank">Show</a>'
+      }
+    ]

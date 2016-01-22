@@ -1,0 +1,2 @@
+# load the environment specific LDAP settings from the YAML file.
+PRONTOFORMS_API = YAML.load(ERB.new(IO.read(File.join(Rails.root, 'config', 'prontoforms.yml'))).result)[Rails.env]

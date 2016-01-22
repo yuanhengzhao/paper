@@ -1,0 +1,3 @@
+<% title "New Body Part" %>
+
+<%= render 'form' %>

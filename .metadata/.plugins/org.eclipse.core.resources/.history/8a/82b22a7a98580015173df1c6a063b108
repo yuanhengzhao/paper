@@ -1,0 +1,159 @@
+require 'spec_helper'
+require 'cancan/matchers'
+
+describe Security::User do
+  
+  it "has a valid factory" do
+    expect(build(:user)).to be_valid
+  end
+  
+  it "does not require a provider" do
+    expect(build(:user, provider: nil)).to be_valid
+  end
+  
+  it "requires a uid if provider is google_oauth2" do
+    expect(build(:user,provider: "google_oauth2", uid: nil)).to_not be_valid
+  end
+  
+  it "doesn't require a uid if provider is not google_oauth2" do
+    expect(build(:user, provider: nil, uid: nil)).to be_valid
+  end
+  
+  it "requires an email address" do
+    expect(build(:user, email: nil)).to_not be_valid
+  end
+  
+  it "validates email address" do
+    expect(build(:user, email: 'n@g')).to_not be_valid
+  end
+  
+  it "requires a valid email address" do
+    expect(build(:user, email: 'n@g.c')).to be_valid
+  end
+  
+  it "validates uniqueness of the email address" do
+    create(:user, email: 'n@g.c')
+    expect(build(:user, email: 'n@g.c')).to_not be_valid
+  end
+  
+  it "allows a robinsonsolutions.com email address" do
+    expect(build(:user, email: 'user@robinsonsolutions.com')).to be_valid
+  end
+  
+  it "allows a robinson-innovations.com email address" do
+    expect(build(:user, email: 'user@robinson-innovations.com')).to be_valid
+  end
+  
+  it "does not allow an unauthorized user to be an admin" do
+    expect(build(:user, authorized: false, admin: true)).to_not be_valid
+  end
+  
+  it "does allow an authorized user to be an admin" do
+    expect(build(:user, authorized: true, admin: true)).to be_valid
+  end
+  
+  it "does allow a user to not be an admin and not authorized" do
+    expect(build(:user, authorized: false, admin: false)).to be_valid
+  end
+  
+  describe "scope admins" do
+    it "should return the admins in the system" do
+      admin = create(:admin)
+      authorized = create(:authorized)
+      unauthorized = create(:user)
+      
+      expect(admin.admin?).to be_true
+      expect(authorized.admin?).to be_false
+      expect(unauthorized.admin?).to be_false
+      
+      expect(Security::User.admins).to eq([admin])
+    end
+  end
+  
+  describe "self.find_for_omniauth" do
+    
+    let(:omniauth) { { 'provider' => 'google_oauth2', 'uid' => '963852', 'info' => { 'email' => 'user@robinsonsolutions.com' } } }
+    
+    it "creates a new user if the user with the uid and the provider or the email does not exist" do
+      # ensure system has no users before calling method
+      expect(Security::User.all).to be_empty
+      
+      result = Security::User.find_for_omniauth(omniauth)
+      
+      # result should match hash properties
+      expect(result.provider).to eq(omniauth['provider'])
+      expect(result.uid).to eq(omniauth['uid'])
+      expect(result.email).to eq(omniauth['info']['email'])
+      
+      # should not have been saved to the system yet
+      expect(result).to_not be_persisted
+      expect(result).to be_valid
+      expect(Security::User.all).to be_empty
+    end
+    
+    it "finds the user if the provider and uid match" do
+      # create user in system before calling method
+      expected = create(:user, provider: omniauth['provider'], uid: omniauth['uid'], email: omniauth['info']['email'])
+      
+      result = Security::User.find_for_omniauth(omniauth)
+      
+      # result should match expected properties
+      expect(result.provider).to eq(expected.provider)
+      expect(result.uid).to eq(expected.uid)
+      expect(result.email).to eq(expected.email)
+      
+      # should not be a new object
+      expect(result).to be_persisted
+      expect(result).to be_valid
+    end
+    
+     it "finds the user without provider and uid but the email matches" do
+      # create user in system before calling method
+      create(:user, provider: 'randomprovider', uid: 'randomuid', email: omniauth['info']['email'])
+      expected = build(:user, provider: omniauth['provider'], uid: omniauth['uid'], email: omniauth['info']['email'])
+      
+      result = Security::User.find_for_omniauth(omniauth)
+      
+      # result should match expected properties
+      expect(result.provider).to eq(expected.provider)
+      expect(result.uid).to eq(expected.uid)
+      expect(result.email).to eq(expected.email)
+      
+      # should not be a new object
+      expect(result).to be_persisted
+      expect(result).to be_valid
+    end
+    
+  end
+  
+  describe "permissions" do
+    it "is empty by default" do
+      expect(build(:user).permissions).to be_empty
+    end
+  end
+  
+  describe "abilities" do
+    
+    subject(:ability) { Ability.new(user) }
+    let(:user) { nil }
+    
+    context "when an unauthorized user" do
+      let(:user) { create(:user) }
+      
+      it { should_not be_able_to(:read, Security::User.new) }
+    end
+    
+    context "when an authorized user" do
+      let(:user) { create(:authorized) }
+      
+      it { should_not be_able_to(:read, Security::User.new) }
+    end
+    
+    context "when an admin user" do
+      let(:user) { create(:admin) }
+      
+      it { should be_able_to(:manage, Security::User.new) }
+    end
+    
+  end
+end

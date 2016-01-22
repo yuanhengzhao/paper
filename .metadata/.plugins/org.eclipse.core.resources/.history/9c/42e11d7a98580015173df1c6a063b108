@@ -1,0 +1,16 @@
+require 'spec_helper'
+
+describe Forms::CleaningEventsController do
+  it_behaves_like "a form controller" do
+    let(:model) { Forms::CleaningEvent }
+    let(:image_fields) { [] }
+    let(:pre_model_name) { "dolly_"}
+  end
+  
+  it_behaves_like "a form controller" do
+    let(:model) { Forms::CleaningEvent }
+    let(:image_fields) { [] }
+    let(:pre_model_name) { "jig_"}
+  end
+  
+end

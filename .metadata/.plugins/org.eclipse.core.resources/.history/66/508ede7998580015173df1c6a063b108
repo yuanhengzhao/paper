@@ -1,0 +1,117 @@
+# Migrate to import iform data to database
+#
+# Forms::SocHourlyProductionReport's Model
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user
+# - version (string) - current version of the form
+# - altitude (decimal(20,20)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,20)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,20)) - longitude of the user's location when submitted the form
+# - source (string) - name of the provider, for example,"prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+
+# - crew (string) - 
+# - supervisor (string) - 
+# - supervisor_name (string) - 
+# - date (date) - 
+# - reported_time (integer) - 
+# - ampm (string) - 
+# - press_1_cct (integer) - 
+# - press_1_curing_cycle (integer) - 
+# - press_1_blanks (decimal) - 
+# - press_1_treads (decimal) - 
+# - press_1_2p (decimal) - 
+# - press_1_downtime (decimal) - 
+# - press_1_efficiency (decimal) - 
+# - press_2_cct (integer) - 
+# - press_2_curing_cycle (integer) - 
+# - press_2_blanks (decimal) - 
+# - press_2_treads (decimal) - 
+# - press_2_2p (decimal) - 
+# - press_2_downtime (decimal) - 
+# - press_2_efficiency (decimal) - 
+# - press_3_cct (integer) - 
+# - press_3_curing_cycle (integer) - 
+# - press_3_blanks (decimal) - 
+# - press_3_treads (decimal) - 
+# - press_3_2p (decimal) - 
+# - press_3_downtime (decimal) - 
+# - press_3_efficiency (decimal) - 
+# - press_4_cct (integer) - 
+# - press_4_curing_cycle (integer) - 
+# - press_4_blanks (decimal) - 
+# - press_4_treads (decimal) - 
+# - press_4_2p (decimal) - 
+# - press_4_downtime (decimal) - 
+# - press_4_efficiency (decimal) - 
+# - total_treads (decimal) - 
+# - total_blanks (decimal) - 
+# - projected_total (decimal) - 
+# - overall_efficiency (decimal) - 
+# - comments (text) - 
+class Iforms::SocHourlyProductionReportMigrate < Iforms::AbstractIformMigrate
+
+  def get_record(item_hash,dir)
+    record = Forms::SocHourlyProductionReport.new
+    get_common_answer_values(record,item_hash)
+    
+    record.crew = item_hash["crew"]
+    record.supervisor = item_hash["supervisor"]
+    record.supervisor_name = item_hash["supervisor_name"]
+    record.date = item_hash["date_1"]
+    record.reported_time = item_hash["reported_time"]
+    record.ampm = item_hash["ampm"]
+    record.press_1_cct = item_hash["press_1_cct"]
+    record.press_1_curing_cycle = item_hash["press_1_curing_cycles"]
+    record.press_1_blanks = item_hash["press_1_blanks"]
+    record.press_1_treads = item_hash["press_1_treads"]
+    record.press_1_2p = item_hash["press_1_2p"]
+    record.press_1_downtime = item_hash["press_1_downtime"]
+    record.press_1_efficiency = item_hash["press_1_efficiency"]
+    record.press_2_cct = item_hash["press_2_cct"]
+    record.press_2_curing_cycle = item_hash["press_2_curing_cycles"]
+    record.press_2_blanks = item_hash["press_2_blanks"]
+    record.press_2_treads = item_hash["press_2_treads"]
+    record.press_2_2p = item_hash["press_2_2p"]
+    record.press_2_downtime = item_hash["press_2_downtime"]
+    record.press_2_efficiency = item_hash["press_2_efficiency"]
+    record.press_3_cct = item_hash["press_3_cct"]
+    record.press_3_curing_cycle = item_hash["press_3_curing_cycles"]
+    record.press_3_blanks = item_hash["press_3_blanks"]
+    record.press_3_treads = item_hash["press_3_treads"]
+    record.press_3_2p = item_hash["press_3_2p"]
+    record.press_3_downtime = item_hash["press_3_downtime"]
+    record.press_3_efficiency = item_hash["press_3_efficiency"]
+    record.press_4_cct = item_hash["press_4_cct"]
+    record.press_4_curing_cycle = item_hash["press_4_curing_cycles"]
+    record.press_4_blanks = item_hash["press_4_blanks"]
+    record.press_4_treads = item_hash["press_4_treads"]
+    record.press_4_2p = item_hash["press_4_2p"]
+    record.press_4_downtime = item_hash["press_4_downtime"]
+    record.press_4_efficiency = item_hash["press_4_efficiency"]
+    record.total_treads = item_hash["total_treads"]
+    record.total_blanks = item_hash["total_blanks"]
+    record.projected_total = item_hash["projected_total"]
+    record.overall_efficiency = item_hash["overall_efficiency"]
+    record.comments = item_hash["comments"]
+    return record
+  end
+  
+end
+
+
+
+
+
+
+
+
+
+
+
+

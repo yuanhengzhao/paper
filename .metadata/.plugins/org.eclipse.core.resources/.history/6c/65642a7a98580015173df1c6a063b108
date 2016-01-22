@@ -1,0 +1,110 @@
+require 'spec_helper'
+
+describe Forms::UnrecognizedSubmission do
+  it "should be included in Forms.list" do
+    expect(Forms.list).to include described_class
+  end
+  
+  it "has a valid factory" do
+    build(:unrecognized_submission).should be_valid
+  end
+  
+  it "requires a source attribute" do
+    build(:unrecognized_submission, source: nil).should_not be_valid
+  end
+  
+  it "requires a submission attribute" do
+    build(:unrecognized_submission, submission: nil).should_not be_valid
+  end
+  
+  it "requires a reason attribute" do
+    build(:unrecognized_submission, reason: nil).should_not be_valid
+  end
+  
+  it "defaults attempts to 0" do
+    temp = build(:unrecognized_submission, attempts: nil)
+    temp.should be_valid
+    temp.attempts.should eq(0)
+  end
+  
+  it "rejects a negative attempts attribute" do
+    build(:unrecognized_submission, attempts: -1).should_not be_valid
+  end
+  
+  describe "create" do
+    before(:each) do
+      ActionMailer::Base.deliveries.clear
+      ActionMailer::Base.deliveries.count.should eq(0)
+    end
+    
+    it "should send a notification email after created" do
+      submission = create(:unrecognized_submission)
+      ActionMailer::Base.deliveries.count.should eq(1)
+      ActionMailer::Base.deliveries.first.to.first.should eq(Rails.application.config.admin_email)
+      ActionMailer::Base.deliveries.first.subject.should eq("[FormData] An Unrecognized submission has been received")
+      ActionMailer::Base.deliveries.first.body.should include('An unrecognized submission has been received')
+      ActionMailer::Base.deliveries.first.body.should include('<a href="http://localhost:3000/forms/unrecognized_submissions/')
+      ActionMailer::Base.deliveries.first.body.should include('">Please click here to see the details</a>')
+    end
+  end
+  
+  describe "parse" do
+    it "should successfully parse a valid form" do
+      form = create(:recognized_submission)
+      expect(Forms::UnrecognizedSubmission.count).to eq(1)
+      lambda { form.parse }.should_not raise_exception
+      expect(Forms::UnrecognizedSubmission.count).to eq(0)
+    end
+    
+    it "should fail parsing an unrecognized form" do
+      form = create(:unrecognized_submission)
+      expect(Forms::UnrecognizedSubmission.count).to eq(1)
+      lambda { form.parse }.should_not raise_exception
+      expect(Forms::UnrecognizedSubmission.count).to eq(1)
+    end
+    
+    it "should parse a valid punchlist form" do
+      form = create(:punchlist_submission)
+      expect(Forms::PunchlistForm.count).to eq(0)
+      expect(Forms::UnrecognizedSubmission.count).to eq(1)
+      lambda { form.parse }.should_not raise_exception
+      expect(Forms::PunchlistForm.count).to eq(1)
+      expect(Forms::UnrecognizedSubmission.count).to eq(0)
+    end
+    
+    it "should attach the submission to the new form" do
+      form = create(:punchlist_submission)
+      expect(Forms::PunchlistForm.count).to eq(0)
+      expect(Forms::UnrecognizedSubmission.count).to eq(1)
+      lambda { form.parse }.should_not raise_exception
+      expect(Forms::PunchlistForm.count).to eq(1)
+      expect(Forms::UnrecognizedSubmission.count).to eq(0)
+      
+      new_form = Forms::PunchlistForm.first
+      expect(new_form.submission_file_name).to eq("submission.json")
+      expect(new_form.submission_content_type).to eq("text/plain")
+      expect(new_form.submission_file_size).not_to eq(nil)
+    end
+    
+    it "should fail parsing a form with a broken image which causes model validation failure" do
+      form = create(:broken_image_submission)
+      expect(Forms::UnrecognizedSubmission.count).to eq(1)
+      lambda { form.parse }.should_not raise_exception
+      expect(Forms::UnrecognizedSubmission.count).to eq(1)
+      
+      form.reload
+      expect(form.reason).to eq("Picture1 has an extension that does not match its contents,Picture1 is invalid,Picture1 content type is invalid")
+    end
+    
+    it "should fail parsing a form with an unrecognized source" do
+      form = create(:unrecognized_source_submission)
+      expect(Forms::UnrecognizedSubmission.count).to eq(1)
+      lambda { form.parse }.should_not raise_exception
+      expect(Forms::UnrecognizedSubmission.count).to eq(1)
+      
+      form.reload
+      expect(form.reason).to eq("Unrecognized source")
+    end
+  end
+  
+end

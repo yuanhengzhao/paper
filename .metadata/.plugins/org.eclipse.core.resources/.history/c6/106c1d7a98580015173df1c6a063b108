@@ -1,0 +1,159 @@
+require 'spec_helper'
+
+describe FormExtensions::JigCleaningRecordsController do
+  
+  let(:model) { FormExtensions::JigCleaningRecord }
+  let(:factory_valid) { :jig_cleaning_record }
+  let(:model_name) { factory_valid.to_s }
+  let(:module_name) { model.name.split(/::/).first.underscore }
+  
+  # index view
+  describe "GET 'index'" do
+    describe "for an anonymous user" do
+      # no signed in user
+      it_behaves_like "an unauthorized index access"
+    end
+
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+      # log in a user who has not been authorized to view application data
+      it_behaves_like "an unauthorized index access"
+    end
+
+    describe "for an authorized logged in user", :with_authorized_user => true do
+      describe "with no permissions" do
+        # ensure user has no permissions
+        before(:each) do
+          expect(@user.permissions.forms).to be_empty
+        end
+
+        # log in a user who has not been authorized to view this specific form's data
+        it_behaves_like "an unauthorized index access"
+      end
+
+      describe "with specific permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: "JigCleaning", user: @user)
+        end
+
+        # log in a user who has been authorized to view application data
+        it_behaves_like "an authorized index access"
+      end
+
+      describe "with ALL permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: "ALL", user: @user)
+        end
+
+        # log in a user who has been authorized to view application data
+        it_behaves_like "an authorized index access"
+      end
+    end
+
+    describe "for a logged in admin", :with_admin_user => true do
+    # log in an admin user
+      it_behaves_like "an authorized index access"
+    end
+  end
+
+  # show view
+  describe "GET 'show'" do
+    describe "for an anonymous user" do
+    # no signed in user
+      it_behaves_like "an unauthorized show access"
+    end
+
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+    # log in a user who has not been authorized to view application data
+      it_behaves_like "an unauthorized show access"
+    end
+
+    describe "for an authorized logged in user", :with_authorized_user => true do
+      describe "with no permissions" do
+      # ensure user has no permissions
+        before(:each) do
+          expect(@user.permissions.forms).to be_empty
+        end
+
+        # log in a user who has not been authorized to view this specific form's data
+        it_behaves_like "an unauthorized show access"
+      end
+
+      describe "with specific permission" do
+      # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: "JigCleaning", user: @user)
+        end
+
+        # log in a user who has been authorized to view application data
+        it_behaves_like "an authorized show access"
+      end
+
+      describe "with ALL permission" do
+      # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: "ALL", user: @user)
+        end
+
+        # log in a user who has been authorized to view application data
+        it_behaves_like "an authorized show access"
+      end
+    end
+
+    describe "for a logged in admin", :with_admin_user => true do
+    # log in an admin user
+      it_behaves_like "an authorized show access"
+    end
+  end
+  
+  describe "GET 'datatable'" do
+    describe "for an anonymous user" do
+    # no signed in user
+      it_behaves_like "an unauthorized datatable access"
+    end
+
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+      # log in a user who has not been authorized to view application data
+      it_behaves_like "an unauthorized datatable access"
+    end
+
+    describe "for an authorized logged in user", :with_authorized_user => true do
+      describe "with no permissions" do
+        # ensure user has no permissions
+        before(:each) do
+          expect(@user.permissions.forms).to be_empty
+        end
+
+        # log in a user who has not been authorized to view this specific form's data
+        it_behaves_like "an unauthorized datatable access"
+      end
+
+      describe "with specific permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: "JigCleaning", user: @user)
+        end
+
+        # log in a user who has been authorized to view application data
+        it_behaves_like "an authorized datatable access"
+      end
+
+      describe "with ALL permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: "ALL", user: @user)
+        end
+
+        # log in a user who has been authorized to view application data
+        it_behaves_like "an authorized datatable access"
+      end
+    end
+
+    describe "for a logged in admin", :with_admin_user => true do
+      # log in an admin user
+      it_behaves_like "an authorized datatable access"
+    end
+  end
+  
+end

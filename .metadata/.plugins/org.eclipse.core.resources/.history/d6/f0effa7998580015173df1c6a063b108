@@ -1,0 +1,379 @@
+Formdata::Application.routes.draw do
+
+  # root of site
+  authenticated :user do
+    root "home#index", as: :authenticated_root
+  end
+  root "home#signin"
+
+  # authentication routes
+  devise_for :users, class_name: "Security::User", :controllers => { :omniauth_callbacks => "security/omniauth_callbacks" }, :skip => [ :registrations ]
+
+  # admin routes
+  get "admin/" => "admin#index"
+  namespace :admin do
+    get  :index
+    namespace :pronto_forms do
+      get  :index
+      post :synchronize_users
+      post :synchronize_trainees
+    end
+  end
+
+  # user routes
+  namespace :security do
+    resources :users, only: [:index] do
+      get :datatable, on: :collection
+      post :change_to_admin, on: :member
+      post :change_to_non_admin, on: :member
+      post :change_to_authorized, on: :member
+      post :change_to_non_authorized, on: :member
+      get  :permissions, on: :member, to: 'users#edit_permissions'
+      post :permissions, on: :member, to: 'users#set_permissions'
+      post :create, on: :collection
+    end
+    resources :permissions, only: [:show]
+  end
+
+  # form routes
+  get "forms/" => "forms#index"
+  namespace :forms do
+    get :index
+    get :datatable
+    
+    concern :standard_form_data do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+
+    resources :special_service_requests, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :image1, on: :member
+      get :image2, on: :member
+      get :image3, on: :member
+      get :image4, on: :member
+      get :image5, on: :member
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+
+    resources :spare_parts_reports, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :image1, on: :member
+      get :image2, on: :member
+      get :image3, on: :member
+      get :image4, on: :member
+      get :image5, on: :member
+      get :image6, on: :member
+      get :image7, on: :member
+      get :image8, on: :member
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+
+    resources :soc_incident_reports, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+    
+    resources :jig_cleanings, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+    resources :dolly_cleanings, only: [:index, :show], concerns: [:standard_form_data]
+    
+    resources :net_promoter_scores, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+
+    resources :restroom_checklists, only: [:index, :show] do
+      get :restrooms,  on: :collection
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :photo1, on: :member
+      get :photo2, on: :member
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+
+    post 'restroom_checklists/activate/:code', to: 'restroom_checklists#activate_restroom'
+    post 'restroom_checklists/inactivate/:code', to: 'restroom_checklists#inactivate_restroom'
+
+    resources :gemba_observations, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :image1, on: :member
+      get :image2, on: :member
+      get :image3, on: :member
+      get :image4, on: :member
+      get :image5, on: :member
+      get :image6, on: :member
+      get :image7, on: :member
+      get :image8, on: :member
+      get :image9, on: :member
+      get :image10, on: :member
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+
+    resources :janitorial_checklists, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :image1, on: :member
+      get :image2, on: :member
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+
+    resources :paint_booth_process_checklists, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :image1, on: :member
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+
+    resources :shift_reports, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :press_1_chart, on: :member
+      get :press_2_chart, on: :member
+      get :press_3_chart, on: :member
+      get :press_4_chart, on: :member
+      get :picture_1, on: :member
+      get :picture_2, on: :member
+      get :picture_3, on: :member
+      get :picture_4, on: :member
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+
+    resources :soc_hourly_production_reports, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :submission, on: :member
+      get :press_1_chart, on: :member
+      get :press_2_chart, on: :member
+      get :press_3_chart, on: :member
+      get :press_4_chart, on: :member
+      post :reparse, on: :member
+    end
+
+    resources :soc_hourly_production_reports, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+
+    resources :safety_observations, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :image1, on: :member
+      get :image2, on: :member
+      get :signature, on: :member
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+
+    resources :pre_task_safety_plans, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :signature, on: :member
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+
+    resources :booth_eliminator_checklists, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :photo_r1, on: :member
+      get :photo_r2, on: :member
+      get :photo_c1, on: :member
+      get :photo_b1, on: :member
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+
+    resources :task_inspections, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :abnormality_picture1, on: :member
+      get :picture_before_task1, on: :member
+      get :picture_after_task1, on: :member
+      get :abnormality_picture2, on: :member
+      get :picture_before_task2, on: :member
+      get :picture_after_task2, on: :member
+      get :abnormality_picture3, on: :member
+      get :picture_before_task3, on: :member
+      get :picture_after_task3, on: :member
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+
+    resources :area_inspections, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :image1, on: :member
+      get :image2, on: :member
+      get :image3, on: :member
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+
+    resources :snow_audits, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :image1, on: :member
+      get :image2, on: :member
+      get :image3, on: :member
+      get :image4, on: :member
+      get :image5, on: :member
+      get :image6, on: :member
+      get :image7, on: :member
+      get :image8, on: :member
+      get :image9, on: :member
+      get :image10, on: :member
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+    
+    resources :escrub_kops, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :bc_picture, on: :member
+      get :bc_picture1, on: :member
+      get :bc_picture2, on: :member
+      get :bc_picture3, on: :member
+      get :bc_picture4, on: :member
+      get :bc_picture5, on: :member
+      get :cc_picture, on: :member
+      get :cc_picture1, on: :member
+      get :cc_picture2, on: :member
+      get :cc_picture3, on: :member
+      get :cc_picture4, on: :member
+      get :cc_picture5, on: :member
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+    
+    resources :punchlist_forms, only: [:index, :show] do
+      post :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :picture1, on: :member
+      get :picture2, on: :member
+      get :picture3, on: :member
+      get :picture4, on: :member
+      get :picture5, on: :member
+      get :picture6, on: :member
+      get :picture7, on: :member
+      get :picture8, on: :member
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+    
+    
+    resources :cleaning_events, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+    
+    post 'enps_reports/update_exclude/:id', to: 'enps_reports#change_exclude'
+    
+    resources :enps_reports, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+    
+    resources :jkk_audits, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+        
+    resources :battery_inspections, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :update_export, on: :collection
+      get :download_export, on: :collection
+      get :photo, on: :member
+      get :submission, on: :member
+      post :reparse, on: :member
+    end
+    
+    resources :unrecognized_submissions, only: [:index, :show] do
+      get :datatable, on: :collection
+      get :parse_all, on: :collection
+      get :submission, on: :member
+      get :parse, on: :member
+    end
+  end
+  
+  # data source routes
+  get "data_sources/" => "data_sources#index"
+  namespace :data_sources do
+    get :index
+    get :datatable
+    
+    resources :site_shifts do
+      get :datatable, on: :collection
+    end
+    resources :dollies do
+      get :datatable, on: :collection
+    end
+    resources :customer_sites do
+      get :datatable, on: :collection
+    end
+    resources :equipment_units, :except => [:new, :create] do
+      get :datatable, on: :collection
+      get :photo, on: :member
+    end
+  end
+  
+  namespace :form_extensions do
+    resources :punchlist_form_histories, only: [:create]
+    resources :jig_cleaning_records, only: [:index, :show] do
+      post :datatable, on: :collection
+    end
+  end  
+  
+end

@@ -1,0 +1,13 @@
+class MoveExtraTimeToLastPageInJigCleaning < ActiveRecord::Migration
+  def change
+    remove_column :forms_jig_cleanings, :extra_time_rear_door
+    remove_column :forms_jig_cleanings, :extra_time_front_door
+    remove_column :forms_jig_cleanings, :extra_time_kickstand
+    remove_column :forms_jig_cleanings, :extra_time_hood_lifter
+    remove_column :forms_jig_cleanings, :extra_time_weld
+    remove_column :forms_jig_cleanings, :extra_time_luggage_hook
+    remove_column :forms_jig_cleanings, :extra_time_fuel_lid
+    
+    add_column :forms_jig_cleanings, :extra_time, :integer, :precision => 20, :scale => 16
+  end
+end

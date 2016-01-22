@@ -1,0 +1,83 @@
+{ "deviceSubmitDate" : { "time" : "2015-05-05T14:06:37-04:00",
+      "zone" : "America/Toronto"
+    },
+  "dispatcher" : null,
+  "form" : { "formSpaceIdentifier" : "191704041",
+      "formSpaceName" : "Space - E-Scrub",
+      "identifier" : "142024207",
+      "name" : "E-scrub KOP",
+      "version" : 1,
+      "versionIdentifier" : "152536496"
+    },
+  "geoStamp" : { "address" : "Queen Street West, Toronto, ON, CA",
+      "captureTimestamp" : { "provided" : { "time" : "2015-05-05T14:05:41-04:00",
+              "zone" : "America/Toronto"
+            },
+          "shifted" : "2015-05-05T14:05:41-04:00"
+        },
+      "coordinates" : { "altitude" : 0.0,
+          "latitude" : 43.652189900000003,
+          "longitude" : -79.382138900000001
+        },
+      "errorMessage" : null,
+      "source" : "Network",
+      "success" : true
+    },
+  "identifier" : "1822072288",
+  "pages" : [ { "answers" : [ { "dataType" : "Date",
+              "label" : "date",
+              "question" : "Date",
+              "values" : [ "2015-05-05" ]
+            },
+            { "dataType" : "Time",
+              "label" : "time",
+              "question" : "Time",
+              "values" : [ { "provided" : { "time" : "14:05:00-04:00",
+                        "zone" : "America/Toronto"
+                      },
+                    "shifted" : "14:05:00-04:00"
+                  } ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "crew",
+              "question" : "Crew",
+              "values" : [ "A1" ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "shift",
+              "question" : "Shift",
+              "values" : [ "Night" ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "check_list",
+              "question" : "Select Check-list",
+              "selectOptions" : [ { "other" : false,
+                    "selected" : false,
+                    "value" : "Module Inspection"
+                  },
+                  { "other" : false,
+                    "selected" : true,
+                    "value" : "Key Operating Parameters"
+                  },
+                  { "other" : false,
+                    "selected" : false,
+                    "value" : "Key Chemistry Parameters"
+                  }
+                ],
+              "values" : [ "Key Operating Parameters" ]
+            }
+          ],
+        "name" : "Basic"
+      }
+    ],
+  "referenceNumber" : "20150505180641-1822072288",
+  "serverReceiveDate" : "2015-05-05T14:06:42-04:00",
+  "shiftedDeviceSubmitDate" : "2015-05-05T14:06:37-04:00",
+  "state" : "Complete",
+  "user" : { "displayName" : "Mengxi Liao (mliao@robinsonsolutions.com)",
+      "identifier" : "131590063",
+      "username" : "mliao@robinsonsolutions.com"
+    },
+  "version" : "v1",
+  "zone" : "America/Toronto"
+}

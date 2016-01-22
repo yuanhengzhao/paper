@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;incidents/spec/views/layout&apos; to &apos;layouts&apos;" description="Rename resource &apos;layout&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="spec/views/layout" name="layouts" stamp="1450820141293" updateReferences="true"/>
+</session>

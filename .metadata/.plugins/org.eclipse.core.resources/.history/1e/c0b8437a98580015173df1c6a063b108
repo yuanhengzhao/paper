@@ -1,0 +1,21 @@
+module OmniauthMacros
+  def mock_robinsonsolutions_hash
+    OmniAuth.config.mock_auth[:google_oauth2] = {
+      'provider' => 'google_oauth2',
+      'uid' => '789456',
+      'info' => {
+        'email' => 'user@robinsonsolutions.com'
+      }
+    }
+  end
+  
+  def mock_robinsoninnovations_hash
+    OmniAuth.config.mock_auth[:google_oauth2] = {
+      'provider' => 'google_oauth2',
+      'uid' => '789123',
+      'info' => {
+        'email' => 'user@robinson-innovations.com'
+      }
+    }
+  end
+end

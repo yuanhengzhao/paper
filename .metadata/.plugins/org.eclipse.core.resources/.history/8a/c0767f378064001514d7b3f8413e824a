@@ -1,0 +1,5 @@
+namespace :report do
+  task :clean do
+    
+  end
+  

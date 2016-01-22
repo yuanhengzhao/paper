@@ -1,0 +1,119 @@
+require 'rails_helper'
+
+RSpec.describe "layouts/_navigation", :type => :view do
+  let(:building) { FactoryGirl.create(:building) }
+  let(:safety_rep) { FactoryGirl.create(:safety_coordinator) }
+  let(:incident_type) { "Some value" }
+  let(:incidents) { 0 }
+  let!(:incident1) { FactoryGirl.create(:incident,
+          incident_time: "2013-12-01 12:00:00",
+          building: building,
+          column: "Column",
+          supervisor: "Supervisor",
+          shift: "Shift",
+          employee: "Employee",
+          job: "Job",
+          safety_rep: safety_rep,
+          incident_class: "Incident Class",
+          incident_type: incident_type,
+          body_location: "body_location",
+          body_part: "body_part",
+          description: "Description",
+          report_time: "2013-12-03 12:00:00",
+          wsib_recordable: "Wsib Recordable",
+          wsib_form_7: "Wsib Form 7",
+          wsib_lost_time: "Wsib Lost Time",
+          wsib_claim: "Wsib Claim",
+          osha_recordable: "Osha Recordable",
+          osha_lost_time: "Osha Lost Time",
+          modified_work_days: 1,
+          lost_days: 2,
+          implemented: "Implemented",
+          comment: "Comment",
+          ready_to_submit_investigation: false
+          ) }
+  let!(:incident2) { FactoryGirl.create(:incident,
+          incident_time: "2014-02-14 12:00:00",
+          building: building,
+          column: "Column",
+          supervisor: "Supervisor",
+          shift: "Shift",
+          employee: "Employee",
+          job: "Job",
+          safety_rep: safety_rep,
+          incident_class: "Incident Class",
+          incident_type: incident_type,
+          body_location: 'body_location',
+          body_part: "body_part",
+          description: "Description",
+          report_time: "2014-02-14 12:30:00",
+          wsib_recordable: "Wsib Recordable",
+          wsib_form_7: "Wsib Form 7",
+          wsib_lost_time: "Wsib Lost Time",
+          wsib_claim: "Wsib Claim",
+          osha_recordable: "Osha Recordable",
+          osha_lost_time: "Osha Lost Time",
+          modified_work_days: 1,
+          lost_days: 2,
+          implemented: "Implemented",
+          comment: "Comment",
+          ready_to_submit_investigation: true
+          ) }
+  let!(:incident3) { FactoryGirl.create(:incident,
+          incident_time: "2014-03-08 20:00:00",
+          building: building,
+          column: "Column",
+          supervisor: "Supervisor",
+          shift: "Shift",
+          employee: "Employee",
+          job: "Job",
+          safety_rep: safety_rep,
+          incident_class: "Incident Class",
+          incident_type: incident_type,
+          body_location: "body_location",
+          body_part: "body_part",
+          description: "Description",
+          report_time: "2014-03-09 23:30:00",
+          wsib_recordable: "Wsib Recordable",
+          wsib_form_7: "Wsib Form 7",
+          wsib_lost_time: "Wsib Lost Time",
+          wsib_claim: "Wsib Claim",
+          osha_recordable: "Osha Recordable",
+          osha_lost_time: "Osha Lost Time",
+          modified_work_days: 1,
+          lost_days: 2,
+          implemented: "Implemented",
+          comment: "Comment",
+          ready_to_submit_investigation: true,
+          closed_date:"2014-03-12 12:00:00"
+          ) }
+  
+  
+  before(:each) do
+    incidents = Incident.all
+    expect(incidents.size).to eq(3)
+    expect(incidents.draft.size).to be > 0
+    expect(incidents.ready.open.size).to be > 0
+    expect(incidents.ready.closed.size).to be > 0
+    assign(:incidents, incidents)
+  end
+  describe "new" do
+    it "renders new tab" do
+      render
+      assert_select "a[href=#{new_incident_path(@incident)}][class='nav navbar-nav']", :text => "new",:count => 1
+    end
+  end
+  
+  describe "Robinson"
+  
+  describe "incidents"
+  
+  describe "tracker"
+  
+  describe "Reports"
+  
+  describe "Help"
+  
+  describe "Admin"
+
+end

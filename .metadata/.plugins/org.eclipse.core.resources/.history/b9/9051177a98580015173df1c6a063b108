@@ -1,0 +1,33 @@
+
+# Parser to for Gemba Observation forms submitted from ProntoForms
+class ProntoForms::GembaObservationParser < AbstractFormParser
+  
+  # name of the form according to ProntoForms
+  NAME = "Gemba Observation"
+  
+  # Attempts to convert the hash provided into a database object.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @return [ActiveRecord] instance of the object
+  # @raise [ParserException] if the hash could not be parsed for whatever reason
+  def parse(form_hash)
+    model = Forms::GembaObservation.new
+
+    model.reference_number = form_hash["referenceNumber"]
+    model.server_receive_date = form_hash["serverReceiveDate"]
+    model.device_submit_date = form_hash["deviceSubmitDate"]["time"]
+    model.username = form_hash["user"]["username"]
+    model.version = form_hash["version"]
+    model.altitude = form_hash["geoStamp"]["coordinates"]["altitude"]
+    model.latitude = form_hash["geoStamp"]["coordinates"]["latitude"]
+    model.longitude = form_hash["geoStamp"]["coordinates"]["longitude"]
+    model.source = "prontoforms"
+    ProntoForms::SourceParser.get_common_value_answers(form_hash, model)
+    model.short_title1 = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 0)*","
+    model.site = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 1)*","
+    model.shop = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 2)*","
+    model.description = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 3)*","
+
+    model
+  end
+end

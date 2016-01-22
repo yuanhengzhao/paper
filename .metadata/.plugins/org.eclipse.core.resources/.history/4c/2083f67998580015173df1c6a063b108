@@ -1,0 +1,46 @@
+<% title "User" %>
+
+<table id="users_datatable" class="display<%= (can?(:manage, Security::User) ? ' admin' : '') %>">
+	<thead>
+		<tr>
+			<th>Email</th>
+			<th>Company</th>
+			<th>Last sign in at</th>
+			<th>Admin</th>
+			<th>Authorized</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<th>Email</th>
+			<th>Company</th>
+			<th>Last sign in at</th>
+			<th>Admin</th>
+			<th>Authorized</th>
+			<th>Actions</th>
+		</tr>
+	</tfoot>
+</table>
+
+<div>
+	<button class="button-submit" id="new-user-button" >
+		Create New User
+	</button>
+
+</div>
+<div id="new-user-modal" style="display:none">
+	<div id="new-user-dialog" title="New User">
+		<div>
+			<div>Email<div>
+			<input class="new-user-email" id="new-user-email" name="email" >
+		</div>
+		<div>
+			<div>Company<div>
+			<input class="new-user-email" id="new-user-company" name="company" >
+		</div>
+		<div>
+			<input class="button-submit" id="create-new-user" type="submit" value="Create" />
+		</div>
+	</div>
+</div>

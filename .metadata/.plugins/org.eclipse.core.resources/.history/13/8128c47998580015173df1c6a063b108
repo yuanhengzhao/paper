@@ -1,0 +1,41 @@
+# Place all the behaviors and hooks related to the matching controller here.
+# All this logic will automatically be available in application.js.
+# You can use CoffeeScript in this file: http://coffeescript.org/
+jQuery ->
+  # datatable for index page
+  $("#restroom_checklists_datatable").DataTable
+    "processing": true
+    "serverSide": true
+    "ajax": "/forms/restroom_checklists/datatable.json"
+    "columns": [
+      { "data": "id" },
+      { "data": "username" },
+      { "data": "device_submit_date", "render": (data, type, full) -> new Date(data) }
+      { "data": "id", "searchable": false, "orderable": false, "render": ( data, type, full ) ->
+        '<a href="/forms/restroom_checklists/' + data + '" target="_blank">Show</a>'
+      }
+    ]
+  
+  # datatable for restrooms page
+  $("#restrooms-table").DataTable
+    "serverSide": false
+  
+  # handler for active/inactive toggle switch
+  rows = $("#restrooms-table tbody tr")
+  $("#restrooms-table tbody input.switch-input").on 'change', () ->
+    bootbox.dialog({title: 'Loading...', message: '<div class="dialog-loading"></div>'})
+    $.ajax(
+      'url': "/forms/restroom_checklists/" + (if $(this).is(":checked") then "activate" else "inactivate") + "/" + $(this).closest("tr").data("restroom-code")
+      'type': 'POST'
+      'cache': false
+      'dataType': 'html'
+      'success': (data, status, xhr) ->
+        # on success, close loading bar
+        bootbox.hideAll()
+      'error': (xhr, status, error) ->
+        # extract the response text if JSON is returned, otherwise use generic message
+        msg = if /application\/json/.test(xhr.getResponseHeader('Content-Type')) then xhr.responseText else "Unexpected Error"
+        bootbox.hideAll()
+        bootbox.alert('<p>' + msg + '</p>')
+      )
+    true

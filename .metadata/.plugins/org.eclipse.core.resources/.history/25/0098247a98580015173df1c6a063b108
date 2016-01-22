@@ -1,0 +1,26 @@
+FactoryGirl.define do
+  factory :cleaning_event, class: Forms::CleaningEvent do
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions', 'fake.json'), 'text/plain') }
+    
+    factory :dolly_cleaning_event_valid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'cleaning_event', 'dollies', 'valid.json'), 'text/plain') }
+    end
+    
+    factory :dolly_cleaning_event_invalid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'cleaning_event', 'dollies', 'missing_pages.json'), 'text/plain') }
+    end
+    
+    factory :jig_cleaning_event_valid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'cleaning_event', 'jigs', 'valid.json'), 'text/plain') }
+    end
+    
+    factory :jig_cleaning_event_invalid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'cleaning_event', 'jigs', 'missing_pages.json'), 'text/plain') }
+    end
+  end
+end
+

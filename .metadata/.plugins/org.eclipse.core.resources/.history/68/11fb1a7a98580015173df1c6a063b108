@@ -1,0 +1,10 @@
+require 'spec_helper'
+
+describe DataSources::SiteShiftsController do
+  
+  it_behaves_like "a datasource controller" do
+    let(:model) { DataSources::SiteShift }
+    let(:image_fields) { [ ] }
+  end
+  
+end

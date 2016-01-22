@@ -1,0 +1,18 @@
+require 'rails_helper'
+
+RSpec.describe "admin/options/new", :type=> :view do
+  let(:option) { Option.new(:group => 'body_location') }
+  
+  before(:each) do
+    assign(:option,option)
+  end
+
+  it "renders new option form" do
+    render
+
+    assert_select "form[action=?][method=?]", admin_new_option_path(option), "post" do
+
+      assert_select "input#option_value[name=?]", "option[value]"
+    end
+  end
+end

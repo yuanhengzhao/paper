@@ -1,0 +1,57 @@
+class CreateFormsPreTaskSafetyPlans < ActiveRecord::Migration
+  def change
+    create_table :forms_pre_task_safety_plans do |t|
+      t.string :reference_number
+      t.datetime :server_receive_date
+      t.datetime :device_submit_date
+      t.string :username
+      t.string :version
+      t.decimal :altitude, precision: 20, scale: 16
+      t.decimal :latitude, precision: 20, scale: 16
+      t.decimal :longitude, precision: 20, scale: 16
+      t.string :source
+      t.string :file_path
+      t.string :task
+      t.string :site
+      t.string :shop
+      t.string :task_location
+      t.string :q1
+      t.string :q2
+      t.string :q4
+      t.text :list_ppe
+      t.string :q5
+      t.text :list_potential_hazar
+      t.string :q6
+      t.string :q7
+      t.text :list_tools
+      t.string :q8
+      t.text :job_plan
+      t.text :job_specific_details
+      t.text :tm_names
+      t.attachment :signature
+      t.string :c1
+      t.string :c2
+      t.string :c3
+      t.string :c4
+      t.string :c5
+      t.string :c6
+      t.string :c7
+      t.string :c8
+      t.string :c9
+      t.string :c10
+      t.string :ptd1
+      t.text :ptd1_text
+      t.string :ptd2
+      t.text :ptd2_text
+      t.string :ptd3
+      t.text :ptd3_text
+      t.string :ptd4
+      t.text :ptd4_text
+      t.string :ptd5
+      t.text :ptd5_text
+      t.text :comments
+
+      t.timestamps null: true
+    end
+  end
+end

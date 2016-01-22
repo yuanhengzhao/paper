@@ -1,0 +1,30 @@
+class ApplicationController < ActionController::Base
+  # Prevent CSRF attacks by raising an exception.
+  # For APIs, you may want to use :null_session instead.
+  protect_from_forgery with: :exception
+
+  add_breadcrumb "home", :root_path
+
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => exception.message
+  end
+
+  rescue_from 'LoadAndAuthorizeResource::AccessDenied', 'LoadAndAuthorizeResource::ParameterMissing' do |exception|
+    redirect_to root_url, :alert => exception.message
+  end
+
+  # Need to override this since after using the devise session controller the 
+  # authentication failure redirect goes to the signup page instead of the root url.
+  def authenticate_user!
+    if current_user.nil?
+      if request.format.html?
+        error_msg = t('devise.failure.unauthenticated')
+        respond_to do |format|
+          format.html { redirect_to root_url, :alert => error_msg }
+        end
+      else 
+        request_http_basic_authentication
+      end
+    end
+  end
+end

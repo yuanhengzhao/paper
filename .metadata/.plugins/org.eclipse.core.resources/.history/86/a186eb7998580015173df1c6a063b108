@@ -1,0 +1,6 @@
+<% title "Battery Inspections" %>
+
+<%= render :partial => 'forms/form_export_section', :locals => {:update_url => update_export_forms_battery_inspections_url(format: :json), :download_url => download_export_forms_battery_inspections_url} %>
+<table id="battery_inspections_datatable" class="display<%= (can?(:manage, Forms::BatteryInspection) ? ' admin' : '') %>">
+	<%= render :partial => 'forms/form_header_footer' %>
+</table>

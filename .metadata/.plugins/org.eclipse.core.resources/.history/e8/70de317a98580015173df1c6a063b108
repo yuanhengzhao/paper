@@ -1,0 +1,261 @@
+{
+    "identifier": "1819610147",
+    "version": "v1",
+    "zone": "UTC",
+    "referenceNumber": "20150226-1819610147",
+    "state": "Complete",
+    "deviceSubmitDate": {
+        "time": "2015-02-26T11:18:51-05:00",
+        "zone": "America/Toronto"
+    },
+    "shiftedDeviceSubmitDate": "2015-02-26T16:18:51Z",
+    "serverReceiveDate": "2015-02-26T16:18:55Z",
+    "form": {
+        "identifier": "141948001",
+        "versionIdentifier": "152432001",
+        "name": "Jig Cleaning",
+        "version": 1,
+        "formSpaceIdentifier": "191704001",
+        "formSpaceName": "Space - Jigs"
+    },
+    "user": {
+        "identifier": "131590062",
+        "username": "nshakoori@robinsonsolutions.com",
+        "displayName": "Naeimeh Shakoori-Najafi (nshakoori@robinsonsolutions.com)"
+    },
+    "dispatcher": null,
+    "geoStamp": {
+        "success": true,
+        "captureTimestamp": {
+            "provided": {
+                "time": "2015-02-26T11:15:52-05:00",
+                "zone": "America/Toronto"
+            },
+            "shifted": "2015-02-26T16:15:52Z"
+        },
+        "errorMessage": null,
+        "source": "GPS",
+        "coordinates": {
+            "latitude": 43.65195908136313,
+            "longitude": -79.38188122906188,
+            "altitude": 111.008
+        },
+        "address": "Queen Street West, Toronto, ON, CA"
+    },
+    "pages": [
+        {
+            "name": "Time In",
+            "answers": [
+                {
+                    "label": "machine",
+                    "dataType": "Integer",
+                    "question": "Machine",
+                    "values": [
+                        "2"
+                    ]
+                },
+                {
+                    "label": "time_in",
+                    "dataType": "Timestamp",
+                    "question": "Load Start",
+                    "values": [
+                        {
+                            "provided": {
+                                "time": "2015-02-26T11:18:13-05:00",
+                                "zone": "America/Toronto"
+                            },
+                            "shifted": "2015-02-26T16:18:13Z"
+                        }
+                    ]
+                },
+                {
+                    "label": "cycle",
+                    "dataType": "Decimal",
+                    "question": "Cycle",
+                    "values": [
+                        "25.2"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rear Door",
+            "answers": [
+                {
+                    "label": "Rear Door",
+                    "dataType": "Information",
+                    "question": "Rear Door",
+                    "values": []
+                },
+                {
+                    "label": "count_rd",
+                    "dataType": "Decimal",
+                    "question": "Count",
+                    "values": [
+                        "2"
+                    ]
+                },
+                {
+                    "label": "notes_rd",
+                    "dataType": "FreeText",
+                    "question": "Notes",
+                    "values": [
+                        "Test"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Front Door",
+            "answers": [
+                {
+                    "label": "Front Door",
+                    "dataType": "Information",
+                    "question": "Front Door",
+                    "values": []
+                },
+                {
+                    "label": "count_fd",
+                    "dataType": "Integer",
+                    "question": "Count",
+                    "values": [
+                        "5"
+                    ]
+                },
+                {
+                    "label": "notes_fd",
+                    "dataType": "FreeText",
+                    "question": "Notes",
+                    "values": [
+                        "Test"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Kickstand",
+            "answers": [
+                {
+                    "label": "Kickstand",
+                    "dataType": "Information",
+                    "question": "Kickstand",
+                    "values": []
+                },
+                {
+                    "label": "count_ks_l",
+                    "dataType": "Integer",
+                    "question": "Left Count",
+                    "values": []
+                },
+                {
+                    "label": "count_ks_r",
+                    "dataType": "Integer",
+                    "question": "Right Count",
+                    "values": []
+                },
+                {
+                    "label": "notes_ks",
+                    "dataType": "FreeText",
+                    "question": "Notes",
+                    "values": []
+                }
+            ]
+        },
+        {
+            "name": "Hood Lifter",
+            "answers": [
+                {
+                    "label": "Hood Lifter",
+                    "dataType": "Information",
+                    "question": "Hood Lifter",
+                    "values": []
+                },
+                {
+                    "label": "count_hl",
+                    "dataType": "Integer",
+                    "question": "Count",
+                    "values": []
+                },
+                {
+                    "label": "notes_hl",
+                    "dataType": "FreeText",
+                    "question": "Notes",
+                    "values": []
+                }
+            ]
+        },
+        {
+            "name": "Weld",
+            "answers": [
+                {
+                    "label": "Weld",
+                    "dataType": "Information",
+                    "question": "Weld",
+                    "values": []
+                },
+                {
+                    "label": "count_w",
+                    "dataType": "Integer",
+                    "question": "Count",
+                    "values": [
+                        "2"
+                    ]
+                },
+                {
+                    "label": "notes_w",
+                    "dataType": "FreeText",
+                    "question": "Notes",
+                    "values": [
+                        "Test"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Luggage Hook",
+            "answers": [
+                {
+                    "label": "Luggage Hook",
+                    "dataType": "Information",
+                    "question": "Luggage Hook",
+                    "values": []
+                },
+                {
+                    "label": "count_lh",
+                    "dataType": "Integer",
+                    "question": "Count",
+                    "values": []
+                },
+                {
+                    "label": "notes_lh",
+                    "dataType": "FreeText",
+                    "question": "Notes",
+                    "values": []
+                }
+            ]
+        },
+        {
+            "name": "Fuel Lid",
+            "answers": [
+                {
+                    "label": "Fuel Lid",
+                    "dataType": "Information",
+                    "question": "Fuel Lid",
+                    "values": []
+                },
+                {
+                    "label": "count_fl",
+                    "dataType": "Integer",
+                    "question": "Count",
+                    "values": []
+                },
+                {
+                    "label": "notes_fl",
+                    "dataType": "FreeText",
+                    "question": "Notes",
+                    "values": []
+                }
+            ]
+        }
+    ]
+}

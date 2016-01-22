@@ -1,0 +1,11 @@
+module Forms
+  def self.table_name_prefix
+    'forms_'
+  end
+  
+  def self.list
+    # If cache_classes is off, load the classes here (by default it's off in development, but on in production)
+    Rails.application.eager_load! unless Rails.configuration.cache_classes
+    ActiveRecord::Base.descendants.select { |c| c.name.include? "Forms::" }
+  end
+end

@@ -1,0 +1,74 @@
+# A form submission that could not be parsed into any of the known models. Properties of
+# the submission are stored for later parsing once the issue could be addressed.
+#
+# Properties:
+# - id (integer) - primary key
+# - created_at (date/time) - date the record was first created
+# - updated_at (date/time) - date the record was last modified
+# - source (string) - name of the provider, for example, "prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+# - attempts (integer) - number of times the application tried to parse the submission but failed
+# - reason (string) - text describing why the submission was not parsed during the most recent attempt
+
+class Forms::UnrecognizedSubmission < ActiveRecord::Base
+  # required properties
+  validates_presence_of :source, :submission, :reason
+  
+  # default attempts to 0
+  before_validation :default_attempts
+  
+  # attempts must be non-negative
+  validates :attempts, :numericality => { :greater_than_or_equal_to => 0 }
+  
+  # send an email notification to all admins after created
+  after_create do
+    ErrorNotificationMailer.unrecognized_submission_email(self.id).deliver
+  end
+  
+  include HasSubmission
+  
+  def parse
+    begin
+      result = nil
+      submission = Paperclip.io_adapters.for(self.submission).read
+      source = self.source
+      
+      parse_service = ParserService.new
+      
+      # use the source to determine which parser to use, throw an exception if no match found
+      source_parser = parse_service.get_source_parser(source)
+      raise ParserException, "Unrecognized source" if source_parser.nil?
+      
+      # delegate to source parser
+      result = source_parser.parse(submission)
+      
+      result.submission = parse_service.create_submission_attachment(submission)
+
+      ActiveRecord::Base.transaction do
+        unless result.save
+          raise ParserException, result.errors.full_messages * ","
+        else
+          self.destroy
+        end
+      end
+      
+      succeed = true
+        
+    rescue ParserException => e
+      succeed = false
+      
+      self.reason = e.message
+      self.save
+    end
+    
+    succeed
+  end
+  
+  private
+  
+  # Defaults this object's attempts attribute to zero if it is nil
+  def default_attempts
+    self.attempts = 0 if self.attempts.nil?
+  end
+  
+end

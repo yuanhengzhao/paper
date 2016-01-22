@@ -1,0 +1,87 @@
+class Forms::JkkAuditsController < ApplicationController
+  
+  FORM_NAME = "jkk audits"
+  
+  include DatatableServerSideProcessing
+  include XlsxReportProcessing
+  
+  before_action :authenticate_user!
+  
+  load_and_authorize_resource :except => [:update_export, :download_export, :submission]
+  
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  
+  add_breadcrumb "forms", :forms_index_path
+  add_breadcrumb "jkk_audits", :forms_jkk_audits_path
+  
+  DATATABLES_COLUMNS = [ "id", "username", "device_submit_date" ]
+  
+  def index
+    # @jkk_audits is automatically loaded
+  end
+
+  def show
+    # @jjkk_audits is automatically loaded
+    add_breadcrumb "jkk audit #{@jkk_audit.id}", :forms_jkk_audit_path
+  end
+  
+  # Overwrites the model's existing properties with the contents of the original submission document attached.
+  def reparse
+    # @jkk_audit is automatically loaded
+    result = @jkk_audit.reparse
+    # render the show action associated with the result object
+    render action: 'show', location: result
+  end
+  
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html { redirect_to forms_jkk_audits_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS
+        }
+        # call concern function using collection of all records the user has access to
+        @jkk_audits = Forms::JkkAudit.accessible_by(current_ability)
+        render :json => datatable_data(@jkk_audits, params, options)
+      }
+    end
+  end
+  
+  def update_export
+    authorize! :read, Forms::JkkAudit
+    
+    begin
+      raise "No data in this form."  if Forms::JkkAudit.all.count == 0
+      @export = generate_xlsx(Forms::JkkAudit, FORM_NAME, Forms::JkkAudit.maximum("updated_at"))
+      respond_to do |format|
+        format.json { render :json => @export, status: :ok  }
+      end
+    rescue => e
+      respond_to do |format|
+        format.json { render text:e.message, status: :not_acceptable }
+      end
+    end  
+  end
+  
+  def download_export
+    authorize! :read, Forms::JkkAudit
+    @export = Report::FormExport.find_by(form_name: FORM_NAME)
+    redirect_to(@export.attachment.expiring_url(10))
+  end
+
+  def submission
+    authorize! :read, Forms::JkkAudit
+    @jkk_audit = Forms::JkkAudit.find(params[:id])
+    authorize! :read, @jkk_audit
+    redirect_to(@jkk_audit.submission.expiring_url(10))
+  end
+
+  private
+  
+  def record_not_found(exception)
+    # redirect back to index if id not found
+    flash[:alert] = exception.message
+    redirect_to forms_jkk_audits_path
+  end
+end

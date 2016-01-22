@@ -1,0 +1,22 @@
+<body>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Diary</a>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+        <li><%= link_to 'My idea', controller: 'ideas'%></li>
+        <li> <%= form_tag(ideas_path, :method => "get", id: "search-form") do %>
+		  <%= text_field_tag :search, params[:search], placeholder: "Search ideas", class:"form-control" %>
+			<%= submit_tag nil do%>
+			  <span class="glyphicon glyphicon-search"></span>
+      		<% end %>
+		<% end %></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+</body>

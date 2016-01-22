@@ -1,0 +1,11 @@
+json.array! @punchlist_forms do |punchlist|
+	json.(punchlist, :id, :reference_number, :username, :version, :status, :source, :customer, :shop, :project_area, :level, :column_location, :els_number, :task_description, :bmw_comment, :responsible, :created_at, :updated_at)
+	json.picture1 picture1_forms_punchlist_form_url(punchlist)
+	json.picture2 picture2_forms_punchlist_form_url(punchlist)
+	json.picture3 picture3_forms_punchlist_form_url(punchlist)
+	json.picture4 picture4_forms_punchlist_form_url(punchlist)
+	json.picture5 picture5_forms_punchlist_form_url(punchlist)
+	json.picture6 picture6_forms_punchlist_form_url(punchlist)
+	json.picture7 picture7_forms_punchlist_form_url(punchlist)
+	json.picture8 picture8_forms_punchlist_form_url(punchlist)
+end

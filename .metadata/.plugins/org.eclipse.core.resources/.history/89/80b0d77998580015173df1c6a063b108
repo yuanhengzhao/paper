@@ -1,0 +1,61 @@
+# Forms::BoothEliminatorChecklist's Model
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user
+# - version (string) - current version of the form
+# - altitude (decimal(20,20)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,20)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,20)) - longitude of the user's location when submitted the form
+# - source (string) - name of the provider, for example,"prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+
+# - client (string) -
+# - site (string) -
+# - process (string) -
+# - line (string) -
+# - area (string) -
+# - ceiling_and_walls_r1 (string) -
+# - venturi_throat_r1 (string) -
+# - mist_eliminator_r1 (string) -
+# - repairs_needed_r1 (string) -
+# - comments_r1 (text) -
+# - photo_r1 (attachment) -
+# - ceiling_and_walls_r2 (string) -
+# - venturi_throat_r2 (string) -
+# - mist_eliminator_r2 (string) -
+# - repairs_needed_r2 (string) -
+# - comments_r2 (text) -
+# - photo_r2 (attachment) -
+# - ceiling_and_walls_c1 (string) -
+# - venturi_throat_c1 (string) -
+# - mist_eliminator_c1 (string) -
+# - repairs_needed_c1 (string) -
+# - comments_c1 (text) -
+# - photo_c1 (attachment) -
+# - ceiling_and_walls_b1 (string)
+# - venturi_throat_b1 (string) -
+# - mist_eliminator_b1 (string) -
+# - repairs_needed_b1 (string) -
+# - comments_b1 (text) -
+# - photo_b1 (attachment) -
+# - overall_rate (integer) -
+class Forms::BoothEliminatorChecklist < ActiveRecord::Base
+  has_attached_file :photo_r1
+  validates_attachment_content_type :photo_r1, :content_type => /\Aimage/
+
+  has_attached_file :photo_r2
+  validates_attachment_content_type :photo_r2, :content_type => /\Aimage/
+
+  has_attached_file :photo_c1
+  validates_attachment_content_type :photo_c1, :content_type => /\Aimage/
+
+  has_attached_file :photo_b1
+  validates_attachment_content_type :photo_b1, :content_type => /\Aimage/
+  
+  include HasSubmission
+  include Reparseable
+end

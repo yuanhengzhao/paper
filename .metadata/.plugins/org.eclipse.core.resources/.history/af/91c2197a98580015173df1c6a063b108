@@ -1,0 +1,75 @@
+require_relative '../spec_helper'
+
+describe AdminController do
+
+  describe "GET 'index'" do
+    describe "for an anonymous user" do
+      context "HTML" do
+        it "should fail and redirect to root" do
+          get 'index'
+          response.should_not be_success
+          response.status.should eq(302)
+          response.should redirect_to(root_url)
+        end
+      end
+    end
+    
+    describe "for an unauthorized logged in user" do
+      # log in a user who has not been authorized to view application data
+      before(:each) do
+        @user = create(:user, :authorized => false, :admin => false)
+        ability = Ability.new(@user)
+        ability.can?(:read, Security::User.new).should be_false
+        sign_in @user
+      end
+      
+      context "HTML" do
+        it "should fail and redirect to root" do
+          get 'index'
+          response.should_not be_success
+          response.status.should eq(302)
+          response.should redirect_to(root_url)
+        end
+      end
+    end
+    
+    describe "for an authorized logged in user" do
+      # log in a user who has been authorized to view application data
+      before(:each) do
+        @user = create(:user, :authorized => true, :admin => false)
+        ability = Ability.new(@user)
+        ability.can?(:read, Security::User.new).should be_false
+        sign_in @user
+      end
+      
+      context "HTML" do
+        it "should fail and redirect to root" do
+          get 'index'
+          response.should_not be_success
+          response.status.should eq(302)
+          response.should redirect_to(root_url)
+        end
+      end
+    end
+    
+    describe "for a logged in admin" do
+      # log in an admin user
+      before(:each) do
+        @user = create(:user, :authorized => true, :admin => true)
+        ability = Ability.new(@user)
+        ability.can?(:read, Security::User.new).should be_true
+        sign_in @user
+      end
+      
+      context "HTML" do
+        it "should fail and redirect to root" do
+          get 'index'
+          response.should be_success
+          response.status.should eq(200)
+          response.should render_template("index")
+        end
+      end
+    end
+  end
+
+end

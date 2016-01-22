@@ -1,0 +1,65 @@
+namespace :iform do
+=begin
+  task :booth_eliminator_checklist => [:environment] do |t, args|
+     migrate = Iforms::BoothEliminatorChecklistMigrate.new
+     migrate.import("/home/mliao/Documents/Aptana Studio 3 Workspace/iform-documentation/forms_archive/forms_records_1412002399376/booth_eliminator_cl_v1","booth_eliminator_cl_v1","v1")
+  end
+  
+  task :area_inspection => [:environment] do |t, args|
+     migrate = Iforms::AreaInspectionMigrate.new
+     migrate.import("/home/mliao/Documents/Aptana Studio 3 Workspace/iform-documentation/forms_archive/forms_records_1412002399376/equipmentarea_inspection_v1","equipmentarea_inspection_v1","v1")
+  end
+  
+  task :janitorial_checklist => [:environment] do |t, args|
+     migrate = Iforms::JanitorialChecklistMigrate.new
+     migrate.import("/home/mliao/Documents/Aptana Studio 3 Workspace/iform-documentation/forms_archive/forms_records_1412002399376/janitorial_checklist_v1","janitorial_checklist_v1","v1")
+  end
+  
+  task :gemba_observation => [:environment] do |t, args|
+     migrate = Iforms::GembaObservationMigrate.new
+     migrate.import("/home/mliao/Documents/Aptana Studio 3 Workspace/iform-documentation/forms_archive/forms_records_1412002399376/gemba_observation_v2","gemba_observation_v2","v2")
+     migrate.import("/home/mliao/Documents/Aptana Studio 3 Workspace/iform-documentation/forms_archive/forms_records_1412002399376/gemba_observation_v3","gemba_observation_v3","v3")
+  end
+  
+  task :paint_booth_process_checklist => [:environment] do |t, args|
+     migrate = Iforms::PaintBoothProcessChecklistMigrate.new
+     migrate.import("/home/mliao/Documents/Aptana Studio 3 Workspace/iform-documentation/forms_archive/forms_records_1412002399376/paint_booth_process_checklist_2","paint_booth_process_checklist_2","v2")
+  end
+
+  task :pre_task_safety_plan => [:environment] do |t, args|
+     migrate = Iforms::PreTaskSafetyPlanMigrate.new
+     migrate.import("/home/mliao/Documents/Aptana Studio 3 Workspace/iform-documentation/forms_archive/forms_records_1412002399376/pre_task_safety_plan_v1","pre_task_safety_plan_v1","v1")
+  end
+  
+  task :safety_observation => [:environment] do |t, args|
+     migrate = Iforms::SafetyObservationMigrate.new
+     migrate.import("/home/mliao/Documents/Aptana Studio 3 Workspace/iform-documentation/forms_archive/forms_records_1412002399376/safety_observation_program","safety_observation_program","v1")
+  end
+
+  task :soc_hourly_production_report => [:environment] do |t, args|
+     migrate = Iforms::SocHourlyProductionReportMigrate.new
+     migrate.import("/home/mliao/Documents/Aptana Studio 3 Workspace/iform-documentation/forms_archive/forms_records_1412002399376/soc_hourly_production_report_v1","soc_hourly_production_report_v1","v1")
+  end
+
+  task :soc_incident_report => [:environment] do |t, args|
+     migrate = Iforms::SocIncidentReportMigrate.new
+     migrate.import("/home/mliao/Documents/Aptana Studio 3 Workspace/iform-documentation/forms_archive/forms_records_1412002399376/soc_incident_report_v1","soc_incident_report_v1","v1")
+  end
+
+  task :special_service_request => [:environment] do |t, args|
+     migrate = Iforms::SpecialServiceRequestMigrate.new
+     migrate.import("/home/mliao/Documents/Aptana Studio 3 Workspace/iform-documentation/forms_archive/forms_records_1412002399376/special_service_request_v1","special_service_request_v1","v1")
+  end
+=end
+
+  task :task_inspection_v2 => [:environment] do |t, args|
+     migrate = Iforms::TaskInspectionV2Migrate.new
+     migrate.import("/home/mliao/Documents/Aptana Studio 3 Workspace/iform-documentation/forms_archive/forms_records_1412002399376/task_inspection_v2","task_inspection_v2","v2")
+  end
+  
+  task :task_inspection_v1 => [:environment] do |t, args|
+     migrate = Iforms::TaskInspectionV1Migrate.new
+     migrate.import("/home/mliao/Documents/Aptana Studio 3 Workspace/iform-documentation/forms_archive/forms_records_1412002399376/task_inspection_v1","task_inspection_v1","v1")
+  end
+  
+end

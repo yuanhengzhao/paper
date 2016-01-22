@@ -1,0 +1,5 @@
+<% title "Cleaning Event" %>
+<%= render :partial => 'forms/form_export_section', :locals => {:update_url => update_export_forms_cleaning_events_url(format: :json), :download_url => download_export_forms_cleaning_events_url} %>
+<table id="cleaning_events_datatable" class="display<%= (can?(:manage, Forms::CleaningEvent) ? ' admin' : '') %>">
+	<%= render :partial => 'forms/form_header_footer' %>
+</table>

@@ -1,0 +1,70 @@
+# Migrate to import iform data to database
+#
+# Forms::GembaObservation's model
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms 
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user 
+# - version (string) - current version of the form
+# - altitude (decimal(20,20)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,20)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,20)) - longitude of the user's location when submitted the form
+# - source (string) - name of the provider, for example,"prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+
+# - short_title (string) - observation title
+# - client (string) - client's name
+# - site (string) - site's name
+# - shop (string) - shop's name
+# - description (text) - description
+# - send_to_email (string) - email address(s) of the people this report was e-mailed to
+# - image1 (attachment) 
+# - image2 (attachment) 
+# - image3 (attachment) 
+# - image4 (attachment) 
+# - image5 (attachment) 
+# - image6 (attachment) 
+# - image7 (attachment) 
+# - image8 (attachment) 
+# - image9 (attachment) 
+# - image10 (attachment) 
+
+class Iforms::GembaObservationMigrate < Iforms::AbstractIformMigrate
+
+  def get_record(item_hash,dir)
+    record = Forms::GembaObservation.new
+    get_common_answer_values(record,item_hash,"v3")
+    
+    record.short_title = item_hash["short_title1"]
+    record.site = item_hash["site"]
+    record.shop = item_hash["shop"]
+    record.description = item_hash["description"]
+    record.send_to_email = item_hash["email"]
+    record.image1 = create_image_attachment(item_hash,"image1",dir)
+    record.image2 = create_image_attachment(item_hash,"image2",dir)
+    record.image3 = create_image_attachment(item_hash,"image3",dir)
+    record.image4 = create_image_attachment(item_hash,"image4",dir)
+    record.image5 = create_image_attachment(item_hash,"image5",dir)
+    record.image6 = create_image_attachment(item_hash,"image6",dir)
+    record.image7 = create_image_attachment(item_hash,"image7",dir)
+    record.image8 = create_image_attachment(item_hash,"image8",dir)
+    
+    return record
+  end
+  
+end
+
+
+
+
+
+
+
+
+
+
+
+

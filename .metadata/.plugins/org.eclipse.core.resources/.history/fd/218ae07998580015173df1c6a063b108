@@ -1,0 +1,42 @@
+# Parser to for SOC Incident Report forms submitted from ProntoForms
+class ProntoForms::SocIncidentReportParser < AbstractFormParser
+  
+  # name of the form according to ProntoForms
+  NAME = "SOC Incident Report"
+  
+  # Returns the highest version number this parser is capable of parsing.
+  #
+  # @return [numeric] highest version number this parser is capable of parsing
+  def max_version
+    5
+  end
+  
+  # Attempts to convert the hash provided into a database object.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @param model [Forms::SocIncidentReport] object to update, nil if a new object should be created
+  # @return [ActiveRecord] instance of the object
+  # @raise [ParserException] if the hash could not be parsed for whatever reason
+  def parse(form_hash, model = nil)
+    model ||= Forms::SocIncidentReport.new
+
+    ProntoForms::SourceParser.get_common_answer_values(form_hash, model)
+    model.site                      = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 0)[0]
+    model.shop                      = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 1)[0]
+    model.column_loc                = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 2)[0]
+    model.employee_name             = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 3)[0]
+    model.date_of_incident          = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 4)[0]
+    model.class_of_incident         = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 5)[0]
+    model.type_of_injury            = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 6)[0]
+    model.description               = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 7)[0]
+    model.job_task_name             = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 8)[0]
+    model.shift_starts              = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 9)[0]["provided"]["time"]
+    model.shift_ends                = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 10)[0]["provided"]["time"]
+    model.time_of_incident          = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 11)[0]["provided"]["time"]
+    model.time_reported             = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 12)[0]["provided"]["time"]
+    model.supervisor_name           = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 13)[0]
+    model.safety_rep_contacted      = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 14)[0]
+
+    model
+  end
+end

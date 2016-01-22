@@ -1,0 +1,110 @@
+class AddColumnsToIncidents < ActiveRecord::Migration
+  def change
+    add_reference :incidents, :incident_category, index: true, foreign_key: false
+    add_reference :incidents, :floor, index: true, foreign_key: false
+    add_reference :incidents, :employee_type, index: true, foreign_key: false
+    add_reference :incidents, :mobile_equipment, index: true, foreign_key: false
+    add_reference :incidents, :modified_duties_prescriber, index: true, foreign_key: false
+    
+    add_colume :incidents, :body_part, :string
+    add_column :incidents, :incident_category_other, :string
+    add_column :incidents, :incident_type_other, :string
+    add_column :incidents, :worker_been_trained, :boolean
+    add_column :incidents, :date_last_trained, :date
+    add_column :incidents, :work_instruction_ref_num, :text
+    add_column :incidents, :reason_not_trained, :text
+    add_column :incidents, :was_not_trained_employee_involved, :boolean
+    add_column :incidents, :not_trained_employee_names, :text
+    add_column :incidents, :were_reporter_aware, :boolean
+    add_column :incidents, :reason_why_not_aware, :string
+    add_column :incidents, :did_anyone_witness, :boolean
+    add_column :incidents, :witness_names, :string
+    add_column :incidents, :was_reporter_involved, :boolean
+    add_column :incidents, :involved_individual_names_who_reported, :text
+    add_column :incidents, :was_mbl_eqp_involved, :boolean
+    add_column :incidents, :other_mbl_eqp, :text
+    add_column :incidents, :unit_identification_number, :string
+    add_column :incidents, :does_mbl_eqp_provider_have_license, :boolean
+    add_column :incidents, :reason_mbl_eqp_provider_no_license, :text
+    add_column :incidents, :num_months_mbl_opt_exp, :integer
+    add_column :incidents, :date_last_pm_eqp_performed, :date
+    add_column :incidents, :was_pre_shift_inspec_completed, :boolean
+    add_column :incidents, :reason_pre_shift_inspec_not_completed, :text
+    add_column :incidents, :was_eqp_tls_involved, :boolean
+    add_column :incidents, :eqp_tls_involved, :text
+    add_column :incidents, :was_eqp_tls_used_properly, :boolean
+    add_column :incidents, :reason_eqp_tls_not_used_properly, :text
+    add_column :incidents, :was_eqp_tls_inspec_before, :boolean
+    add_column :incidents, :reason_eqp_tls_not_inspec_before, :string
+    add_column :incidents, :does_eqp_tls_require_doc_inspec, :boolean
+    add_column :incidents, :was_eqp_tls_inspec_doc, :boolean
+    add_column :incidents, :reason_eqp_tls_inspec_not_doc, :text
+    add_column :incidents, :is_any_ppe_required, :boolean
+    add_column :incidents, :other_ppe, :text
+    add_column :incidents, :was_all_ppe_worn_properly, :boolean
+    add_column :incidents, :reason_ppe_not_worn_properly, :text
+    add_column :incidents, :was_ppe_good_cond, :boolean
+    add_column :incidents, :reason_ppe_bad_cond, :string
+    add_column :incidents, :is_ppe_required_in_work_inst, :boolean
+    add_column :incidents, :was_chemical_involved, :boolean
+    add_column :incidents, :name_chemical, :text
+    add_column :incidents, :was_chemical_used_properly, :boolean
+    add_column :incidents, :reason_chemical_not_used_properly, :text
+    add_column :incidents, :other_env_factors, :text
+    add_column :incidents, :explain_more_env_factors, :text
+    add_column :incidents, :other_add_factors, :text
+    add_column :incidents, :explain_more_add_factors, :text
+    add_column :incidents, :description_investigation, :text
+    
+    add_attachment :incidents, :investigation_photo1
+    add_attachment :incidents, :investigation_photo2
+    
+    add_column :incidents, :modified_duties_prescribed_after, :boolean
+    add_column :incidents, :other_modified_duties_prescriber, :text
+    add_column :incidents, :days_modified_duties_prescribed, :integer
+    add_column :incidents, :immediate_action, :text
+    add_column :incidents, :corrective_action2, :string
+    add_column :incidents, :corrective_action_date2, :date
+    add_column :incidents, :corrective_action_responsible, :string
+    add_column :incidents, :corrective_action_responsible2, :string
+    add_column :incidents, :names_involved_in_investigation, :text
+    add_column :incidents, :additional_comments, :text
+    add_column :incidents, :has_customer_property_damaged, :boolean
+    add_column :incidents, :type_of_damage, :string
+    add_column :incidents, :customers_contacted, :string
+    add_column :incidents, :has_employee_done_modified_work_form, :boolean
+    add_column :incidents, :reason_employee_not_done_modified_work_form, :text
+    add_column :incidents, :modified_work_form_signed, :boolean
+    
+    add_attachment :incidents, :photo_modified_work_form_signed1
+    add_attachment :incidents, :photo_modified_work_form_signed2
+    
+    add_column :incidents, :why_modified_work_form_not_signed, :text
+    add_column :incidents, :has_employee_received_medical_attention, :boolean
+    add_column :incidents, :name_clinic_hospital, :string
+    add_column :incidents, :name_nurse_doctor, :string
+    add_column :incidents, :medical_treatment, :text
+    add_column :incidents, :can_upload_medical_doc, :boolean
+    
+    add_attachment :incidents, :photo_medical_doc1
+    add_attachment :incidents, :photo_medical_doc2
+    add_attachment :incidents, :photo_medical_doc3
+    
+    add_column :incidents, :reason_not_upload_medical_doc, :text
+    add_column :incidents, :ready_to_submit_investigation, :boolean
+    add_column :incidents, :reason_wsib_form_7_not_submitted, :text
+    add_column :incidents, :has_compensation_claim_submitted, :boolean
+    add_column :incidents, :reason_compensation_claim_not_submitted, :text
+    add_column :incidents, :osha_claim, :integer
+    add_column :incidents, :additional_health_safety_comments, :text
+    
+    add_attachment :incidents, :implemented_support_file1
+    add_attachment :incidents, :implemented_support_file2
+    add_attachment :incidents, :implemented_support_file3
+    add_attachment :incidents, :implemented_support_file4
+    
+    add_column :incidents, :reason_implemented_not_upload, :text
+    add_column :incidents, :incident_classified_osha_recordable, :boolean
+    add_column :incidents, :reason_osha_not_recordable, :text
+  end
+end

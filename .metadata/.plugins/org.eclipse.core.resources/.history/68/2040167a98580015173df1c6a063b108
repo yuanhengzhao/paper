@@ -1,0 +1,5391 @@
+<tbody>
+
+	<tr id="page_2587235899">
+		<th class="pageRow" colspan="6"> Page 1: Basic </th>
+	</tr>
+
+	<tr id="question_25951475890">
+		<!-- 1-Based Legacy Question Index: 1 -->
+
+		<td>1</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div></td>
+
+		<td class="question-text">Site</td>
+		<td>Text</td>
+		<td>Dropdown</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475890" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475890_details" style="display: none;">
+
+			<ul id="question_25951475890_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475890_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475890_details_control">Control Properties (Dropdown)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475890_details_help">Help Properties (HTML Text)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475890_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475890_details_control" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Select Options
+						</dt>
+						<dd>
+
+							<table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th>Option Value</th>
+										<th>Page to Jump To</th>
+									</tr>
+								</thead>
+								<tbody>
+
+									<tr>
+										<td> Please select <span class="empty">(Default)</span></td>
+										<td> Safety </td>
+									</tr>
+
+									<tr>
+										<td> Cambridge </td>
+										<td> Cambridge </td>
+									</tr>
+
+									<tr>
+										<td> Woodstock </td>
+										<td> Woodstock </td>
+									</tr>
+
+									<tr>
+										<td> Oshawa </td>
+										<td> Oshawa </td>
+									</tr>
+
+									<tr>
+										<td> Social Circle </td>
+										<td> Social Circle </td>
+									</tr>
+
+								</tbody>
+							</table>
+
+						</dd>
+					</dl>
+
+				</div>
+
+				<div id="question_25951475890_details_help" style="display: none;">
+
+					<fieldset>
+						<legend>
+							Help Text
+						</legend>
+						<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" alt="Red dot">
+						</p>
+					</fieldset>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">site</span></td>
+	</tr>
+
+	<tr id="question_25951475891">
+		<!-- 1-Based Legacy Question Index: 2 -->
+
+		<td>2</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div></td>
+
+		<td class="question-text">Shop/Plant</td>
+		<td>Text</td>
+		<td>Dropdown</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475891" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475891_details" style="display: none;">
+
+			<ul id="question_25951475891_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475891_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475891_details_control">Control Properties (Dropdown)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475891_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475891_details_control" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Name
+						</dt>
+						<dd>
+							<a target="_blank" href="/formspaces/191492117/sources/161512196">Customer Sites</a>
+						</dd>
+
+						<dt>
+							Display Header
+						</dt>
+						<dd>
+							shop
+						</dd>
+
+						<dt>
+							Value Header
+						</dt>
+						<dd>
+							shop
+						</dd>
+
+						<dt>
+							Filter Header
+						</dt>
+						<dd>
+							site
+						</dd>
+
+						<dt>
+							Filter Type
+						</dt>
+						<dd>
+							Question-Based
+						</dd>
+
+						<dt>
+							Filter Source Question
+						</dt>
+						<dd>
+
+							site
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">shop</span></td>
+	</tr>
+
+	<tr id="question_25951475892">
+		<!-- 1-Based Legacy Question Index: 3 -->
+
+		<td>3</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div></td>
+
+		<td class="question-text">Shift/Crew</td>
+		<td>Text</td>
+		<td>Dropdown</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475892" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475892_details" style="display: none;">
+
+			<ul id="question_25951475892_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475892_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475892_details_control">Control Properties (Dropdown)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475892_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475892_details_control" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Name
+						</dt>
+						<dd>
+							<a target="_blank" href="/formspaces/191492117/sources/161544040">Site Shifts</a>
+						</dd>
+
+						<dt>
+							Display Header
+						</dt>
+						<dd>
+							shift
+						</dd>
+
+						<dt>
+							Filter Header
+						</dt>
+						<dd>
+							site
+						</dd>
+
+						<dt>
+							Filter Type
+						</dt>
+						<dd>
+							Question-Based
+						</dd>
+
+						<dt>
+							Filter Source Question
+						</dt>
+						<dd>
+
+							site
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">shift</span></td>
+	</tr>
+
+	<tr id="question_25951475893">
+		<!-- 1-Based Legacy Question Index: 4 -->
+
+		<td>4</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div></td>
+
+		<td class="question-text">Date</td>
+		<td>Date</td>
+		<td>Date Selector</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 1; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475893" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475893_details" style="display: none;">
+
+			<ul id="question_25951475893_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475893_details_data">Data Properties (Date)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475893_details_control">Control Properties (Date Selector)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475893_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Range Validation
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+					</dl>
+
+				</div>
+
+				<div id="question_25951475893_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Initial Value Source
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">date</span></td>
+	</tr>
+
+	<tr id="question_25951475894">
+		<!-- 1-Based Legacy Question Index: 5 -->
+
+		<td>5</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div></td>
+
+		<td class="question-text">Employees scheduled</td>
+		<td>Text</td>
+		<td>Text Area</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 1; position: absolute; top: inherit; display: block;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475894" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475894_details" style="display: none;">
+
+			<ul id="question_25951475894_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475894_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475894_details_control">Control Properties (Text Area)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475894_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475894_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">employees_scheduled</span></td>
+	</tr>
+
+	<tr id="question_25951475895">
+		<!-- 1-Based Legacy Question Index: 6 -->
+
+		<td>6</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Absent Employee(Employee Name / Reason)</td>
+		<td>Text</td>
+		<td>Text Area</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475895" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475895_details" style="display: none;">
+
+			<ul id="question_25951475895_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475895_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475895_details_control">Control Properties (Text Area)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475895_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475895_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">absent_employees</span></td>
+	</tr>
+
+	<tr id="question_25951475896">
+		<!-- 1-Based Legacy Question Index: 7 -->
+
+		<td>7</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div></td>
+
+		<td class="question-text">Employees Present</td>
+		<td>Text</td>
+		<td>Text Area</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475896" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475896_details" style="display: none;">
+
+			<ul id="question_25951475896_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475896_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475896_details_control">Control Properties (Text Area)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475896_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475896_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">employees_present</span></td>
+	</tr>
+
+	<tr id="question_25951475897">
+		<!-- 1-Based Legacy Question Index: 8 -->
+
+		<td>8</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Overtime Employee(Employee Name / Reason)</td>
+		<td>Text</td>
+		<td>Text Area</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475897" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475897_details" style="display: none;">
+
+			<ul id="question_25951475897_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475897_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475897_details_control">Control Properties (Text Area)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475897_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475897_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">overtime_employees</span></td>
+	</tr>
+
+	<tr id="page_2587235900">
+		<th class="pageRow" colspan="6"> Page 2: Cambridge </th>
+	</tr>
+
+	<tr id="question_25951475898">
+		<!-- 1-Based Legacy Question Index: 9 -->
+
+		<td>1</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div></td>
+
+		<td class="question-text">Equipment Downtime</td>
+		<td>Number</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475898" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475898_details" style="display: none;">
+
+			<ul id="question_25951475898_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475898_details_data">Data Properties (Number)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475898_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475898_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Minimum Value
+						</dt>
+						<dd>
+
+							0
+
+						</dd>
+
+						<dt>
+							Maximum Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+					</dl>
+
+				</div>
+
+				<div id="question_25951475898_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">cambridge_downtime</span></td>
+	</tr>
+
+	<tr id="question_25951475899">
+		<!-- 1-Based Legacy Question Index: 10 -->
+
+		<td>2</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div></td>
+
+		<td class="question-text">Dolly's Blasted</td>
+		<td>Number</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475899" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475899_details" style="display: none;">
+
+			<ul id="question_25951475899_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475899_details_data">Data Properties (Number)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475899_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475899_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Minimum Value
+						</dt>
+						<dd>
+
+							0
+
+						</dd>
+
+						<dt>
+							Maximum Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+					</dl>
+
+				</div>
+
+				<div id="question_25951475899_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">dollys_blasted</span></td>
+	</tr>
+
+	<tr id="question_25951475900">
+		<!-- 1-Based Legacy Question Index: 11 -->
+
+		<td>3</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div></td>
+
+		<td class="question-text">E-Coat Carriers Blasted</td>
+		<td>Number</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475900" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475900_details" style="display: none;">
+
+			<ul id="question_25951475900_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475900_details_data">Data Properties (Number)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475900_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475900_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Minimum Value
+						</dt>
+						<dd>
+
+							0
+
+						</dd>
+
+						<dt>
+							Maximum Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+					</dl>
+
+				</div>
+
+				<div id="question_25951475900_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">ecoat_carriers_blast</span></td>
+	</tr>
+
+	<tr id="question_25951475901">
+		<!-- 1-Based Legacy Question Index: 12 -->
+
+		<td>4</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div></td>
+
+		<td class="question-text">Number of Deficiencies</td>
+		<td>Number</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475901" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475901_details" style="display: none;">
+
+			<ul id="question_25951475901_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475901_details_data">Data Properties (Number)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475901_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475901_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Minimum Value
+						</dt>
+						<dd>
+
+							0
+
+						</dd>
+
+						<dt>
+							Maximum Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+					</dl>
+
+				</div>
+
+				<div id="question_25951475901_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">number_of_deficiency</span></td>
+	</tr>
+
+	<tr id="question_25951475902">
+		<!-- 1-Based Legacy Question Index: 13 -->
+
+		<td>5</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">First Deficiency Description</td>
+		<td>Text</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475902" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475902_details" style="display: none;">
+
+			<ul id="question_25951475902_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475902_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475902_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475902_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475902_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+						<dt>
+							Keyboard Type
+						</dt>
+						<dd>
+							Standard
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">first_deficiency</span></td>
+	</tr>
+
+	<tr id="question_25951475903">
+		<!-- 1-Based Legacy Question Index: 14 -->
+
+		<td>6</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Second Deficiency Description</td>
+		<td>Text</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475903" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475903_details" style="display: none;">
+
+			<ul id="question_25951475903_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475903_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475903_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475903_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475903_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+						<dt>
+							Keyboard Type
+						</dt>
+						<dd>
+							Standard
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">second_deficiency</span></td>
+	</tr>
+
+	<tr id="question_25951475904">
+		<!-- 1-Based Legacy Question Index: 15 -->
+
+		<td>7</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Third Deficiency Description</td>
+		<td>Text</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475904" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475904_details" style="display: none;">
+
+			<ul id="question_25951475904_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475904_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475904_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475904_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475904_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+						<dt>
+							Keyboard Type
+						</dt>
+						<dd>
+							Standard
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">third_deficiency</span></td>
+	</tr>
+
+	<tr id="question_25951475905">
+		<!-- 1-Based Legacy Question Index: 16 -->
+
+		<td>8</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div>
+		<div style="position: absolute; left: 16px; top: 16px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-hiddenOnDevice.png" width="11" height="11" title="Hidden On Device">
+		</div>
+		<div style="position: absolute; left: 27px; top: 16px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-hiddenInReports.png" width="11" height="11" title="Hidden In Reports">
+		</div></td>
+
+		<td class="question-text">End Cam</td>
+		<td>Text</td>
+		<td>Dropdown</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475905" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475905_details" style="display: none;">
+
+			<ul id="question_25951475905_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475905_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475905_details_control">Control Properties (Dropdown)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475905_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475905_details_control" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Select Options
+						</dt>
+						<dd>
+
+							<table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th>Option Value</th>
+										<th>Page to Jump To</th>
+									</tr>
+								</thead>
+								<tbody>
+
+									<tr>
+										<td> GOTO <span class="empty">(Default)</span></td>
+										<td> Schedule </td>
+									</tr>
+
+								</tbody>
+							</table>
+
+						</dd>
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">End Cam</span></td>
+	</tr>
+
+	<tr id="page_2587235901">
+		<th class="pageRow" colspan="6"> Page 3: Oshawa </th>
+	</tr>
+
+	<tr id="question_25951475906">
+		<!-- 1-Based Legacy Question Index: 17 -->
+
+		<td>1</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div></td>
+
+		<td class="question-text">Number of Deficiencies RS</td>
+		<td>Number</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475906" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475906_details" style="display: none;">
+
+			<ul id="question_25951475906_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475906_details_data">Data Properties (Number)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475906_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475906_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Minimum Value
+						</dt>
+						<dd>
+
+							0
+
+						</dd>
+
+						<dt>
+							Maximum Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+					</dl>
+
+				</div>
+
+				<div id="question_25951475906_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">number_rs_deficiency</span></td>
+	</tr>
+
+	<tr id="question_25951475907">
+		<!-- 1-Based Legacy Question Index: 18 -->
+
+		<td>2</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">First RS Deficiency Description</td>
+		<td>Text</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475907" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475907_details" style="display: none;">
+
+			<ul id="question_25951475907_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475907_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475907_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475907_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475907_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+						<dt>
+							Keyboard Type
+						</dt>
+						<dd>
+							Standard
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">first_rs_def</span></td>
+	</tr>
+
+	<tr id="question_25951475908">
+		<!-- 1-Based Legacy Question Index: 19 -->
+
+		<td>3</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Second RS Deficiency Description</td>
+		<td>Text</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475908" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475908_details" style="display: none;">
+
+			<ul id="question_25951475908_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475908_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475908_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475908_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475908_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+						<dt>
+							Keyboard Type
+						</dt>
+						<dd>
+							Standard
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">second_rs_def</span></td>
+	</tr>
+
+	<tr id="question_25951475909">
+		<!-- 1-Based Legacy Question Index: 20 -->
+
+		<td>4</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Third RS Deficiency Description</td>
+		<td>Text</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475909" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475909_details" style="display: none;">
+
+			<ul id="question_25951475909_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475909_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475909_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475909_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475909_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+						<dt>
+							Keyboard Type
+						</dt>
+						<dd>
+							Standard
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">third_rs_def</span></td>
+	</tr>
+
+	<tr id="question_25951475910">
+		<!-- 1-Based Legacy Question Index: 21 -->
+
+		<td>5</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">CO2 tasks completion
+		List all cell's completed and significant notes.</td>
+		<td>Text</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475910" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475910_details" style="display: none;">
+
+			<ul id="question_25951475910_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475910_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475910_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475910_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475910_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+						<dt>
+							Keyboard Type
+						</dt>
+						<dd>
+							Standard
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">co2_tasks</span></td>
+	</tr>
+
+	<tr id="question_25951475911">
+		<!-- 1-Based Legacy Question Index: 22 -->
+
+		<td>6</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Quick Sweep
+		List all cell's completed and significant notes.</td>
+		<td>Text</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475911" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475911_details" style="display: none;">
+
+			<ul id="question_25951475911_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475911_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475911_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475911_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475911_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+						<dt>
+							Keyboard Type
+						</dt>
+						<dd>
+							Standard
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">quick_sweep</span></td>
+	</tr>
+
+	<tr id="question_25951475912">
+		<!-- 1-Based Legacy Question Index: 23 -->
+
+		<td>7</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Booth Deep Clean
+		Report Booth deep cleaned and significant notes</td>
+		<td>Text</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475912" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475912_details" style="display: none;">
+
+			<ul id="question_25951475912_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475912_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475912_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475912_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475912_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+						<dt>
+							Keyboard Type
+						</dt>
+						<dd>
+							Standard
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">booth_deep_clean</span></td>
+	</tr>
+
+	<tr id="question_25951475913">
+		<!-- 1-Based Legacy Question Index: 24 -->
+
+		<td>8</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div>
+		<div style="position: absolute; left: 16px; top: 16px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-hiddenOnDevice.png" width="11" height="11" title="Hidden On Device">
+		</div>
+		<div style="position: absolute; left: 27px; top: 16px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-hiddenInReports.png" width="11" height="11" title="Hidden In Reports">
+		</div></td>
+
+		<td class="question-text">End Osh</td>
+		<td>Text</td>
+		<td>Dropdown</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475913" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475913_details" style="display: none;">
+
+			<ul id="question_25951475913_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475913_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475913_details_control">Control Properties (Dropdown)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475913_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475913_details_control" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Select Options
+						</dt>
+						<dd>
+
+							<table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th>Option Value</th>
+										<th>Page to Jump To</th>
+									</tr>
+								</thead>
+								<tbody>
+
+									<tr>
+										<td> GOTO <span class="empty">(Default)</span></td>
+										<td> Schedule </td>
+									</tr>
+
+								</tbody>
+							</table>
+
+						</dd>
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">End Osh</span></td>
+	</tr>
+
+	<tr id="page_2587235902">
+		<th class="pageRow" colspan="6"> Page 4: Woodstock </th>
+	</tr>
+
+	<tr id="question_25951475914">
+		<!-- 1-Based Legacy Question Index: 25 -->
+
+		<td>1</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div></td>
+
+		<td class="question-text">Equipment Downtime</td>
+		<td>Number</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475914" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475914_details" style="display: none;">
+
+			<ul id="question_25951475914_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475914_details_data">Data Properties (Number)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475914_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475914_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Minimum Value
+						</dt>
+						<dd>
+
+							0
+
+						</dd>
+
+						<dt>
+							Maximum Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+					</dl>
+
+				</div>
+
+				<div id="question_25951475914_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">woodstock_downtime</span></td>
+	</tr>
+
+	<tr id="question_25951475915">
+		<!-- 1-Based Legacy Question Index: 26 -->
+
+		<td>2</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Scrap Flat Presses</td>
+		<td>Text</td>
+		<td>Text Area</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475915" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475915_details" style="display: none;">
+
+			<ul id="question_25951475915_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475915_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475915_details_control">Control Properties (Text Area)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475915_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475915_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">scrap_flat_presses</span></td>
+	</tr>
+
+	<tr id="question_25951475916">
+		<!-- 1-Based Legacy Question Index: 27 -->
+
+		<td>3</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div>
+		<div style="position: absolute; left: 16px; top: 16px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-hiddenOnDevice.png" width="11" height="11" title="Hidden On Device">
+		</div>
+		<div style="position: absolute; left: 27px; top: 16px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-hiddenInReports.png" width="11" height="11" title="Hidden In Reports">
+		</div></td>
+
+		<td class="question-text">End Wood</td>
+		<td>Text</td>
+		<td>Dropdown</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475916" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475916_details" style="display: none;">
+
+			<ul id="question_25951475916_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475916_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475916_details_control">Control Properties (Dropdown)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475916_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475916_details_control" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Select Options
+						</dt>
+						<dd>
+
+							<table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th>Option Value</th>
+										<th>Page to Jump To</th>
+									</tr>
+								</thead>
+								<tbody>
+
+									<tr>
+										<td> GOTO <span class="empty">(Default)</span></td>
+										<td> Schedule </td>
+									</tr>
+
+								</tbody>
+							</table>
+
+						</dd>
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">End Wood</span></td>
+	</tr>
+
+	<tr id="page_2587235903">
+		<th class="pageRow" colspan="6"> Page 5: Social Circle </th>
+	</tr>
+
+	<tr id="question_25951475917">
+		<!-- 1-Based Legacy Question Index: 28 -->
+
+		<td>1</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div></td>
+
+		<td class="question-text">Supervisor</td>
+		<td>Text</td>
+		<td>Dropdown</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475917" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475917_details" style="display: none;">
+
+			<ul id="question_25951475917_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475917_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475917_details_control">Control Properties (Dropdown)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475917_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475917_details_control" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Name
+						</dt>
+						<dd>
+							<a target="_blank" href="/formspaces/191492117/sources/161544109">Social Circle Supervisors</a>
+						</dd>
+
+						<dt>
+							Display Header
+						</dt>
+						<dd>
+							supervisors
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">supervisor</span></td>
+	</tr>
+
+	<tr id="question_25951475918">
+		<!-- 1-Based Legacy Question Index: 29 -->
+
+		<td>2</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Supervisor Name (if other)</td>
+		<td>Text</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475918" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475918_details" style="display: none;">
+
+			<ul id="question_25951475918_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475918_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475918_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475918_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475918_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+						<dt>
+							Keyboard Type
+						</dt>
+						<dd>
+							Standard
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">supervisor_name</span></td>
+	</tr>
+
+	<tr id="question_25951475919">
+		<!-- 1-Based Legacy Question Index: 30 -->
+
+		<td>3</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Equipment Downtime Summary</td>
+		<td>Text</td>
+		<td>Text Area</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475919" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475919_details" style="display: none;">
+
+			<ul id="question_25951475919_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475919_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475919_details_control">Control Properties (Text Area)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475919_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475919_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">soc_downtime</span></td>
+	</tr>
+
+	<tr id="question_25951475920">
+		<!-- 1-Based Legacy Question Index: 31 -->
+
+		<td>4</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div></td>
+
+		<td class="question-text">Number of Treads</td>
+		<td>Number</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475920" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475920_details" style="display: none;">
+
+			<ul id="question_25951475920_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475920_details_data">Data Properties (Number)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475920_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475920_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Minimum Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+						<dt>
+							Maximum Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+					</dl>
+
+				</div>
+
+				<div id="question_25951475920_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">number_of_treads</span></td>
+	</tr>
+
+	<tr id="question_25951475921">
+		<!-- 1-Based Legacy Question Index: 32 -->
+
+		<td>5</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Press 1 Chart</td>
+		<td>Image</td>
+		<td>Camera</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475921" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475921_details" style="display: none;">
+
+			<ul id="question_25951475921_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475921_details_data">Data Properties (Image)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475921_details_control">Control Properties (Camera)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475921_details_data" style="display: none;">
+
+					<p>
+
+						<img src="/resources/themes/standard/images/icons/fugue/tick-circle.png" width="16" height="16" class="picto">
+
+						Auto-rotate images
+
+					</p>
+
+					<p class="message warning">
+						No watermarking is configured for this image
+					</p>
+
+				</div>
+
+				<div id="question_25951475921_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Picture Quality
+						</dt>
+						<dd>
+
+							High Compression
+
+						</dd>
+
+						<dt>
+							Maximum Attachments
+						</dt>
+						<dd>
+							1
+						</dd>
+
+						<dt>
+							Custom Button Text
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">press_1_chart</span></td>
+	</tr>
+
+	<tr id="question_25951475922">
+		<!-- 1-Based Legacy Question Index: 33 -->
+
+		<td>6</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Press 2 Chart</td>
+		<td>Image</td>
+		<td>Camera</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475922" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475922_details" style="display: none;">
+
+			<ul id="question_25951475922_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475922_details_data">Data Properties (Image)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475922_details_control">Control Properties (Camera)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475922_details_data" style="display: none;">
+
+					<p>
+
+						<img src="/resources/themes/standard/images/icons/fugue/tick-circle.png" width="16" height="16" class="picto">
+
+						Auto-rotate images
+
+					</p>
+
+					<p class="message warning">
+						No watermarking is configured for this image
+					</p>
+
+				</div>
+
+				<div id="question_25951475922_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Picture Quality
+						</dt>
+						<dd>
+
+							High Compression
+
+						</dd>
+
+						<dt>
+							Maximum Attachments
+						</dt>
+						<dd>
+							1
+						</dd>
+
+						<dt>
+							Custom Button Text
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">press_2_chart</span></td>
+	</tr>
+
+	<tr id="question_25951475923">
+		<!-- 1-Based Legacy Question Index: 34 -->
+
+		<td>7</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Press 3 Chart</td>
+		<td>Image</td>
+		<td>Camera</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475923" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475923_details" style="display: none;">
+
+			<ul id="question_25951475923_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475923_details_data">Data Properties (Image)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475923_details_control">Control Properties (Camera)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475923_details_data" style="display: none;">
+
+					<p>
+
+						<img src="/resources/themes/standard/images/icons/fugue/tick-circle.png" width="16" height="16" class="picto">
+
+						Auto-rotate images
+
+					</p>
+
+					<p class="message warning">
+						No watermarking is configured for this image
+					</p>
+
+				</div>
+
+				<div id="question_25951475923_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Picture Quality
+						</dt>
+						<dd>
+
+							High Compression
+
+						</dd>
+
+						<dt>
+							Maximum Attachments
+						</dt>
+						<dd>
+							1
+						</dd>
+
+						<dt>
+							Custom Button Text
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">press_3_chart</span></td>
+	</tr>
+
+	<tr id="question_25951475924">
+		<!-- 1-Based Legacy Question Index: 35 -->
+
+		<td>8</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Press 4 Chart</td>
+		<td>Image</td>
+		<td>Camera</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475924" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475924_details" style="display: none;">
+
+			<ul id="question_25951475924_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475924_details_data">Data Properties (Image)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475924_details_control">Control Properties (Camera)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475924_details_data" style="display: none;">
+
+					<p>
+
+						<img src="/resources/themes/standard/images/icons/fugue/tick-circle.png" width="16" height="16" class="picto">
+
+						Auto-rotate images
+
+					</p>
+
+					<p class="message warning">
+						No watermarking is configured for this image
+					</p>
+
+				</div>
+
+				<div id="question_25951475924_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Picture Quality
+						</dt>
+						<dd>
+
+							High Compression
+
+						</dd>
+
+						<dt>
+							Maximum Attachments
+						</dt>
+						<dd>
+							1
+						</dd>
+
+						<dt>
+							Custom Button Text
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">press_4_chart</span></td>
+	</tr>
+
+	<tr id="question_25951475925">
+		<!-- 1-Based Legacy Question Index: 36 -->
+
+		<td>9</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div>
+		<div style="position: absolute; left: 16px; top: 16px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-hiddenOnDevice.png" width="11" height="11" title="Hidden On Device">
+		</div>
+		<div style="position: absolute; left: 27px; top: 16px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-hiddenInReports.png" width="11" height="11" title="Hidden In Reports">
+		</div></td>
+
+		<td class="question-text">End SOC</td>
+		<td>Text</td>
+		<td>Dropdown</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475925" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475925_details" style="display: none;">
+
+			<ul id="question_25951475925_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475925_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475925_details_control">Control Properties (Dropdown)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475925_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475925_details_control" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Select Options
+						</dt>
+						<dd>
+
+							<table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th>Option Value</th>
+										<th>Page to Jump To</th>
+									</tr>
+								</thead>
+								<tbody>
+
+									<tr>
+										<td> GOTO <span class="empty">(Default)</span></td>
+										<td> Safety </td>
+									</tr>
+
+								</tbody>
+							</table>
+
+						</dd>
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">End SOC</span></td>
+	</tr>
+
+	<tr id="page_2587235904">
+		<th class="pageRow" colspan="6"> Page 6: Schedule </th>
+	</tr>
+
+	<tr id="question_25951475926">
+		<!-- 1-Based Legacy Question Index: 37 -->
+
+		<td>1</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div></td>
+
+		<td class="question-text">Scheduled Hours</td>
+		<td>Number</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475926" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475926_details" style="display: none;">
+
+			<ul id="question_25951475926_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475926_details_data">Data Properties (Number)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475926_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475926_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Minimum Value
+						</dt>
+						<dd>
+
+							0
+
+						</dd>
+
+						<dt>
+							Maximum Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+					</dl>
+
+				</div>
+
+				<div id="question_25951475926_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">scheduled_hours</span></td>
+	</tr>
+
+	<tr id="question_25951475927">
+		<!-- 1-Based Legacy Question Index: 38 -->
+
+		<td>2</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div></td>
+
+		<td class="question-text">Worked Hours</td>
+		<td>Number</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475927" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475927_details" style="display: none;">
+
+			<ul id="question_25951475927_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475927_details_data">Data Properties (Number)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475927_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475927_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Minimum Value
+						</dt>
+						<dd>
+
+							0
+
+						</dd>
+
+						<dt>
+							Maximum Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+					</dl>
+
+				</div>
+
+				<div id="question_25951475927_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">work_hours</span></td>
+	</tr>
+
+	<tr id="question_25951475928">
+		<!-- 1-Based Legacy Question Index: 39 -->
+
+		<td>3</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Job Cancellations</td>
+		<td>Text</td>
+		<td>Text Area</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475928" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475928_details" style="display: none;">
+
+			<ul id="question_25951475928_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475928_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475928_details_control">Control Properties (Text Area)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475928_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475928_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">job_cancellations</span></td>
+	</tr>
+
+	<tr id="question_25951475929">
+		<!-- 1-Based Legacy Question Index: 40 -->
+
+		<td>4</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div></td>
+
+		<td class="question-text">Number of Special Requests</td>
+		<td>Number</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475929" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475929_details" style="display: none;">
+
+			<ul id="question_25951475929_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475929_details_data">Data Properties (Number)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475929_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475929_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Minimum Value
+						</dt>
+						<dd>
+
+							0
+
+						</dd>
+
+						<dt>
+							Maximum Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+					</dl>
+
+				</div>
+
+				<div id="question_25951475929_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							0
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">num_special_requests</span></td>
+	</tr>
+
+	<tr id="question_25951475930">
+		<!-- 1-Based Legacy Question Index: 41 -->
+
+		<td>5</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Request #1</td>
+		<td>Text</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475930" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475930_details" style="display: none;">
+
+			<ul id="question_25951475930_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475930_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475930_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475930_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475930_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+						<dt>
+							Keyboard Type
+						</dt>
+						<dd>
+							Standard
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">request_1</span></td>
+	</tr>
+
+	<tr id="question_25951475931">
+		<!-- 1-Based Legacy Question Index: 42 -->
+
+		<td>6</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Requestor #1</td>
+		<td>Text</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475931" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475931_details" style="display: none;">
+
+			<ul id="question_25951475931_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475931_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475931_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475931_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475931_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+						<dt>
+							Keyboard Type
+						</dt>
+						<dd>
+							Standard
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">requestor_1</span></td>
+	</tr>
+
+	<tr id="question_25951475932">
+		<!-- 1-Based Legacy Question Index: 43 -->
+
+		<td>7</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Hours #1</td>
+		<td>Number</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475932" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475932_details" style="display: none;">
+
+			<ul id="question_25951475932_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475932_details_data">Data Properties (Number)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475932_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475932_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Minimum Value
+						</dt>
+						<dd>
+
+							0
+
+						</dd>
+
+						<dt>
+							Maximum Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+					</dl>
+
+				</div>
+
+				<div id="question_25951475932_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">hours_1</span></td>
+	</tr>
+
+	<tr id="question_25951475933">
+		<!-- 1-Based Legacy Question Index: 44 -->
+
+		<td>8</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Request #2</td>
+		<td>Text</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475933" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475933_details" style="display: none;">
+
+			<ul id="question_25951475933_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475933_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475933_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475933_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475933_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+						<dt>
+							Keyboard Type
+						</dt>
+						<dd>
+							Standard
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">request_2</span></td>
+	</tr>
+
+	<tr id="question_25951475934">
+		<!-- 1-Based Legacy Question Index: 45 -->
+
+		<td>9</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Requestor #2</td>
+		<td>Text</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475934" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475934_details" style="display: none;">
+
+			<ul id="question_25951475934_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475934_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475934_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475934_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475934_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+						<dt>
+							Keyboard Type
+						</dt>
+						<dd>
+							Standard
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">requestor_2</span></td>
+	</tr>
+
+	<tr id="question_25951475935">
+		<!-- 1-Based Legacy Question Index: 46 -->
+
+		<td>10</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Hours #2</td>
+		<td>Number</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475935" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475935_details" style="display: none;">
+
+			<ul id="question_25951475935_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475935_details_data">Data Properties (Number)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475935_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475935_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Minimum Value
+						</dt>
+						<dd>
+
+							0
+
+						</dd>
+
+						<dt>
+							Maximum Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+					</dl>
+
+				</div>
+
+				<div id="question_25951475935_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">hours_2</span></td>
+	</tr>
+
+	<tr id="question_25951475936">
+		<!-- 1-Based Legacy Question Index: 47 -->
+
+		<td>11</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Request #3</td>
+		<td>Text</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475936" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475936_details" style="display: none;">
+
+			<ul id="question_25951475936_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475936_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475936_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475936_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475936_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+						<dt>
+							Keyboard Type
+						</dt>
+						<dd>
+							Standard
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">request_3</span></td>
+	</tr>
+
+	<tr id="question_25951475937">
+		<!-- 1-Based Legacy Question Index: 48 -->
+
+		<td>12</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Requestor #3</td>
+		<td>Text</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475937" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475937_details" style="display: none;">
+
+			<ul id="question_25951475937_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475937_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475937_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475937_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475937_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+						<dt>
+							Keyboard Type
+						</dt>
+						<dd>
+							Standard
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">requestor_3</span></td>
+	</tr>
+
+	<tr id="question_25951475938">
+		<!-- 1-Based Legacy Question Index: 49 -->
+
+		<td>13</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Hours #3</td>
+		<td>Number</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475938" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475938_details" style="display: none;">
+
+			<ul id="question_25951475938_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475938_details_data">Data Properties (Number)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475938_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475938_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Minimum Value
+						</dt>
+						<dd>
+
+							0
+
+						</dd>
+
+						<dt>
+							Maximum Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+					</dl>
+
+				</div>
+
+				<div id="question_25951475938_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">hours_3</span></td>
+	</tr>
+
+	<tr id="question_25951475939">
+		<!-- 1-Based Legacy Question Index: 50 -->
+
+		<td>14</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Request #4</td>
+		<td>Text</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475939" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475939_details" style="display: none;">
+
+			<ul id="question_25951475939_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475939_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475939_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475939_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475939_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+						<dt>
+							Keyboard Type
+						</dt>
+						<dd>
+							Standard
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">request_4</span></td>
+	</tr>
+
+	<tr id="question_25951475940">
+		<!-- 1-Based Legacy Question Index: 51 -->
+
+		<td>15</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Requestor #4</td>
+		<td>Text</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475940" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475940_details" style="display: none;">
+
+			<ul id="question_25951475940_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475940_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475940_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475940_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475940_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+						<dt>
+							Keyboard Type
+						</dt>
+						<dd>
+							Standard
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">requestor_4</span></td>
+	</tr>
+
+	<tr id="question_25951475941">
+		<!-- 1-Based Legacy Question Index: 52 -->
+
+		<td>16</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Hours #4</td>
+		<td>Number</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475941" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475941_details" style="display: none;">
+
+			<ul id="question_25951475941_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475941_details_data">Data Properties (Number)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475941_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475941_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Minimum Value
+						</dt>
+						<dd>
+
+							0
+
+						</dd>
+
+						<dt>
+							Maximum Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+					</dl>
+
+				</div>
+
+				<div id="question_25951475941_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">hours_4</span></td>
+	</tr>
+
+	<tr id="question_25951475942">
+		<!-- 1-Based Legacy Question Index: 53 -->
+
+		<td>17</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Jobs Cancellations</td>
+		<td>Text</td>
+		<td>Text Area</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475942" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475942_details" style="display: none;">
+
+			<ul id="question_25951475942_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475942_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475942_details_control">Control Properties (Text Area)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475942_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475942_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">jobs_cancellations</span></td>
+	</tr>
+
+	<tr id="page_2587235905">
+		<th class="pageRow" colspan="6"> Page 7: Safety </th>
+	</tr>
+
+	<tr id="question_25951475943">
+		<!-- 1-Based Legacy Question Index: 54 -->
+
+		<td>1</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div></td>
+
+		<td class="question-text">Incidents</td>
+		<td>Number</td>
+		<td>Textbox</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475943" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475943_details" style="display: none;">
+
+			<ul id="question_25951475943_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475943_details_data">Data Properties (Number)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475943_details_control">Control Properties (Textbox)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475943_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Minimum Value
+						</dt>
+						<dd>
+
+							0
+
+						</dd>
+
+						<dt>
+							Maximum Value
+						</dt>
+						<dd>
+
+							3
+
+						</dd>
+					</dl>
+
+				</div>
+
+				<div id="question_25951475943_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							0
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">incidents</span></td>
+	</tr>
+
+	<tr id="question_25951475944">
+		<!-- 1-Based Legacy Question Index: 55 -->
+
+		<td>2</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Incident 1 - Type</td>
+		<td>Text</td>
+		<td>Dropdown</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475944" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475944_details" style="display: none;">
+
+			<ul id="question_25951475944_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475944_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475944_details_control">Control Properties (Dropdown)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475944_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475944_details_control" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Name
+						</dt>
+						<dd>
+							<a target="_blank" href="/formspaces/191492117/sources/161544041">Incident Types</a>
+						</dd>
+
+						<dt>
+							Display Header
+						</dt>
+						<dd>
+							incidenttype
+						</dd>
+
+						<dt>
+							Value Header
+						</dt>
+						<dd>
+							incidenttype
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">incident1_type</span></td>
+	</tr>
+
+	<tr id="question_25951475945">
+		<!-- 1-Based Legacy Question Index: 56 -->
+
+		<td>3</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Incident 2 - Type</td>
+		<td>Text</td>
+		<td>Dropdown</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475945" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475945_details" style="display: none;">
+
+			<ul id="question_25951475945_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475945_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475945_details_control">Control Properties (Dropdown)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475945_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475945_details_control" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Name
+						</dt>
+						<dd>
+							<a target="_blank" href="/formspaces/191492117/sources/161544041">Incident Types</a>
+						</dd>
+
+						<dt>
+							Display Header
+						</dt>
+						<dd>
+							incidenttype
+						</dd>
+
+						<dt>
+							Value Header
+						</dt>
+						<dd>
+							incidenttype
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">incident2_type</span></td>
+	</tr>
+
+	<tr id="question_25951475946">
+		<!-- 1-Based Legacy Question Index: 57 -->
+
+		<td>4</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Incident 3 - Type</td>
+		<td>Text</td>
+		<td>Dropdown</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475946" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475946_details" style="display: none;">
+
+			<ul id="question_25951475946_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475946_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475946_details_control">Control Properties (Dropdown)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475946_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475946_details_control" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Name
+						</dt>
+						<dd>
+							<a target="_blank" href="/formspaces/191492117/sources/161544041">Incident Types</a>
+						</dd>
+
+						<dt>
+							Display Header
+						</dt>
+						<dd>
+							incidenttype
+						</dd>
+
+						<dt>
+							Value Header
+						</dt>
+						<dd>
+							incidenttype
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">incident3_type</span></td>
+	</tr>
+
+	<tr id="page_2587235906">
+		<th class="pageRow" colspan="6"> Page 8: Pictures </th>
+	</tr>
+
+	<tr id="question_25951475947">
+		<!-- 1-Based Legacy Question Index: 58 -->
+
+		<td>1</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Picture1</td>
+		<td>Image</td>
+		<td>Camera</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475947" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475947_details" style="display: none;">
+
+			<ul id="question_25951475947_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475947_details_data">Data Properties (Image)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475947_details_control">Control Properties (Camera)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475947_details_data" style="display: none;">
+
+					<p>
+
+						<img src="/resources/themes/standard/images/icons/fugue/tick-circle.png" width="16" height="16" class="picto">
+
+						Auto-rotate images
+
+					</p>
+
+					<p class="message warning">
+						No watermarking is configured for this image
+					</p>
+
+				</div>
+
+				<div id="question_25951475947_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Picture Quality
+						</dt>
+						<dd>
+
+							High Compression
+
+						</dd>
+
+						<dt>
+							Maximum Attachments
+						</dt>
+						<dd>
+							1
+						</dd>
+
+						<dt>
+							Custom Button Text
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">picture_1</span></td>
+	</tr>
+
+	<tr id="question_25951475948">
+		<!-- 1-Based Legacy Question Index: 59 -->
+
+		<td>2</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Picture Description #1</td>
+		<td>Text</td>
+		<td>Text Area</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475948" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475948_details" style="display: none;">
+
+			<ul id="question_25951475948_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475948_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475948_details_control">Control Properties (Text Area)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475948_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475948_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">picture_description1</span></td>
+	</tr>
+
+	<tr id="question_25951475949">
+		<!-- 1-Based Legacy Question Index: 60 -->
+
+		<td>3</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Picture2</td>
+		<td>Image</td>
+		<td>Camera</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475949" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475949_details" style="display: none;">
+
+			<ul id="question_25951475949_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475949_details_data">Data Properties (Image)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475949_details_control">Control Properties (Camera)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475949_details_data" style="display: none;">
+
+					<p>
+
+						<img src="/resources/themes/standard/images/icons/fugue/tick-circle.png" width="16" height="16" class="picto">
+
+						Auto-rotate images
+
+					</p>
+
+					<p class="message warning">
+						No watermarking is configured for this image
+					</p>
+
+				</div>
+
+				<div id="question_25951475949_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Picture Quality
+						</dt>
+						<dd>
+
+							High Compression
+
+						</dd>
+
+						<dt>
+							Maximum Attachments
+						</dt>
+						<dd>
+							1
+						</dd>
+
+						<dt>
+							Custom Button Text
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">picture_2</span></td>
+	</tr>
+
+	<tr id="question_25951475950">
+		<!-- 1-Based Legacy Question Index: 61 -->
+
+		<td>4</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Picture Description #2</td>
+		<td>Text</td>
+		<td>Text Area</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475950" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475950_details" style="display: none;">
+
+			<ul id="question_25951475950_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475950_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475950_details_control">Control Properties (Text Area)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475950_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475950_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">picture_description2</span></td>
+	</tr>
+
+	<tr id="question_25951475951">
+		<!-- 1-Based Legacy Question Index: 62 -->
+
+		<td>5</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Picture3</td>
+		<td>Image</td>
+		<td>Camera</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475951" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475951_details" style="display: none;">
+
+			<ul id="question_25951475951_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475951_details_data">Data Properties (Image)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475951_details_control">Control Properties (Camera)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475951_details_data" style="display: none;">
+
+					<p>
+
+						<img src="/resources/themes/standard/images/icons/fugue/tick-circle.png" width="16" height="16" class="picto">
+
+						Auto-rotate images
+
+					</p>
+
+					<p class="message warning">
+						No watermarking is configured for this image
+					</p>
+
+				</div>
+
+				<div id="question_25951475951_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Picture Quality
+						</dt>
+						<dd>
+
+							High Compression
+
+						</dd>
+
+						<dt>
+							Maximum Attachments
+						</dt>
+						<dd>
+							1
+						</dd>
+
+						<dt>
+							Custom Button Text
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">picture_3</span></td>
+	</tr>
+
+	<tr id="question_25951475952">
+		<!-- 1-Based Legacy Question Index: 63 -->
+
+		<td>6</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Picture Description #3</td>
+		<td>Text</td>
+		<td>Text Area</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475952" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475952_details" style="display: none;">
+
+			<ul id="question_25951475952_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475952_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475952_details_control">Control Properties (Text Area)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475952_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475952_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">picture_description3</span></td>
+	</tr>
+
+	<tr id="question_25951475953">
+		<!-- 1-Based Legacy Question Index: 64 -->
+
+		<td>7</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Picture4</td>
+		<td>Image</td>
+		<td>Camera</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475953" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475953_details" style="display: none;">
+
+			<ul id="question_25951475953_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475953_details_data">Data Properties (Image)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475953_details_control">Control Properties (Camera)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475953_details_data" style="display: none;">
+
+					<p>
+
+						<img src="/resources/themes/standard/images/icons/fugue/tick-circle.png" width="16" height="16" class="picto">
+
+						Auto-rotate images
+
+					</p>
+
+					<p class="message warning">
+						No watermarking is configured for this image
+					</p>
+
+				</div>
+
+				<div id="question_25951475953_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Picture Quality
+						</dt>
+						<dd>
+
+							High Compression
+
+						</dd>
+
+						<dt>
+							Maximum Attachments
+						</dt>
+						<dd>
+							1
+						</dd>
+
+						<dt>
+							Custom Button Text
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">picture_4</span></td>
+	</tr>
+
+	<tr id="question_25951475954">
+		<!-- 1-Based Legacy Question Index: 65 -->
+
+		<td>8</td>
+
+		<td style="position: relative;"></td>
+
+		<td class="question-text">Picture Description #4</td>
+		<td>Text</td>
+		<td>Text Area</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475954" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475954_details" style="display: none;">
+
+			<ul id="question_25951475954_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475954_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475954_details_control">Control Properties (Text Area)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475954_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475954_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">picture_description4</span></td>
+	</tr>
+
+	<tr id="page_2587235907">
+		<th class="pageRow" colspan="6"> Page 9: Other </th>
+	</tr>
+
+	<tr id="question_25951475955">
+		<!-- 1-Based Legacy Question Index: 66 -->
+
+		<td>1</td>
+
+		<td style="position: relative;">
+		<div style="position: absolute; left: 16px; top: 5px; width: 11px; height: 11px;">
+			<img src="/resources/themes/standard/images/pronto/builder/option-required.png" width="11" height="11" title="Required">
+		</div></td>
+
+		<td class="question-text">Shift Notes/Comments</td>
+		<td>Text</td>
+		<td>Text Area</td>
+
+		<td class="detailsPopupContainer" style="position: relative;">
+		<ul class="mini-menu" style="opacity: 0; position: absolute; top: inherit;">
+			<li>
+				<a class="showDetailsLink" questionid="25951475955" href="#"> <img src="/resources/themes/standard/images/icons/fugue/information-ocre.png" width="16" height="16" alt="Configuration Details" title="Configuration Details"> </a>
+			</li>
+		</ul>
+		<div class="form detailsPopup" id="question_25951475955_details" style="display: none;">
+
+			<ul id="question_25951475955_details_tabs" class="tabs js-tabs">
+
+				<li>
+					<a href="#question_25951475955_details_data">Data Properties (Text)</a>
+				</li>
+
+				<li>
+					<a href="#question_25951475955_details_control">Control Properties (Text Area)</a>
+				</li>
+
+			</ul>
+
+			<div class="tabs-content">
+
+				<div id="question_25951475955_details_data" style="display: none;">
+
+					<dl class="definition">
+						<dt>
+							Validation Type
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+				<div id="question_25951475955_details_control" style="display: none;">
+
+					<dl class="definition">
+
+						<dt>
+							Default Value
+						</dt>
+						<dd>
+
+							<span class="empty">None</span>
+
+						</dd>
+
+					</dl>
+
+				</div>
+
+			</div>
+
+		</div><img class="picto" src="/resources/themes/standard/images/icons/fugue/status-away.png" width="16" height="16" alt="Not used by any Data Destination" title="Not used by any Data Destination"><span class="labelText">shift_notes</span></td>
+	</tr>
+
+</tbody>

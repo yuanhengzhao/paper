@@ -1,0 +1,195 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+  date:
+    formats:
+      default: "%Y-%m-%d"
+  time:
+    formats:
+      default: "%Y-%m-%d %H:%M"
+  "yes": "Yes"
+  "no": "No"
+  incident_mailer:
+    group_notification_email:
+      intro: "Incident Investigation Report"
+    notification_author_incident_not_ready:
+      intro: "Health and Safety Coordinator, %{safety_rep}, has reverted your incident investigation for the following incident back to you because it is incomplete for some reason. Please contact the Health and Safety Coordinator directly for more information."
+    notification_safety_rep_incident_ready:
+      intro: "%{supervisor} has completed the investigation of the following incident."
+    notification_safety_reps_incident_closed:
+      intro: "Health and Safety Coordinator, %{safety_rep}, has marked the following incident as closed."
+    link:
+      text: "View"
+      href: "incident details"
+  incidents:
+    site: "Site"
+    building: "Building"
+    incident_class: "Class of Incident"
+    incident_category: "Category of Incident"
+    incident_category_other: "Other Category of Incident"
+    incident_type: "Type of Injury"
+    incident_type_other: "Other Type of Injury"
+    body_part: "Body Part"
+    body_location: "Location on Body"
+    column: "Column"
+    floor: "Floor"
+    supervisor: "Supervisor"
+    employee_type: "Employee Type"
+    employee: "Employee Name"
+    job: "Job"
+    incident_time:
+      name: "Time of Incident"
+      date: "Date of Incident"
+      time: "Time of Incident"
+    safety_rep: "Safety Rep Contacted"
+    report_time:
+      name: "Time Reported"
+      date: "Date Reported"
+      time: "Time Reported"
+    shift:
+      name: "Shift"
+      start: "Shift Start Time"
+      end: "Shift End Time"
+    description: "Description of Incident"
+    employee_trained: "Has the employee been trained for the job?"
+    date_last_trained: "Date the employee was last trained"
+    work_instruction: "SWC/JES/OIC/TIS Reference Number"
+    reason_not_trained: "Explain why"
+    working_with_others: "Was the employee involved in the incident working with anyone else?"
+    working_with: "Name(s) of the individuals the employee was working with"
+    aware_of_incident: "Were you aware of the incident at the time it occurred?"
+    reason_not_aware: "Explain why"
+    witnesses_present: "Did anyone witness the incident?"
+    witnesses: "Name(s) of individuals who witnessed the incident. Get a written signed statement. Due to the sensitive nature of the content and the fact that the witness may wish for their statement to be confidential, please send the statement in a separate email directory to the site Safety Coordinator and the Director of Health and Safety."
+    reported_by_employee: "Was the employee involved in the incident, the individual who reported it?"
+    reported_by: "Name(s) of the individuals who reported the incident"
+    mobile_equipment:
+      involved: "Was there any mobile equipment involved?"
+      type: "Type of mobile equipment involved"
+      other: "Other"
+      id_number: "Unit identification number"
+      valid_license: "Did the mobile equipment operator have a valid license/certification and permission to operate the unit?"
+      why_not_valid: "Explain why"
+      experience: "Number of months experience the employee has operating that type of equipment"
+      last_pm_date: "Date of the last PM on the equipment was performed"
+      circle_check_done: "Was a circle check/pre-shift inspection completed?"
+      circle_check_not_done_reason: "Explain why"
+    tools:
+      involved: "Were any equipment/tools involved in the incident?"
+      type: "What equipment or tool?"
+      used_properly: "Was it being used properly?"
+      reason_used_improperly: "Explain why"
+      inspected: "Was it inspected before use?"
+      reason_not_inspected: "Explain why"
+      documentation:
+        required: "Does it require documented inspection?"
+        performed: "Was the inspection documented?"
+        reason_not_done: "Explain why"
+    ppe:
+      is_required: "Is any PPE required for this task?"
+      required: "Check all PPE required for the task"
+      other: "Other"
+      worn_properly: "Was all PPE being worn properly?"
+      reason_worn_improperly: "Explain why"
+      good_condition: "Was all PPE in good condition?"
+      reason_bad_condition: "Explain why"
+      in_work_instruction: "Are all PPE required for the job listed on the work instruction?"
+      missing_ppe: "List all missing PPE. Ensure updating the work instruction is added to the action register. Also, if the missing PPE is relevant to this incident, include adding PPE to the work instruction as an irreversible countermeasure."
+    chemical:
+      involved: "Was any chemical involved?"
+      name: "What is the name of the chemical?"
+      used_properly: "Was the chemical being used/dispensed properly?"
+      reason_used_improperly: "Explain why"
+    environmental:
+      factors: "Check all environmental factors that may have contributed to the incident"
+      other: "Other"
+      explanation: "Explain more"
+    factors:
+      contributed: "Check all additional factors that may have contributed to the incident"
+      other: "Other"
+      explanation: "Explain more"
+    investigation:
+      description: "Describe your investigation and what was found"
+      photos: "Photos"
+    modified_duties_prescribed:
+      required: "Were any modified duties prescribed beyond the day of the incident to prevent further injury?"
+      by: "Who prescribed the modified duties?"
+      by_other: "Other"
+      days: "How many calendar days of modified duties were prescribed?"
+    immediate_action: "What immediate action was taken?"
+    countermeasure:
+      name: "Irreversible countermeasure"
+      target_date: "Target completion date for the countermeasure"
+      responsible: "Individual responsible for implementing the countermeasure"
+    investigators: "Name(s) of the individuals involved in the investigation"
+    comments: "Additional comments"
+    property_damage:
+      customer_owned: "Has any customer property been damaged?"
+      explain: "Explain the type of damage"
+      customer_contacted: "List the names of the customers that have been contacted"
+    modified_work:
+      form_complete: "Has the employee completed an offer of modified work form?"
+      reason_form_incomplete: "Explain why"
+      form_uploadable: "Are you able to upload the signed modified work form from the employee?"
+      form_upload: "Upload a scan or digital photo of the signed document"
+      reason_form_not_uploaded: "Explain why"
+    medical_attention:
+      received: "Has the employee received medical attention?"
+      hospital: "Name of the clinic/hospital"
+      doctor: "Name of the registered nurse or doctor"
+      treatment: "Medical treatment was received"
+      form_uploadable: "Are you able to upload a copy of medical forms/documents?"
+      form_upload: "Upload a scan or digital photo of the medical forms/documents"
+      reason_form_not_uploaded: "Explain why"
+    submit_to_coordinator: "Ready to submit to Health and Safety Coordinator?"
+    wsib:
+      incident: "Was this incident a WSIB Reportable incident?"
+      form_7_complete: "Has a WSIB Form 7 been submitted?"
+      reason_form_7_incomplete: "Explain why"
+      claim_number: "What is the Claim #?"
+    osha:
+      incident: "Was this incident an OSHA Recordable incident?"
+      compensation_claim_complete: "Has a Workers' Compensation Claim been submitted?"
+      reason_compensation_claim_incomplete: "Explain why"
+      claim_number: "What is the Claim #?"
+    lost_time:
+      yes_no: "Was there any lost time beyond the date of the incident?"
+      start: "Calendar date of the first day lost (not counting date of the initial incident)"
+      end: "Calendar date of the first day the employee returned to work (leave blank if employee is still on lost time)"
+      days: "Total number of calendar days of lost time"
+    modified_duties:
+      yes_no: "Were there any modified duties prescribed to the employee beyond the date of the incident?"
+      start: "Calendar date of the first day on modified duties (not counting date of the initial incident)"
+      end: "Calendar date of the first day the employee returned to regular duties (leave blank if employee is still on modified duties)"
+      days: "Total number of calendar days on modified duties"
+    additional_comments:
+      yes_no: "Does Health and Safety Coordinator have any additional comments?"
+      comments: "Comments from Health and Safety Coordinator"
+    countermeasures:
+      closed_date: "Enter date the countermeasures were closed"
+      can_upload: "Are you able to upload the objective evidence showing countermeasures implemented?"
+      files: "Upload a scan or digital photo of the documents demonstrating objective evidence showing countermeasures were implemented"
+      additional_information: "Explain why"
+    closed_date: "Date Closed"
+    recordable:
+      yes_no: "Would this incident be classified as an OSHA Recordable using the USA/ISN OSHA Recordable definition for reporting?"
+      reason: "Explain why"

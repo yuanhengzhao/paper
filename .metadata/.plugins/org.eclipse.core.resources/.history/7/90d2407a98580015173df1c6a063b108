@@ -1,0 +1,132 @@
+require_relative '../../spec_helper'
+
+describe ProntoForms::EscrubKopParser do
+
+  let(:missing_image) { "/assets/missing.jpg" }
+
+  describe "max_version" do
+    subject { ProntoForms::EscrubKopParser.new }
+    it "should not throw an error" do
+      lambda { subject.max_version }.should_not raise_error
+    end
+  end
+
+  describe "parse" do
+
+  # call the parse method on a parameter defined in the sub-describes
+    subject { ProntoForms::EscrubKopParser.new.parse(form_hash) }
+
+    # ensure that form_hash has been properly set for the specs
+    before(:each) do
+      form_hash.should_not be_nil
+    end
+
+    describe "for a hash missing pages" do
+
+      let(:form_hash) {
+        f = Rails.root.join('spec', 'resources', 'forms', 'escrub_kop', 'missing_pages.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+
+      it "should throw a parser error" do
+        lambda { subject }.should raise_error(ParserException, "Could not find expected page [page: 1]")
+      end
+
+    end
+    
+    describe "for a valid hash" do
+
+      let(:form_hash) {
+        f = Rails.root.join('spec', 'resources', 'forms', 'escrub_kop', 'valid_key_chemistry_parameters_v2.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+
+      describe "for valid input" do
+        let(:expected) {
+          o = Forms::EscrubKop.new
+
+          o.reference_number = "20150505181025-1822070772"
+          o.server_receive_date = "2015-05-05T14:10:26-04:00"
+          o.device_submit_date = "2015-05-05T14:10:20-04:00"
+          o.username = "mliao@robinsonsolutions.com"
+          o.version = "2"
+          o.altitude = 0.0,
+          o.latitude = 43.652074499999998
+          o.longitude = -79.382043400000001
+          o.source = "prontoforms"
+
+          o.date = "2015-05-05"
+          o.time = "14:09:00-04:00"
+          o.crew = "B2"
+          o.shift = "Night"
+          o.check_list = "Key Chemistry Parameters"
+          
+          o.bc_viscosity = 11.1
+          o.bc_system_tank_level = 22.2
+          o.bc_surface_tension = 33.3
+          o.bc_ratio_st_vis = 3
+          o.bc_imhoff = 44
+          o.bc_centrifuge = 55
+          o.cc_viscosity = 12.1
+          o.cc_system_tank_level = 23.1
+          o.cc_surface_tension = 34.1
+          o.cc_ratio_st_vis = 2.818181818181
+          o.cc_imhoff = 41
+          o.cc_centrifuge = 51
+          o.chemistry_comments = "comment"
+          
+          return o
+        }
+
+        subject {
+          o = ProntoForms::EscrubKopParser.new.parse(form_hash)
+          #puts o.to_json
+          return o
+        }
+
+        it "should return a Forms::EscrubKop object" do
+          subject.should be_a_kind_of(Forms::EscrubKop)
+        end
+        
+        it "should be valid" do
+          expect(subject).to  be_valid
+          expect(expected).to be_valid
+        end
+        
+        describe "should match expected" do
+
+          before(:each) do
+            subject.save
+            subject.reload
+          end
+
+          it "should have the same base form values" do
+            expect(subject).to have_same_base_form_attributes_as(expected)
+          end
+
+          its("date") { should eq(expected.date) }
+          its("time") { should eq(expected.time) }
+          its("crew") { should eq(expected.crew) }
+          its("shift") { should eq(expected.shift) }
+          its("check_list") { should eq(expected.check_list) }
+          
+          its("bc_viscosity") { should eq(expected.bc_viscosity) }
+          its("bc_system_tank_level") { should eq(expected.bc_system_tank_level) }
+          its("bc_surface_tension") { should eq(expected.bc_surface_tension) }
+          its("bc_ratio_st_vis") { should eq(expected.bc_ratio_st_vis) }
+          its("bc_imhoff") { should eq(expected.bc_imhoff) }
+          its("bc_centrifuge") { should eq(expected.bc_centrifuge) }
+          
+          its("cc_viscosity") { should eq(expected.cc_viscosity) }
+          its("cc_system_tank_level") { should eq(expected.cc_system_tank_level) }
+          its("cc_surface_tension") { should eq(expected.cc_surface_tension) }
+          its("cc_ratio_st_vis") { should eq(expected.cc_ratio_st_vis) }
+          its("cc_imhoff") { should eq(expected.cc_imhoff) }
+          its("cc_centrifuge") { should eq(expected.cc_centrifuge) }
+
+
+        end
+      end
+    end
+  end
+end

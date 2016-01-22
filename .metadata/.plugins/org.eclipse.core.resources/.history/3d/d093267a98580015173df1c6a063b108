@@ -1,0 +1,55 @@
+FactoryGirl.define do
+  factory :user, aliases: [:robinson_solutions_user], class: Security::User do
+    provider "google_oauth2"
+    uid "987654"
+    company "Robinson Solutions"
+    password "secret123"
+    password_confirmation { "secret123" }
+    sequence(:email) { |n| "person#{n}@robinsonsolutions.com" }
+    admin false
+    authorized false
+    
+    factory :authorized, aliases: [:robinson_solutions_authorized] do
+      authorized true
+      
+      factory :admin, aliases: [:robinson_solutions_admin] do
+        admin true
+        authorized true
+      end
+    end
+  end
+  
+  factory :robinson_innovations_user, class: Security::User do
+    provider "google_oauth2"
+    uid "654321"
+    company "Robinson Innovations"
+    password "secret123"
+    password_confirmation { "secret123" }
+    sequence(:email) { |n| "person#{n}@robinson-innovations.com" }
+    admin false
+    authorized false
+    
+    factory :robinson_innovations_authorized do
+      authorized true
+      
+      factory :robinson_innovations_admin do
+        admin true
+      end
+    end
+  end
+  
+  factory :external_user, class: Security::User do
+    provider "external"
+    uid "123456"
+    company "BMW"
+    password "secret123"
+    password_confirmation { "secret123" }
+    sequence(:email) { |n| "person#{n}@external.com" }
+    admin false
+    authorized false
+    
+    factory :external_authorized do
+      authorized true
+    end
+  end
+end

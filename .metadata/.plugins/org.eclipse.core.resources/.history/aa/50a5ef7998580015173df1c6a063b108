@@ -1,0 +1,5 @@
+<% title "Gemba Observations" %>
+<%= render :partial => 'forms/form_export_section', :locals => {:update_url => update_export_forms_gemba_observations_url(format: :json), :download_url => download_export_forms_gemba_observations_url} %>
+<table id="gemba_observations_datatable" class="display<%= (can?(:manage, Forms::GembaObservation) ? ' admin' : '') %>">
+	<%= render :partial => 'forms/form_header_footer' %>
+</table>

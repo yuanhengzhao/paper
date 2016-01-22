@@ -1,0 +1,68 @@
+
+# Parser to for Booth Eliminator Checklist forms submitted from ProntoForms
+class ProntoForms::BoothEliminatorChecklistParser < AbstractFormParser
+  
+  # name of the form according to ProntoForms
+  NAME = "Booth Eliminator Checklist"
+  
+  # Returns the highest version number this parser is capable of parsing.
+  #
+  # @return [numeric] highest version number this parser is capable of parsing
+  def max_version
+    4
+  end
+  
+  # Attempts to convert the hash provided into a database object.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @param model [Forms::BoothEliminatorChecklist] object to update, nil if a new object should be created
+  # @return [ActiveRecord] instance of the object
+  # @raise [ParserException] if the hash could not be parsed for whatever reason
+  def parse(form_hash, model = nil)
+    model ||= Forms::BoothEliminatorChecklist.new
+
+    ProntoForms::SourceParser.get_common_answer_values(form_hash, model)
+    
+    model.client               = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 2)[0]
+    model.site                 = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 3)[0]
+    model.process              = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 4)[0]
+    model.line                 = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 5)[0]
+    model.area                 = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 6)[0]
+    model.ceiling_and_walls_r1 = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 0)[0]
+    model.venturi_throat_r1    = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 3)[0]
+    model.mist_eliminator_r1   = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 6)[0]
+    model.repairs_needed_r1    = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 9)[0]
+    model.comments_r1          = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 10)[0]
+    
+    ProntoForms::SourceParser.handle_image(model, form_hash, 1, 11, "photo_r1")
+    
+    model.ceiling_and_walls_r2 = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 0)[0]
+    model.venturi_throat_r2    = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 3)[0]
+    model.mist_eliminator_r2   = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 6)[0]
+    model.repairs_needed_r2    = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 9)[0]
+    model.comments_r2          = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 10)[0]
+    
+    ProntoForms::SourceParser.handle_image(model, form_hash, 2, 11, "photo_r2")
+    
+    model.ceiling_and_walls_c1 = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 0)[0]
+    model.venturi_throat_c1    = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 3)[0]
+    model.mist_eliminator_c1   = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 6)[0]
+    model.repairs_needed_c1    = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 9)[0]
+    model.comments_c1          = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 10)[0]
+    
+    ProntoForms::SourceParser.handle_image(model, form_hash, 3, 11, "photo_c1")
+    
+    model.ceiling_and_walls_b1 = ProntoForms::SourceParser.get_answer_values(form_hash, 4, 0)[0]
+    model.venturi_throat_b1    = ProntoForms::SourceParser.get_answer_values(form_hash, 4, 3)[0]
+    model.mist_eliminator_b1   = ProntoForms::SourceParser.get_answer_values(form_hash, 4, 6)[0]
+    model.repairs_needed_b1    = ProntoForms::SourceParser.get_answer_values(form_hash, 4, 9)[0]
+    model.comments_b1          = ProntoForms::SourceParser.get_answer_values(form_hash, 4, 10)[0]
+    
+    ProntoForms::SourceParser.handle_image(model, form_hash, 4, 11, "photo_b1")
+    
+    model.overall_rate         = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 2)[0]
+
+
+    model
+  end
+end

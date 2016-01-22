@@ -1,0 +1,18 @@
+
+
+nums = [5,3,2,7,9,10,24,67,18]
+target = 28
+
+nums_sort = nums.sort
+puts nums_sort.size
+def two_sum(nums,target)
+  nums_sort = nums.sort
+  
+  nums_sort.each do |num|
+    if num-target<0
+      break
+    end
+  end
+  
+  return [index1, index2]
+end

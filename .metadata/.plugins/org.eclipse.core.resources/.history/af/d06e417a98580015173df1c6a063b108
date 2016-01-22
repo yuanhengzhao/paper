@@ -1,0 +1,151 @@
+require_relative '../../spec_helper'
+
+describe ProntoForms::JigCleaningParser do
+
+  let(:missing_image) { "/assets/missing.jpg" }
+
+  subject { ProntoForms::JigCleaningParser.new }
+
+  it "should have a NAME constant with the expected value" do
+    ProntoForms::JigCleaningParser::NAME.should eq("Jig Cleaning")
+  end
+
+  describe "max_version" do
+    subject { ProntoForms::JigCleaningParser.new }
+    it "should not throw an error" do
+      lambda { subject.max_version }.should_not raise_error
+    end
+  end
+
+  describe "parse" do
+
+  # call the parse method on a parameter defined in the sub-describes
+    subject { ProntoForms::JigCleaningParser.new.parse(form_hash) }
+
+    # ensure that form_hash has been properly set for the specs
+    before(:each) do
+      form_hash.should_not be_nil
+    end
+
+    describe "for a hash missing pages" do
+
+      let(:form_hash) {
+        f = Rails.root.join('spec', 'resources', 'forms', 'jig_cleaning', 'missing_pages.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+
+      it "should throw a parser error" do
+        lambda { subject }.should raise_error(ParserException, "Could not find expected page [page: 8]")
+      end
+
+    end
+
+    describe "for a valid hash" do
+
+      let(:form_hash) {
+        f = Rails.root.join('spec', 'resources', 'forms', 'jig_cleaning', 'valid.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+
+      let(:expected) {
+        o = Forms::JigCleaning.new
+
+        o.reference_number = "20150226-1819610147"
+        o.server_receive_date = "2015-02-26T16:18:55Z"
+        o.device_submit_date = "2015-02-26T16:18:51Z"
+        o.username = "nshakoori@robinsonsolutions.com"
+        o.version = "1"
+        o.altitude = 111.008
+        o.latitude = "43.65195908136313"
+        o.longitude = "-79.38188122906188"
+        o.source = "prontoforms"
+
+        o.machine                 = "2"
+        o.time_in                 = "2015-02-26T11:18:13-05:00"
+        o.cycle                   = "25.2"
+        
+        o.count_rear_door         = "2"
+        o.notes_rear_door         = "Test"
+        
+        o.count_front_door        = "5"
+        o.notes_front_door        = "Test"
+        
+        o.count_kickstand_left    = ""
+        o.count_kickstand_right   = ""
+        o.notes_kickstand         = nil
+        
+        o.count_hood_lifter       = ""
+        o.notes_hood_lifter       = nil
+
+        o.count_weld              = "2"
+        o.notes_weld              = "Test"
+        
+        o.count_luggage_hook      = ""
+        o.notes_luggage_hook      = nil
+        
+        o.count_fuel_lid          = ""
+        o.notes_fuel_lid          = nil
+        
+        o.extra_time              = "12.5"
+        o.time_out                = "2015-02-26T11:18:46-05:00"
+        
+        return o
+      }
+
+      it "should return a Forms::JigCleaning object" do
+        subject.should be_a_kind_of(Forms::JigCleaning)
+      end
+      
+      it "should be valid" do
+        expect(subject).to  be_valid
+        expect(expected).to be_valid
+      end
+
+      describe "should match expected" do
+
+        before(:each) do
+          subject.save
+          subject.reload
+        end
+
+        it "should have the same base form values" do
+          expect(subject).to have_same_base_form_attributes_as(expected)
+        end
+
+        it "should have the same values as expected" do
+          subject.machine.should eq(expected.machine)
+          subject.time_in.should eq(expected.time_in)
+          subject.cycle.should eq(expected.cycle)
+          
+          subject.count_rear_door.should eq(expected.count_rear_door)
+          subject.notes_rear_door.should eq(expected.notes_rear_door)
+          
+          subject.count_front_door.should eq(expected.count_front_door)
+          subject.notes_front_door.should eq(expected.notes_front_door)
+          
+          subject.count_kickstand_left.should eq(expected.count_kickstand_left)
+          subject.count_kickstand_right.should eq(expected.count_kickstand_right)
+          subject.notes_kickstand.should eq(expected.notes_kickstand)
+          
+          subject.count_hood_lifter.should eq(expected.count_hood_lifter)
+          subject.notes_hood_lifter.should eq(expected.notes_hood_lifter)
+          
+          subject.count_weld.should eq(expected.count_weld)
+          subject.notes_weld.should eq(expected.notes_weld)
+          
+          subject.count_luggage_hook.should eq(expected.count_luggage_hook)
+          subject.notes_luggage_hook.should eq(expected.notes_luggage_hook)
+          
+          subject.count_fuel_lid.should eq(expected.count_fuel_lid)
+          subject.notes_fuel_lid.should eq(expected.notes_fuel_lid)
+          
+          
+          subject.extra_time.should eq(expected.extra_time)
+          subject.time_out.should eq(expected.time_out)
+        end
+      end
+    end
+
+  end
+
+end

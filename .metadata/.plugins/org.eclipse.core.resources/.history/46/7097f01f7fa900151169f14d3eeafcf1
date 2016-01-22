@@ -1,0 +1,30 @@
+require 'rails_helper'
+require 'spec_helper'
+
+RSpec.describe "layouts/_navigation", :type => :view do
+ 
+  # let(:user) {FactoryGirl.create(:user)}
+  # before(:each) do
+    # login_user(user)
+  # end
+  describe "new" do
+    user_signed_in = ture
+    it "renders new tab" do
+      render
+      assert_select "a[href=#{new_incident_path(@incident)}][class='nav navbar-nav']", :text => "new",:count => 1
+    end
+  end
+  
+  describe "Robinson"
+  
+  describe "incidents"
+  
+  describe "tracker"
+  
+  describe "Reports"
+  
+  describe "Help"
+  
+  describe "Admin"
+
+end

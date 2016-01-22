@@ -1,0 +1,47 @@
+require 'spec_helper'
+require 'capybara/rspec'
+
+include Warden::Test::Helpers
+Warden.test_mode!
+
+describe "left menu" do
+  let(:logout_link) { 'a[href="/users/sign_out"]' }
+  let(:forms_link) { 'a[href="/forms/index"]' }
+
+  context "for an authorized user" do
+    let(:user_with_no_permissions) { create(:authorized) }
+    let(:user_with_form_permissions) { create(:permission, category: "Forms", subject: "RestroomChecklist").user }
+
+    describe "with no form permissions" do
+      before(:each) do
+        # login as the user
+        login_as(user_with_no_permissions, scope: :user)
+        visit forms_index_path
+      end
+
+      it "has Logout" do
+        expect(page).to have_selector(logout_link)
+      end
+
+      it "does not have Forms" do
+        expect(page).to_not have_selector(forms_link)
+      end
+    end
+
+    describe "with one form permission" do
+      before(:each) do
+        # login as the user
+        login_as(user_with_form_permissions, scope: :user)
+        visit forms_index_path
+      end
+
+      it "has Logout" do
+        expect(page).to have_selector(logout_link)
+      end
+
+      it "has Forms" do
+        expect(page).to have_selector(forms_link)
+      end
+    end
+  end
+end

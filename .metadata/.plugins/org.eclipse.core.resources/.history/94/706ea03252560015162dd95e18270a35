@@ -1,0 +1,11 @@
+<div class="col-sm-9 col-md-7 form-photo-container" data-group="<%= group %>_attributes">
+  <%
+   i = 0 
+   incident.send(group.to_sym).each do |photo| 
+    id_prefix = "#{group}_attributes_#{i}_"
+    name_prefix = "#{group}_attributes[#{i}]" %>
+    <input class="photo-collection-data" data-index="<%= i %>" data-url="<%= attachment_incident_url( { id: incident.id, attachment_group: group, index: i } ) %>" />
+  <% i = i + 1 
+   end %> 
+  <button class="btn btn-primary add-photo-button col-sm-12 col-xs-12'">Add photo</button>
+</div>

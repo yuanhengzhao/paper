@@ -1,0 +1,1 @@
+json.extract! @restroom_checklist, :id, :created_at, :updated_at

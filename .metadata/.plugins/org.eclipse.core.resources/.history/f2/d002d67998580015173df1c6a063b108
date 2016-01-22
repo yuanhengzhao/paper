@@ -1,0 +1,18 @@
+# Dolly
+# Data source of physical car carriers used in a plant.
+#
+# Properties:
+# - id (integer) - primary key
+# - identifier (string) - name of the dolly
+# - active (boolean) - true if this dolly is still in use
+# - dolly_cleanings (Collection<Forms::DollyCleaning>) - all cleanings associated with this dolly
+class DataSources::Dolly < ActiveRecord::Base
+  validates_presence_of :identifier
+  
+  has_many :dolly_cleanings, class_name: "Forms::DollyCleaning"
+  
+  # Returns the most recent cleaning of this dolly, or nil
+  def last_cleaning
+    self.dolly_cleanings.order(:time_in).last
+  end
+end

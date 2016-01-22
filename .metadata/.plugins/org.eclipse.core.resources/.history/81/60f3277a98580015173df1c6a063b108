@@ -1,0 +1,44 @@
+require 'spec_helper'
+
+describe DataSources::Dolly do
+  it "has a valid factory" do
+    expect(build(:dolly)).to be_valid
+  end
+  
+  it "is invalid without an identifier" do
+    expect(build(:dolly, identifier: nil)).to_not be_valid
+  end
+  
+  describe "dolly_cleanings attribute" do
+    let!(:dolly) { create(:dolly) }
+    let!(:dolly_cleaning1) { create(:dolly_cleaning_v1, dolly: dolly) }
+    let!(:dolly_cleaning2) { create(:dolly_cleaning_v1, dolly: dolly) }
+    let!(:other_dolly) { create(:dolly) }
+    let!(:other_dolly_cleaning) { create(:dolly_cleaning_v1, dolly: other_dolly) }
+    
+    it "should include the associated dolly cleaning records" do
+      expect(dolly.dolly_cleanings).to eq([ dolly_cleaning1, dolly_cleaning2 ])
+      expect(other_dolly.dolly_cleanings).to eq([ other_dolly_cleaning ])
+    end
+  end
+  
+  describe "last_cleaning method" do
+    let!(:dolly) { create(:dolly) }
+    
+    describe "with no associated dolly cleaning records" do
+      it "should return nil" do
+        expect(dolly.last_cleaning).to be_nil
+      end
+    end
+    
+    describe "with associated dolly cleaning records" do
+      let!(:dolly_cleaning1) { create(:dolly_cleaning_v1, dolly: dolly, time_in: 50.minutes.ago, time_out: 40.minutes.ago) }
+      let!(:dolly_cleaning2) { create(:dolly_cleaning_v1, dolly: dolly, time_in: 10.minutes.ago, time_out: 2.minutes.ago) }
+      let!(:dolly_cleaning3) { create(:dolly_cleaning_v1, dolly: dolly, time_in: 30.minutes.ago, time_out: 20.minutes.ago) }
+      
+      it "should return the newest record" do
+        expect(dolly.last_cleaning).to eq(dolly_cleaning2)
+      end
+    end
+  end
+end

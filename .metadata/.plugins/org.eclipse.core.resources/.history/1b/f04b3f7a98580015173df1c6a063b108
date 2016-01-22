@@ -1,0 +1,220 @@
+require_relative '../../spec_helper'
+
+describe ProntoForms::Api, :integration => true do
+  
+  shared_examples_for "a call with a bad format" do
+    specify { lambda{ subject }.should raise_error ArgumentError, "format must be one of [:json, :xml]" }
+  end
+  
+  shared_examples_for "a valid get_users call" do
+    it "should work" do
+      subject.should be_a(Hash)
+      subject.should have_key("totalNumberOfResults")
+      subject.should have_key("totalNumberOfPages")
+      subject.should have_key("zone")
+      subject.should have_key("pageData")
+      subject.length.should eq(4)
+      
+      subject["pageData"].should be_a(Array)
+      subject["pageData"].each do |datum|
+        datum.should have_key("identifier")
+        datum.should have_key("username")
+        datum.should have_key("email")
+        datum.should have_key("firstName")
+        datum.should have_key("lastName")
+        datum.length.should eq(5)
+      end
+      
+      expect(subject["pageData"].length).to eq(subject['totalNumberOfResults'])
+    end
+  end
+  
+  shared_examples_for "a valid get_user call" do
+    it "should work" do
+      subject.should be_a(Hash)
+      subject.should have_key("identifier")
+      subject.should have_key("username")
+      subject.should have_key("role")
+      subject.should have_key("suspended")
+      subject.should have_key("email")
+      subject.should have_key("firstName")
+      subject.should have_key("lastName")
+      subject.should have_key("locale")
+      subject.should have_key("preferredTimeZone")
+      subject.should have_key("billingId")
+      subject.should have_key("groupIds")
+      subject.should have_key("lastLoginDate")
+      subject.length.should eq(12)
+    end
+  end
+  
+  shared_examples_for "a valid create_user call" do
+    it "should work" do
+      subject.should be_a(Hash)
+      subject.should have_key("identifier")
+      subject.length.should eq(1)
+    end
+  end
+  
+  let(:minimum_details) { { "username" => "losthismind@gmail.com", "email" => "losthismind@gmail.com", "sendWelcomeEmail" => "false" } }
+  
+  let(:with_address) { { "username" => "losthismind@gmail.com", "email" => "losthismind@gmail.com", "sendWelcomeEmail" => "false", "address" => { "city" => "Mississauga", "address2" => "Robinson Solutions" } } }
+  
+  let(:api) { ProntoForms::Api.new(PRONTOFORMS_API[:key], PRONTOFORMS_API[:secret], PRONTOFORMS_API[:version]) }
+  
+  describe "get_users" do
+    subject { api.get_users }
+    it_behaves_like "a valid get_users call"
+  end
+  
+  describe "get_user_by_id" do
+    subject { api.get_user_by_id(id) }
+    
+    describe "for an id that exists" do
+      let(:id) { api.get_users["pageData"][0]["identifier"] }
+      it_behaves_like "a valid get_user call"
+    end
+    
+    describe "for an id that does not exist" do
+      let(:id) { "apple" }
+      specify { lambda{ subject }.should raise_error RuntimeError }
+    end
+  end
+  
+  describe "get_user_by_username" do
+    subject { api.get_user_by_username(username) }
+    
+    describe "for a username that exists" do
+      let(:username) { api.get_users["pageData"][0]["username"] }
+      it_behaves_like "a valid get_user call"
+    end
+    
+    describe "for a username that does not exist" do
+      let(:username) { "apple" }
+      specify { lambda{ subject }.should raise_error RuntimeError }
+    end
+  end
+  
+  describe "create_user" do
+    subject { api.create_user(user) }
+    
+    context "not a hash" do
+      let(:user) { "error" }
+      specify { lambda { subject }.should raise_error ArgumentError, "user must be a Hash of user details" }
+    end
+    
+    context "nil hash" do
+      let(:user) { nil }
+      specify { lambda { subject }.should raise_error ArgumentError, "user must be a Hash of user details" }
+    end
+    
+    context "missing username parameter" do
+      let(:user) { { "email" => "email" } }
+      specify { lambda { subject }.should raise_error ArgumentError, "[username] is a required field" }
+    end
+    
+    context "missing email parameter" do
+      let(:user) { { "username" => "username" } }
+      specify { lambda { subject }.should raise_error ArgumentError, "[email] is a required field" }
+    end
+    
+    context "bad email format" do
+      pending "add some examples"
+    end
+    
+    context "bad locale format" do
+      pending "add some examples"
+    end
+    
+    context "bad timezone format" do
+      pending "add some examples"
+    end
+    
+    context "unrecognized role" do
+      let(:user) { { "username" => "username", "email" => "email@email.com", "role" => "OtherRole" } }
+      specify { lambda { subject }.should raise_error ArgumentError, "[role] must be one of ['ProntoAdmin', 'ProntoUser', 'ProntoMobileOnly']" }
+    end
+    
+    describe "valid parameters" do
+      before(:each) {
+        lambda{ api.get_user_by_username(minimum_details["username"]) }.should raise_error RuntimeError
+      }
+      after(:each) {
+        created_user = nil
+        lambda{ created_user = api.get_user_by_username(minimum_details["username"]) }.should_not raise_error
+        api.delete_user(created_user["identifier"])
+      }
+      
+      context "minimum details" do
+        let(:user) { minimum_details }
+        it_behaves_like "a valid create_user call"
+      end
+      
+      context "with address information" do
+        let(:user) { with_address }
+        it_behaves_like "a valid create_user call"
+      end
+    end
+  end
+  
+  describe "update_user" do
+    subject { api.update_user(id, changes) }
+    
+    context "no such user" do
+      let(:id) { "not_a_user" }
+      let(:changes) { { "firstName" => "New Name" } }
+      specify { lambda{ subject }.should raise_error RuntimeError }
+    end
+    
+    context "known user" do
+      let(:id) {
+        created_user = api.create_user(minimum_details)
+        id = created_user["identifier"]
+        lambda{ api.get_user_by_id(id) }.should_not raise_error
+        id
+      }
+      after(:each) {
+        created_user = nil
+        lambda{ created_user = api.get_user_by_username(minimum_details["username"]) }.should_not raise_error
+        api.delete_user(created_user["identifier"])
+      }
+      
+      describe "full address" do
+        let(:changes) { { "address" => { "address1" => "123 Fake Street", "address2" => "Apt 100", "city" => "Ottawa", "state" => "Ontario", "country" => "CA", "zipCode" => "A1B 2C3" } } }
+        specify { lambda{ subject }.should_not raise_error }
+      end
+      
+      describe "partial address" do
+        let(:changes) { { "address" => { "city" => "Mississauga", "address2" => "Robinson Solutions" } } }
+        specify { lambda{ subject }.should_not raise_error }
+      end
+    end
+  end
+
+  describe "delete_user" do
+    subject { api.delete_user(id) }
+    
+    context "no such user" do
+      let(:id) { "not_a_user" }
+      specify { lambda{ subject }.should raise_error RuntimeError }
+    end
+    
+    context "known user" do
+      let(:id) {
+        created_user = api.create_user(minimum_details)
+        id = created_user["identifier"]
+        lambda{ api.get_user_by_id(id) }.should_not raise_error
+        id
+      }
+      after(:each) {
+        lambda{ api.get_user_by_id(id) }.should raise_error
+      }
+      specify { lambda{ subject }.should_not raise_error } 
+    end
+  end
+  
+  describe "change_password" do
+    pending "add some examples"
+  end
+  
+end

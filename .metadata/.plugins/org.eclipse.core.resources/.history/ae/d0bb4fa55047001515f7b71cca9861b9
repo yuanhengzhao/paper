@@ -1,0 +1,5 @@
+<% title "New #{@option_group_name}" %>
+
+<%= render 'form' %>
+
+<%= link_to 'Back', admin_option_path %>

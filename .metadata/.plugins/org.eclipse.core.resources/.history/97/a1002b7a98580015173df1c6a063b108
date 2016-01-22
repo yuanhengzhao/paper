@@ -1,0 +1,353 @@
+Unit#,Barcode,Voltage,Site,Shop,BATT S/N,Inspector,Inspection Week
+79,1645,48,Cambridge,North Paint,,,
+120,1933,48,Cambridge,Plastics,,,
+294,1648,48,Cambridge,Plastics,,,
+412,,48,Cambridge,Mitsui,62080,2,A
+422,,48,Cambridge,North Weld,1778BR,1,A
+442,,,Cambridge,,,,
+454,,24,Cambridge,South Weld,8600969613,2,B
+457,,24,Cambridge,Press,2370BS,1,B
+462,,48,Cambridge,Facilities,,2,A
+469,,48,Cambridge,South Weld,,2,A
+500,,24,Cambridge,North Assy,5881HB,1,B
+675,,48,Cambridge,North Weld,L3TV72927,1,A
+725,,24,Cambridge,South Weld,96276H23,2,B
+778,,48,Cambridge,North Paint,,2,A
+796,,24,Cambridge,South Mat?,,2,C
+435,1501,48,Cambridge,North Assy,,2,A
+448,1815,48,Cambridge,North Weld,,1,A
+144,1644,48,Cambridge,North Paint,E30356,2,A
+146,1639,48,Cambridge,South Paint,OB2564,2,A
+326,1910,48,Cambridge,North Assy,5457HB,1,A
+327,1927,48,Cambridge,North Assy,5458HB,1,A
+404,1640,48,Cambridge,South Paint,3108AM,1,A
+419,1507,24,Cambridge,Mitsui,11596B33,2,C
+420,1506,24,Cambridge,Mitsui,4076EA,2,C
+421,1505,24,Cambridge,Mitsui,A2TV71740,2,C
+423,1814,24,Cambridge,North Weld,96283H23,1,C
+424,1510,24,Cambridge,Mitsui,39513J43,2,C
+425,1508,24,Cambridge,Mitsui,11597B33,2,C
+426,1643,24,Cambridge,North Paint,A2TV72713,2,B
+427,1642,24,Cambridge,North Paint,4719GT,2,B
+450,1646,48,Cambridge,North Paint,39483J43,2,A
+451,1834,48,Cambridge,Press,26585L33,1,A
+456,1821,24,Cambridge,Press,11599B33,1,B
+458,1831,48,Cambridge,Press,6797GA,1,B
+459,1928,48,Cambridge,North Assy,29421R,1,B
+460,1591,48,Cambridge,South Assy,3486CC,2,A
+463,1514,48,Cambridge,Mitsui,B4TV7311,2,A
+466,1647,48,Cambridge,North Paint,39483J43,2,A
+470,1630,24,Cambridge,South Assy,939,2,C
+471,1593,24,Cambridge,South Assy,5439CC,2,C
+472,1641,24,Cambridge,South Paint,2340ER,2,C
+473,1467,24,Cambridge,South Assy,10008L23,2,C
+474,1587,24,Cambridge,South Assy,11089A33,2,C
+475,1590,24,Cambridge,South Assy,10009L23,2,C
+476,1579,24,Cambridge,South Assy,11088A33,2,C
+477,1588,24,Cambridge,South Assy,L3TV72926,2,C
+478,1586,24,Cambridge,South Assy,A3649A53,2,C
+481,1932,24,Cambridge,North Weld,A2TV71805,1,C
+482,1509,24,Cambridge,Mitsui,3998JT,2,C
+483,1886,24,Cambridge,North Assy,A2TV71806,1,B
+484,1861,24,Cambridge,North Assy,4075EA,1,B
+485,1860,24,Cambridge,North Assy,5531BA,1,B
+486,1859,24,Cambridge,North Assy,5532BA,1,B
+487,1531,24,Cambridge,South Weld,A2TV71760,2,B
+488,1812,24,Cambridge,North Weld,39508J43,1,C
+489,1811,24,Cambridge,North Weld,5534BA,1,C
+490,1530,24,Cambridge,North Weld,4077EA,1,C
+491,1810,24,Cambridge,North Weld,39512J43,1,C
+492,1621,24,Cambridge,South Assy,14010C33,2,C
+493,1783,24,Cambridge,North Weld,A2TV71761,1,C
+494,1529,24,Cambridge,South Weld,7954CC,2,B
+495,1528,24,Cambridge,South Weld,A2TV71762,2,B
+496,1836,48,Cambridge,North Assy,2214DA,1,A
+497,1923,48,Cambridge,North Assy,C3TV73595,1,A
+498,1511,48,Cambridge,Mitsui,3921HB,2,A
+499,1909,48,Cambridge,North Assy,A2TV71821,1,A
+501,1922,48,Cambridge,North Assy,35371B,1,B
+502,1827,48,Cambridge,Press,C5TV73598,1,A
+503,1752,48,Cambridge,North Weld,J3TV72843,1,A
+504,1774,48,Cambridge,North Weld,L3TV72925,1,A
+505,1547,48,Cambridge,South Weld,J3TV72842,2,A
+506,1921,48,Cambridge,North Assy,J4TV73388,1,A
+508,1837,48,Cambridge,North Assy,6215GA,1,A
+509,1634,48,Cambridge,South Assy,J4TV73385,2,A
+510,1773,48,Cambridge,North Weld,H4TV73308,1,A
+511,1754,24,Cambridge,North Weld,H4TV73310,1,A
+512,1838,48,Cambridge,North Assy,A2TV71822,1,A
+513,1764,48,Cambridge,North Weld,J4TV73412,1,A
+514,1766,48,Cambridge,North Weld,5410HB,1,A
+515,1845,48,Cambridge,North Assy,G3TV72659,1,A
+516,1654,48,Cambridge,North Weld,H4TV73309,1,A
+517,1912,48,Cambridge,North Assy,C5TV73596,1,A
+518,1616,48,Cambridge,South Assy,6795GA,2,A
+519,1915,48,Cambridge,North Assy,5884HB,1,A
+520,1916,48,Cambridge,North Assy,2216DA,1,A
+521,1548,48,Cambridge,South Assy,6796DA,2,A
+522,1609,48,Cambridge,South Assy,7105LA,2,A
+523,1599,48,Cambridge,South Assy,L3TV72926,2,A
+524,1772,48,Cambridge,North Weld,1ETV72760,1,A
+525,1771,48,Cambridge,North Weld,B4TV73012,1,A
+526,1930,48,Cambridge,Mitsui,26039L33,2,A
+527,1770,48,Cambridge,North Weld,13TV72758,1,A
+528,1769,48,Cambridge,North Weld,5141HB,1,A
+529,1842,48,Cambridge,North Assy,24CR8517,1,A
+530,1635,48,Cambridge,South Assy,16853F3,2,A
+531,1767,48,Cambridge,North Weld,C4TV73102,1,A
+532,1595,48,Cambridge,South Assy,11603B33,2,A
+533,1848,48,Cambridge,North Assy,A2TV71828,1,A
+534,1841,48,Cambridge,North Assy,1479AC,1,A
+535,1776,48,Cambridge,North Weld,13TV72759,1,A
+536,1542,48,Cambridge,South Weld,J3TV72843,2,A
+537,1541,48,Cambridge,South Weld,3488CC,2,A
+538,1540,48,Cambridge,South Weld,3482CC,2,A
+539,1835,48,Cambridge,Press,26584L33,1,A
+540,1829,48,Cambridge,Press,4830BA,1,A
+541,1920,48,Cambridge,North Assy,5882HB,1,A
+542,1597,48,Cambridge,South Assy,A2TV71827,2,A
+543,1817,48,Cambridge,North Weld,B4TV73009,1,A
+544,1539,48,Cambridge,South Weld,J3TV72845,2,A
+545,1545,48,Cambridge,South Weld,J3TV72844,2,A
+546,1849,48,Cambridge,North Assy,6213GA,1,A
+547,1613,48,Cambridge,South Assy,14014C33,2,A
+548,1606,48,Cambridge,South Assy,H3TV72668,2,A
+549,1550,48,Cambridge,South Assy,7107LA,2,A
+550,1605,48,Cambridge,South Assy,14009C33,2,A
+551,1596,48,Cambridge,South Assy,3715JB,2,A
+552,1926,48,Cambridge,North Assy,A2TV71826,1,A
+553,1911,48,Cambridge,North Assy,A2TV71829,1,A
+554,1756,48,Cambridge,North Weld,L3TV72928,1,A
+555,1571,24,Cambridge,South Assy,847,2,C
+556,1556,24,Cambridge,South Assy,H3TV72667,2,C
+558,1863,24,Cambridge,North Assy,48356C5,1,B
+559,1503,24,Cambridge,North Assy,A2TV71807,1,B
+560,1893,24,Cambridge,North Assy,A2TV71808,1,B
+561,1892,24,Cambridge,North Assy,A2TV71809,1,B
+562,1891,24,Cambridge,North Assy,A2TV71810,1,B
+563,1897,24,Cambridge,North Assy,A2TV71811,1,B
+564,1890,24,Cambridge,North Assy,A2TV71812,1,B
+565,1889,24,Cambridge,North Assy,A2TV71813,1,B
+566,1888,24,Cambridge,North Assy,A2TV71814,1,B
+567,1887,24,Cambridge,North Assy,A2TV71815,1,B
+568,1781,24,Cambridge,North Weld,96282H23,1,C
+569,1782,24,Cambridge,North Weld,39507J43,1,C
+570,1784,24,Cambridge,North Weld,A2TV71757,1,C
+571,1650,24,Cambridge,Plastics,4565GB,2,C
+572,1546,24,Cambridge,South Weld,A2TV71817,2,B
+573,1523,24,Cambridge,South Weld,96281H23,2,B
+574,1649,48,Cambridge,Plastics,3716JB,2,A
+575,1638,48,Cambridge,South Assy,3715JB,2,A
+576,1551,48,Cambridge,South Assy,0822AC,2,A
+577,1611,48,Cambridge,South Assy,0822AC,2,A
+578,1918,48,Cambridge,South Assy,5883HB,1,A
+579,1914,48,Cambridge,South Assy,5880HB,1,A
+580,1840,48,Cambridge,South Assy,35351B,1,A
+581,1925,48,Cambridge,South Assy,J4TV73384,1,A
+582,1823,48,Cambridge,Press,3483CC,1,A
+583,1760,48,Cambridge,North Weld,G3TV72662,1,A
+584,1513,48,Cambridge,Mitsui,1546BC,2,A
+585,1637,48,Cambridge,South Assy,96280H23,2,A
+586,1549,48,Cambridge,South Assy,407BEA,2,A
+587,1615,48,Cambridge,South Assy,99551L23,2,A
+588,1844,48,Cambridge,North Assy,A2TV71820,1,A
+589,1833,48,Cambridge,Press,4827BA,1,A
+590,1832,48,Cambridge,Press,4829BA,1,A
+591,1824,48,Cambridge,Press,3487CC,1,A
+592,1825,48,Cambridge,Press,C5TV736C,1,A
+593,1763,48,Cambridge,North Weld,G3TV72660,1,A
+594,1759,48,Cambridge,North Weld,K2FV14586,1,A
+595,1758,48,Cambridge,North Weld,3822HB,1,A
+596,1537,48,Cambridge,South Weld,J3TV72846,2,A
+597,1543,48,Cambridge,South Weld,J3TV72847,2,A
+598,1536,48,Cambridge,South Weld,J3TV72848,2,A
+601,1867,24,Cambridge,North Assy,A2TV71763,1,B
+602,1866,24,Cambridge,North Assy,A2TV71764,1,B
+603,1865,24,Cambridge,North Assy,A2TV71765,1,B
+604,1878,24,Cambridge,North Assy,A2TV71766,1,B
+605,1903,24,Cambridge,North Assy,48357CS,1,B
+606,1908,24,Cambridge,North Assy,A2TV71767,1,B
+607,1877,24,Cambridge,North Assy,A2TV71768,1,B
+608,1876,24,Cambridge,North Assy,43648A53,1,B
+609,1875,24,Cambridge,North Assy,A2TV71769,1,B
+610,1874,24,Cambridge,North Assy,A2TV71770,1,B
+611,1873,24,Cambridge,North Assy,43647A53,1,B
+612,1872,24,Cambridge,North Assy,96887H23,1,B
+613,1936,24,Cambridge,North Assy,A2TV71772,1,B
+614,1870,24,Cambridge,North Assy,A2TV71773,1,B
+615,1869,24,Cambridge,North Assy,A2TV71774,1,B
+616,1858,24,Cambridge,North Assy,A2TV71775,1,B
+617,1608,24,Cambridge,South Assy,14015C33,2,C
+618,1857,24,Cambridge,North Assy,A2TV71776,1,B
+619,1856,24,Cambridge,North Assy,A2TV71777,1,B
+620,1855,24,Cambridge,North Assy,A2TV71778,1,B
+621,1851,24,Cambridge,North Assy,A2TV71779,1,B
+622,1854,24,Cambridge,North Assy,A2TV71780,1,B
+623,1852,24,Cambridge,North Assy,A2TV71781,1,B
+624,1853,24,Cambridge,North Assy,A2TV71782,1,B
+625,1900,24,Cambridge,North Assy,A2TV71783,1,B
+626,1901,24,Cambridge,North Assy,A2TV71784,1,B
+627,1902,24,Cambridge,North Assy,A2TV71785,1,B
+628,1924,24,Cambridge,North Assy,A2TV71786,1,B
+629,1898,24,Cambridge,North Assy,A2TV71787,1,B
+630,1899,24,Cambridge,North Assy,A2TV71788,1,B
+631,1883,24,Cambridge,North Assy,A2TV71789,1,B
+632,1894,24,Cambridge,North Assy,A2TV71790,1,B
+633,1895,24,Cambridge,North Assy,A2TV71791,1,B
+634,1937,24,Cambridge,North Assy,A2TV71792,1,B
+635,1934,24,Cambridge,North Weld,A2TV71745,1,C
+636,1780,24,Cambridge,North Weld,A2TV71746,1,C
+637,1793,24,Cambridge,North Weld,39510J43,1,C
+638,1778,24,Cambridge,North Weld,A2TV71747,1,C
+639,1792,24,Cambridge,North Weld,5538BA,1,C
+640,1791,24,Cambridge,North Weld,A2TV71749,1,C
+641,1790,24,Cambridge,North Weld,A2TV71750,1,C
+642,1789,24,Cambridge,North Weld,A2TV71751,1,C
+643,1788,24,Cambridge,North Weld,A2TV71752,1,C
+644,1787,24,Cambridge,North Weld,11598B33,1,C
+645,1799,24,Cambridge,North Weld,A2TV71754,1,C
+646,1798,24,Cambridge,North Weld,A2TV71755,1,C
+647,1797,24,Cambridge,North Weld,11233A3,1,C
+648,1796,24,Cambridge,North Weld,E4TV73157,1,C
+649,1560,24,Cambridge,South Assy,97689J23,2,C
+650,1554,24,Cambridge,South Assy,96573H23,2,C
+651,1584,24,Cambridge,South Assy,H3TV72666,2,C
+652,1563,24,Cambridge,South Assy,43653A53,2,C
+653,1561,24,Cambridge,South Assy,14010C33,2,C
+654,1564,24,Cambridge,South Assy,105,2,C
+655,1617,24,Cambridge,South Assy,99557L23,2,C
+656,1624,24,Cambridge,South Assy,14013C33,2,C
+657,1557,24,Cambridge,South Assy,H4TV73307,2,C
+658,1619,24,Cambridge,South Assy,213,2,C
+659,1795,24,Cambridge,North Weld,4053FC,1,C
+660,1794,24,Cambridge,North Weld,39506J43,1,C
+661,1802,24,Cambridge,North Weld,11600B33,1,C
+662,1803,24,Cambridge,North Weld,39509J43,1,C
+663,1757,48,Cambridge,North Weld,G3TV72663,1,A
+664,1753,48,Cambridge,North Weld,H3TV72664,1,A
+665,1813,48,Cambridge,North Weld,H3TV72665,1,A
+666,1552,48,Cambridge,South Assy,9955L23,1,A
+667,1931,48,Cambridge,South Assy,96278423,2,A
+668,1598,48,Cambridge,South Assy,H3TV72668,2,A
+669,1535,48,Cambridge,South Weld,H3TV72735,2,A
+670,1534,48,Cambridge,South Weld,H3TV72736,2,A
+671,1533,48,Cambridge,South Weld,H3TV72737,2,A
+672,1522,24,Cambridge,South Weld,5557HC,2,B
+673,1526,24,Cambridge,South Weld,5558HC,2,B
+674,1750,48,Cambridge,North Weld,H4TV73311,1,A
+676,1768,48,Cambridge,North Weld,E4TV73213,1,A
+677,1762,48,Cambridge,North Weld,E4TV73212,1,A
+678,1819,48,Cambridge,Press,3486CC,1,A
+679,1755,48,Cambridge,North Weld,C4TV73140,1,A
+680,1917,48,Cambridge,North Assy,J4TV73389,1,A
+681,1919,48,Cambridge,North Assy,4747HB,1,A
+683,1830,48,Cambridge,Press,4828BA,1,A
+684,1935,48,Cambridge,Press,4831BA,1,A
+685,1826,48,Cambridge,Press,J4TV73381,1,A
+686,1544,48,Cambridge,Press,G3TV72661,2,A
+687,1904,24,Cambridge,North Assy,A2TV71793,1,B
+688,1905,24,Cambridge,North Assy,A2TV71794,1,B
+689,1906,24,Cambridge,North Assy,96568H23,1,B
+690,1938,24,Cambridge,North Assy,99556L23,1,B
+691,1864,24,Cambridge,North Assy,,1,B
+692,1881,24,Cambridge,North Assy,A2TV71795,1,B
+693,1885,24,Cambridge,North Assy,A2TV71796,1,B
+694,1884,24,Cambridge,North Assy,A2TV71797,1,B
+695,1868,24,Cambridge,North Assy,A2TV71798,1,B
+696,1880,24,Cambridge,North Assy,A2TV71799,1,B
+697,1862,24,Cambridge,North Assy,A2TV71800,1,B
+698,1882,24,Cambridge,North Assy,A2TV71801,1,B
+699,1843,24,Cambridge,North Assy,5536BA,1,B
+700,1850,24,Cambridge,North Assy,3991JT,1,B
+701,1627,24,Cambridge,South Assy,1706AD,2,C
+702,1626,24,Cambridge,South Assy,9956L23,2,C
+703,1558,24,Cambridge,South Assy,835,2,C
+704,1581,24,Cambridge,South Assy,69415H23,2,C
+705,1929,24,Cambridge,Fleet Spare,,2,C
+706,1585,24,Cambridge,South Assy,96279H23,2,C
+707,1582,24,Cambridge,South Assy,A2TV71818,2,C
+708,1578,24,Cambridge,South Assy,10004L23,2,C
+709,1623,24,Cambridge,South Assy,10005L23,2,C
+710,1631,24,Cambridge,South Assy,99554L23,2,C
+711,1583,24,Cambridge,South Assy,96284H23,2,C
+712,1625,24,Cambridge,South Assy,96285H23,2,C
+713,1610,48,Cambridge,South Assy,A4TV72936,2,A
+714,1612,48,Cambridge,South Assy,96414H23,2,A
+715,1521,24,Cambridge,South Weld,G4FV17036,2,B
+716,1520,24,Cambridge,South Weld,7950CB,2,B
+717,1519,24,Cambridge,South Weld,7949CB,2,B
+718,1532,24,Cambridge,South Weld,96286H23,2,B
+719,1518,24,Cambridge,South Weld,96277H23,2,B
+720,1527,24,Cambridge,South Weld,7953CB,2,B
+721,1816,24,Cambridge,South Weld,4975ET,2,C
+722,1525,24,Cambridge,South Weld,43651A53,2,B
+723,1517,24,Cambridge,South Weld,39514J43,2,B
+724,1524,24,Cambridge,South Weld,43650A53,2,B
+726,1515,24,Cambridge,South Weld,96288H23,1,C
+727,1516,24,Cambridge,South Weld,7952CB,2,B
+728,1502,24,Cambridge,South Weld,96288H23,2,B
+729,1779,24,Cambridge,South Weld,4055FC,2,B
+730,1804,24,Cambridge,North Weld,4054FC,1,C
+731,1805,24,Cambridge,North Weld,A2TV71802,1,C
+732,1806,24,Cambridge,North Weld,A2TV71771,1,C
+733,1807,24,Cambridge,North Weld,33681C,1,C
+734,1809,24,Cambridge,North Weld,33671C,1,C
+735,1808,24,Cambridge,North Weld,03471C,1,C
+736,1801,24,Cambridge,North Weld,39511J43,1,C
+737,1800,24,Cambridge,North Weld,A2TV71758,1,C
+738,1786,24,Cambridge,North Weld,4076EA,1,C
+739,1785,24,Cambridge,North Weld,96283H23,1,C
+740,1651,24,Cambridge,Plastics,2433LR,2,C
+741,1652,24,Cambridge,Plastics,948358C5,2,C
+742,1592,24,Cambridge,South Assy,7210A0,2,C
+743,1628,24,Cambridge,South Assy,96279H23,2,C
+744,1614,24,Cambridge,South Assy,5456CA,2,C
+745,1629,24,Cambridge,South Assy,16844F3,2,C
+746,1580,24,Cambridge,South Assy,96574H23,2,C
+747,1575,24,Cambridge,South Assy,5537BA,2,C
+748,1639,24,Cambridge,South Assy,99547L23,2,C
+749,1577,24,Cambridge,South Assy,99550L23,2,C
+750,1603,24,Cambridge,South Assy,399657,2,C
+751,1502,24,Cambridge,South Assy,99553L23,2,C
+752,1633,24,Cambridge,South Assy,10003L23,2,C
+753,1661,24,Cambridge,South Assy,9955L23,2,C
+754,1604,24,Cambridge,South Assy,9958L23,2,C
+755,1565,24,Cambridge,South Assy,5535BA,2,C
+756,1618,24,Cambridge,South Assy,9657H23,2,C
+757,1594,24,Cambridge,South Assy,11597B33,2,C
+758,1574,24,Cambridge,South Assy,1958LB,2,C
+759,1622,24,Cambridge,South Assy,A2TV71819,2,C
+760,1559,24,Cambridge,South Assy,96571H23,2,C
+761,1555,24,Cambridge,South Assy,1136,2,C
+762,1632,24,Cambridge,South Assy,96575H23,2,C
+763,1573,24,Cambridge,South Assy,96574H23,2,C
+764,1652,24,Cambridge,South Assy,7107LA,2,C
+765,1620,24,Cambridge,South Assy,5455CA,2,C
+766,1777,24,Cambridge,North Weld,A2TV71759,1,C
+768,1589,24,Cambridge,South Assy,1709AD,2,C
+769,1602,24,Cambridge,South Assy,16844F3,2,C
+770,1553,24,Cambridge,South Assy,10001L23,2,C
+771,1569,24,Cambridge,South Assy,1704AD,2,C
+772,1600,24,Cambridge,South Assy,1705AD,2,C
+773,1566,24,Cambridge,South Assy,9956L23,2,C
+774,1601,24,Cambridge,South Assy,1710AD,2,C
+775,1568,24,Cambridge,South Assy,1707AD,2,C
+776,1576,24,Cambridge,South Assy,1708AD,2,C
+777,1879,24,Cambridge,North Assy,43652A53,1,B
+779,1775,48,Cambridge,North Weld,L3TV72924,1,A
+780,1751,48,Cambridge,North Weld,J4TV73386,1,A
+781,1658,48,Cambridge,North Assy,5527BA,1,A
+782,1913,48,Cambridge,North Assy,2215DA,1,A
+783,1846,48,Cambridge,North Assy,5528BA,1,A
+784,1847,48,Cambridge,North Assy,6216GA,1,A
+785,1839,48,Cambridge,North Assy,A2TV71825,1,A
+786,1818,48,Cambridge,North Assy,J4TV3383,1,A
+787,1512,48,Cambridge,Mitsui,39481J43,2,A
+788,1653,48,Cambridge,Plastics,J4TV73381,2,A
+789,1828,48,Cambridge,Press,7450HB,1,A
+790,1820,48,Cambridge,Press,3485CC,1,A
+791,1822,48,Cambridge,Press,G5TV73597,1,A
+792,1500,48,Cambridge,South Assy,96570H23,2,A
+793,1607,48,Cambridge,South Assy,99548L23,2,A
+794,1636,48,Cambridge,South Assy,35361B,2,A
+795,1538,48,Cambridge,South Weld,J4TV73380,2,A

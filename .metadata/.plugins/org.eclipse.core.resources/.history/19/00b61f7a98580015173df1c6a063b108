@@ -1,0 +1,9 @@
+require 'spec_helper'
+
+describe Forms::JanitorialChecklistsController do
+  it_behaves_like "a form controller" do
+    let(:model) { Forms::JanitorialChecklist }
+    let(:image_fields) { [ :image1, :image2 ] }
+    let(:pre_model_name) { "" }
+  end
+end

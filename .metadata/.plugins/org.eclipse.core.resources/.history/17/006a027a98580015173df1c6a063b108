@@ -1,0 +1,10 @@
+class CreateSecurityPermissions < ActiveRecord::Migration
+  def change
+    create_table :security_permissions do |t|
+      t.references :user, index: true, foreign_key: false
+      t.string :category
+      t.string :subject
+      t.string :action
+    end
+  end
+end

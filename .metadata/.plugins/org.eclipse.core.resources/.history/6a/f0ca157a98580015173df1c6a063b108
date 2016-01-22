@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+
+# You might want to change this
+root = File.expand_path(File.dirname(__FILE__))
+root = File.dirname(root) until File.exists?(File.join(root, 'config'))
+Dir.chdir(root)
+
+require File.join(root, "config", "environment.rb")
+
+$running = true
+Signal.trap("TERM") do 
+  $running = false
+end
+
+def poll(setting)
+  begin  
+    Rails.logger.info "Start polling from sqs at #{Time.current}."
+    sqs = Consumer::AwsSqsS3.new(setting[:fog_credentials], setting[:queue_url], setting[:bucket_name], setting[:source])
+    
+    count_new_messages_handled = sqs.poll
+    
+    Rails.logger.info "#{count_new_messages_handled} new submissions processed at #{Time.current}."
+  rescue Exception => e
+    Rails.logger.error "Polling message failed. Exception messages:"
+    Rails.logger.error e.message
+    Rails.logger.error e.backtrace.join("\n")
+  end
+end
+
+setting = Rails.application.config.prontoforms_sqs_settings
+while($running) do
+  poll(setting)
+  sleep 20
+end
+
+

@@ -1,0 +1,186 @@
+# Migrate to import iform data to database
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user
+# - version (string) - current version of the form
+# - altitude (decimal(20,20)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,20)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,20)) - longitude of the user's location when submitted the form
+# - source (string) - name of the provider, for example,"prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+
+# - site (string) - 
+# - shop (string) - 
+# - shift (string) - 
+# - date (date) - 
+# - employees_scheduled (text) - 
+# - absent_employees (text) - 
+# - employees_present (text) - 
+# - overtime_employees (text) - 
+# - dollys_blasted (integer) - 
+# - ecoat_carriers_blast (integer) - 
+# - number_of_deficiency (integer) - 
+# - first_deficiency (string) - 
+# - second_deficiency (string) - 
+# - third_deficiency (string) - 
+# - number_rs_deficiency (integer) - 
+# - first_rs_def (string) - 
+# - second_rs_def (string) - 
+# - third_rs_def (string) - 
+# - co2_tasks (string) - 
+# - quick_sweep (string) - 
+# - booth_deep_clean (string) - 
+# - scrap_flat_presses (text) - 
+# - supervisor (string) - 
+# - supervisor_name (string) - 
+# - number_of_treads (integer) - 
+# - press_1_chart (attachment) - 
+# - press_2_chart (attachment) - 
+# - press_3_chart (attachment) - 
+# - press_4_chart (attachment) - 
+# - downtime (integer) - 
+# - scheduled_hours (integer) - 
+# - work_hours (integer) - 
+# - job_cancellations (text) - 
+# - num_special_requests (integer) - 
+# - request_1 (string) - 
+# - requestor_1 (string) - 
+# - hours_1 (integer) - 
+# - request_2 (string) - 
+# - requestor_2 (string) - 
+# - hours_2 (integer) - 
+# - request_3 (string) - 
+# - requestor_3 (string) - 
+# - hours_3 (integer) - 
+# - request_4 (string) - 
+# - requestor_4 (string) - 
+# - hours_4 (integer) - 
+# - observations (text) - 
+# - incidents (integer) - 
+# - incident1_type (string) - 
+# - incident2_type (string) - 
+# - incident3_type (string) - 
+# - picture_1 (attachment) - 
+# - picture_description1 (text) - 
+# - picture_2 (attachment) - 
+# - picture_description2 (text) - 
+# - picture_3 (attachment) - 
+# - picture_description3 (text) - 
+# - picture_4 (attachment) - 
+# - picture_description4 (text) - 
+# - shift_notes (text) - 
+
+
+class Iforms::SOCShiftReportMigrate < Iforms::AbstractIformMigrate
+
+  def get_record(item_hash,dir)
+    record = Forms::ShiftReport.new
+    get_common_answer_values(record,item_hash)
+    
+    record.site = "Social Circle"
+    record.shop = item_hash["plant"]
+    record.shift = item_hash["crew"]
+    record.date = item_hash["date_1"]
+    record.employees_scheduled = item_hash["employees_scheduled"]
+    record.absent_employees = item_hash["absent_employees"]
+    record.employees_present = item_hash["employees_present"]
+    record.overtime_employees = item_hash["overtime_employees"]
+    record.dollys_blasted = item_hash[""]
+    record.ecoat_carriers_blast = item_hash[""]
+    record.number_of_deficiency = item_hash[""]
+    record.first_deficiency = item_hash[""]
+    record.second_deficiency = item_hash[""]
+    record.third_deficiency = item_hash[""]
+    record.number_rs_deficiency = item_hash[""]
+    record.first_rs_def = item_hash[""]
+    record.second_rs_def = item_hash[""]
+    record.third_rs_def = item_hash[""]
+    record.co2_tasks = item_hash[""]
+    record.quick_sweep = item_hash[""]
+    record.booth_deep_clean = item_hash[""]
+    record.scrap_flat_presses = item_hash["scrap"]
+    record.supervisor = item_hash["supervisor"]
+    record.supervisor_name = item_hash["supervisor_name"]
+    record.number_of_treads = item_hash["number_of_treads"]
+
+    record.press_1_chart = nil
+    record.press_2_chart = nil
+    record.press_3_chart = nil
+    record.press_4_chart = nil
+    
+    record.downtime = item_hash["equipment_downtime"]
+    record.scheduled_hours = item_hash[""]
+    record.work_hours = item_hash[""]
+    record.job_cancellations = item_hash[""]
+    record.num_special_requests = item_hash[""]
+    record.request_1 = item_hash[""]
+    record.requestor_1 = item_hash[""]
+    record.hours_1 = item_hash[""]
+    record.request_2 = item_hash[""]
+    record.requestor_2 = item_hash[""]
+    record.hours_2 = item_hash[""]
+    record.request_3 = item_hash[""]
+    record.requestor_3 = item_hash[""]
+    record.hours_3 = item_hash[""]
+    record.request_4 = item_hash[""]
+    record.requestor_4 = item_hash[""]
+    record.hours_4 = item_hash[""]
+    record.observations = item_hash[""]
+    record.incidents = item_hash["incidents"]
+    record.incident1_type = item_hash["incident1_type"]
+    record.incident2_type = item_hash["incident2_type1"]
+    record.incident3_type = item_hash["incident3_type"]
+    
+    record.picture_1 = create_image_attachment(item_hash,"picture_1",dir)
+    record.picture_description1 = item_hash[""]
+    record.picture_2 = create_image_attachment(item_hash,"picture_2",dir)
+    record.picture_description2 = item_hash[""]
+    record.picture_3 = create_image_attachment(item_hash,"picture_3",dir)
+    record.picture_description3 = item_hash[""]
+    record.picture_4 = create_image_attachment(item_hash,"picture_4",dir)
+    record.picture_description4 = item_hash[""]
+    
+    record.shift_notes = item_hash["shift_comments"]
+    
+    return record
+  end
+  
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

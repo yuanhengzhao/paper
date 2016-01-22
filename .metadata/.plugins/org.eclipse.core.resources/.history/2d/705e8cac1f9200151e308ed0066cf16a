@@ -1,0 +1,24 @@
+require 'spec_helper'
+
+describe 'UserGroup' do
+  
+  describe "name attribute" do
+    it "cannot be nil" do
+      expect(FactoryGirl.build(:user_group, name: nil)).to_not be_valid
+    end
+    
+    it "cannot be blank" do
+      expect(FactoryGirl.build(:user_group, name: "")).to_not be_valid
+    end
+  end
+  
+  describe "prontoforms_identifier attribute" do
+    it "cannot be nil" do
+      expect(FactoryGirl.build(:user_group, prontoforms_identifier: nil)).to_not be_valid
+    end
+    
+    it "cannot be blank" do
+      expect(FactoryGirl.build(:user_group, prontoforms_identifier: "")).to_not be_valid
+    end
+  end
+end

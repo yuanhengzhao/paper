@@ -1,0 +1,35 @@
+<% title "Customer Site #{@customer_site.id}"  %>
+
+<div class="data-source-details">
+<table>
+	<tbody>
+		<tr>
+			<td>Company:</td>
+			<td><%= @customer_site.company %></td>
+		</tr>
+		<tr>
+			<td>Customer:</td>
+			<td><%= @customer_site.customer %></td>
+		</tr>
+		<tr>
+			<td>Site:</td>
+			<td><%= @customer_site.site %></td>
+		</tr>
+		<tr>
+			<td>Shop:</td>
+			<td><%= @customer_site.shop %></td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="2">
+				<ul>
+					<% if can? :edit, @customer_site %><li><%= link_to 'Edit', edit_data_sources_customer_site_path(@customer_site) %></li><% end %>
+					<li><%= link_to 'Back', data_sources_customer_sites_path %></li>
+				</ul>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+
+</div>

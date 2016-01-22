@@ -1,0 +1,6 @@
+<% title "Admin" %>
+
+<ul>
+    <% if can? :read, Security::User %><li><%= link_to "Users", security_users_path %></li><% end %>
+    <% if can? :sync, Security::User %><li><%= link_to "ProntoForms", admin_pronto_forms_index_path %></li><% end %>
+</ul>

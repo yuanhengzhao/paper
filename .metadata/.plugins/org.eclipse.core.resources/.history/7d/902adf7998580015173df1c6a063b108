@@ -1,0 +1,3 @@
+# Custom exception to be raised during the parsing of form submissions.
+class ParserException < StandardError
+end

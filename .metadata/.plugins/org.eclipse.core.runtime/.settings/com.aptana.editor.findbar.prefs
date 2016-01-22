@@ -1,0 +1,3 @@
+FIND_BAR_DECORATOR_FIND_ENTRIES=\#\n\#Fri Jan 22 14\:09\:13 EST 2016\n8\=photo\n7\=user\n6\=Peope\n5\=People\n4\=people\n3\=config.sign_out_via\n2\=hide_fields\n1\=clear_all_fields_in_tab\n0\=btn\n
+FIND_BAR_DECORATOR_REPLACE_ENTRIES=\#\n\#Tue Jan 19 15\:46\:43 EST 2016\n19\=do\n18\=be denied\n17\="should be denied"\n16\=reports_index_path\n15\=reports_path\n14\=except\n13\=report\n12\=user_groups\n11\=pronto_forms_user_groups\n10\=user_group\n9\=subject\n8\=a non-admin index user group access\n7\=logged in without\n6\=HTML\n5\=JSON\n4\=assert_select \n3\="a[href\\\=\\\#]", \n2\=div\n1\=Paper\n0\=paper\n
+eclipse.preferences.version=1

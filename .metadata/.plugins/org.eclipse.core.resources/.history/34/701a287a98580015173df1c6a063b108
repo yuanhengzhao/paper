@@ -1,0 +1,10 @@
+require_relative '../spec_helper'
+
+describe "DataSources" do
+  describe "list" do
+    it "should have the same number of items with the number of data source models" do
+      count = Dir[Rails.root.join('app', 'models', 'data_sources', "*")].count { |file| File.file?(file) }
+      expect(DataSources.list.length).to eq(count)
+    end
+  end
+end

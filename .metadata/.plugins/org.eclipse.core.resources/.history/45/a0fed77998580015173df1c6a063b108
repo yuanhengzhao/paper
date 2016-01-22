@@ -1,0 +1,27 @@
+# eNPS's model
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user
+# - version (string) - current version of the form
+# - altitude (decimal(20,20)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,20)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,20)) - longitude of the user's location when submitted the form
+# - source (string) - name of the provider, for example,"prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+
+# - qr_code - string
+# - site - string
+# - shop - string
+# - question1 - integer
+# - question2 - text
+# - employee - string
+# - exclude - boolean, default false
+
+class Forms::EnpsReport < ActiveRecord::Base
+  include HasSubmission
+  include Reparseable
+end

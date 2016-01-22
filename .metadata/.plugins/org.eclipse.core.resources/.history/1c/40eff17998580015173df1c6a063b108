@@ -1,0 +1,1 @@
+json.extract! @paint_booth_process_checklist, :id, :created_at, :updated_at

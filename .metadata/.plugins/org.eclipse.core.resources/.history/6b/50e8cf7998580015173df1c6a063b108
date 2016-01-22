@@ -1,0 +1,103 @@
+class Forms::JanitorialChecklistsController < ApplicationController
+  
+  FORM_NAME = "janitorial checklists"
+  
+  include DatatableServerSideProcessing
+  include XlsxReportProcessing
+  
+  before_action :authenticate_user!
+  
+  load_and_authorize_resource :except => [:image1, :image2, :update_export, :download_export, :submission]
+  
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  
+  add_breadcrumb "forms", :forms_index_path
+  add_breadcrumb "janitorial checklists", :forms_janitorial_checklists_path
+  
+  DATATABLES_COLUMNS = [ "id", "username", "device_submit_date" ]
+  
+  def index
+    # @janitorial_checklist is automatically loaded
+  end
+
+  def show
+    # @janitorial_checklist is automatically loaded
+    add_breadcrumb "janitorial checklists #{@janitorial_checklist.id}", :forms_janitorial_checklist_path
+  end
+  
+  # Overwrites the model's existing properties with the contents of the original submission document attached.
+  def reparse
+    # @janitorial_checklist is automatically loaded
+    result = @janitorial_checklist.reparse
+    # render the show action associated with the result object
+    render action: 'show', location: result
+  end
+  
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html { redirect_to forms_janitorial_checklists_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS
+        }
+        
+        # call concern function using collection of all records the user has access to
+        @janitorial_checklists = Forms::JanitorialChecklist.accessible_by(current_ability)
+        render :json => datatable_data(@janitorial_checklists, params, options)
+      }
+    end
+  end
+  
+  def update_export
+    authorize! :read, Forms::JanitorialChecklist
+    
+    begin
+      raise "No data in this form."  if Forms::JanitorialChecklist.all.count == 0
+      @export = generate_xlsx(Forms::JanitorialChecklist, FORM_NAME, Forms::JanitorialChecklist.maximum("updated_at"))
+      respond_to do |format|
+        format.json { render :json => @export, status: :ok  }
+      end
+    rescue => e
+      respond_to do |format|
+        format.json { render text:e.message, status: :not_acceptable }
+      end
+    end  
+  end
+  
+  def download_export
+    authorize! :read, Forms::JanitorialChecklist
+    @export = Report::FormExport.find_by(form_name: FORM_NAME)
+    redirect_to(@export.attachment.expiring_url(10))
+  end
+  
+  def image1
+    authorize! :read, Forms::JanitorialChecklist
+    @janitorial_checklist = Forms::JanitorialChecklist.find(params[:id])
+    authorize! :read, @janitorial_checklist
+    redirect_to(@janitorial_checklist.image1.expiring_url(10))
+  end
+  
+  def image2
+    authorize! :read, Forms::JanitorialChecklist
+    @janitorial_checklist = Forms::JanitorialChecklist.find(params[:id])
+    authorize! :read, @janitorial_checklist
+    redirect_to(@janitorial_checklist.image2.expiring_url(10))
+  end
+  
+  def submission
+    authorize! :read, Forms::JanitorialChecklist
+    @janitorial_checklist = Forms::JanitorialChecklist.find(params[:id])
+    authorize! :read, @janitorial_checklist
+    redirect_to(@janitorial_checklist.submission.expiring_url(10))
+  end
+  
+  private
+  
+  def record_not_found(exception)
+    # redirect back to index if id not found
+    flash[:alert] = exception.message
+    redirect_to forms_janitorial_checklists_path
+  end
+  
+end

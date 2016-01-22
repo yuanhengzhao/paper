@@ -1,0 +1,60 @@
+require_relative '../../spec_helper'
+
+describe FormExtensions::PunchlistFormHistory do
+  it "has a valid factory" do
+    expect(build(:punchlist_form_history)).to be_valid
+  end
+  
+  describe "attributes" do
+    it "must have a user_email" do
+      expect(build(:punchlist_form_history, user_email: nil)).not_to be_valid
+    end
+    
+    it "must have a status" do
+      expect(build(:punchlist_form_history, status: nil)).not_to be_valid
+    end
+    
+    it "must have a responsible" do
+      expect(build(:punchlist_form_history, responsible: nil)).not_to be_valid
+    end
+  end
+  
+  describe "before_create :update_punchlist_properties" do
+    let!(:punchlist_form) { create(:punchlist_form, status: "open", responsible: "John") }
+    it "should update the punchlist properties on create" do
+      history = create(:punchlist_form_history, punchlist_form: punchlist_form, status: "close", responsible: "Tom", bmw_comment: "dummy comment")
+      punchlist_form.reload
+      expect(punchlist_form.status).to eq("close")
+      expect(punchlist_form.responsible).to eq("Tom")
+      expect(punchlist_form.punchlist_form_histories.last).to eq(history)
+    end
+    
+    it "should not create a history record without change and witout comment" do
+      history = build(:punchlist_form_history, punchlist_form: punchlist_form, status: punchlist_form.status, responsible: punchlist_form.responsible, bmw_comment: punchlist_form.bmw_comment, supplier_status: punchlist_form.supplier_status)
+      expect(history.valid?).to eq(false)
+    end
+    
+    it "should not change the punchlist record if an older history is created" do
+      history1 = create(:punchlist_form_history, punchlist_form: punchlist_form, status: "cancelled", responsible: "Brown", bmw_comment: "dummy comment")
+      history2 = build(:punchlist_form_history, punchlist_form: punchlist_form, status: "close", responsible: "Tom", bmw_comment: "dummy comment 2")
+      history2.created_at = 2.days.ago
+      history2.save
+      
+      punchlist_form.reload
+      expect(punchlist_form.status).to eq("cancelled")
+      expect(punchlist_form.responsible).to eq("Brown")
+    end
+  end
+  
+  describe "dependent: :destroy on punchlist form" do
+    let!(:punchlist_form) { create(:punchlist_form, status: "open", responsible: "John") }
+    it "should delete all the history records when their punchlist is destroyed" do
+      expect(FormExtensions::PunchlistFormHistory.count).to eq(1) # created when the punchlist is created
+      history1 = create(:punchlist_form_history, punchlist_form: punchlist_form, status: "cancelled", responsible: "Brown", bmw_comment: "dummy comment")
+      history2 = create(:punchlist_form_history, punchlist_form: punchlist_form, status: "close", responsible: "Tom", bmw_comment: "dummy comment2")
+      expect(FormExtensions::PunchlistFormHistory.count).to eq(3)
+      punchlist_form.destroy!
+      expect(FormExtensions::PunchlistFormHistory.count).to eq(0)
+    end
+  end
+end

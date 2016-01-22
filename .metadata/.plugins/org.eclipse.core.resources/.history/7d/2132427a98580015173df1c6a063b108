@@ -1,0 +1,265 @@
+require_relative '../../spec_helper'
+
+describe ProntoForms::SocHourlyProductionReportParser do
+
+  let(:missing_image) { "/assets/missing.jpg" }
+
+  describe "max_version" do
+    subject { ProntoForms::SocHourlyProductionReportParser.new }
+    it "should not throw an error" do
+      lambda { subject.max_version }.should_not raise_error
+    end
+
+    it "should be equal or greater than version 7" do
+      expect(subject.max_version).to be >= 7
+    end
+  end
+
+  describe "parse" do
+
+    # call the parse method on a parameter defined in the sub-describes
+    subject { ProntoForms::SocHourlyProductionReportParser.new.parse(form_hash) }
+
+    # ensure that form_hash has been properly set for the specs
+    before(:each) do
+      form_hash.should_not be_nil
+    end
+
+    describe "for a hash missing pages" do
+
+      let(:form_hash) {
+        f = Rails.root.join('spec', 'resources', 'forms', 'soc_hourly_production_report', 'v7', 'missing_pages.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+
+      it "should throw a parser error" do
+        lambda { subject }.should raise_error(ParserException, "Could not find expected answer [page: 8][answer: 1]")
+      end
+
+    end
+
+    describe "for a valid hash" do
+
+      let(:form_hash) {
+        f = Rails.root.join('spec', 'resources', 'forms', 'soc_hourly_production_report', 'v7', 'valid.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+
+      let(:expected) {
+        o = Forms::SocHourlyProductionReport.new
+
+        o.reference_number = "20150213161815-1819215496"
+        o.server_receive_date = "2015-02-13T11:18:17-05:00"
+        o.device_submit_date = "2015-02-13T11:17:56-05:00"
+        o.username = "mliao@robinsonsolutions.com"
+        o.version = "7"
+        o.altitude = 0.0
+        o.latitude = 43.6520181
+        o.longitude = -79.3818995
+        o.source = "prontoforms"
+
+        o.crew = "A Crew"
+        o.supervisor = "David Carpenter"
+        o.supervisor_name = "name"
+        o.date = "2015-02-13"
+        o.reported_time = "7"
+        o.ampm = "AM"
+
+        o.press_1_cct = "29"
+        o.p1lut = "3.8"
+        o.p1m = "7"
+        o.press_1_curing_cycle = "1"
+        o.press_1_blanks = "1"
+        o.press_1_treads = "6"
+        o.press_1_downtime = "2"
+        o.press_1_downtime_desc = "3"
+        o.press_1_efficiency = "4"
+        o.press_1_chart = nil
+
+        o.press_2_cct = "20"
+        o.p2lut = "3.8"
+        o.p2m = "7"
+        o.press_2_curing_cycle = "1"
+        o.press_2_blanks = "2"
+        o.press_2_treads = "5"
+        o.press_2_downtime = "2"
+        o.press_2_downtime_desc = "3"
+        o.press_2_efficiency = "2"
+        o.press_2_chart = nil
+
+        o.press_3_cct = "14"
+        o.p3lut = "5.3"
+        o.p3m = "16"
+        o.press_3_curing_cycle = "1"
+        o.press_3_blanks = "3"
+        o.press_3_treads = "13"
+        o.press_3_downtime = "2"
+        o.press_3_downtime_desc = "3"
+        o.press_3_efficiency = "2"
+        press_3_chart = nil
+        o.press_3_chart = ProntoForms::SourceParser.create_attachment(press_3_chart)
+
+        o.press_4_cct = "14"
+        o.p4lut = "5.3"
+        o.p4m = "16"
+        o.press_4_curing_cycle = "1"
+        o.press_4_blanks = "4"
+        o.press_4_treads = "12"
+        o.press_4_downtime = "2"
+        o.press_4_downtime_desc = "3"
+        o.press_4_efficiency = "2"
+        o.press_4_chart = nil
+        
+        o.splicing_rolls = "1"
+        o.splicing_pounds = "2"
+        
+        o.total_treads = "36"
+        o.total_blanks = "10"
+        o.projected_total = "32"
+        o.overall_efficiency = "2"
+        o.comments = "comments"
+
+        o.end_of_shift = true
+        o.employee_scheduled = "1"
+        o.absent_employees = "2"
+        o.overtime_employees = "3"
+        o.total_employees = "4"
+        o.incidents = "5"
+        o.incident_type1 = "Near Miss"
+        o.incident_type2 = "WSIB/OSHA"
+        o.incident_type3 = "Non Work Related"
+        o.shift_notes = "notes"
+        o.press_1_2p = "1"
+        o.press_2_2p = "2"
+        o.press_3_2p = "3"
+        o.press_4_2p = "4"
+        o.buffer1_2pc_gen = "1"
+        o.buffer2_2pc_gen = "2"
+        o.p1_cured_waste = "1"
+        o.p2_cured_waste = "2"
+        o.p3_cured_waste = "3"
+        o.p4_cured_waste = "4"
+
+        return o
+      }
+
+      it "should return a Forms::SocHourlyProductionReport object" do
+        subject.should be_a_kind_of(Forms::SocHourlyProductionReport)
+      end
+      it "should be valid" do
+        expect(subject).to  be_valid
+        expect(expected).to be_valid
+      end
+
+      describe "should match expected" do
+
+        before(:each) do
+          subject.save
+          subject.reload
+        end
+
+        it "should have the same base form values" do
+          expect(subject).to have_same_base_form_attributes_as(expected)
+        end
+
+        its("crew") { should eq(expected.crew) }
+        its("supervisor") { should eq(expected.supervisor) }
+        its("supervisor_name") { should eq(expected.supervisor_name) }
+        its("date") { should eq(expected.date) }
+        its("reported_time") { should eq(expected.reported_time) }
+        its("ampm") { should eq(expected.ampm) }
+
+        its("press_1_cct") { should eq(expected.press_1_cct) }
+        its("press_1_curing_cycle") { should eq(expected.press_1_curing_cycle) }
+        its("p1lut") { should eq(expected.p1lut) }
+        its("p1m") { should eq(expected.p1m) }
+        its("press_1_blanks") { should eq(expected.press_1_blanks) }
+        its("press_1_treads") { should eq(expected.press_1_treads) }
+        its("press_1_2p") { should eq(expected.press_1_2p) }
+        its("press_1_downtime") { should eq(expected.press_1_downtime) }
+        its("press_1_downtime_desc") { should eq(expected.press_1_downtime_desc) }
+        its("press_1_efficiency") { should eq(expected.press_1_efficiency) }
+
+        its("press_1_chart") { should_not be_nil }
+        its("press_1_chart") { should_not eq(missing_image) }
+        its("press_1_chart_content_type") { should eq(expected.press_1_chart_content_type) }
+        its("press_1_chart_file_name") { should eq(expected.press_1_chart_file_name) }
+        its("press_1_chart_file_size") { should eq(expected.press_1_chart_file_size) }
+
+        its("press_2_cct") { should eq(expected.press_2_cct) }
+        its("press_2_curing_cycle") { should eq(expected.press_2_curing_cycle) }
+        its("p2lut") { should eq(expected.p2lut) }
+        its("p2m") { should eq(expected.p2m) }
+        its("press_2_blanks") { should eq(expected.press_2_blanks) }
+        its("press_2_treads") { should eq(expected.press_2_treads) }
+        its("press_2_2p") { should eq(expected.press_2_2p) }
+        its("press_2_downtime") { should eq(expected.press_2_downtime) }
+        its("press_2_downtime_desc") { should eq(expected.press_2_downtime_desc) }
+        its("press_2_efficiency") { should eq(expected.press_2_efficiency) }
+
+        its("press_2_chart") { should_not be_nil }
+        its("press_2_chart") { should_not eq(missing_image) }
+        its("press_2_chart_content_type") { should eq(expected.press_2_chart_content_type) }
+        its("press_2_chart_file_name") { should eq(expected.press_2_chart_file_name) }
+        its("press_2_chart_file_size") { should eq(expected.press_2_chart_file_size) }
+
+        its("press_3_cct") { should eq(expected.press_3_cct) }
+        its("press_3_curing_cycle") { should eq(expected.press_3_curing_cycle) }
+        its("p3lut") { should eq(expected.p3lut) }
+        its("p3m") { should eq(expected.p3m) }
+        its("press_3_blanks") { should eq(expected.press_3_blanks) }
+        its("press_3_treads") { should eq(expected.press_3_treads) }
+        its("press_3_2p") { should eq(expected.press_3_2p) }
+        its("press_3_downtime") { should eq(expected.press_3_downtime) }
+        its("press_3_downtime_desc") { should eq(expected.press_3_downtime_desc) }
+        its("press_3_efficiency") { should eq(expected.press_3_efficiency) }
+
+        its("press_3_chart") { should_not be_nil }
+        its("press_3_chart") { should_not eq(missing_image) }
+        its("press_3_chart_content_type") { should eq(expected.press_3_chart_content_type) }
+        its("press_3_chart_file_name") { should eq(expected.press_3_chart_file_name) }
+        its("press_3_chart_file_size") { should eq(expected.press_3_chart_file_size) }
+
+        its("press_4_cct") { should eq(expected.press_4_cct) }
+        its("press_4_curing_cycle") { should eq(expected.press_4_curing_cycle) }
+        its("p4lut") { should eq(expected.p4lut) }
+        its("p4m") { should eq(expected.p4m) }
+        its("press_4_blanks") { should eq(expected.press_4_blanks) }
+        its("press_4_treads") { should eq(expected.press_4_treads) }
+        its("press_4_2p") { should eq(expected.press_4_2p) }
+        its("press_4_downtime") { should eq(expected.press_4_downtime) }
+        its("press_4_downtime_desc") { should eq(expected.press_4_downtime_desc) }
+        its("press_4_efficiency") { should eq(expected.press_4_efficiency) }
+
+        its("press_4_chart") { should_not be_nil }
+        its("press_4_chart") { should_not eq(missing_image) }
+        its("press_4_chart_content_type") { should eq(expected.press_4_chart_content_type) }
+        its("press_4_chart_file_name") { should eq(expected.press_4_chart_file_name) }
+        its("press_4_chart_file_size") { should eq(expected.press_4_chart_file_size) }
+
+        its("total_treads"){ should eq(expected.total_treads) }
+        its("total_blanks"){ should eq(expected.total_blanks) }
+        its("projected_total"){ should eq(expected.projected_total) }
+        its("overall_efficiency") { should eq(expected.overall_efficiency) }
+        its("comments"){ should eq(expected.comments) }
+
+        its("end_of_shift"){ should eq(expected.end_of_shift) }
+        its("employee_scheduled") { should eq(expected.employee_scheduled) }
+        its("absent_employees"){ should eq(expected.absent_employees) }
+        its("overtime_employees") { should eq(expected.overtime_employees) }
+        its("total_employees"){ should eq(expected.total_employees) }
+        its("incidents"){ should eq(expected.incidents) }
+        its("incident_type1"){ should eq(expected.incident_type1) }
+        its("incident_type2"){ should eq(expected.incident_type2) }
+        its("incident_type3"){ should eq(expected.incident_type3) }
+        its("shift_notes"){ should eq(expected.shift_notes) }
+        its("buffer1_2pc_gen"){ should eq(expected.buffer1_2pc_gen) }
+        its("buffer2_2pc_gen"){ should eq(expected.buffer2_2pc_gen) }
+        its("p1_cured_waste"){ should eq(expected.p1_cured_waste) }
+        its("p2_cured_waste"){ should eq(expected.p2_cured_waste) }
+        its("p3_cured_waste"){ should eq(expected.p3_cured_waste) }
+        its("p4_cured_waste"){ should eq(expected.p4_cured_waste) }
+      end
+    end
+  end
+end

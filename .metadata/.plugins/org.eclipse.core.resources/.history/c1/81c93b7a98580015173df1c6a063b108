@@ -1,0 +1,276 @@
+{  
+   "identifier":"1815045900",
+   "version":"v1",
+   "zone":"America/Toronto",
+   "referenceNumber":"20140828185337-1815045900",
+   "state":"Complete",
+   "deviceSubmitDate":{  
+      "time":"2014-08-28T14:53:29-04:00",
+      "zone":"America/Toronto"
+   },
+   "shiftedDeviceSubmitDate":"2014-08-28T14:53:29-04:00",
+   "serverReceiveDate":"2014-08-28T14:53:43-04:00",
+   "form":{  
+      "identifier":"141784399",
+      "versionIdentifier":"152199028",
+      "name":"Task Inspection",
+      "version":1,
+      "formSpaceIdentifier":"191492117",
+      "formSpaceName":"Robinson Solutions Forms"
+   },
+   "user":{  
+      "identifier":"131590063",
+      "username":"mliao@robinsonsolutions.com",
+      "displayName":"Mengxi Liao (mliao@robinsonsolutions.com)"
+   },
+   "dispatcher":null,
+   "geoStamp":{  
+      "success":false,
+      "captureTimestamp":null,
+      "errorMessage":"Failed to get GPS Access on Clients device. Please make certain Device has GPS Enabled",
+      "source":null,
+      "coordinates":null,
+      "address":null
+   },
+   "pages":[  
+      {  
+         "name":"Basic",
+         "answers":[  
+            {  
+               "label":"inspection_date",
+               "dataType":"Date",
+               "question":"Inspection Date",
+               "values":[  
+                  "2014-08-28"
+               ]
+            },
+            {  
+               "label":"client",
+               "dataType":"FreeText",
+               "question":"Client",
+               "values":[  
+                  "BMW"
+               ]
+            },
+            {  
+               "label":"site",
+               "dataType":"FreeText",
+               "question":"Site",
+               "values":[  
+                  "Spartanburg"
+               ]
+            },
+            {  
+               "label":"shop",
+               "dataType":"FreeText",
+               "question":"Shop",
+               "values":[  
+                  "North Paint"
+               ]
+            },
+            {  
+               "label":"num_tasks",
+               "dataType":"Integer",
+               "question":"Number of Process / Area / Task",
+               "values":[  
+                  "0"
+               ],
+               "selectOptions":[  
+                  {  
+                     "selected":false,
+                     "other":false,
+                     "value":"1"
+                  },
+                  {  
+                     "selected":false,
+                     "other":false,
+                     "value":"2"
+                  },
+                  {  
+                     "selected":false,
+                     "other":false,
+                     "value":"3"
+                  }
+               ]
+            }
+         ]
+      },
+      {  
+         "name":"Task",
+         "answers":[  
+            {  
+               "label":"task1",
+               "dataType":"FreeText",
+               "question":"Process / Area / Task",
+               "values":[]
+            },
+            {  
+               "label":"abnormality1",
+               "dataType":"FreeText",
+               "question":"Any abnormality to report?",
+               "values":[]
+            },
+            {  
+               "label":"abnormality_desc1",
+               "dataType":"FreeText",
+               "question":"Abnormality description",
+               "values":[]
+            },
+            {  
+               "label":"abnormality_picture1",
+               "dataType":"Image",
+               "question":"Abnormality picture",
+               "values":[]
+            },
+            {  
+               "label":"label1",
+               "dataType":"Information",
+               "question":"Capture images for the Before and After status task",
+               "values":[]
+            },
+            {  
+               "label":"picture_before_task1",
+               "dataType":"Image",
+               "question":"Picture before - task",
+               "values":[]
+            },
+            {  
+               "label":"picture_after_task1",
+               "dataType":"Image",
+               "question":"Picture after - task",
+               "values":[]
+            },
+            {  
+               "label":"quality_evaluation1",
+               "dataType":"FreeText",
+               "question":"Quality Evaluation",
+               "values":[]
+            },
+            {  
+               "label":"comments_task1",
+               "dataType":"FreeText",
+               "question":"Comments task",
+               "values":[]
+            }
+         ]
+      },
+      {  
+         "name":"Task",
+         "answers":[  
+            {  
+               "label":"task2",
+               "dataType":"FreeText",
+               "question":"Process / Area / Task",
+               "values":[]
+            },
+            {  
+               "label":"abnormality2",
+               "dataType":"FreeText",
+               "question":"Any abnormality to report?",
+               "values":[]
+            },
+            {  
+               "label":"abnormality_desc2",
+               "dataType":"FreeText",
+               "question":"Abnormality description",
+               "values":[]
+            },
+            {  
+               "label":"abnormality_picture2",
+               "dataType":"Image",
+               "question":"Abnormality picture",
+               "values":[]
+            },
+            {  
+               "label":"label2",
+               "dataType":"Information",
+               "question":"Capture images for the Before and After status task",
+               "values":[]
+            },
+            {  
+               "label":"picture_before_task2",
+               "dataType":"Image",
+               "question":"Picture before - task",
+               "values":[]
+            },
+            {  
+               "label":"picture_after_task2",
+               "dataType":"Image",
+               "question":"Picture after - task",
+               "values":[]
+            },
+            {  
+               "label":"quality_evaluation2",
+               "dataType":"FreeText",
+               "question":"Quality Evaluation",
+               "values":[]
+            },
+            {  
+               "label":"comments_task2",
+               "dataType":"FreeText",
+               "question":"Comments task",
+               "values":[]
+            }
+         ]
+      },
+      {  
+         "name":"Task",
+         "answers":[  
+            {  
+               "label":"task3",
+               "dataType":"FreeText",
+               "question":"Process / Area / Task",
+               "values":[]
+            },
+            {  
+               "label":"abnormality3",
+               "dataType":"FreeText",
+               "question":"Any abnormality to report?",
+               "values":[]
+            },
+            {  
+               "label":"abnormality_desc3",
+               "dataType":"FreeText",
+               "question":"Abnormality description",
+               "values":[]
+            },
+            {  
+               "label":"abnormality_picture3",
+               "dataType":"Image",
+               "question":"Abnormality picture",
+               "values":[]
+            },
+            {  
+               "label":"label3",
+               "dataType":"Information",
+               "question":"Capture images for the Before and After status task",
+               "values":[]
+            },
+            {  
+               "label":"picture_before_task3",
+               "dataType":"Image",
+               "question":"Picture before - task",
+               "values":[]
+            },
+            {  
+               "label":"picture_after_task3",
+               "dataType":"Image",
+               "question":"Picture after - task",
+               "values":[]
+            },
+            {  
+               "label":"quality_evaluation3",
+               "dataType":"FreeText",
+               "question":"Quality Evaluation",
+               "values":[]
+            },
+            {  
+               "label":"comments_task3",
+               "dataType":"FreeText",
+               "question":"Comments task",
+               "values":[]
+            }
+         ]
+      }
+   ]
+}

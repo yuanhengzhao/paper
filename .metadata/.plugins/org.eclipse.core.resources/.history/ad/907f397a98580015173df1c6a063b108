@@ -1,0 +1,676 @@
+{  
+   "identifier":"1819215496",
+   "version":"v1",
+   "zone":"America/Toronto",
+   "referenceNumber":"20150213161815-1819215496",
+   "state":"Complete",
+   "deviceSubmitDate":{  
+      "time":"2015-02-13T11:17:56-05:00",
+      "zone":"America/Toronto"
+   },
+   "shiftedDeviceSubmitDate":"2015-02-13T11:17:56-05:00",
+   "serverReceiveDate":"2015-02-13T11:18:17-05:00",
+   "form":{  
+      "identifier":"141786393",
+      "versionIdentifier":"152423375",
+      "name":"Soc Hourly Production Report",
+      "version":7,
+      "formSpaceIdentifier":"191571045",
+      "formSpaceName":"Site - Social Circle Forms"
+   },
+   "user":{  
+      "identifier":"131590063",
+      "username":"mliao@robinsonsolutions.com",
+      "displayName":"Mengxi Liao (mliao@robinsonsolutions.com)"
+   },
+   "dispatcher":null,
+   "geoStamp":{  
+      "success":true,
+      "captureTimestamp":{  
+         "provided":{  
+            "time":"2015-02-13T11:16:30-05:00",
+            "zone":"America/Toronto"
+         },
+         "shifted":"2015-02-13T11:16:30-05:00"
+      },
+      "errorMessage":null,
+      "source":"Network",
+      "coordinates":{  
+         "latitude":43.6520181,
+         "longitude":-79.3818995,
+         "altitude":0.0
+      },
+      "address":"Queen Street West, Toronto, ON, CA"
+   },
+   "pages":[  
+      {  
+         "name":"Basic",
+         "answers":[  
+            {  
+               "label":"plant",
+               "dataType":"FreeText",
+               "question":"Plant",
+               "values":[  
+                  "Social Circle"
+               ]
+            },
+            {  
+               "label":"site",
+               "dataType":"FreeText",
+               "question":"Site",
+               "values":[  
+                  "Social Circle"
+               ]
+            },
+            {  
+               "label":"crew",
+               "dataType":"FreeText",
+               "question":"Crew",
+               "values":[  
+                  "A Crew"
+               ]
+            },
+            {  
+               "label":"supervisor",
+               "dataType":"FreeText",
+               "question":"Supervisor",
+               "values":[  
+                  "David Carpenter"
+               ]
+            },
+            {  
+               "label":"supervisor_name",
+               "dataType":"FreeText",
+               "question":"Supervisor Name (if not in the list)",
+               "values":[  
+                  "name"
+               ]
+            },
+            {  
+               "label":"Load default values",
+               "dataType":"FreeText",
+               "question":"Load default values",
+               "values":[  
+                  "Load default values"
+               ]
+            },
+            {  
+               "label":"date",
+               "dataType":"Date",
+               "question":"Date",
+               "values":[  
+                  "2015-02-13"
+               ]
+            },
+            {  
+               "label":"reported_time",
+               "dataType":"FreeText",
+               "question":"Reported Time",
+               "values":[  
+                  "7"
+               ]
+            },
+            {  
+               "label":"ampm",
+               "dataType":"FreeText",
+               "question":"AM/PM",
+               "values":[  
+                  "AM"
+               ]
+            },
+            {  
+               "label":"cph",
+               "dataType":"Integer",
+               "question":"Current Production Hours",
+               "values":[  
+                  "12"
+               ]
+            }
+         ]
+      },
+      {  
+         "name":"Press 1",
+         "answers":[  
+            {  
+               "label":"Stpitpinr",
+               "dataType":"Information",
+               "question":"Skip this page if press 1 is not running",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"press_1_cct",
+               "dataType":"Integer",
+               "question":"Press 1 Curing Cycle Time",
+               "values":[  
+                  "29"
+               ]
+            },
+            {  
+               "label":"p1lut",
+               "dataType":"Decimal",
+               "question":"P1 Loading/Unloading Time",
+               "values":[  
+                  "3.8"
+               ]
+            },
+            {  
+               "label":"p1m",
+               "dataType":"Integer",
+               "question":"Press 1 Molds",
+               "values":[  
+                  "7"
+               ]
+            },
+            {  
+               "label":"ap1",
+               "dataType":"Decimal",
+               "question":"ap1",
+               "values":[  
+                  "32.8"
+               ]
+            },
+            {  
+               "label":"press_1_curing_cycle",
+               "dataType":"Integer",
+               "question":"Press 1 Curing Cycles",
+               "values":[  
+                  "1"
+               ]
+            },
+            {  
+               "label":"press_1_downtime",
+               "dataType":"Decimal",
+               "question":"Press 1 Downtime (minutes)",
+               "values":[  
+                  "2"
+               ]
+            },
+            {  
+               "label":"press1_downtime_desc",
+               "dataType":"FreeText",
+               "question":"Press 1 Downtime description",
+               "values":[  
+                  "3"
+               ]
+            },
+            {  
+               "label":"press_1_chart",
+               "dataType":"Image",
+               "question":"Press 1 chart (picture)",
+               "values":[  
+
+               ]
+            }
+         ]
+      },
+      {  
+         "name":"Press 2",
+         "answers":[  
+            {  
+               "label":"Stpitpinr 1",
+               "dataType":"Information",
+               "question":"Skip this page if press 2 is not running",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"press_2_cct",
+               "dataType":"Integer",
+               "question":"Press 2 Curing Cycle Time",
+               "values":[  
+                  "20"
+               ]
+            },
+            {  
+               "label":"p2lut",
+               "dataType":"Decimal",
+               "question":"P2 Loading/Unloading Time",
+               "values":[  
+                  "3.8"
+               ]
+            },
+            {  
+               "label":"p2m",
+               "dataType":"Integer",
+               "question":"Press 2 Molds",
+               "values":[  
+                  "7"
+               ]
+            },
+            {  
+               "label":"ap2",
+               "dataType":"Decimal",
+               "question":"ap2",
+               "values":[  
+                  "23.8"
+               ]
+            },
+            {  
+               "label":"press_2_curing_cycle",
+               "dataType":"Integer",
+               "question":"Press 2 Curing Cycles",
+               "values":[  
+                  "1"
+               ]
+            },
+            {  
+               "label":"press_2_downtime",
+               "dataType":"Decimal",
+               "question":"Press 2 Downtime (minutes)",
+               "values":[  
+                  "2"
+               ]
+            },
+            {  
+               "label":"press2_downtime_desc",
+               "dataType":"FreeText",
+               "question":"Press 2 Downtime description",
+               "values":[  
+                  "3"
+               ]
+            },
+            {  
+               "label":"press_2_chart",
+               "dataType":"Image",
+               "question":"Press 2 chart (picture)",
+               "values":[  
+
+               ]
+            }
+         ]
+      },
+      {  
+         "name":"Press 3",
+         "answers":[  
+            {  
+               "label":"Stpitpinr 2",
+               "dataType":"Information",
+               "question":"Skip this page if press 3 is not running",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"press_3_cct",
+               "dataType":"Integer",
+               "question":"Press 3 Curing Cycle Time",
+               "values":[  
+                  "14"
+               ]
+            },
+            {  
+               "label":"p3lut",
+               "dataType":"Decimal",
+               "question":"P3 Loading/Unloading Time",
+               "values":[  
+                  "5.3"
+               ]
+            },
+            {  
+               "label":"p3m",
+               "dataType":"Integer",
+               "question":"Press 3 Molds",
+               "values":[  
+                  "16"
+               ]
+            },
+            {  
+               "label":"ap3",
+               "dataType":"Decimal",
+               "question":"ap3",
+               "values":[  
+                  "19.3"
+               ]
+            },
+            {  
+               "label":"press_3_curing_cycle",
+               "dataType":"Integer",
+               "question":"Press 3 Curing Cycles",
+               "values":[  
+                  "1"
+               ]
+            },
+            {  
+               "label":"press_3_downtime",
+               "dataType":"Decimal",
+               "question":"Press 3 Downtime (minutes)",
+               "values":[  
+                  "2"
+               ]
+            },
+            {  
+               "label":"press3_downtime_desc",
+               "dataType":"FreeText",
+               "question":"Press 3 Downtime description",
+               "values":[  
+                  "3"
+               ]
+            },
+            {  
+               "label":"press_3_chart",
+               "dataType":"Image",
+               "question":"Press 3 chart (picture)",
+               "values":[  
+
+               ]
+            }
+         ]
+      },
+      {  
+         "name":"Press 4",
+         "answers":[  
+            {  
+               "label":"Stpitpinr 3",
+               "dataType":"Information",
+               "question":"Skip this page if press 4 is not running",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"press_4_cct",
+               "dataType":"Integer",
+               "question":"Press 4 Curing Cycle Time",
+               "values":[  
+                  "14"
+               ]
+            },
+            {  
+               "label":"p4lut",
+               "dataType":"Decimal",
+               "question":"P4 Loading/Unloading Time",
+               "values":[  
+                  "5.3"
+               ]
+            },
+            {  
+               "label":"p4m",
+               "dataType":"Integer",
+               "question":"Press 4 Molds",
+               "values":[  
+                  "16"
+               ]
+            },
+            {  
+               "label":"ap4",
+               "dataType":"Decimal",
+               "question":"ap4",
+               "values":[  
+                  "19.3"
+               ]
+            },
+            {  
+               "label":"press_4_curing_cycle",
+               "dataType":"Integer",
+               "question":"Press 4 Curing Cycles",
+               "values":[  
+                  "1"
+               ]
+            },
+            {  
+               "label":"press_4_downtime",
+               "dataType":"Decimal",
+               "question":"Press 4 Downtime (minutes)",
+               "values":[  
+                  "2"
+               ]
+            },
+            {  
+               "label":"press4_downtime_desc",
+               "dataType":"FreeText",
+               "question":"Press 4 Downtime description",
+               "values":[  
+                  "3"
+               ]
+            },
+            {  
+               "label":"press_4_chart",
+               "dataType":"Image",
+               "question":"Press 4 chart (picture)",
+               "values":[  
+
+               ]
+            }
+         ]
+      },
+      {  
+         "name":"Blanks",
+         "answers":[  
+            {  
+               "label":"Ltfw0itpinr",
+               "dataType":"Information",
+               "question":"Leave the field with 0 if the press is not running",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"press_1_blanks",
+               "dataType":"Decimal",
+               "question":"Press 1 Blanks",
+               "values":[  
+                  "1"
+               ]
+            },
+            {  
+               "label":"press_2_blanks",
+               "dataType":"Decimal",
+               "question":"Press 2 Blanks",
+               "values":[  
+                  "2"
+               ]
+            },
+            {  
+               "label":"press_3_blanks",
+               "dataType":"Decimal",
+               "question":"Press 3 Blanks",
+               "values":[  
+                  "3"
+               ]
+            },
+            {  
+               "label":"press_4_blanks",
+               "dataType":"Decimal",
+               "question":"Press 4 Blanks",
+               "values":[  
+                  "4"
+               ]
+            }
+         ]
+      },
+      {  
+         "name":"Splicing Data",
+         "answers":[  
+            {  
+               "label":"splicing_rolls",
+               "dataType":"Integer",
+               "question":"Splicing Rolls",
+               "values":[  
+                  "1"
+               ]
+            },
+            {  
+               "label":"splicing_pounds",
+               "dataType":"Integer",
+               "question":"Splicing Pounds",
+               "values":[  
+                  "2"
+               ]
+            }
+         ]
+      },
+      {  
+         "name":"Shift Report",
+         "answers":[  
+            {  
+               "label":"employee_scheduled",
+               "dataType":"Integer",
+               "question":"Number of employees scheduled",
+               "values":[  
+                  "1"
+               ]
+            },
+            {  
+               "label":"absent_employees",
+               "dataType":"FreeText",
+               "question":"Absent employees (Emp. name / Reason)",
+               "values":[  
+                  "2"
+               ]
+            },
+            {  
+               "label":"overtime_employees",
+               "dataType":"FreeText",
+               "question":"Overtime employees (Emp. name / Reason)",
+               "values":[  
+                  "3"
+               ]
+            },
+            {  
+               "label":"total_employees",
+               "dataType":"Integer",
+               "question":"Total number of employees present",
+               "values":[  
+                  "4"
+               ]
+            },
+            {  
+               "label":"incidents",
+               "dataType":"Integer",
+               "question":"Incidents",
+               "values":[  
+                  "5"
+               ]
+            },
+            {  
+               "label":"incident_type1",
+               "dataType":"FreeText",
+               "question":"Incident Type for incident1",
+               "values":[  
+                  "Near Miss"
+               ]
+            },
+            {  
+               "label":"incident_type2",
+               "dataType":"FreeText",
+               "question":"Incident Type for incident2",
+               "values":[  
+                  "WSIB/OSHA"
+               ]
+            },
+            {  
+               "label":"incident_type3",
+               "dataType":"FreeText",
+               "question":"Incident Type for incident3",
+               "values":[  
+                  "Non Work Related"
+               ]
+            },
+            {  
+               "label":"shift_notes",
+               "dataType":"FreeText",
+               "question":"Shift Notes",
+               "values":[  
+                  "notes"
+               ]
+            },
+            {  
+               "label":"press_1_2p",
+               "dataType":"Decimal",
+               "question":"Press 1 2-Pieces",
+               "values":[  
+                  "1"
+               ]
+            },
+            {  
+               "label":"press_2_2p",
+               "dataType":"Decimal",
+               "question":"Press 2 2-Pieces",
+               "values":[  
+                  "2"
+               ]
+            },
+            {  
+               "label":"press_3_2p",
+               "dataType":"Decimal",
+               "question":"Press 3 2-Pieces",
+               "values":[  
+                  "3"
+               ]
+            },
+            {  
+               "label":"press_4_2p",
+               "dataType":"Decimal",
+               "question":"Press 4 2-Pieces",
+               "values":[  
+                  "4"
+               ]
+            },
+            {  
+               "label":"buffer1_2pc_gen",
+               "dataType":"Integer",
+               "question":"Buffer 1 2 PC Generation",
+               "values":[  
+                  "1"
+               ]
+            },
+            {  
+               "label":"buffer2_2pc_gen",
+               "dataType":"Integer",
+               "question":"Buffer 2 2 PC Generation",
+               "values":[  
+                  "2"
+               ]
+            },
+            {  
+               "label":"p1_cured_waste",
+               "dataType":"Integer",
+               "question":"Press 1 Cured Waste (lbs)",
+               "values":[  
+                  "1"
+               ]
+            },
+            {  
+               "label":"p2_cured_waste",
+               "dataType":"Integer",
+               "question":"Press 2 Cured Waste (lbs)",
+               "values":[  
+                  "2"
+               ]
+            },
+            {  
+               "label":"p3_cured_waste",
+               "dataType":"Integer",
+               "question":"Press 3 Cured Waste (lbs)",
+               "values":[  
+                  "3"
+               ]
+            },
+            {  
+               "label":"p4_cured_waste",
+               "dataType":"Integer",
+               "question":"Press 4 Cured Waste (lbs)",
+               "values":[  
+                  "4"
+               ]
+            }
+         ]
+      },
+      {  
+         "name":"Complete",
+         "answers":[  
+            {  
+               "label":"C,ps",
+               "dataType":"Information",
+               "question":"Complete, please submit",
+               "values":[  
+
+               ]
+            }
+         ]
+      }
+   ]
+}

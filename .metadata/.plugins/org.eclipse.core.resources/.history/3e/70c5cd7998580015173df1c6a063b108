@@ -1,0 +1,117 @@
+class Forms::BoothEliminatorChecklistsController < ApplicationController
+  
+  FORM_NAME = "booth eliminator checklists"
+  
+  include DatatableServerSideProcessing
+  include XlsxReportProcessing
+
+  before_action :authenticate_user!
+
+  load_and_authorize_resource :except => [:photo_r1, :photo_r2, :photo_c1, :photo_b1, :update_export, :download_export, :submission]
+
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
+  add_breadcrumb "forms", :forms_index_path
+  add_breadcrumb "booth eliminator checklists", :forms_booth_eliminator_checklists_path
+
+  DATATABLES_COLUMNS = [ "id", "username", "device_submit_date" ]
+
+  def index
+    # @booth_eliminator_checklist is automatically loaded
+  end
+
+  def show
+    # @booth_eliminator_checklist is automatically loaded
+    add_breadcrumb "booth eliminator checklists #{@booth_eliminator_checklist.id}", :forms_booth_eliminator_checklist_path
+  end
+  
+  # Overwrites the model's existing properties with the contents of the original submission document attached.
+  def reparse
+    # @booth_eliminator_checklist is automatically loaded
+    result = @booth_eliminator_checklist.reparse
+    # render the show action associated with the result object
+    render action: 'show', location: result
+  end
+  
+  def update_export
+    authorize! :read, Forms::BoothEliminatorChecklist
+    
+    begin
+      raise "No data in this form."  if Forms::BoothEliminatorChecklist.all.count == 0
+      @export = generate_xlsx(Forms::BoothEliminatorChecklist, FORM_NAME, Forms::BoothEliminatorChecklist.maximum("updated_at"))
+      respond_to do |format|
+        format.json { render :json => @export, status: :ok  }
+      end
+    rescue => e
+      respond_to do |format|
+        format.json { render text:e.message, status: :not_acceptable }
+      end
+    end  
+  end
+  
+  def download_export
+    authorize! :read, Forms::BoothEliminatorChecklist
+    @export = Report::FormExport.find_by(form_name: FORM_NAME)
+    redirect_to(@export.attachment.expiring_url(10))
+  end
+    
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html { redirect_to forms_booth_eliminator_checklists_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS
+        }
+
+        # call concern function using collection of all records the user has access to
+        @booth_eliminator_checklists = Forms::BoothEliminatorChecklist.accessible_by(current_ability)
+        render :json => datatable_data(@booth_eliminator_checklists, params, options)
+      }
+    end
+  end
+
+  def photo_r1
+    authorize! :read, Forms::BoothEliminatorChecklist
+    @booth_eliminator_checklist = Forms::BoothEliminatorChecklist.find(params[:id])
+    authorize! :read, @booth_eliminator_checklist
+    redirect_to(@booth_eliminator_checklist.photo_r1.expiring_url(10))
+  end
+
+  def photo_r2
+    authorize! :read, Forms::BoothEliminatorChecklist
+    @booth_eliminator_checklist = Forms::BoothEliminatorChecklist.find(params[:id])
+    authorize! :read, @booth_eliminator_checklist
+    redirect_to(@booth_eliminator_checklist.photo_r2.expiring_url(10))
+  end
+
+  def photo_c1
+    authorize! :read, Forms::BoothEliminatorChecklist
+    @booth_eliminator_checklist = Forms::BoothEliminatorChecklist.find(params[:id])
+    authorize! :read, @booth_eliminator_checklist
+    redirect_to(@booth_eliminator_checklist.photo_c1.expiring_url(10))
+  end
+
+  def photo_b1
+    authorize! :read, Forms::BoothEliminatorChecklist
+    @booth_eliminator_checklist = Forms::BoothEliminatorChecklist.find(params[:id])
+    authorize! :read, @booth_eliminator_checklist
+    redirect_to(@booth_eliminator_checklist.photo_b1.expiring_url(10))
+  end
+  
+  def submission
+    authorize! :read, Forms::BoothEliminatorChecklist
+    @booth_eliminator_checklist = Forms::BoothEliminatorChecklist.find(params[:id])
+    authorize! :read, @booth_eliminator_checklist
+    redirect_to(@booth_eliminator_checklist.submission.expiring_url(10))
+  end
+
+  private
+
+  def record_not_found(exception)
+    # redirect back to index if id not found
+    flash[:alert] = exception.message
+    redirect_to forms_booth_eliminator_checklists_path
+  end
+
+end

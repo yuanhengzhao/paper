@@ -1,0 +1,188 @@
+RSpec::Matchers.define :have_same_task_inspection_attributes_as do |expected|
+  @differences = []
+  
+  match do |actual|
+    if actual.reference_number != expected.reference_number
+      @differences << { :field => "reference_number", :expected => expected.reference_number, :actual => actual.reference_number }
+    end
+    if actual.server_receive_date != expected.server_receive_date
+      @differences << { :field => "server_receive_date", :expected => expected.server_receive_date, :actual => actual.server_receive_date }
+    end
+    if actual.device_submit_date != expected.device_submit_date
+      @differences << { :field => "device_submit_date", :expected => expected.device_submit_date, :actual => actual.device_submit_date }
+    end
+    if actual.username != expected.username
+      @differences << { :field => "username", :expected => expected.username, :actual => actual.username }
+    end
+    if actual.version != expected.version
+      @differences << { :field => "version", :expected => expected.version, :actual => actual.version }
+    end
+    if actual.altitude != expected.altitude
+      @differences << { :field => "altitude", :expected => expected.altitude, :actual => actual.altitude }
+    end
+    if actual.latitude != expected.latitude
+      @differences << { :field => "latitude", :expected => expected.latitude, :actual => actual.latitude }
+    end
+    if actual.longitude != expected.longitude
+      @differences << { :field => "longitude", :expected => expected.longitude, :actual => actual.longitude }
+    end
+    if actual.source != expected.source
+      @differences << { :field => "source", :expected => expected.source, :actual => actual.source }
+    end
+    if actual.inspection_date != expected.inspection_date
+      @differences << { :field => "inspection_date", :expected => expected.inspection_date, :actual => actual.inspection_date }
+    end
+    if actual.client != expected.client
+      @differences << { :field => "client", :expected => expected.client, :actual => actual.client }
+    end
+    if actual.site != expected.site
+      @differences << { :field => "site", :expected => expected.site, :actual => actual.site }
+    end
+    if actual.shop != expected.shop
+      @differences << { :field => "shop", :expected => expected.shop, :actual => actual.shop }
+    end
+    if actual.num_tasks != expected.num_tasks
+      @differences << { :field => "num_tasks", :expected => expected.num_tasks, :actual => actual.num_tasks }
+    end
+
+    if actual.task3 != expected.task3
+      @differences << { :field => "task3", :expected => expected.task3, :actual => actual.task3 }
+    end
+    if actual.abnormality_picture3_content_type != expected.abnormality_picture3_content_type
+      @differences << { :field => "abnormality_picture3_content_type", :expected => expected.abnormality_picture3_content_type, :actual => actual.abnormality_picture3_content_type }
+    end
+    if actual.abnormality_picture3_file_name != expected.abnormality_picture3_file_name
+      @differences << { :field => "abnormality_picture3_file_name", :expected => expected.abnormality_picture3_file_name, :actual => actual.abnormality_picture3_file_name }
+    end
+    if actual.abnormality_picture3_file_size != expected.abnormality_picture3_file_size
+      @differences << { :field => "abnormality_picture3_file_size", :expected => expected.abnormality_picture3_file_size, :actual => actual.abnormality_picture3_file_size }
+    end
+    
+    if actual.picture_before_task3_content_type != expected.picture_before_task3_content_type
+      @differences << { :field => "picture_before_task3_content_type", :expected => expected.picture_before_task3_content_type, :actual => actual.picture_before_task3_content_type }
+    end
+    if actual.picture_before_task3_file_name != expected.picture_before_task3_file_name
+      @differences << { :field => "picture_before_task3_file_name", :expected => expected.picture_before_task3_file_name, :actual => actual.picture_before_task3_file_name }
+    end
+    if actual.picture_before_task3_file_size != expected.picture_before_task3_file_size
+      @differences << { :field => "picture_before_task3_file_size", :expected => expected.picture_before_task3_file_size, :actual => actual.picture_before_task3_file_size }
+    end
+    
+    if actual.picture_after_task3_content_type != expected.picture_after_task3_content_type
+      @differences << { :field => "picture_after_task3_content_type", :expected => expected.picture_after_task3_content_type, :actual => actual.picture_after_task3_content_type }
+    end
+    if actual.picture_after_task3_file_name != expected.picture_after_task3_file_name
+      @differences << { :field => "picture_after_task3_file_name", :expected => expected.picture_after_task3_file_name, :actual => actual.picture_after_task3_file_name }
+    end
+    if actual.picture_after_task3_file_size != expected.picture_after_task3_file_size
+      @differences << { :field => "picture_after_task3_file_size", :expected => expected.picture_after_task3_file_size, :actual => actual.picture_after_task3_file_size }
+    end
+    if actual.abnormality3 != expected.abnormality3
+      @differences << { :field => "abnormality3", :expected => expected.abnormality3, :actual => actual.abnormality3 }
+    end
+    if actual.abnormality_desc3 != expected.abnormality_desc3
+      @differences << { :field => "abnormality_desc3", :expected => expected.abnormality_desc3, :actual => actual.abnormality_desc3 }
+    end
+    if actual.quality_evaluation3 != expected.quality_evaluation3
+      @differences << { :field => "quality_evaluation3", :expected => expected.quality_evaluation3, :actual => actual.quality_evaluation3 }
+    end
+    if actual.comments_task3 != expected.comments_task3
+      @differences << { :field => "comments_task3", :expected => expected.comments_task3, :actual => actual.comments_task3 }
+    end
+
+    if actual.task2 != expected.task2
+      @differences << { :field => "task2", :expected => expected.task2, :actual => actual.task2 }
+    end
+    if actual.abnormality_picture2_content_type != expected.abnormality_picture2_content_type
+      @differences << { :field => "abnormality_picture2_content_type", :expected => expected.abnormality_picture2_content_type, :actual => actual.abnormality_picture2_content_type }
+    end
+    if actual.abnormality_picture2_file_name != expected.abnormality_picture2_file_name
+      @differences << { :field => "abnormality_picture2_file_name", :expected => expected.abnormality_picture2_file_name, :actual => actual.abnormality_picture2_file_name }
+    end
+    if actual.abnormality_picture2_file_size != expected.abnormality_picture2_file_size
+      @differences << { :field => "abnormality_picture2_file_size", :expected => expected.abnormality_picture2_file_size, :actual => actual.abnormality_picture2_file_size }
+    end
+    
+    if actual.picture_before_task2_content_type != expected.picture_before_task2_content_type
+      @differences << { :field => "picture_before_task2_content_type", :expected => expected.picture_before_task2_content_type, :actual => actual.picture_before_task2_content_type }
+    end
+    if actual.picture_before_task2_file_name != expected.picture_before_task2_file_name
+      @differences << { :field => "picture_before_task2_file_name", :expected => expected.picture_before_task2_file_name, :actual => actual.picture_before_task2_file_name }
+    end
+    if actual.picture_before_task2_file_size != expected.picture_before_task2_file_size
+      @differences << { :field => "picture_before_task2_file_size", :expected => expected.picture_before_task2_file_size, :actual => actual.picture_before_task2_file_size }
+    end
+    
+    if actual.picture_after_task2_content_type != expected.picture_after_task2_content_type
+      @differences << { :field => "picture_after_task2_content_type", :expected => expected.picture_after_task2_content_type, :actual => actual.picture_after_task2_content_type }
+    end
+    if actual.picture_after_task2_file_name != expected.picture_after_task2_file_name
+      @differences << { :field => "picture_after_task2_file_name", :expected => expected.picture_after_task2_file_name, :actual => actual.picture_after_task2_file_name }
+    end
+    if actual.picture_after_task2_file_size != expected.picture_after_task2_file_size
+      @differences << { :field => "picture_after_task2_file_size", :expected => expected.picture_after_task2_file_size, :actual => actual.picture_after_task2_file_size }
+    end
+    if actual.abnormality_desc2 != expected.abnormality_desc2
+      @differences << { :field => "abnormality_desc2", :expected => expected.abnormality_desc2, :actual => actual.abnormality_desc2 }
+    end
+    if actual.quality_evaluation2 != expected.quality_evaluation2
+      @differences << { :field => "quality_evaluation2", :expected => expected.quality_evaluation2, :actual => actual.quality_evaluation2 }
+    end
+    if actual.comments_task2 != expected.comments_task2
+      @differences << { :field => "comments_task2", :expected => expected.comments_task2, :actual => actual.comments_task2 }
+    end
+
+    if actual.task1 != expected.task1
+      @differences << { :field => "task1", :expected => expected.task1, :actual => actual.task1 }
+    end
+    if actual.abnormality1 != expected.abnormality1
+      @differences << { :field => "abnormality1", :expected => expected.abnormality1, :actual => actual.abnormality1 }
+    end
+    if actual.abnormality_desc1 != expected.abnormality_desc1
+      @differences << { :field => "abnormality_desc1", :expected => expected.abnormality_desc1, :actual => actual.abnormality_desc1 }
+    end
+    
+    if actual.abnormality_picture1_content_type != expected.abnormality_picture1_content_type
+      @differences << { :field => "abnormality_picture1_content_type", :expected => expected.abnormality_picture1_content_type, :actual => actual.abnormality_picture1_content_type }
+    end
+    if actual.abnormality_picture1_file_name != expected.abnormality_picture1_file_name
+      @differences << { :field => "abnormality_picture1_file_name", :expected => expected.abnormality_picture1_file_name, :actual => actual.abnormality_picture1_file_name }
+    end
+    if actual.abnormality_picture1_file_size != expected.abnormality_picture1_file_size
+      @differences << { :field => "abnormality_picture1_file_size", :expected => expected.abnormality_picture1_file_size, :actual => actual.abnormality_picture1_file_size }
+    end
+    
+    if actual.picture_before_task1_content_type != expected.picture_before_task1_content_type
+      @differences << { :field => "picture_before_task1_content_type", :expected => expected.picture_before_task1_content_type, :actual => actual.picture_before_task1_content_type }
+    end
+    if actual.picture_before_task1_file_name != expected.picture_before_task1_file_name
+      @differences << { :field => "picture_before_task1_file_name", :expected => expected.picture_before_task1_file_name, :actual => actual.picture_before_task1_file_name }
+    end
+    if actual.picture_before_task1_file_size != expected.picture_before_task1_file_size
+      @differences << { :field => "picture_before_task1_file_size", :expected => expected.picture_before_task1_file_size, :actual => actual.picture_before_task1_file_size }
+    end
+    
+    if actual.picture_after_task1_content_type != expected.picture_after_task1_content_type
+      @differences << { :field => "picture_after_task1_content_type", :expected => expected.picture_after_task1_content_type, :actual => actual.picture_after_task1_content_type }
+    end
+    if actual.picture_after_task1_file_name != expected.picture_after_task1_file_name
+      @differences << { :field => "picture_after_task1_file_name", :expected => expected.picture_after_task1_file_name, :actual => actual.picture_after_task1_file_name }
+    end
+    if actual.picture_after_task1_file_size != expected.picture_after_task1_file_size
+      @differences << { :field => "picture_after_task1_file_size", :expected => expected.picture_after_task1_file_size, :actual => actual.picture_after_task1_file_size }
+    end
+      
+    if actual.quality_evaluation1 != expected.quality_evaluation1
+      @differences << { :field => "quality_evaluation1", :expected => expected.quality_evaluation1, :actual => actual.quality_evaluation1 }
+    end
+    if actual.comments_task1 != expected.comments_task1
+      @differences << { :field => "comments_task1", :expected => expected.comments_task1, :actual => actual.comments_task1 }
+    end
+    
+    @differences.empty?
+  end
+  
+  description do
+    "have same task inspection attributes as #{expected} but found the following differences #{@differences}"
+  end
+end

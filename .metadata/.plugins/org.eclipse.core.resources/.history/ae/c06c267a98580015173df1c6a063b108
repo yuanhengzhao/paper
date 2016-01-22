@@ -1,0 +1,12 @@
+FactoryGirl.define do
+  factory :permission, aliases: [:read_permission], class: Security::Permission do
+    association :user, factory: :user
+    category "Forms"
+    subject "class name"
+    action "read"
+    
+    factory :edit_permission do
+      action "edit"
+    end
+  end
+end

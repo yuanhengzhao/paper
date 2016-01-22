@@ -1,0 +1,14 @@
+jQuery ->  
+  # datatable for submissions page
+  datatable = $("#jig_cleanings_datatable").DataTable
+    "processing": true
+    "serverSide": true
+    "ajax": "/forms/jig_cleanings/datatable.json"
+    "columns": [
+      { "data": "id" },
+      { "data": "username" },
+      { "data": "device_submit_date", "render": (data, type, full) -> new Date(data) }
+      { "data": "id", "searchable": false, "orderable": false, "render": ( data, type, full ) ->
+        '<a href="/forms/jig_cleanings/' + data + '" target="_blank">Show</a>'
+      }
+    ]

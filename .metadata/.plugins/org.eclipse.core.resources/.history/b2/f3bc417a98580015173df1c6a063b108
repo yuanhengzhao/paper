@@ -1,0 +1,778 @@
+require_relative '../../spec_helper'
+
+describe ProntoForms::RestService do
+  
+  describe "synchronize" do
+    
+    # stub the ProntoForms API to return known values and store any incoming writes
+    # to variables that can be accessed later.
+    let(:current_users) {
+      {
+        "1209423432" => {
+          "identifier" => "1209423432",
+          "username" => "superman@justiceleague.com",
+          "role" => "ProntoUser",
+          "suspended" => "false",
+          "email" => "superman@justiceleague.com",
+          "firstName" => "Clark",
+          "lastName" => "Kent",
+          "locale" => "en_CA",
+          "preferredTimeZone" => "America/New_York",
+          "billingId" => "24333",
+          "groupIds" => [ ],
+          "lastLoginDate" => "",
+          "address" => {"city" => "Oshawa", "address2" => "GM"}
+        },
+        "1209423433" => {
+          "identifier" => "1209423433",
+          "username" => "flash@justiceleague.com",
+          "role" => "ProntoUser",
+          "suspended" => "false",
+          "email" => "flash@justiceleague.com",
+          "firstName" => "Barry",
+          "lastName" => "Allen",
+          "locale" => "en_CA",
+          "preferredTimeZone" => "America/New_York",
+          "billingId" => "24333",
+          "groupIds" => [ ],
+          "lastLoginDate" => "",
+          "address" => {"city" => "Cambridge", "address2" => "Toyota"}
+        },
+        "1209423434" => {
+          "identifier" => "1209423434",
+          "username" => "cinnamon@justiceleague.com",
+          "role" => "ProntoUser",
+          "suspended" => "false",
+          "email" => "cinnamon@justiceleague.com",
+          "firstName" => "Kate",
+          "lastName" => "Manser",
+          "locale" => "en_CA",
+          "preferredTimeZone" => "America/New_York",
+          "billingId" => "24333",
+          "groupIds" => [ ],
+          "lastLoginDate" => "",
+          "address" => {"city" => "Cambridge", "address2" => "Toyota"}
+        },
+        "1209423435" => {
+          "identifier" => "1209423435",
+          "username" => "larmstrong@justiceleague.com",
+          "role" => "ProntoUser",
+          "suspended" => "false",
+          "email" => "larmstrong@justiceleague.com",
+          "firstName" => "Lucifer",
+          "lastName" => "Armstrong",
+          "locale" => "en_CA",
+          "preferredTimeZone" => "America/New_York",
+          "billingId" => "24333",
+          "groupIds" => [ ProntoForms::RestService::GROUP::TECHNOLOGY[:id], ProntoForms::RestService::GROUP::CAMBRIDGE[:id] ],
+          "lastLoginDate" => "",
+          "address" => {"city" => "Cambridge", "address2" => "Toyota"}
+        },
+        "1209423436" => {
+          "identifier" => "1209423436",
+          "username" => "aquaman@justiceleague.com",
+          "role" => "ProntoUser",
+          "suspended" => "false",
+          "email" => "aquaman@justiceleague.com",
+          "firstName" => "Arthur",
+          "lastName" => "Curry",
+          "locale" => "en_CA",
+          "preferredTimeZone" => "America/New_York",
+          "billingId" => "24333",
+          "groupIds" => [ ProntoForms::RestService::GROUP::CAMBRIDGE[:id] ],
+          "lastLoginDate" => "",
+          "address" => {"city" => "Cambridge", "address2" => "Toyota"}
+        }
+      }
+    }
+    
+    let(:new_users) { [] }
+    let(:update_users) { [] }
+    let(:delete_users) { [] }
+    before(:each) {
+      ProntoForms::Api.any_instance.stub(:get_users) {
+        {
+          "totalNumberOfResults" => current_users.length,
+          "totalNumberOfPages" => "1",
+          "zone" => nil,
+          "pageData" => current_users.values.collect { |x| x.select{ |k,v| ["identifier","username","email","firstName","lastName"].include?(k) } }
+        }
+      }
+      ProntoForms::Api.any_instance.stub(:get_user_by_id) do |id|
+        current_users[id]
+      end
+      ProntoForms::Api.any_instance.stub(:create_user) do |new_user|
+        new_users << new_user
+      end
+      ProntoForms::Api.any_instance.stub(:update_user) do |id, changes|
+        update_users << { :id => id, :changes => changes }
+      end
+      ProntoForms::Api.any_instance.stub(:delete_users) do |delete_user|
+        delete_users << delete_user
+      end
+    }
+    
+    # stub the service to return a known set of users from LDAP
+    let!(:service) {
+      obj = ProntoForms::RestService.new
+      obj.stub(:get_ldap_users) {
+        [
+          {
+            :givenname => [ "Barry" ],
+            :sn => [ "Allen" ],
+            :mail => [ "Flash@justiceleague.com" ], # specifically using a different case here
+            :department => [ "Running" ],
+            :physicaldeliveryofficename => [ "Cambridge" ],
+            :memberof => [
+              "CN=grpProntoFormUsers,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com",
+              "CN=grpSafety,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com"
+            ]
+          },
+          {
+            :givenname => [ "Bruce" ],
+            :sn => [ "Wayne" ],
+            :mail => [ "batman@justiceleague.com" ], 
+            :department => [ "Technology" ],
+            :physicaldeliveryofficename => [ "Woodstock" ],
+            :memberof => [
+              "CN=grpProntoFormUsers,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com",
+              "CN=grpSiteManagers,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com"
+            ]
+          },
+          {
+            :givenname => [ "Kate" ],
+            :sn => [ "Manser" ],
+            :mail => [ "cinnamon@justiceleague.com" ], 
+            :department => [ "Technology" ],
+            :physicaldeliveryofficename => [ "Tonawanda" ],
+            :memberof => [ ]
+          },
+          {
+            :givenname => [ "Lucifer" ],
+            :sn => [ "Armstrong" ],
+            :mail => [ "larmstrong@justiceleague.com" ], 
+            :department => [ "Technology" ],
+            :physicaldeliveryofficename => [ "Cambridge" ],
+            :memberof => [ ]
+          },
+          {
+            :givenname => [ "Hal" ],
+            :sn => [ "Jordan" ],
+            :mail => [ "greenlantern@justiceleague.com" ], 
+            :department => [ "Technology" ],
+            :physicaldeliveryofficename => [ "Toronto" ], # unknown office name
+            :memberof => [ ]
+          },
+          {
+            :givenname => [ "Arthur" ],
+            :sn => [ "Curry" ],
+            :mail => [ "aquaman@justiceleague.com" ], 
+            :department => [ ],
+            :memberof => [ ]
+            # update by removing office name
+          }
+          
+        ]
+      }
+      obj.stub(:get_ldap_trainees) {
+        [
+          {
+            :givenname => [ "Barry" ],
+            :sn => [ "Allen" ],
+            :mail => [ "Flash@justiceleague.com" ], # specifically using a different case here 
+            :department => [ "Running" ],
+            :physicaldeliveryofficename => [ "Cambridge" ],
+            :memberof => [
+              "CN=grpProntoFormTraining,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com"
+            ]
+          },
+          {
+            :givenname => [ "Dick" ],
+            :sn => [ "Grayson" ],
+            :mail => [ "nightwing@justiceleague.com" ], 
+            :department => [ "Gotham" ],
+            :physicaldeliveryofficename => [ "Woodstock" ],
+            :memberof => [
+              "CN=grpProntoFormUsers,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com",
+              "CN=grpProntoFormTraining,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com"
+            ]
+          }
+        ]
+      }
+      obj
+    }
+    
+    describe "users" do
+      subject { service.synchronize_users }
+      it "should not return any failures" do
+        result = nil
+        expect { result = subject }.to_not raise_error
+        
+        # result should be an empty array
+        expect(result).to be_a(Array)
+        expect(result).to be_empty
+      end
+      
+      it "should only create two new records" do
+        # Batman and Green Lantern should be the only users created
+        subject
+        expect(new_users).to be_a(Array)
+        expect(new_users.length).to eq(2)
+        
+        # sort the array to ensure Batman is at index 0 and Green Lantern is at index 1
+        new_users_sorted = new_users.sort_by { |user_hash| user_hash["username"] }
+
+        expect(new_users_sorted[0]["username"]).to eq("batman@justiceleague.com")
+        expect(new_users_sorted[0]["role"]).to eq("ProntoMobileOnly")
+        expect(new_users_sorted[0]["email"]).to eq("batman@justiceleague.com")
+        expect(new_users_sorted[0]["firstName"]).to eq("Bruce")
+        expect(new_users_sorted[0]["lastName"]).to eq("Wayne")
+        expect(new_users_sorted[0]["sendWelcomeEmail"]).to eq(true)
+        expect(new_users_sorted[0]["groupIds"]).to include(ProntoForms::RestService::GROUP::TECHNOLOGY[:id])
+        expect(new_users_sorted[0]["groupIds"]).to include(ProntoForms::RestService::GROUP::WOODSTOCK[:id])
+        expect(new_users_sorted[0]["groupIds"]).to include(ProntoForms::RestService::GROUP::SITE_MANAGERS[:id])
+        expect(new_users_sorted[0]["groupIds"].length).to eq(3)
+        expect(new_users_sorted[0]["address"]["city"]).to eq('Woodstock')
+        expect(new_users_sorted[0]["address"]["address2"]).to eq('Toyota')
+        expect(new_users_sorted[0].length).to eq(8)
+
+        expect(new_users_sorted[1]["username"]).to eq("greenlantern@justiceleague.com")
+        expect(new_users_sorted[1]["role"]).to eq("ProntoMobileOnly")
+        expect(new_users_sorted[1]["email"]).to eq("greenlantern@justiceleague.com")
+        expect(new_users_sorted[1]["firstName"]).to eq("Hal")
+        expect(new_users_sorted[1]["lastName"]).to eq("Jordan")
+        expect(new_users_sorted[1]["sendWelcomeEmail"]).to eq(true)
+        expect(new_users_sorted[1]["groupIds"]).to include(ProntoForms::RestService::GROUP::TECHNOLOGY[:id])
+        expect(new_users_sorted[1]["groupIds"].length).to eq(1)
+        expect(new_users_sorted[1]["address"]["city"]).to eq('Toronto')
+        expect(new_users_sorted[1]["address"]["address2"]).to eq('unknown')
+        expect(new_users_sorted[1].length).to eq(8)
+      end
+      
+      it "should only update users whose address or groupIds have been changed" do
+        subject
+        expect(update_users).to be_a(Array)
+        expect(update_users.length).to eq(3)
+        
+        update_user_ids = update_users.map{ |u| u[:id] }
+        expect(update_user_ids).not_to include('1209423435')
+        expect(update_user_ids).to include('1209423433')
+        expect(update_user_ids).to include('1209423434')
+        # Only Arthur, Kate and Barry are updated
+        # Lucifer does not get updated
+      end
+      
+      it "should only update one groupId record even though case of email address doesn't match" do
+        # Flash should be assigned new groups
+        subject
+        expect(update_users).to be_a(Array)
+        expect(update_users.length).to eq(3)
+        
+        expect(update_users[0][:id]).to eq("1209423433")
+        expect(update_users[0][:changes]).to have_key("groupIds")
+        expect(update_users[0][:changes].length).to eq(1)
+        expect(update_users[0][:changes]["groupIds"]).to include(ProntoForms::RestService::GROUP::CAMBRIDGE[:id])
+        expect(update_users[0][:changes]["groupIds"]).to include(ProntoForms::RestService::GROUP::SAFETY_REPS[:id])
+        expect(update_users[0][:changes]["groupIds"].length).to eq(2)
+      end
+      
+      it "should only update one address record even though case of email address doesn't match" do
+        # Cinnamon should be assigned new groups
+        subject
+        expect(update_users).to be_a(Array)
+        expect(update_users.length).to eq(3)
+        
+        expect(update_users[1][:id]).to eq("1209423434")
+        expect(update_users[1][:changes]).to have_key("address")
+        expect(update_users[1][:changes]["address"].length).to eq(2) 
+        expect(update_users[1][:changes]["address"]["city"]).to eq('Tonawanda')
+        expect(update_users[1][:changes]["address"]["address2"]).to eq('GM')
+      end
+      
+      it "should remove address data when physical office is blank" do
+        # Aquaman should be assigned a new address and lose all groups
+        subject
+        expect(update_users).to be_a(Array)
+        expect(update_users.length).to eq(3)
+        
+        expect(update_users[2][:id]).to eq("1209423436")
+        expect(update_users[2][:changes]).to have_key("address")
+        expect(update_users[2][:changes]["address"].length).to eq(0)
+        expect(update_users[2][:changes]["groupIds"].length).to eq(0)
+      end
+      
+      it "should return email address for users it couldn't synchronize" do
+        error_message = "standard error message"
+        ProntoForms::Api.any_instance.stub(:create_user) do |new_user|
+          raise error_message
+        end
+        ProntoForms::Api.any_instance.stub(:update_user) do |id, changes|
+          raise error_message
+        end
+        
+        result = nil
+        expect { result = subject }.to_not raise_error
+        
+        # result should be an array of email addresses it couldn't add
+        expect(result).to be_a(Array)
+        expect(result).to_not be_empty
+        expect(result.sort).to eq([ "batman@justiceleague.com", "Flash@justiceleague.com","cinnamon@justiceleague.com", "greenlantern@justiceleague.com", "aquaman@justiceleague.com" ].sort)
+        
+        # placeholder arrays should be empty
+        expect(new_users).to be_a(Array)
+        expect(new_users).to be_empty
+        expect(update_users).to be_a(Array)
+        expect(update_users).to be_empty
+      end
+    end
+    
+    describe "trainees" do
+      subject { service.synchronize_trainees }
+      it "should work" do
+        result = nil
+        expect { result = subject }.to_not raise_error
+        
+        # result should be an empty array
+        expect(result).to be_a(Array)
+        expect(result).to be_empty
+      end
+      
+      it "should create one new user who is a member of the training group" do
+        subject
+        
+        # Nightwing should be the only new user created
+        expect(new_users).to be_a(Array)
+        expect(new_users.length).to eq(1)
+        expect(new_users[0]["username"]).to eq("nightwing@justiceleague.com")
+        expect(new_users[0]["role"]).to eq("ProntoMobileOnly")
+        expect(new_users[0]["email"]).to eq("nightwing@justiceleague.com")
+        expect(new_users[0]["firstName"]).to eq("Dick")
+        expect(new_users[0]["lastName"]).to eq("Grayson")
+        expect(new_users[0]["sendWelcomeEmail"]).to eq(true)
+        
+        # Nightwing should only be a member of the training group regardless of configured groups
+        expect(new_users[0]["groupIds"]).to include(ProntoForms::RestService::GROUP::TRAINING[:id])
+        expect(new_users[0]["groupIds"].length).to eq(1)
+        expect(new_users[0]["address"]["city"]).to eq('Woodstock')
+        expect(new_users[0]["address"]["address2"]).to eq('Toyota')
+        expect(new_users[0].length).to eq(8)
+      end
+      
+      it "should not update any users" do
+        # though the Flash has changes, no updates should be present
+        expect(update_users).to be_a(Array)
+        expect(update_users).to eq([])
+      end
+      
+      it "should return email address for users it couldn't synchronize" do
+        error_message = "standard error message"
+        ProntoForms::Api.any_instance.stub(:create_user) do |new_user|
+          raise error_message
+        end
+        ProntoForms::Api.any_instance.stub(:update_user) do |id, changes|
+          raise error_message
+        end
+        
+        result = nil
+        expect { result = subject }.to_not raise_error
+        
+        # result should be an array of email addresses it couldn't add
+        expect(result).to be_a(Array)
+        expect(result).to_not be_empty
+        expect(result.sort).to eq([ "nightwing@justiceleague.com" ])
+        
+        # placeholder arrays should be empty
+        expect(new_users).to be_a(Array)
+        expect(new_users).to be_empty
+        expect(update_users).to be_a(Array)
+        expect(update_users).to be_empty
+      end
+    end
+  end
+  
+  describe "get_ldap_users" do
+    let(:service) { ProntoForms::RestService.new }
+    subject { service.send(:get_ldap_users) }
+    
+    it "should work" do
+      expect(subject).to be_a(Array)
+      subject.each do |entry|
+        expect(entry).to be_a(Net::LDAP::Entry)
+        entry.each do |attribute, values|
+          expect(attribute).to be_a(Symbol)
+          expect(values).to be_a(Array)
+        end
+      end
+    end
+  end
+  
+  describe "get_ldap_trainees" do
+    let(:service) { ProntoForms::RestService.new }
+    subject { service.send(:get_ldap_trainees) }
+    
+    it "should work" do
+      expect(subject).to be_a(Array)
+      subject.each do |entry|
+        expect(entry).to be_a(Net::LDAP::Entry)
+        entry.each do |attribute, values|
+          expect(attribute).to be_a(Symbol)
+          expect(values).to be_a(Array)
+        end
+      end
+    end
+  end
+  
+  describe "map_to_address" do
+    let(:service) { ProntoForms::RestService.new }
+    subject { service.send(:map_to_address, member) } 
+    
+    context "Cambridge" do
+      let(:member) { { :physicaldeliveryofficename => [ "Cambridge" ] } }
+      it "should map to the correct address hash" do
+        expect(subject).to eq( { "city" => "Cambridge", "address2" => "Toyota" } )
+      end
+    end
+    
+    context "Ingersoll" do
+      let(:member) { { :physicaldeliveryofficename => [ "Ingersoll" ] } }
+      it "should map to the correct address hash" do
+        expect(subject).to eq( { "city" => "Ingersoll", "address2" => "GM" } )
+      end
+    end
+    
+    context "Lawton" do
+      let(:member) { { :physicaldeliveryofficename => [ "Lawton" ] } }
+      it "should map to the correct address hash" do
+        expect(subject).to eq( { "city" => "Lawton", "address2" => "Goodyear" } )
+      end
+    end
+    
+    context "Oshawa" do
+      let(:member) { { :physicaldeliveryofficename => [ "Oshawa" ] } }
+      it "should map to the correct address hash" do
+        expect(subject).to eq( { "city" => "Oshawa", "address2" => "GM" } )
+      end
+    end
+    
+    context "Social Circle" do
+      let(:member) { { :physicaldeliveryofficename => [ "Social Circle" ] } }
+      it "should map to the correct address hash" do
+        expect(subject).to eq( { "city" => "Social Circle", "address2" => "Goodyear" } )
+      end
+    end
+    
+    context "Spartanburg" do
+      let(:member) { { :physicaldeliveryofficename => [ "Spartanburg" ] } }
+      it "should map to the correct address hash" do
+        expect(subject).to eq( { "city" => "Spartanburg", "address2" => "BMW" } )
+      end
+    end
+    
+    context "Tonawanda" do
+      let(:member) { { :physicaldeliveryofficename => [ "Tonawanda" ] } }
+      it "should map to the correct address hash" do
+        expect(subject).to eq( { "city" => "Tonawanda", "address2" => "GM" } )
+      end
+    end
+    
+    context "Woodstock" do
+      let(:member) { { :physicaldeliveryofficename => [ "Woodstock" ] } }
+      it "should map to the correct address hash" do
+        expect(subject).to eq( { "city" => "Woodstock", "address2" => "Toyota" } )
+      end
+    end
+  end
+  
+  describe "map_to_groups" do
+    let(:service) { ProntoForms::RestService.new }
+    
+    describe "with no second parameter" do
+      subject { service.send(:map_to_groups, member) } 
+      
+      context "technology group member not in a customer site" do
+        let(:member) { { :department => [ "Technology" ], :physicaldeliveryofficename => [ "Toronto" ] } }
+        it "should only contain the id of the Technology group" do
+          expect(subject).to eq([ ProntoForms::RestService::GROUP::TECHNOLOGY[:id] ])
+        end
+      end
+      
+      context "technology group member in a customer site" do
+        let(:member) { { :department => [ "Technology" ], :physicaldeliveryofficename => [ "Woodstock" ] } }
+        it "should only contain the id of the Technology group and the site" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::TECHNOLOGY[:id])
+          expect(subject).to include(ProntoForms::RestService::GROUP::WOODSTOCK[:id])
+          expect(subject.length).to eq(2)
+        end
+      end
+      
+      context "Cambridge site member" do
+        let(:member) { { :department => [ "Operations" ], :physicaldeliveryofficename => [ "Cambridge" ] } }
+        it "should only contain the id of the Cambridge group" do
+          expect(subject).to eq([ ProntoForms::RestService::GROUP::CAMBRIDGE[:id] ])
+        end
+      end
+      
+      context "Ingersoll site member" do
+        let(:member) { { :department => [ "Operations" ], :physicaldeliveryofficename => [ "Ingersoll" ] } }
+        it "should only contain the id of the Ingersoll group" do
+          expect(subject).to eq([ ProntoForms::RestService::GROUP::INGERSOLL[:id] ])
+        end
+      end
+      
+      context "Lawton site member" do
+        let(:member) { { :department => [ "Operations" ], :physicaldeliveryofficename => [ "Lawton" ] } }
+        it "should only contain the id of the Lawton group" do
+          expect(subject).to eq([ ProntoForms::RestService::GROUP::LAWTON[:id] ])
+        end
+      end
+      
+      context "Oshawa site member" do
+        let(:member) { { :department => [ "Operations" ], :physicaldeliveryofficename => [ "Oshawa" ] } }
+        it "should only contain the id of the Oshawa group" do
+          expect(subject).to eq([ ProntoForms::RestService::GROUP::OSHAWA[:id] ])
+        end
+      end
+      
+      context "Social Circle site member" do
+        let(:member) { { :department => [ "Operations" ], :physicaldeliveryofficename => [ "Social Circle" ] } }
+        it "should only contain the id of the Social Circle group" do
+          expect(subject).to eq([ ProntoForms::RestService::GROUP::SOCIAL_CIRCLE[:id] ])
+        end
+      end
+      
+      context "Tonawanda site member" do
+        let(:member) { { :department => [ "Operations" ], :physicaldeliveryofficename => [ "Tonawanda" ] } }
+        it "should only contain the id of the Tonawanda group" do
+          expect(subject).to eq([ ProntoForms::RestService::GROUP::TONAWANDA[:id] ])
+        end
+      end
+      
+      context "Woodstock site member" do
+        let(:member) { { :department => [ "Operations" ], :physicaldeliveryofficename => [ "Woodstock" ] } }
+        it "should only contain the id of the Woodstock group" do
+          expect(subject).to eq([ ProntoForms::RestService::GROUP::WOODSTOCK[:id] ])
+        end
+      end
+      
+      context "Woodstock safety representative" do
+        let(:member) { { :department => [ "Operations" ], :physicaldeliveryofficename => [ "Woodstock" ], :memberof => [ 'CN=grpSafety,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com' ] } }
+        it "should only contain the ids of the Woodstock and Safety Reps groups" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::WOODSTOCK[:id])
+          expect(subject).to include(ProntoForms::RestService::GROUP::SAFETY_REPS[:id])
+          expect(subject.length).to eq(2)
+        end
+      end
+      
+      context "Ingersoll site manager" do
+        let(:member) { { :department => [ "Operations" ], :physicaldeliveryofficename => [ "Ingersoll" ], :memberof => [ 'CN=grpSiteManagers,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com' ] } }
+        it "should contain the ids of the Ingersoll and Site Manager groups" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::INGERSOLL[:id])
+          expect(subject).to include(ProntoForms::RestService::GROUP::SITE_MANAGERS[:id])
+          expect(subject.length).to eq(2)
+        end
+      end
+      
+      context "Ingersoll site manager of Robinson Solutions" do
+        let(:member) { { :company => 'Robinson Solutions' ,:department => [ "Operations" ], :physicaldeliveryofficename => [ "Ingersoll" ], :memberof => [ 'CN=grpSiteManagers,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com' ] } }
+        it "should contain the ids of the Ingersoll and Site Manager groups" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::INGERSOLL[:id])
+          expect(subject).to include(ProntoForms::RestService::GROUP::SITE_MANAGERS[:id])
+          expect(subject).to include(ProntoForms::RestService::GROUP::ROBINSON_USERS[:id])
+          expect(subject.length).to eq(3)
+        end
+      end
+      
+      context "Ingersoll site manager of Robinson Innovations" do
+        let(:member) { { :company => 'Robinson Innovations' ,:department => [ "Operations" ], :physicaldeliveryofficename => [ "Ingersoll" ], :memberof => [ 'CN=grpSiteManagers,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com' ] } }
+        it "should contain the ids of the Ingersoll and Site Manager groups" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::INGERSOLL[:id])
+          expect(subject).to include(ProntoForms::RestService::GROUP::SITE_MANAGERS[:id])
+          expect(subject).to include(ProntoForms::RestService::GROUP::ROBINSON_USERS[:id])
+          expect(subject.length).to eq(3)
+        end
+      end
+      
+      context "Ingersoll site manager of Whatever" do
+        let(:member) { { :company => 'Whatever' ,:department => [ "Operations" ], :physicaldeliveryofficename => [ "Ingersoll" ], :memberof => [ 'CN=grpSiteManagers,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com' ] } }
+        it "should contain the ids of the Ingersoll and Site Manager groups" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::INGERSOLL[:id])
+          expect(subject).to include(ProntoForms::RestService::GROUP::SITE_MANAGERS[:id])
+          expect(subject.length).to eq(2)
+        end
+      end
+      
+      context "Senior Management" do
+        let(:member) { { :memberof => [ 'CN=grpSeniorManagement,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com' ] } }
+        it "should contain the ids of Senior Management groups" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::SENIOR_MANAGEMENT[:id])
+          expect(subject.length).to eq(1)
+        end
+      end
+      
+      context "Not in Senior Management" do
+        let(:member) { { :memberof => [ 'CN=grpWhatever,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com' ] } }
+        it "should not contain the ids of Senior Management groups" do
+          expect(subject).not_to include(ProntoForms::RestService::GROUP::SENIOR_MANAGEMENT[:id])
+          expect(subject.length).to eq(0)
+        end
+      end
+    end
+    
+    describe "with a second parameter" do
+      let(:special_group) { ProntoForms::RestService::GROUP::SPECIAL[0] }
+      subject { service.send(:map_to_groups, member, [ special_group[:id] ]) }
+      
+      context "technology group member not in a customer site" do
+        let(:member) { { :department => [ "Technology" ], :physicaldeliveryofficename => [ "Toronto" ] } }
+        it "should only contain the id of the Technology group" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::TECHNOLOGY[:id])
+          expect(subject).to include(special_group[:id])
+          expect(subject.length).to eq(2)
+        end
+      end
+      
+      context "technology group member in a customer site" do
+        let(:member) { { :department => [ "Technology" ], :physicaldeliveryofficename => [ "Woodstock" ] } }
+        it "should only contain the id of the Technology group and the site" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::TECHNOLOGY[:id])
+          expect(subject).to include(ProntoForms::RestService::GROUP::WOODSTOCK[:id])
+          expect(subject).to include(special_group[:id])
+          expect(subject.length).to eq(3)
+        end
+      end
+      
+      context "Cambridge site member" do
+        let(:member) { { :department => [ "Operations" ], :physicaldeliveryofficename => [ "Cambridge" ] } }
+        it "should only contain the id of the Cambridge group" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::CAMBRIDGE[:id])
+          expect(subject).to include(special_group[:id])
+          expect(subject.length).to eq(2)
+        end
+      end
+      
+      context "Ingersoll site member" do
+        let(:member) { { :department => [ "Operations" ], :physicaldeliveryofficename => [ "Ingersoll" ] } }
+        it "should only contain the id of the Ingersoll group" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::INGERSOLL[:id])
+          expect(subject).to include(special_group[:id])
+          expect(subject.length).to eq(2)
+        end
+      end
+      
+      context "Lawton site member" do
+        let(:member) { { :department => [ "Operations" ], :physicaldeliveryofficename => [ "Lawton" ] } }
+        it "should only contain the id of the Lawton group" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::LAWTON[:id])
+          expect(subject).to include(special_group[:id])
+          expect(subject.length).to eq(2)
+        end
+      end
+      
+      context "Oshawa site member" do
+        let(:member) { { :department => [ "Operations" ], :physicaldeliveryofficename => [ "Oshawa" ] } }
+        it "should only contain the id of the Oshawa group" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::OSHAWA[:id])
+          expect(subject).to include(special_group[:id])
+          expect(subject.length).to eq(2)
+        end
+      end
+      
+      context "Social Circle site member" do
+        let(:member) { { :department => [ "Operations" ], :physicaldeliveryofficename => [ "Social Circle" ] } }
+        it "should only contain the id of the Social Circle group" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::SOCIAL_CIRCLE[:id])
+          expect(subject).to include(special_group[:id])
+          expect(subject.length).to eq(2)
+        end
+      end
+      
+      context "Tonawanda site member" do
+        let(:member) { { :department => [ "Operations" ], :physicaldeliveryofficename => [ "Tonawanda" ] } }
+        it "should only contain the id of the Tonawanda group" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::TONAWANDA[:id])
+          expect(subject).to include(special_group[:id])
+          expect(subject.length).to eq(2)
+        end
+      end
+      
+      context "Woodstock site member" do
+        let(:member) { { :department => [ "Operations" ], :physicaldeliveryofficename => [ "Woodstock" ] } }
+        it "should only contain the id of the Woodstock group" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::WOODSTOCK[:id])
+          expect(subject).to include(special_group[:id])
+          expect(subject.length).to eq(2)
+        end
+      end
+      
+      context "Woodstock safety representative" do
+        let(:member) { { :department => [ "Operations" ], :physicaldeliveryofficename => [ "Woodstock" ], :memberof => [ 'CN=grpSafety,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com' ] } }
+        it "should only contain the ids of the Woodstock and Safety Reps groups" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::WOODSTOCK[:id])
+          expect(subject).to include(ProntoForms::RestService::GROUP::SAFETY_REPS[:id])
+          expect(subject).to include(special_group[:id])
+          expect(subject.length).to eq(3)
+        end
+      end
+      
+      context "Ingersoll site manager" do
+        let(:member) { { :department => [ "Operations" ], :physicaldeliveryofficename => [ "Ingersoll" ], :memberof => [ 'CN=grpSiteManagers,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com' ] } }
+        it "should contain the ids of the Ingersoll and Site Manager groups" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::INGERSOLL[:id])
+          expect(subject).to include(ProntoForms::RestService::GROUP::SITE_MANAGERS[:id])
+          expect(subject).to include(special_group[:id])
+          expect(subject.length).to eq(3)
+        end
+      end
+      
+      context "Ingersoll site manager of Robinson Solutions" do
+        let(:member) { { :company => 'Robinson Solutions', :department => [ "Operations" ], :physicaldeliveryofficename => [ "Ingersoll" ], :memberof => [ 'CN=grpSiteManagers,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com' ] } }
+        it "should contain the ids of the Ingersoll and Site Manager groups" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::INGERSOLL[:id])
+          expect(subject).to include(ProntoForms::RestService::GROUP::SITE_MANAGERS[:id])
+          expect(subject).to include(ProntoForms::RestService::GROUP::ROBINSON_USERS[:id])
+          expect(subject).to include(special_group[:id])
+          expect(subject.length).to eq(4)
+        end
+      end
+      
+       context "Ingersoll site manager of Robinson Innovations" do
+        let(:member) { { :company => 'Robinson Innovations', :department => [ "Operations" ], :physicaldeliveryofficename => [ "Ingersoll" ], :memberof => [ 'CN=grpSiteManagers,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com' ] } }
+        it "should contain the ids of the Ingersoll and Site Manager groups" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::INGERSOLL[:id])
+          expect(subject).to include(ProntoForms::RestService::GROUP::SITE_MANAGERS[:id])
+          expect(subject).to include(ProntoForms::RestService::GROUP::ROBINSON_USERS[:id])
+          expect(subject).to include(special_group[:id])
+          expect(subject.length).to eq(4)
+        end
+      end
+      
+       context "Ingersoll site manager of Other Else" do
+        let(:member) { { :company => 'Other Else', :department => [ "Operations" ], :physicaldeliveryofficename => [ "Ingersoll" ], :memberof => [ 'CN=grpSiteManagers,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com' ] } }
+        it "should contain the ids of the Ingersoll and Site Manager groups" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::INGERSOLL[:id])
+          expect(subject).to include(ProntoForms::RestService::GROUP::SITE_MANAGERS[:id])
+          expect(subject).to include(special_group[:id])
+          expect(subject.length).to eq(3)
+        end
+      end
+      
+      context "Senior Management" do
+        let(:member) { { :memberof => [ 'CN=grpSeniorManagement,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com' ] } }
+        it "should contain the ids of Senior Management groups" do
+          expect(subject).to include(ProntoForms::RestService::GROUP::SENIOR_MANAGEMENT[:id])
+          expect(subject).to include(special_group[:id])
+          expect(subject.length).to eq(2)
+        end
+      end
+      
+      context "Not in Senior Management" do
+        let(:member) { { :memberof => [ 'CN=grpWhatever,OU=Groups,DC=corp,DC=robinsonsolutions,DC=com' ] } }
+        it "should not contain the ids of Senior Management groups" do
+          expect(subject).not_to include(ProntoForms::RestService::GROUP::SENIOR_MANAGEMENT[:id])
+          expect(subject).to include(special_group[:id])
+          expect(subject.length).to eq(1)
+        end
+      end
+    end
+  end
+end

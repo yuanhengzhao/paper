@@ -1,0 +1,55 @@
+require 'rails_helper'
+
+RSpec.describe "admin/options/index", :type => :view do
+  let(:options) {
+    [
+      FactoryGirl.create(:option, group: "body_location", value: "hair"),
+      FactoryGirl.create(:option, group: "body_location", value:"head")
+    ]
+  }
+  before(:each) do
+    #@options = options
+    assign(:options, options)
+    @option_group_name = Option.option_group_titlized_name("body_location")
+  end
+
+  it "renders a list of options" do
+    render
+    assert_select "tr>td", :text => options[0].to_s, :count => 1
+    
+    assert_select "tr>td", :text => options[1].to_s, :count => 1
+  end
+  
+   it "has links to the individual options" do
+    render
+    assert_select "a[href=#{admin_options_path(options[0])}]", :text => "Show", :count => 1 
+    assert_select "a[href=#{admin_options_path(options[1])}]", :text => "Show", :count => 1 
+  end
+  
+  describe "for a user with admin permissions" do
+    before(:each) do
+      @ability.can [:update, :destroy], Option
+    end
+    it "has links to edit the individual options" do
+      render
+      assert_select "a[href=#{admin_edit_option_path(:group=> options[1].group, id => options[2].id)}]", :text => "Edit", :count => 1 
+      assert_select "a[href=#{admin_edit_option_path(options[1])}]", :text => "Edit", :count => 1 
+    end
+    it "has links to delete the individual options" do
+      render
+      assert_select "a[href=#{admin_options_path(options[0])}][data-method=\"delete\"]", :text => "Destroy", :count => 1 
+      assert_select "a[href=#{admin_options_path(options[1])}][data-method=\"delete\"]", :text => "Destroy", :count => 1 
+    end
+  end
+  describe "for a user without admin permissions" do
+    it "has no links to edit the individual options" do
+      render
+      assert_select "a[href=#{admin_edit_option_path(:group=> options[1].group, :id => options[2].id)}]", :count => 0 
+    end
+    
+    it "has links to delete the individual options" do
+      render
+      assert_select "a[href=#{admin_edit_option_path(:group=> options[1].group, :id => options[2].id)}][data-method=\"delete\"]", :text => "Destroy", :count => 0
+    end
+  end
+end

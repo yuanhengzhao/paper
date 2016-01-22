@@ -1,0 +1,7 @@
+class RenameGaurdAndReapairsAndCommentColumnsInJanitorialChechlist < ActiveRecord::Migration
+  def change
+    rename_column :forms_janitorial_checklists, :list_reapairs, :list_repairs
+    rename_column :forms_janitorial_checklists, :gaurd_rails, :guard_rails
+    rename_column :forms_janitorial_checklists, :comment, :comments
+  end
+end

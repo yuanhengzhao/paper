@@ -1,0 +1,10 @@
+class CreateDataSourcesDollies < ActiveRecord::Migration
+  def change
+    create_table :data_sources_dollies do |t|
+      t.string :identifier
+      t.boolean :active
+
+      t.timestamps null: true
+    end
+  end
+end

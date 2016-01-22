@@ -1,0 +1,120 @@
+<% title "Janitorial Checklists #{@janitorial_checklist.id}" %>
+
+<table class="form-table">
+	<tr>
+		<td>reference_number</td><td><%= @janitorial_checklist.reference_number %></td>
+	</tr>
+	<tr>
+		<td>server_receive_date</td><td><%= @janitorial_checklist.server_receive_date %></td>
+	</tr>
+	<tr>
+		<td>device_submit_date</td><td><%= @janitorial_checklist.device_submit_date %></td>
+	</tr>
+	<tr>
+		<td>username</td><td><%= @janitorial_checklist.username %></td>
+	</tr>
+	<tr>
+		<td>version</td><td><%= @janitorial_checklist.version %></td>
+	</tr>
+	<tr>
+		<td>altitude</td><td><%= @janitorial_checklist.altitude %></td>
+	</tr>
+	<tr>
+		<td>latitude</td><td><%= @janitorial_checklist.latitude %></td>
+	</tr>
+	<tr>
+		<td>longitude</td><td><%= @janitorial_checklist.longitude %></td>
+	</tr>
+	<tr>
+		<td>source</td><td><%= @janitorial_checklist.source %></td>
+	</tr>
+	<tr>
+		<td>client</td><td><%= @janitorial_checklist.client %></td>
+	</tr>
+	<tr>
+		<td>site</td><td><%= @janitorial_checklist.site %></td>
+	</tr>
+	<tr>
+		<td>shop</td><td><%= @janitorial_checklist.shop %></td>
+	</tr>
+	<tr>
+		<td>location</td><td><%= @janitorial_checklist.location %></td>
+	</tr>
+	<tr>
+		<td>floor</td><td><%= @janitorial_checklist.floor %></td>
+	</tr>
+	<tr>
+		<td>type_mwu</td><td><%= @janitorial_checklist.type_mwu %></td>
+	</tr>
+	<tr>
+		<td>reference</td><td><%= @janitorial_checklist.reference %></td>
+	</tr>
+	<tr>
+		<td>plant_id</td><td><%= @janitorial_checklist.plant_id %></td>
+	</tr>
+	<tr>
+		<td>area_type</td><td><%= @janitorial_checklist.area_type %></td>
+	</tr>
+	<tr>
+		<td>fi</td><td><%= @janitorial_checklist.fi %></td>
+	</tr>
+	<tr>
+		<td>floors</td><td><%= @janitorial_checklist.floors %></td>
+	</tr>
+	<tr>
+		<td>trash</td><td><%= @janitorial_checklist.trash %></td>
+	</tr>
+	<tr>
+		<td>ledges</td><td><%= @janitorial_checklist.ledges %></td>
+	</tr>
+	<tr>
+		<td>windows</td><td><%= @janitorial_checklist.windows %></td>
+	</tr>
+	<tr>
+		<td>chairs</td><td><%= @janitorial_checklist.chairs %></td>
+	</tr>
+	<tr>
+		<td>drinking_fount</td><td><%= @janitorial_checklist.drinking_fount %></td>
+	</tr>
+	<tr>
+		<td>tables</td><td><%= @janitorial_checklist.tables %></td>
+	</tr>
+	
+		<td>microwave</td><td><%= @janitorial_checklist.microwave %></td>
+	</tr>
+	<tr>
+		<td>sinks</td><td><%= @janitorial_checklist.sinks %></td>
+	</tr>
+	<tr>
+		<td>dispensers</td><td><%= @janitorial_checklist.dispensers %></td>
+	</tr>
+	<tr>
+		<td>guard_rails</td><td><%= @janitorial_checklist.guard_rails %></td>
+	</tr>
+	<tr>
+		<td>are_repairs_required</td><td><%= @janitorial_checklist.are_repairs_required %></td>
+	</tr>
+	<tr>
+		<td>list_repairs</td><td><%= @janitorial_checklist.list_repairs %></td>
+	</tr>
+	<tr>
+		<td>comments</td><td><%= @janitorial_checklist.comments %></td>
+	</tr>
+	<tr>
+		<td>image1</td>
+		<td><%= image_tag image1_forms_janitorial_checklist_path(@janitorial_checklist) %></td>
+	</tr>
+
+	<tr>
+		<td>image2</td>
+		<td><%= image_tag image2_forms_janitorial_checklist_path(@janitorial_checklist) %></td>
+	</tr>
+
+	<tr>
+		<td>sum_total</td><td><%= @janitorial_checklist.sum_total %></td>
+	</tr>
+	<tr>
+		<td>overall_rate</td><td><%= @janitorial_checklist.overall_rate %></td>
+	</tr>
+<%= render :partial => 'forms/form_submission_section', :locals => { :submission_path => submission_forms_janitorial_checklist_path(@janitorial_checklist), :reparse_path => reparse_forms_janitorial_checklist_path(@janitorial_checklist) } %>
+</table>

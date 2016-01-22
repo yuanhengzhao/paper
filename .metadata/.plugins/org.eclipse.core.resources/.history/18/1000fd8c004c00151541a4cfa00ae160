@@ -1,0 +1,73 @@
+json.draw @draw
+json.recordsTotal @recordsTotal
+json.recordsFiltered @recordsFiltered
+json.data(@data) do |incident|
+  json.extract! incident, :id, :column, :supervisor, :shift, :shift_start, :shift_end, :employee, :job, :incident_time, :report_time, :description, :corrective_action_date, :wsib_recordable, :wsib_form_7, :wsib_lost_time, :wsib_claim, :osha_recordable, :osha_lost_time, :modified_work_start, :modified_work_end, :modified_work_days, :lost_days_start, :lost_days_end, :lost_days, :implemented, :closed_date, :report_submitted_time, :body_part
+  
+  if incident.building.nil?
+    json.set! :building do
+      json.set! :id, nil
+      json.set! :name, nil
+    end
+    
+    json.set! :site do
+      json.set! :id, nil
+      json.set! :name, nil
+      json.set! :timezone, nil
+    end
+  else
+    json.building do
+      json.id incident.building.id
+      json.name incident.building.name
+    end
+    
+    json.site do
+      json.id  incident.building.site.id
+      json.name  incident.building.site.name
+      json.timezone ActiveSupport::TimeZone.find_tzinfo(incident.building.site.time_zone).identifier
+    end
+  end
+  
+  # explicitly convert to string to replace nil with empty string
+  json.corrective_action incident.corrective_action.to_s
+  json.comment incident.comment.to_s
+  
+  if incident.incident_type.nil?
+    json.set! :incident_type do
+      json.set! :id, nil
+      json.set! :name, nil
+    end
+  else
+    json.incident_type incident.incident_type, :id, :name
+  end
+  
+  if incident.incident_class.nil?
+    json.set! :incident_class do
+      json.set! :id, nil
+      json.set! :name, nil
+    end
+  else
+    json.incident_class incident.incident_class, :id, :name
+  end
+  
+  
+  if incident.body_location.nil?
+    json.set! :body_location do
+      json.set! :id, nil
+      json.set! :name, nil
+    end
+  else
+    json.body_location incident.body_location, :id, :name
+  end
+  
+  if incident.safety_rep.nil?
+    json.set! :safety_rep do
+      json.set! :id, nil
+      json.set! :full_name, nil
+    end
+  else
+    json.safety_rep incident.safety_rep, :id, :full_name
+  end
+  
+  json.url incident_url(incident)
+end

@@ -1,0 +1,27 @@
+<% provide(:title, "Edit Permissions") %>
+
+<div id="user_authorized" class="user-permission-toggle">
+	<div class="permission-label">Authorized</div>
+	<div class="switch-container">
+  		<label class="switch active-inactive">
+  			<input type="checkbox" class="switch-input"<%= (@user[:authorized] ? "checked=\"checked\"" : "") %>">
+  			<span class="switch-label" data-on="True" data-off="False"></span>
+  			<span class="switch-handle"></span>
+  		</label>
+  	</div>
+  	<div class="clear"></div>
+</div>
+
+<div id="user_admin" class="user-permission-toggle">
+	<div class="permission-label">Administrator</div>
+	<div class="switch-container">
+  		<label class="switch active-inactive">
+  			<input type="checkbox" class="switch-input"<%= (@user[:admin] ? "checked=\"checked\"" : "") %>">
+  			<span class="switch-label" data-on="True" data-off="False"></span>
+  			<span class="switch-handle"></span>
+  		</label>
+  	</div>
+  	<div class="clear"></div>
+</div>
+
+<%= render :partial => 'form_edit_permissions' %>

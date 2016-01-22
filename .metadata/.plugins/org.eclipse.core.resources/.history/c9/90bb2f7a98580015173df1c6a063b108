@@ -1,0 +1,326 @@
+{ "deviceSubmitDate" : { "time" : "2015-05-05T14:06:37-04:00",
+      "zone" : "America/Toronto"
+    },
+  "dispatcher" : null,
+  "form" : { "formSpaceIdentifier" : "191704041",
+      "formSpaceName" : "Space - E-Scrub",
+      "identifier" : "142024207",
+      "name" : "E-scrub KOP",
+      "version" : 1,
+      "versionIdentifier" : "152536496"
+    },
+  "geoStamp" : { "address" : "Queen Street West, Toronto, ON, CA",
+      "captureTimestamp" : { "provided" : { "time" : "2015-05-05T14:05:41-04:00",
+              "zone" : "America/Toronto"
+            },
+          "shifted" : "2015-05-05T14:05:41-04:00"
+        },
+      "coordinates" : { "altitude" : 0.0,
+          "latitude" : 43.652189900000003,
+          "longitude" : -79.382138900000001
+        },
+      "errorMessage" : null,
+      "source" : "Network",
+      "success" : true
+    },
+  "identifier" : "1822072288",
+  "pages" : [ { "answers" : [ { "dataType" : "Date",
+              "label" : "date",
+              "question" : "Date",
+              "values" : [ "2015-05-05" ]
+            },
+            { "dataType" : "Time",
+              "label" : "time",
+              "question" : "Time",
+              "values" : [ { "provided" : { "time" : "14:05:00-04:00",
+                        "zone" : "America/Toronto"
+                      },
+                    "shifted" : "14:05:00-04:00"
+                  } ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "crew",
+              "question" : "Crew",
+              "values" : [ "A1" ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "shift",
+              "question" : "Shift",
+              "values" : [ "Night" ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "check_list",
+              "question" : "Select Check-list",
+              "selectOptions" : [ { "other" : false,
+                    "selected" : false,
+                    "value" : "Module Inspection"
+                  },
+                  { "other" : false,
+                    "selected" : true,
+                    "value" : "Key Operating Parameters"
+                  },
+                  { "other" : false,
+                    "selected" : false,
+                    "value" : "Key Chemistry Parameters"
+                  }
+                ],
+              "values" : [ "Key Operating Parameters" ]
+            }
+          ],
+        "name" : "Basic"
+      },
+      { "answers" : [ { "dataType" : "FreeText",
+              "label" : "bc_matrix_dist",
+              "question" : "BC matrix distribution on passive plates",
+              "values" : [  ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "bc_matrix_flow",
+              "question" : "BC matrix flow",
+              "values" : [  ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "bc_particles_trough",
+              "question" : "BC particles trough",
+              "values" : [  ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "bc_residues",
+              "question" : "BC Residues On Passive Plates",
+              "values" : [  ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "bc_remarks",
+              "question" : "BC Remarks",
+              "values" : [  ]
+            },
+            { "dataType" : "Image",
+              "label" : "bc_picture",
+              "question" : "BC Picture",
+              "values" : [  ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "cc_matrix_dist",
+              "question" : "CC matrix distribution on passive plates",
+              "values" : [  ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "cc_matrix_flow",
+              "question" : "CC matrix flow",
+              "values" : [  ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "cc_particles_trough",
+              "question" : "CC particles trough",
+              "values" : [  ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "cc_residues",
+              "question" : "CC Residues On Passive Plates",
+              "values" : [  ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "cc_remarks",
+              "question" : "CC Remarks",
+              "values" : [  ]
+            },
+            { "dataType" : "Image",
+              "label" : "cc_picture",
+              "question" : "CC Picture",
+              "values" : [  ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "goto",
+              "question" : "goto",
+              "selectOptions" : [ { "other" : false,
+                    "selected" : false,
+                    "value" : "goto"
+                  } ],
+              "values" : [  ]
+            }
+          ],
+        "name" : "Module Inspection"
+      },
+      { "answers" : [ { "dataType" : "FreeText",
+              "label" : "goto 1",
+              "question" : "goto",
+              "selectOptions" : [ { "other" : false,
+                    "selected" : true,
+                    "value" : "goto"
+                  } ],
+              "values" : [ "goto" ]
+            },
+            { "dataType" : "Integer",
+              "label" : "bc_sludge",
+              "question" : "BC sludge (lbs)",
+              "values" : [ "66" ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "bc_sludge_stick_test",
+              "question" : "BC sludge stick test",
+              "values" : [ "Good" ]
+            },
+            { "dataType" : "Integer",
+              "label" : "bc_supply_mtr11",
+              "question" : "BC Supply MTR11 (Hz)",
+              "values" : [ "33" ]
+            },
+            { "dataType" : "Integer",
+              "label" : "bc_supply_mtr21",
+              "question" : "BC Supply MTR21 (Hz)",
+              "values" : [ "33" ]
+            },
+            { "dataType" : "Integer",
+              "label" : "bc_supply_mtr31",
+              "question" : "BC Supply MTR31",
+              "values" : [ "44" ]
+            },
+            { "dataType" : "Integer",
+              "label" : "bc_flow_rate_em0104",
+              "question" : "BC Flow Rate EM01-EM04 (GPM)",
+              "values" : [ "55" ]
+            },
+            { "dataType" : "Integer",
+              "label" : "bc_flow_rate_em0508",
+              "question" : "BC Flow Rate EM05-EM08 (GPM)",
+              "values" : [ "66" ]
+            },
+            { "dataType" : "Integer",
+              "label" : "cc_sludge",
+              "question" : "CC sludge (lbs)",
+              "values" : [ "77" ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "cc_sludge_stick_test",
+              "question" : "CC sludge stick test",
+              "values" : [ "Sticky" ]
+            },
+            { "dataType" : "Integer",
+              "label" : "cc_supply_mtr11",
+              "question" : "CC Supply MTR11 (Hz)",
+              "values" : [ "11" ]
+            },
+            { "dataType" : "Integer",
+              "label" : "cc_supply_mtr21",
+              "question" : "CC Supply MTR21 (Hz)",
+              "values" : [ "21" ]
+            },
+            { "dataType" : "Integer",
+              "label" : "cc_supply_mtr31",
+              "question" : "CC Supply MTR31 (HZ)",
+              "values" : [ "31" ]
+            },
+            { "dataType" : "Integer",
+              "label" : "cc_flow_rate_em0104",
+              "question" : "CC Flow Rate EM01-EM04 (GPM)",
+              "values" : [ "41" ]
+            },
+            { "dataType" : "Integer",
+              "label" : "cc_flow_rate_em0508",
+              "question" : "CC Flow Rate EM05-EM08 (GPM)",
+              "values" : [ "51" ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "operating_comments",
+              "question" : "Comments",
+              "values" : [ "hello" ]
+            }
+          ],
+        "name" : "Key Operating Parameters"
+      },
+      { "answers" : [ { "dataType" : "FreeText",
+              "label" : "goto 2",
+              "question" : "goto",
+              "selectOptions" : [ { "other" : false,
+                    "selected" : false,
+                    "value" : "goto"
+                  } ],
+              "values" : [  ]
+            },
+            { "dataType" : "Decimal",
+              "label" : "bc_viscosity",
+              "question" : "BC viscosity (s)",
+              "values" : [  ]
+            },
+            { "dataType" : "Decimal",
+              "label" : "bc_system_tank_level",
+              "question" : "BC system tank level (%)",
+              "values" : [  ]
+            },
+            { "dataType" : "Decimal",
+              "label" : "bc_surface_tension",
+              "question" : "BC surface tension (mN/m)",
+              "values" : [  ]
+            },
+            { "dataType" : "Decimal",
+              "label" : "bc_ratio_st_vis",
+              "question" : "BC ratio ST/Viscosity",
+              "values" : [  ]
+            },
+            { "dataType" : "Integer",
+              "label" : "bc_imhoff",
+              "question" : "BC Imhoff (ml/l)",
+              "values" : [  ]
+            },
+            { "dataType" : "Integer",
+              "label" : "bc_centrifuge",
+              "question" : "BC Centrifuge (ml/10 ml)",
+              "values" : [  ]
+            },
+            { "dataType" : "Decimal",
+              "label" : "cc_viscosity",
+              "question" : "CC viscosity (s)",
+              "values" : [  ]
+            },
+            { "dataType" : "Decimal",
+              "label" : "cc_system_tank_level",
+              "question" : "CC system tank level (%)",
+              "values" : [  ]
+            },
+            { "dataType" : "Decimal",
+              "label" : "cc_surface_tension",
+              "question" : "CC surface tension (mN/m)",
+              "values" : [  ]
+            },
+            { "dataType" : "Decimal",
+              "label" : "cc_ratio_st_vis",
+              "question" : "CC ratio ST/Viscosity",
+              "values" : [  ]
+            },
+            { "dataType" : "Integer",
+              "label" : "cc_imhoff",
+              "question" : "CC Imhoff (ml/l)",
+              "values" : [  ]
+            },
+            { "dataType" : "Integer",
+              "label" : "cc_centrifuge",
+              "question" : "CC Centrifuge (ml/10 ml)",
+              "values" : [  ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "chemistry_comments",
+              "question" : "Comments",
+              "values" : [  ]
+            }
+          ],
+        "name" : "Key Chemistry Parameters"
+      },
+      { "answers" : [ { "dataType" : "Information",
+              "label" : "Pstf",
+              "question" : "Please submit the form",
+              "values" : [  ]
+            } ],
+        "name" : "Complete"
+      }
+    ],
+  "referenceNumber" : "20150505180641-1822072288",
+  "serverReceiveDate" : "2015-05-05T14:06:42-04:00",
+  "shiftedDeviceSubmitDate" : "2015-05-05T14:06:37-04:00",
+  "state" : "Complete",
+  "user" : { "displayName" : "Mengxi Liao (mliao@robinsonsolutions.com)",
+      "identifier" : "131590063",
+      "username" : "mliao@robinsonsolutions.com"
+    },
+  "version" : "v1",
+  "zone" : "America/Toronto"
+}

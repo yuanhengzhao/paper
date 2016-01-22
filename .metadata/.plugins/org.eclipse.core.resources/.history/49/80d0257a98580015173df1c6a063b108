@@ -1,0 +1,15 @@
+FactoryGirl.define do
+  factory :special_service_request, class: Forms::SpecialServiceRequest do
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions', 'fake.json'), 'text/plain') }
+    
+    factory :special_service_request_valid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'special_service_request', 'valid.json'), 'text/plain') }
+    end
+    
+    factory :special_service_request_invalid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'special_service_request', 'too_many_pictures.json'), 'text/plain') }
+    end
+  end
+end

@@ -1,0 +1,4 @@
+class Incidents < ActiveRecord::Migration
+  def change
+  end
+end

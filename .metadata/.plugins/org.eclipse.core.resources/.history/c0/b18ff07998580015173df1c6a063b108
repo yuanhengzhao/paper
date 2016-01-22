@@ -1,0 +1,5 @@
+<% title "Net Promoter Score" %>
+<%= render :partial => 'forms/form_export_section', :locals => {:update_url => update_export_forms_net_promoter_scores_url(format: :json), :download_url => download_export_forms_net_promoter_scores_url} %>
+<table id="net_promoter_scores_datatable" class="display<%= (can?(:manage, Forms::NetPromoterScore) ? ' admin' : '') %>">
+	<%= render :partial => 'forms/form_header_footer' %>
+</table>

@@ -1,0 +1,72 @@
+check_update = (update_href, download_href, attemps) -> 
+  wait_time_unit = 2000
+  max_wait_time = 15000
+  
+  $.ajax update_href,
+    type: 'GET'
+    dataType: 'json'
+    error: (jqXHR, textStatus, errorThrown) ->
+      bootbox.hideAll()
+      bootbox.alert('<h4>Errors</h4><p>'+jqXHR.responseText+'</p>')
+    success: (data, textStatus, jqXHR) ->
+      if data.status == "updating"
+        wait_time = wait_time_unit*attemps
+        if wait_time > max_wait_time
+          wait_time = max_wait_time
+        setTimeout ( -> check_update(update_href, download_href, attemps+1 ) ), wait_time
+      else if data.status == "available"
+        bootbox.hideAll()
+        bootbox.alert('<h4>Update Done</h4><p>Update is done. Please download <a  target="_blank" href="'+download_href+'">Download</p>')
+
+jQuery ->  
+  # datatable for submissions page
+  datatable = $("#forms_datatable").DataTable
+    "processing": true
+    "serverSide": true
+    "ajax": "/forms/datatable.json"
+    "columns": [
+      { "data": "name", "className": "column-name", "render": (data, type, full) -> '<a href="./' + full["url"] + '">' + full["name"] + '</a>' },
+      { "data": "count", "className": "column-count" },
+      { "data": "last_update", "className": "column-last-update", "render": (data, type, full) -> (if data == null then '' else new Date(data)) }
+    ]
+    
+  $(".export-button").on "click", (e, xhr, settings) ->
+    update_href = $(this).attr("data-url-update")
+    download_href = $(this).attr("data-url-download")
+    
+    bootbox.dialog({title: 'Loading...', message: '<div style="text-align:center">Update required. Please be patient.</div><div class="dialog-loading"></div>'})
+    check_update(update_href, download_href, 1)
+   
+    null
+    
+  # loads JSON submission into the show page
+  $('.submission-data-section .link a').on 'click', () ->
+    # local reference of container to populate, keep track of current width
+    submission_data_container = $('.submission-data-section .container')
+    container_width = submission_data_container.width()
+    # display loading bar
+    submission_data_container.html('<div class="dialog-loading"></div>')
+    # execute AJAX to fetch contents of file replacing loading bar with retrieved
+    # contents if successful (sized appropriately) or error message otherwise
+    $.ajax $(this).attr('href'),
+      type: 'GET'
+      dataType: 'script'
+      error: (jqXHR, textStatus, errorThrown) ->
+        if window.console
+          console.debug jqXHR, textStatus, errorThrown
+        submission_data_container.html('<div class="flash error">Unable to load original submission data: ' + errorThrown + '</div>')
+      success: (data, textStatus, jqXHR) ->
+        submission_data_container.html('<pre style="width: ' + container_width + 'px;">' + syntaxHighlight(JSON.stringify(data, undefined, 2)) + '</pre>')
+    false
+    
+      
+  $(".form-title").on "click", () -> 
+    form = $(".form-fields")
+    if(form.is(':visible'))
+      form.hide()
+    else
+      form.show()
+    false
+    
+  $("#btn-change-history").on 'click', ()->
+    $("#change-histories-modal").modal("show")

@@ -1,0 +1,106 @@
+# @abstract Subclass and override {#import} to implement form-specific migrate.
+class Iforms::AbstractIformMigrate
+  
+  # Attempts to import the data in the folder exported from iform to the database
+  #
+  # @param dir the path of the data folder
+  # @version the iform version of the form
+  # @raise [NotImplementedError] when the method has not been overridden
+  def import(dir, file_name, version)
+    json_all_records = File.read("#{dir}/#{file_name}.json")
+    hash_all_records = from_json(json_all_records).collect { |record| record["record"] }
+    
+    i=0
+    #ActiveRecord::Base.transaction do
+      hash_all_records.each do |hash_record|
+        model = get_record(hash_record,dir)
+        model.save
+        puts "Done Import ID #{model.reference_number}"
+        i+=1
+        puts "done #{i}"
+      end
+    #end
+  end
+  
+  protected
+  
+  # Attemps to create the record from the hash item
+  #
+  # @param item_hash the hash representation of the specific form record
+  # @param dir the path of the data folder
+  # @return form model
+  # @raise [NotImplementedError] when the method has not been overridden
+  def get_record(item_hash,dir); raise NotImplementedError end
+  
+  # Creates a submission paperclip attachment
+  #
+  # @param submission the json of the record
+  # @return paperclip attachment
+  def create_submission_attachment(submission)
+    return nil if submission.nil?
+    attachment = StringIO.new(submission)
+    attachment.class.class_eval { attr_accessor :original_filename, :content_type }
+    attachment.content_type = "text/plain"
+    attachment.original_filename = "submission.json"
+    return attachment
+  end
+  
+  # Creates a paperclip attachment at the given path
+  #
+  # @param file_path the path of the file
+  # @return paperclip attachment
+  def create_file_attachment(file_path)
+    begin
+      return File.open(file_path)
+    rescue 
+      return nil
+    end
+  end
+  
+  # Creates a paperclip attachment of the image
+  #
+  # @param item_hash the hash representation of the specific form record
+  # @param dir the path of the data folder
+  # @param name the label of the image in iform
+  # @return paperclip attachment
+  def create_image_attachment(item_hash, name, dir)
+    attachment = nil
+    unless item_hash[name].nil?
+      attachment = create_file_attachment("#{dir}/images/record_#{item_hash["ID"]}_#{name}.jpg")
+    end
+    return attachment
+  end
+  
+  # Fills common answers to the model by the answers of the iform record
+  #
+  # @param record the form model
+  # @param item_hash the hash representation of the specific form record
+  def get_common_answer_values(record,item_hash,version="v1")
+    record.reference_number = item_hash["ID"]
+    record.server_receive_date = item_hash["MODIFIED_DATE"]
+    record.device_submit_date = item_hash["MODIFIED_DATE"]
+    record.username = item_hash["CREATED_BY"]
+    record.version = version
+    unless item_hash["MODIFIED_LOCATION"].empty?
+      location_infos = item_hash["MODIFIED_LOCATION"].split(':')
+      record.latitude = location_infos[0]
+      record.longitude = location_infos[1]
+      record.altitude = location_infos[2]
+    end
+    record.source = "iform"
+    record.submission = create_submission_attachment(item_hash.to_json)
+  end
+  
+  private
+  
+  # Helper method to convert a json to a hash
+  def from_json(json)
+    begin
+      return ActiveSupport::JSON.decode(json)
+    rescue ActiveSupport::JSON.parse_error
+      # submission is not JSON -- ignore
+      return nil
+    end
+  end
+  
+end

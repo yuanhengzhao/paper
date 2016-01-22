@@ -1,0 +1,28 @@
+<%
+ # Builds the table row containing the inputs for assigning permissions to a user.
+  #
+  # Requires:
+  # - permission_subject: name of the class for the permission toggle, i.e. "Forms::RestroomChecklist", "Forms::ALL", etc.
+  category = permission_subject.split('::').first
+  subject = permission_subject.split('::').last
+  tmp = @user.permissions.where(category: category, subject: subject)
+  action = if tmp.empty? then 'none' else tmp.first.action end
+%>
+<tr>
+	<td><%= category %></td>
+	<td><%= if subject == "ALL" then subject else subject.titlecase end %></td>
+	<td class="edit_permission_form buttonset" data-category="<%= category %>" data-subject="<%= subject %>" data-action="<%= action %>">
+	<div class="btn-group" role="group">
+		<% ["none", "read", "edit"].each do |permission| %>
+		<% if permission == action%>
+		<button type="button" class="btn-permission btn btn-primary" data-name="<%= permission_subject %>" data-value="<%= permission %>">
+			<%= permission.titleize %>
+		</button>
+		<% else %>
+		<button type="button" class="btn-permission btn btn-default" data-name="<%= permission_subject %>" data-value="<%= permission %>">
+			<%= permission.titleize %>
+		</button>
+		<% end %>
+		<% end %>
+	</div></td>
+</tr>

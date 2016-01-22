@@ -1,0 +1,145 @@
+class Forms::RestroomChecklistsController < ApplicationController
+  
+  FORM_NAME = "restroom checklists"
+  
+  include DatatableServerSideProcessing
+  include XlsxReportProcessing
+  
+  before_action :authenticate_user!
+  
+  load_and_authorize_resource :except => [:photo1, :photo2, :update_export, :download_export, :submission]
+  
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  
+  add_breadcrumb "forms", :forms_index_path
+  add_breadcrumb "restroom checklists", :forms_restroom_checklists_path
+  
+  DATATABLES_COLUMNS = [ "id", "username", "device_submit_date" ]
+  
+  def index
+    # @restroom_checklists is automatically loaded
+  end
+
+  def show
+    # @restroom_checklist is automatically loaded
+    add_breadcrumb "restroom checklist #{@restroom_checklist.id}", :forms_restroom_checklist_path
+  end
+  
+  # Overwrites the model's existing properties with the contents of the original submission document attached.
+  def reparse
+    # @restroom_checklist is automatically loaded
+    result = @restroom_checklist.reparse
+    # render the show action associated with the result object
+    render action: 'show', location: result
+  end
+  
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html { redirect_to forms_restroom_checklists_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS
+        }
+        
+        # call concern function using collection of all records the user has access to
+        @restroom_checklists = Forms::RestroomChecklist.accessible_by(current_ability)
+        render :json => datatable_data(@restroom_checklists, params, options)
+      }
+    end
+  end
+  
+  def update_export
+    authorize! :read, Forms::RestroomChecklist
+    
+    begin
+      raise "No data in this form."  if Forms::RestroomChecklist.all.count == 0
+      @export = generate_xlsx(Forms::RestroomChecklist, FORM_NAME, Forms::RestroomChecklist.maximum("updated_at"))
+      respond_to do |format|
+        format.json { render :json => @export, status: :ok  }
+      end
+    rescue => e
+      respond_to do |format|
+        format.json { render text:e.message, status: :not_acceptable }
+      end
+    end  
+  end
+  
+  def download_export
+    authorize! :read, Forms::RestroomChecklist
+    @export = Report::FormExport.find_by(form_name: FORM_NAME)
+    redirect_to(@export.attachment.expiring_url(10))
+  end
+  
+  
+  def photo1
+    authorize! :read, Forms::RestroomChecklist
+    @restroom_checklist = Forms::RestroomChecklist.find(params[:id])
+    authorize! :read, @restroom_checklist
+    redirect_to(@restroom_checklist.photo1.expiring_url(10))
+  end
+  
+  def photo2
+    authorize! :read, Forms::RestroomChecklist
+    @restroom_checklist = Forms::RestroomChecklist.find(params[:id])
+    authorize! :read, @restroom_checklist
+    redirect_to(@restroom_checklist.photo2.expiring_url(10))
+  end
+    
+  def restrooms
+    add_breadcrumb "manage restrooms", :restrooms_forms_restroom_checklists_url
+    
+    # get the unique restrooms
+    results = Forms::RestroomChecklist.unique_restrooms
+    # count the unique restrooms
+    counts = results.count
+    
+    # for each unique restroom, create a simple hash of data, include the number of forms submitted against that restroom
+    @restrooms = results.map do |item|
+      {
+        code: item.restroom_code,
+        reference: item.reference,
+        type_mwu: item.type_mwu,
+        floor: item.floor,
+        location: item.location,
+        shop: item.shop,
+        site: item.site,
+        client: item.client,
+        ignore: item.ignore,
+        count: counts[[item.reference,item.type_mwu,item.floor,item.location,item.shop,item.site,item.client]]
+      }
+    end
+  end
+  
+  def activate_restroom()
+    Forms::RestroomChecklist.set_ignore(params[:code], false)
+    respond_to do |format|
+      format.html { redirect_to restrooms_forms_restroom_checklists_url }
+      format.json { render json: { text: "success" }, status: :ok }
+    end
+  end
+  
+  def inactivate_restroom()
+    Forms::RestroomChecklist.set_ignore(params[:code], true)
+    respond_to do |format|
+      format.html { redirect_to restrooms_forms_restroom_checklists_url }
+      format.json { render json: { text: "success" }, status: :ok }
+    end
+  end
+  
+  def submission
+    authorize! :read, Forms::RestroomChecklist
+    @restroom_checklist = Forms::RestroomChecklist.find(params[:id])
+    authorize! :read, @restroom_checklist
+    redirect_to(@restroom_checklist.submission.expiring_url(10))
+  end
+  
+  private
+  
+  def record_not_found(exception)
+    # redirect back to index if id not found
+    flash[:alert] = exception.message
+    redirect_to forms_restroom_checklists_path
+  end
+
+end

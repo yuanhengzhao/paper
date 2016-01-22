@@ -1,0 +1,26 @@
+<%= form_for(@dolly, { html: { class: "data_sources_form form-horizontal" } }) do |f| %>
+  <% if @dolly.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@dolly.errors.count, "error") %> prohibited this Dolly from being saved:</h2>
+
+      <ul>
+      <% @dolly.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field form-group">
+    <%= f.label :identifier %>
+    <%= f.text_field :identifier, name: "dolly[identifier]", class: "form-control" %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :active %>
+    <%= f.check_box :active, name: "dolly[active]", class: "single-checkbox" %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Submit", class: 'button-submit' %>
+    <%= link_to 'Back', data_sources_dollies_path %>
+  </div>
+<% end %>

@@ -1,0 +1,128 @@
+require_relative '../../spec_helper'
+
+describe Forms::CleaningEvent do
+  it "should be included in Forms.list" do
+    expect(Forms.list).to include described_class
+  end
+  
+  it "has a valid factory" do
+    expect(build(:cleaning_event)).to be_valid
+  end
+  
+  describe "dolly cleaning event" do
+    # class that includes the concern
+    let(:model) { described_class }
+    let(:model_name) { model.name.split(/::/).last.underscore }
+    let(:factory_valid) { "dolly_cleaning_event_valid".to_sym }
+    let(:factory_invalid) { "dolly_cleaning_event_invalid".to_sym }
+  
+    before(:each) {
+      # no unrecognized objects should exist
+      expect(Forms::UnrecognizedSubmission.all).to be_empty
+  
+      # original should have a recognized source value
+      expect(original.source).to_not be_nil
+      expect(ParserService.new.get_source_parser(original.source)).to_not be_nil
+    }
+  
+    subject { original.reparse }
+  
+    describe "with a valid submission" do
+      let(:original) { create(factory_valid) }
+  
+      it "returns the original object" do
+        result = subject
+        expect(result.id).to eq(original.id)
+        expect(result).to be_a(model)
+      end
+  
+      it "does not delete the object" do
+        subject
+        expect(model.find_by_id(original.id)).to_not be_nil
+      end
+  
+      it "does not create an unrecognized object" do
+        subject
+        expect(Forms::UnrecognizedSubmission.all).to be_empty
+      end
+    end
+  
+    describe "with an invalid submission" do
+      let(:original) { create(factory_invalid) }
+  
+      it "returns an unrecognized object" do
+        result = subject
+        expect(result).to eq(Forms::UnrecognizedSubmission.first)
+      end
+  
+      it "deletes the object" do
+        subject
+        expect(model.find_by_id(original.id)).to be_nil
+      end
+  
+      it "creates an unrecognized object" do
+        subject
+        expect(Forms::UnrecognizedSubmission.all.count).to eq(1)
+      end
+    end
+  end
+  
+  describe "jig cleaning event" do
+    # class that includes the concern
+    let(:model) { described_class }
+    let(:model_name) { model.name.split(/::/).last.underscore }
+    let(:factory_valid) { "jig_#{model_name}_valid".to_sym }
+    let(:factory_invalid) { "jig_#{model_name}_invalid".to_sym }
+  
+    before(:each) {
+      # no unrecognized objects should exist
+      expect(Forms::UnrecognizedSubmission.all).to be_empty
+  
+      # original should have a recognized source value
+      expect(original.source).to_not be_nil
+      expect(ParserService.new.get_source_parser(original.source)).to_not be_nil
+    }
+  
+    subject { original.reparse }
+  
+    describe "with a valid submission" do
+      let(:original) { create(factory_valid) }
+  
+      it "returns the original object" do
+        result = subject
+        expect(result.id).to eq(original.id)
+        expect(result).to be_a(model)
+      end
+  
+      it "does not delete the object" do
+        subject
+        expect(model.find_by_id(original.id)).to_not be_nil
+      end
+  
+      it "does not create an unrecognized object" do
+        subject
+        expect(Forms::UnrecognizedSubmission.all).to be_empty
+      end
+    end
+  
+    describe "with an invalid submission" do
+      let(:original) { create(factory_invalid) }
+  
+      it "returns an unrecognized object" do
+        result = subject
+        expect(result).to eq(Forms::UnrecognizedSubmission.first)
+      end
+  
+      it "deletes the object" do
+        subject
+        expect(model.find_by_id(original.id)).to be_nil
+      end
+  
+      it "creates an unrecognized object" do
+        subject
+        expect(Forms::UnrecognizedSubmission.all.count).to eq(1)
+      end
+    end
+  end
+  
+end

@@ -1,0 +1,18 @@
+jQuery ->  
+  # datatable for submissions page
+  datatable = $("#escrub_kops_datatable").DataTable
+    "processing": true
+    "serverSide": true
+    "ajax": "/forms/escrub_kops/datatable.json"
+    "columns": [
+      { "data": "id" },
+      { "data": "check_list" },
+      { "data": "username" },
+      { "data": "date" },
+      { "data": "crew" },
+      { "data": "shift" },
+      { "data": "device_submit_date", "render": (data, type, full) -> new Date(data).toLocaleString() }
+      { "data": "id", "searchable": false, "orderable": false, "render": ( data, type, full ) ->
+        '<a href="/forms/escrub_kops/' + data + '">Show</a>'
+      }
+    ]

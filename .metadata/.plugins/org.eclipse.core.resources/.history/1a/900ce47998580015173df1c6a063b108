@@ -1,0 +1,3 @@
+<% title "Dolly #{@dolly.id}"  %>
+
+<%= render 'form' %>

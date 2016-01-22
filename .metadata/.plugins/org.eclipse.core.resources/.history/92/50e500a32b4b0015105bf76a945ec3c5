@@ -1,0 +1,71 @@
+FactoryGirl.define do
+  factory :incident, aliases: [:incident_initial] do
+    association :author, factory: :user
+    association :building
+    association :incident_class
+    association :incident_category
+    incident_category_other "other category"
+    association :incident_type
+    incident_type_other "other type"
+    association :body_part, factory: :body_part
+    association :body_location, factory: :body_location
+    column "Column"
+    association :floor
+    supervisor "Supervisor"
+    association :employee_type
+    employee "Employee"
+    job "Job"
+    incident_time "2014-01-01 12:00:00"
+    association :safety_rep
+    report_time "2014-01-02 12:00:00"
+    shift_start "2014-01-01 08:00:00"
+    shift_end "2014-01-01 17:00:00"
+    description "Description"
+    #association :mobile_equipment
+    #association :modified_duties_prescriber
+    
+    factory :incident_investigation do
+      factory :incident_follow_up do
+        factory :incident_full do
+          shift "Shift"
+          corrective_action "Corrective Action"
+          corrective_action_date "2014-01-10"
+          wsib_recordable "Yes"
+          wsib_form_7 "Yes"
+          wsib_lost_time "Yes"
+          wsib_claim "Claim Number"
+          osha_recordable "Not Applicable"
+          osha_lost_time "Not Applicable"
+          modified_work_start "2014-01-05"
+          modified_work_end "2014-01-08"
+          modified_work_days 4
+          lost_days_start "2014-01-01"
+          lost_days_end "2014-01-04"
+          lost_days 4
+          implemented "No"
+          comment "Comment"
+          closed_date "2014-01-10 12:00:00"
+        end
+        factory :incident_full_no_closed_date do
+          shift "Shift"
+          corrective_action "Corrective Action"
+          corrective_action_date "2014-01-10"
+          wsib_recordable "Yes"
+          wsib_form_7 "Yes"
+          wsib_lost_time "Yes"
+          wsib_claim "Claim Number"
+          osha_recordable "Not Applicable"
+          osha_lost_time "Not Applicable"
+          modified_work_start "2014-01-05"
+          modified_work_end "2014-01-08"
+          modified_work_days 4
+          lost_days_start "2014-01-01"
+          lost_days_end "2014-01-04"
+          lost_days 4
+          implemented "No"
+          comment "Comment"
+        end
+      end
+    end
+  end
+end

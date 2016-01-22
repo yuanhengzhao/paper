@@ -1,0 +1,4 @@
+json.array!(@body_parts) do |admin_body_part|
+  json.extract! admin_body_part, :id, :name, :rank
+  json.url admin_body_part_url(admin_body_part, format: :json)
+end

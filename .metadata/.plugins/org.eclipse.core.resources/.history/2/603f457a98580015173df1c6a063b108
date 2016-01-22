@@ -1,0 +1,53 @@
+require 'spec_helper'
+
+describe "data_sources/customer_sites/show" do
+  let!(:ability) do
+    # ability object with no abilities specific abilities
+    ability = Object.new
+    ability.extend(CanCan::Ability)
+    controller.stub(:current_ability) { ability }
+    ability
+  end
+  
+  before(:each) do
+    @customer_site = assign(:customer_site, create(:customer_site))
+  end
+  
+  context "for readers" do
+    before(:each) do
+      ability.can :read, DataSources::CustomerSite
+    end
+  
+    it "renders attributes in <td>" do
+      render
+      rendered.should match(/Company/)
+      rendered.should match(/Customer/)
+      rendered.should match(/Site/)
+      rendered.should match(/Shop/)
+    end
+    
+    it "doesn't render the 'Edit' button" do
+      render
+      expect(render).to_not match(/Edit/)
+    end
+  end
+  
+  context "for editors" do
+    before(:each) do
+      ability.can :manage, DataSources::CustomerSite
+    end
+  
+    it "renders attributes in <td>" do
+      render
+      rendered.should match(/Company/)
+      rendered.should match(/Customer/)
+      rendered.should match(/Site/)
+      rendered.should match(/Shop/)
+    end
+    
+    it "renders the 'Edit' button" do
+      render
+      expect(render).to match(/Edit/)
+    end
+  end
+end

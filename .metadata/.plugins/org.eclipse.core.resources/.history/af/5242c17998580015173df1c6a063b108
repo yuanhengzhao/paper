@@ -1,0 +1,5 @@
+jQuery ->  
+  # datatable for site shifts page
+  datatable = $("#dollies_datatable").DataTable
+    "processing": true
+    "serverSide": false

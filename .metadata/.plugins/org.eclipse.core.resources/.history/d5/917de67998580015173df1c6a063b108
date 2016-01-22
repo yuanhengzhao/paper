@@ -1,0 +1,27 @@
+<% title "Site Shift #{@site_shift.id}"  %>
+
+<div class="data-source-details">
+<table>
+	<tbody>
+		<tr>
+			<td>Site:</td>
+			<td><%= @site_shift.site %></td>
+		</tr>
+		<tr>
+			<td>Shift:</td>
+			<td><%= @site_shift.shift %></td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="2">
+				<ul>
+					<% if can? :edit, @site_shift %><li><%= link_to 'Edit', edit_data_sources_site_shift_path(@site_shift) %></li><% end %>
+					<li><%= link_to 'Back', data_sources_site_shifts_path %></li>
+				</ul>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+
+</div>

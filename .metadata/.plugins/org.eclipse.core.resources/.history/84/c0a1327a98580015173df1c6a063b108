@@ -1,0 +1,425 @@
+{
+    "identifier": "1814902834",
+    "version": "v1",
+    "zone": "America/Toronto",
+    "referenceNumber": "20140822140822-1814902834",
+    "state": "Complete",
+    "deviceSubmitDate": {
+        "time": "2014-08-22T10:08:11-04:00",
+        "zone": "America/Toronto"
+    },
+    "shiftedDeviceSubmitDate": "2014-08-22T10:08:11-04:00",
+    "serverReceiveDate": "2014-08-22T10:08:23-04:00",
+    "form": {
+        "identifier": "141786273",
+        "versionIdentifier": "152206064",
+        "name": "Pre Task Safety Plan",
+        "version": 2,
+        "formSpaceIdentifier": "191492117",
+        "formSpaceName": "Robinson Solutions Forms"
+    },
+    "user": {
+        "identifier": "131590063",
+        "username": "mliao@robinsonsolutions.com",
+        "displayName": "Mengxi Liao (mliao@robinsonsolutions.com)"
+    },
+    "dispatcher": null,
+    "geoStamp": {
+        "success": true,
+        "captureTimestamp": {
+            "provided": {
+                "time": "2014-08-22T10:07:20-04:00",
+                "zone": "America/Toronto"
+            },
+            "shifted": "2014-08-22T10:07:20-04:00"
+        },
+        "errorMessage": null,
+        "source": "Network",
+        "coordinates": {
+            "latitude": 43.6521341,
+            "longitude": -79.3821372,
+            "altitude": null
+        },
+        "address": "Queen Street West, Toronto, ON, CA"
+    },
+    "pages": [
+        {
+            "name": "Basic",
+            "answers": [
+                {
+                    "label": "task",
+                    "dataType": "FreeText",
+                    "question": "Task",
+                    "values": [
+                        "jddjj "
+                    ]
+                },
+                {
+                    "label": "site",
+                    "dataType": "FreeText",
+                    "question": "Site",
+                    "values": [
+                        "Tonawanda"
+                    ]
+                },
+                {
+                    "label": "shop",
+                    "dataType": "FreeText",
+                    "question": "Shop",
+                    "values": [
+                        "Plant 4"
+                    ]
+                },
+                {
+                    "label": "task_location",
+                    "dataType": "FreeText",
+                    "question": "Task Location",
+                    "values": [
+                        "hjjk"
+                    ]
+                },
+                {
+                    "label": "TTQRYoNteq:",
+                    "dataType": "Information",
+                    "question": "TAKE TWO QUESTIONS\nRespond Yes or No to each question:",
+                    "values": []
+                },
+                {
+                    "label": "q1",
+                    "dataType": "FreeText",
+                    "question": "Have you done this task before?",
+                    "values": [
+                        "Yes"
+                    ]
+                },
+                {
+                    "label": "q2",
+                    "dataType": "FreeText",
+                    "question": "Do I have a Safe Operating Procedure for this work? Should one be developed based on a frequency?",
+                    "values": [
+                        "I have an SOP for this work"
+                    ]
+                },
+                {
+                    "label": "q4",
+                    "dataType": "FreeText",
+                    "question": "Do I HAVE the required PPE? (list below)",
+                    "values": [
+                        "Yes"
+                    ]
+                },
+                {
+                    "label": "list_ppe",
+                    "dataType": "FreeText",
+                    "question": "List PPE",
+                    "values": [
+                        "hhh\nghhhh"
+                    ]
+                },
+                {
+                    "label": "q5",
+                    "dataType": "FreeText",
+                    "question": "Have I identified all potential hazards? (list below)",
+                    "values": [
+                        "No"
+                    ]
+                },
+                {
+                    "label": "list_potential_hazar",
+                    "dataType": "FreeText",
+                    "question": "List Potential Hazards",
+                    "values": [
+                        "hhhj\nhjjj"
+                    ]
+                },
+                {
+                    "label": "q6",
+                    "dataType": "FreeText",
+                    "question": "Have I assessed my potential body positions?",
+                    "values": [
+                        "Yes"
+                    ]
+                },
+                {
+                    "label": "q7",
+                    "dataType": "FreeText",
+                    "question": "Do I have the correct Tools for the job? (list below)",
+                    "values": [
+                        "No"
+                    ]
+                },
+                {
+                    "label": "list_tools",
+                    "dataType": "FreeText",
+                    "question": "List Tools",
+                    "values": [
+                        "hhhhd\nhhjj"
+                    ]
+                },
+                {
+                    "label": "q8",
+                    "dataType": "FreeText",
+                    "question": "Are the job plans understood? (list below)",
+                    "values": [
+                        "Yes"
+                    ]
+                },
+                {
+                    "label": "job_plan",
+                    "dataType": "FreeText",
+                    "question": "Job Plan",
+                    "values": [
+                        "hhjjhh\n\njjn"
+                    ]
+                },
+                {
+                    "label": "job_specific_details",
+                    "dataType": "FreeText",
+                    "question": "List Critical Job Specific Details.",
+                    "values": [
+                        "nhgg\n\njj"
+                    ]
+                },
+                {
+                    "label": "tm_names",
+                    "dataType": "FreeText",
+                    "question": "Review pre-task plan with Crew\nInput all TM names",
+                    "values": [
+                        "hjjj\njjj"
+                    ]
+                },
+                {
+                    "label": "to_group_leader_sec",
+                    "dataType": "FreeText",
+                    "question": "Go to group leader section?",
+                    "values": [
+                        "Yes"
+                    ],
+                    "selectOptions": [
+                        {
+                            "selected": true,
+                            "other": false,
+                            "value": "Yes"
+                        },
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "No"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Group Leader",
+            "answers": [
+                {
+                    "label": "signature",
+                    "dataType": "Signature",
+                    "question": "Group Leader Signature",
+                    "values": [
+                        {
+                            "identifier": "269540061187",
+                            "filename": "signature_2014-08-22_10-07-16-312.png",
+                            "contentType": "image/png",
+                            "bytes": "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"
+                        },
+                        {
+                            "identifier": "269540061187",
+                            "filename": "signature_2014-08-22_10-07-16-312.png",
+                            "contentType": "image/png",
+                            "bytes": "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"
+                        }
+                    ]
+                },
+                {
+                    "label": "label4",
+                    "dataType": "Information",
+                    "question": "ALL ACCIDENTS CAN BE PREVENTED\nAll employees performing the task must walk the job-site to identify any additional hazards or concerns. If you answered NO to any of the Take Two questions, address them safely according to the Hierarchy of Controls. These additional hazards or concerns require your Group Leader be notified for further planning. If concerns cannot be addressed, contact your Senior Group Leader or Safety for a resolution.",
+                    "values": []
+                },
+                {
+                    "label": "label5",
+                    "dataType": "Information",
+                    "question": "Hierarchy of Controls :\n1. Elimination/Substitution \n2. Engineering Controls \n3. Warnings \n4. Training / Procedures \n5. PPE",
+                    "values": []
+                },
+                {
+                    "label": "c1",
+                    "dataType": "FreeText",
+                    "question": "Have we controlled all types of energy that we will be exposed to (ie: Lockout and verify)?",
+                    "values": [
+                        "Yes"
+                    ]
+                },
+                {
+                    "label": "c2",
+                    "dataType": "FreeText",
+                    "question": "Have we taken all precautions to Eliminate fall hazards? (harness, housekeeping, manlifts, construction fence, etc.) Fall Protection is required when working above 3 meters or with in 2.4 meters of an opening in the floor, roof top.",
+                    "values": [
+                        "No"
+                    ]
+                },
+                {
+                    "label": "c3",
+                    "dataType": "FreeText",
+                    "question": "Have we identified potential pinch points, sharp edges, and nearby equipment that body parts could strike? Using leverage and force increases potentials for injury.",
+                    "values": [
+                        "N/A"
+                    ]
+                },
+                {
+                    "label": "c4",
+                    "dataType": "FreeText",
+                    "question": "Do we have the necessary permits to accomplish our task? (Hot Work, Confined Space Entry)",
+                    "values": [
+                        "Yes"
+                    ]
+                },
+                {
+                    "label": "c5",
+                    "dataType": "FreeText",
+                    "question": "Is proper housekeeping in place? (area free of trip and slip hazards, debris, spills, congestion, etc.)",
+                    "values": [
+                        "No"
+                    ]
+                },
+                {
+                    "label": "c6",
+                    "dataType": "FreeText",
+                    "question": "Have we taken all precautions to ensure people not assigned to our job are safe? (rope off area, erect barricades, and communicate)",
+                    "values": [
+                        "No"
+                    ]
+                },
+                {
+                    "label": "c7",
+                    "dataType": "FreeText",
+                    "question": "If rigging, is the rigging equipment properly certified? Did you inspect it today? Are you working within it's load limits? Are you working on suspended loads?",
+                    "values": [
+                        "No"
+                    ]
+                },
+                {
+                    "label": "c8",
+                    "dataType": "FreeText",
+                    "question": "Do we have all the tools & equipment we need to perform our jobs safely? (ladders, cut/weld equipment, scaffolding, etc.)",
+                    "values": [
+                        "N/A"
+                    ]
+                },
+                {
+                    "label": "c9",
+                    "dataType": "FreeText",
+                    "question": "Are the tools & equipment in good condition?",
+                    "values": [
+                        "Yes"
+                    ]
+                },
+                {
+                    "label": "c10",
+                    "dataType": "FreeText",
+                    "question": "Do we have the proper mobile equipment for our job? (ex: Scissor lifts, Broderson, Genie Boom, Lift Truck)Is the capacity rated to handle the required load? Has the Pre-Op been completed?",
+                    "values": [
+                        "N/A"
+                    ]
+                },
+                {
+                    "label": "ptd1",
+                    "dataType": "FreeText",
+                    "question": "1- Review Maximo workorder safety items vs. TIS or SOP, document any discrepancies",
+                    "values": [
+                        "No"
+                    ]
+                },
+                {
+                    "label": "ptd1_text",
+                    "dataType": "FreeText",
+                    "question": "If yes please describe",
+                    "values": [
+                        "ghjjb"
+                    ]
+                },
+                {
+                    "label": "ptd2",
+                    "dataType": "FreeText",
+                    "question": "2- Did any additional safety items come up that were not recognized as hazardous?",
+                    "values": [
+                        "No"
+                    ]
+                },
+                {
+                    "label": "ptd2_text",
+                    "dataType": "FreeText",
+                    "question": "If yes please describe",
+                    "values": [
+                        "hjojj"
+                    ]
+                },
+                {
+                    "label": "ptd3",
+                    "dataType": "FreeText",
+                    "question": "3- Did any \"task creep\" items happen that had to be dealt with?",
+                    "values": [
+                        "Yes"
+                    ]
+                },
+                {
+                    "label": "ptd3_text",
+                    "dataType": "FreeText",
+                    "question": "If yes please describe",
+                    "values": []
+                },
+                {
+                    "label": "ptd4",
+                    "dataType": "FreeText",
+                    "question": "4- Was the operation plan followed as specified?",
+                    "values": [
+                        "N/A"
+                    ]
+                },
+                {
+                    "label": "ptd4_text",
+                    "dataType": "FreeText",
+                    "question": "If no please describe",
+                    "values": []
+                },
+                {
+                    "label": "ptd5",
+                    "dataType": "FreeText",
+                    "question": "5- Were any safety steps specified but not required?",
+                    "values": [
+                        "No"
+                    ]
+                },
+                {
+                    "label": "ptd5_text",
+                    "dataType": "FreeText",
+                    "question": "If yes please describe",
+                    "values": [
+                        "ghjj"
+                    ]
+                },
+                {
+                    "label": "comments",
+                    "dataType": "FreeText",
+                    "question": "Additional comments",
+                    "values": [
+                        "jhcfv"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Finish",
+            "answers": [
+                {
+                    "label": "label6",
+                    "dataType": "Information",
+                    "question": "Return completed card to the Senior Group Leader and thenShift Leader. 6 month retention period for completed cards",
+                    "values": []
+                }
+            ]
+        }
+    ]
+}

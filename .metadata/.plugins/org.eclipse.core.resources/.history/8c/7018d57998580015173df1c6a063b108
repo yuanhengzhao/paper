@@ -1,0 +1,41 @@
+class Ability
+  include CanCan::Ability
+
+  def initialize(user)
+    # default to anonymous user if not logged in
+    user ||= Security::User.new
+    
+    if user.admin?
+      can :manage, :all
+    elsif user.authorized?
+      # Forms module permissions
+      grant_category_permissions(user, Forms)
+      
+      # DataSources module permissions
+      grant_category_permissions(user, DataSources)
+      
+      # cannot view user information
+      cannot :read, Security::User
+    end
+  end
+  
+  private
+  
+  def grant_category_permissions(user, category)
+    # get the category permission objects associated with the user
+    user.permissions.send(category.to_s.downcase).each do |permission|
+      if permission.subject == "ALL"
+        # ALL permission, grant access to all classes
+        category.list.each do |subject|
+          can permission.action_symbol, subject
+          can :datatable, subject
+        end
+      else
+        # specific permisison, grant access to that class
+        can permission.action_symbol, permission.subject_class.constantize
+        can :datatable, permission.subject_class.constantize
+      end
+    end
+  end
+  
+end

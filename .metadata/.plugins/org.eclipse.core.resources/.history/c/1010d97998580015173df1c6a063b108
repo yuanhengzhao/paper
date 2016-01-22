@@ -1,0 +1,59 @@
+# Forms::SparePartsReport's Model
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms 
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user 
+# - version (string) - current version of the form
+# - altitude (decimal(20,20)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,20)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,20)) - longitude of the user's location when submitted the form
+# - source (string) - name of the provider, for example,"prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+
+# - part_number (string) - name of the part. format must be MXXXXX (X is digit)
+# - manufacturer(string) - name of the manufacturer
+# - manufacturer_part(string) - name of the manufacturer part
+# - image1 (attachment) - parts image
+# - image2 (attachment) - parts image
+# - image3 (attachment) - parts image
+# - image4 (attachment) - parts image
+# - image5 (attachment) - parts image
+# - image6 (attachment) - parts image
+# - image7 (attachment) - parts image
+# - image8 (attachment) - parts image
+# - comments (text) - comments
+# - area_of_use1 (string) - are where the part is used
+# - area_of_use2 (string) - are where the part is used
+# - area_of_use3 (string) - are where the part is used
+
+class Forms::SparePartsReport < ActiveRecord::Base
+  has_attached_file :image1
+  validates_attachment_content_type :image1, :content_type => /\Aimage/
+
+  has_attached_file :image2
+  validates_attachment_content_type :image2, :content_type => /\Aimage/
+
+  has_attached_file :image3
+  validates_attachment_content_type :image3, :content_type => /\Aimage/
+
+  has_attached_file :image4
+  validates_attachment_content_type :image4, :content_type => /\Aimage/
+
+  has_attached_file :image5
+  validates_attachment_content_type :image5, :content_type => /\Aimage/
+  
+  has_attached_file :image6
+  validates_attachment_content_type :image1, :content_type => /\Aimage/
+
+  has_attached_file :image7
+  validates_attachment_content_type :image2, :content_type => /\Aimage/
+
+  has_attached_file :image8
+  validates_attachment_content_type :image3, :content_type => /\Aimage/
+
+  include HasSubmission
+  include Reparseable
+end

@@ -1,0 +1,13 @@
+require 'spec_helper'
+
+describe ApplicationHelper do
+  describe "title" do
+ 
+    it "should work" do
+      str = "the title"
+      helper.title(str)
+      expect(helper.content_for(:title)).to eq(str)
+    end
+    
+  end
+end

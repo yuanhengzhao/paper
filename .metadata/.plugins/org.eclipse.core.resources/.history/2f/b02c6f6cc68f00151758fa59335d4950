@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>firstname lastname has completed the investigation of the following incident which has been reviewed by Health and Safety coordinator, firstname lastname.</p>
+    
+    <p>Site: Site<br />
+       Building: Building<br />
+       Employee Name: Employee<br />
+       Class of Incident: incident class<br />
+       Type of Injury: Incident type<br />
+       Date of Incident: 2014/01/01<br />
+       Time of Incident: 07:00<br />
+    </p>
+    
+    <p>Description of Incident:<br />
+    	Description</p>
+    
+    <p>Irreversible countermeasure:<br />
+    	<ol type="1">
+    	</ol>
+    </p>
+    
+    <p>View <a href="http://localhost:3000/incidents/123">incident details</a></p>
+  </body>
+</html>

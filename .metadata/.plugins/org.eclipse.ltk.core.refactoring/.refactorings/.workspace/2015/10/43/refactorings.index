@@ -1,0 +1,3 @@
+1445442897684	Delete resource 'incidents/app/reports/export.rb'
+1445454472556	Delete resource 'incidents/spec/jobs/export_incident_report_spec.rb'
+1445528388312	Delete resource 'incidents/app/views/incidents/export_incident_form.html.erb'

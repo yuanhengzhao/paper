@@ -1,0 +1,23 @@
+class AddBodyPartStringToIncident < ActiveRecord::Migration
+  
+  def up
+    add_column :incidents, :body_parts, :string
+    update <<-SQL
+      UPDATE incidents
+      LEFT JOIN body_parts ON incidents.body_parts_id = body_parts.id
+      SET incidents.body_parts = body_parts.name
+      SQL
+      remove_reference :incidents, :body_part, :index => true, foreign_key => true
+  end
+  
+  def down
+    
+    add_reference :incidents, :body_part, :index => true, :foreign_key => true
+    update <<-SQL
+      UPDATE incidents
+      LEFT JOIN body_parts ON incidents.body_parts = body_parts.name
+      SET incidents.body_part_id = body_parts.id
+      SQL
+      remove_column :incidents, :body_parts
+  end
+end

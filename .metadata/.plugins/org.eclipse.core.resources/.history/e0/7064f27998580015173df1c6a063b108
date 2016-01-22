@@ -1,0 +1,151 @@
+<% title "Puchlist Form #{@punchlist_form.id}" %>
+
+<table class="form-table">
+	<tr>
+		<td>reference_number</td><td><%= @punchlist_form.reference_number %></td>
+	</tr>
+	<tr>
+		<td>server_receive_date</td><td><%= @punchlist_form.server_receive_date %></td>
+	</tr>
+	<tr>
+		<td>device_submit_date</td><td><%= @punchlist_form.device_submit_date %></td>
+	</tr>
+	<tr>
+		<td>last_udpated</td><td><%= @punchlist_form.updated_at %></td>
+	</tr>
+	<tr>
+		<td>username</td><td><%= @punchlist_form.username %></td>
+	</tr>
+	<tr>
+		<td>version</td><td><%= @punchlist_form.version %></td>
+	</tr>
+	<tr>
+		<td>altitude</td><td><%= @punchlist_form.altitude %></td>
+	</tr>
+	<tr>
+		<td>latitude</td><td><%= @punchlist_form.latitude %></td>
+	</tr>
+	<tr>
+		<td>longitude</td><td><%= @punchlist_form.longitude %></td>
+	</tr>
+	<tr>
+		<td>source</td><td><%= @punchlist_form.source %></td>
+	</tr>
+	<tr>
+		<td>customer</td><td><%= @punchlist_form.customer %></td>
+	</tr>
+	<tr>
+		<td>shop</td><td><%= @punchlist_form.shop %></td>
+	</tr>
+	<tr>
+		<td>project_area</td><td><%= @punchlist_form.project_area %></td>
+	</tr>
+	<tr>
+		<td>level</td><td><%= @punchlist_form.level %></td>
+	</tr>
+	<tr>
+		<td>column_location</td><td><%= @punchlist_form.column_location %></td>
+	</tr>
+	<tr>
+		<td>els_number</td><td><%= @punchlist_form.els_number %></td>
+	</tr>
+	<tr>
+		<td>task_description</td><td><%= @punchlist_form.task_description %></td>
+	</tr>
+	<tr>
+		<td>bmw_comment</td><td><%= @punchlist_form.bmw_comment %></td>
+	</tr>
+	<tr>
+		<td>responsible</td><td><%= @punchlist_form.responsible %></td>
+	</tr>
+	<tr>
+		<td>supplier_status</td><td><%= @punchlist_form.supplier_status %></td>
+	</tr>
+	<tr>
+		<td>pictures1</td>
+		<td><%= image_tag picture1_forms_punchlist_form_path(@punchlist_form) %></td>
+	</tr>
+	<tr>
+		<td>pictures2</td>
+		<td><%= image_tag picture2_forms_punchlist_form_path(@punchlist_form) %></td>
+	</tr>
+	<tr>
+		<td>pictures3</td>
+		<td><%= image_tag picture3_forms_punchlist_form_path(@punchlist_form) %></td>
+	</tr>
+	<tr>
+		<td>pictures4</td>
+		<td><%= image_tag picture4_forms_punchlist_form_path(@punchlist_form) %></td>
+	</tr>
+	<tr>
+		<td>pictures5</td>
+		<td><%= image_tag picture5_forms_punchlist_form_path(@punchlist_form) %></td>
+	</tr>
+	<tr>
+		<td>pictures6</td>
+		<td><%= image_tag picture6_forms_punchlist_form_path(@punchlist_form) %></td>
+	</tr>
+	<tr>
+		<td>pictures7</td>
+		<td><%= image_tag picture7_forms_punchlist_form_path(@punchlist_form) %></td>
+	</tr>
+	<tr>
+		<td>pictures8</td>
+		<td><%= image_tag picture8_forms_punchlist_form_path(@punchlist_form) %></td>
+	</tr>
+	<tr>
+		<td>bmw status</td><td><%= @punchlist_form.status %></td>
+	</tr>
+	<tr>
+		<td>supplier status</td><td><%= @punchlist_form.supplier_status %></td>
+	</tr>
+	<tr>
+		<td>change history</td><td><%= button_tag "Change History", class: "btn-global", id: "btn-change-history" %></td>
+	</tr>
+<%= render :partial => 'forms/form_submission_section', :locals => { :submission_path => submission_forms_punchlist_form_path(@punchlist_form), :reparse_path => reparse_forms_punchlist_form_path(@punchlist_form)} %>
+</table>
+
+<!-- Change Histories Modal -->
+<div class="modal fade " id="change-histories-modal" tabindex="-1" role="dialog" aria-labelledby="change-histories-modal" aria-hidden="true">
+  <div class="modal-dialog modal-lg punchlist-change-history-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="change-histories-modal">Change Histories</h4>
+      </div>
+      <div class="modal-body">
+        <div id="change-histories-dialog">
+			<table class="form-history-table">
+			  <thead>
+				  <tr>
+				    <th>New BMW Status</th>
+				    <th>Supplier Status</th>
+				    <th>Assigned to</th> 
+				    <th>User email</th> 
+				    <th>BMW Comment</th>
+				    <th>Change Comment</th>
+				    <th>Changed Time</th>
+				  </tr>
+			  </thead>
+			  <tbody>
+			  <% @punchlist_form.punchlist_form_histories.order(:created_at).reverse.each do |history| %>
+				  <tr>
+				    <td><%=history.status%></td>
+				    <td><%=history.supplier_status%></td>
+				    <td><%=history.responsible%></td>
+				    <td><%=history.user_email%></td>
+				    <td><%=history.bmw_comment%></td>
+				    <td><%=history.comment%></td>
+				    <td><%=history.created_at%></td>
+				  </tr>
+			  <%end%>
+			  </tbody>
+			</table>
+		</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

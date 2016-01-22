@@ -1,0 +1,219 @@
+<% title "Punchlist Forms" %>
+<%= render :partial => 'forms/form_export_section', :locals => {:update_url => update_export_forms_punchlist_forms_url(format: :json), :download_url => download_export_forms_punchlist_forms_url} %>
+<%= render :partial => 'filter_form' %>
+<table id="punchlist_forms_datatable" class="display<%= (can?(:manage, Forms::PunchlistForm) ? ' admin' : '') %>">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Reference</th>
+			<th>Author</th>
+			<th>Responsible</th>
+			<th>BMW Status</th>
+			<th>Supplier Status</th>
+			<th>ELS</th>
+			<th>Location</th>
+			<th>Created</th>
+			<th>Last Updated</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<th>ID</th>
+			<th>Reference</th>
+			<th>Author</th>
+			<th>Responsible</th>
+			<th>BMW Status</th>
+			<th>Supplier Status</th>
+			<th>ELS</th>
+			<th>Location</th>
+			<th>Created</th>
+			<th>Last Updated</th>
+			<th></th>
+		</tr>
+	</tfoot>
+</table>
+
+<!-- Punchlist Details Modal -->
+<div class="modal fade " id="punchlist-update-modal" tabindex="-1" role="dialog" aria-labelledby="punchlist-update-modal" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="punchlist-update-modal">Update Punchlist Status</h4>
+			</div>
+			<div class="modal-body">
+				<div id="punchlist-update-dialog">
+					<%= form_tag(form_extensions_punchlist_form_histories_url(:json), id: "punchlist-update-form") do %>
+						<%= hidden_field_tag 'form_extensions_punchlist_form_history[punchlist_form_id]' %>
+						
+						<% if can? :edit, Forms::PunchlistForm %>
+						<div>
+							<div>
+								<%= label_tag("form_extensions_punchlist_form_history[status]", "New BMW Status:") %>
+							</div>
+							<div>
+								<%= select_tag("form_extensions_punchlist_form_history[status]", options_for_select( Forms::PunchlistForm.all_statuses)) %>
+							</div>
+						</div>
+						<% end %>
+						<% if can? :read, Forms::PunchlistForm %>
+						<div>
+							<div>
+								<%= label_tag("form_extensions_punchlist_form_history[supplier_status]", "Supplier Status:") %>
+							</div>
+							<div>
+								<%= select_tag("form_extensions_punchlist_form_history[supplier_status]", options_for_select( Forms::PunchlistForm.supplier_status)) %>
+							</div>
+						</div>
+						<% end %>
+						<% if can? :edit, Forms::PunchlistForm %>
+						<div>
+							<div>
+								<%= label_tag("form_extensions_punchlist_form_history[responsible]", "Assign to:") %>
+							</div>
+							<div>
+								<%= select_tag("form_extensions_punchlist_form_history[responsible]", options_for_select( Forms::PunchlistForm.all_responsibles)) %>
+							</div>
+						</div>
+						<% end %>
+						<% if can? :edit, Forms::PunchlistForm %>
+						<div>
+							<div>
+								<%= label_tag("form_extensions_punchlist_form_history[bmw_comment]", "BMW Comment:") %>
+							</div>
+							<div>
+								<%= text_area("form_extensions_punchlist_form_history", :bmw_comment, size: "50x5") %>
+							</div>
+						</div>
+						<% end %>
+						<% if can? :read, Forms::PunchlistForm %>
+						<div>
+							<div>
+								<%= label_tag("form_extensions_punchlist_form_history[comment]", "Comment for change:") %>
+							</div>
+							<div>
+								<%= text_area("form_extensions_punchlist_form_history", :comment, size: "50x5") %>
+							</div>
+						</div>
+						<% end %>
+						<% if can? :read, Forms::PunchlistForm %>
+						<div>
+							<%= submit_tag("Submit") %>
+						</div>
+						<% end %>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Punchlist Details Modal -->
+<div class="modal fade " id="punchlist-modal" tabindex="-1" role="dialog" aria-labelledby="punchlist-modal" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="punchlist-modal">Punchlist Details</h4>
+			</div>
+			<div class="modal-body">
+				<div id="punchlist-dialog">
+					<div class="row">
+						<div class="title">
+							ID
+						</div>
+						<div class="field" id="punchlist-detail-id" ></div>
+					</div>
+					<div class="row">
+						<div class="title">
+							Reference Number
+						</div>
+						<div class="field" id="punchlist-detail-reference-number" ></div>
+					</div>
+					<div class="row">
+						<div class="title">
+							Author
+						</div>
+						<div class="field" id="punchlist-detail-author" ></div>
+					</div>
+					<div class="row">
+						<div class="title">
+							Reponsible
+						</div>
+						<div class="field" id="punchlist-detail-responsible" ></div>
+					</div>
+					<div class="row">
+						<div class="title">
+							BMW Status
+						</div>
+						<div class="field" id="punchlist-detail-status" ></div>
+					</div>
+					<div class="row">
+						<div class="title">
+							Supplier Status
+						</div>
+						<div class="field" id="punchlist-detail-supplier-status" ></div>
+					</div>
+					<div class="row">
+						<div class="title">
+							ELS Number
+						</div>
+						<div class="field" id="punchlist-detail-els-number" ></div>
+					</div>
+					<div class="row">
+						<div class="title">
+							Project Area
+						</div>
+						<div class="field" id="punchlist-detail-project-area" ></div>
+					</div>
+					<div class="row">
+						<div class="title">
+							Level
+						</div>
+						<div class="field" id="punchlist-detail-level" ></div>
+					</div>
+					<div class="row">
+						<div class="title">
+							Column Location
+						</div>
+						<div class="field" id="punchlist-detail-column-location" ></div>
+					</div>
+					<div class="row">
+						<div class="title">
+							Devise Submit Date
+						</div>
+						<div class="field" id="punchlist-detail-device-submit-date" ></div>
+					</div>
+					<div class="row">
+						<div class="title">
+							Task Description
+						</div>
+						<div class="field" id="punchlist-detail-task-description" ></div>
+					</div>
+					<div class="row">
+						<div class="title">
+							BMW Comment
+						</div>
+						<div class="field" id="punchlist-detail-bmw-comment" ></div>
+					</div>
+					<div class="row">
+						<div class="field" id="punchlist-detail-bmw-comment" >
+							<a id="link-full-details" target="_blank">Show More Details</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">
+					Close
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+

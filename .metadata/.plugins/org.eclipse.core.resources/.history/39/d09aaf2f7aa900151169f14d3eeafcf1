@@ -1,0 +1,26 @@
+require 'rails_helper'
+
+RSpec.describe "layouts/_navigation", :type => :view do
+ 
+    let(:user) {FactoryGirl(:user)}
+    
+  describe "new" do
+    it "renders new tab" do
+      render
+      assert_select "a[href=#{new_incident_path(@incident)}][class='nav navbar-nav']", :text => "new",:count => 1
+    end
+  end
+  
+  describe "Robinson"
+  
+  describe "incidents"
+  
+  describe "tracker"
+  
+  describe "Reports"
+  
+  describe "Help"
+  
+  describe "Admin"
+
+end

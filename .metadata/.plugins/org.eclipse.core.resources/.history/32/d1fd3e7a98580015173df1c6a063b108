@@ -1,0 +1,669 @@
+require_relative '../spec_helper'
+
+describe ParserService do
+
+  describe "get_source_parser" do
+    subject { ParserService.new }
+
+    specify { subject.get_source_parser("prontoforms").should be_a(ProntoForms::SourceParser) }
+  end
+
+  describe "parse" do
+    subject { ParserService.new }
+    describe "real data" do
+      describe "prontoforms" do
+        let!(:source) {"prontoforms"}
+
+        describe "failure cases" do
+          before(:each) do
+            expect(Forms::UnrecognizedSubmission.all.size).to eq(0)
+          end
+
+          after(:each) do
+            expect(Forms::UnrecognizedSubmission.all.size).to eq(1)
+          end
+
+          describe "submission with broken image" do
+            let!(:broken_image_submission) { Rails.root.join('spec', 'resources', 'submissions', 'broken_image.json').read }
+            it "should fail in parsing but save an unrecognized record" do
+              model = nil
+              lambda { model = subject.parse(source, broken_image_submission) }.should_not raise_error
+
+              expect(Forms::UnrecognizedSubmission.all.size).to eq(1)
+              expect(model.reason).to eq("Picture1 has an extension that does not match its contents,Picture1 is invalid,Picture1 content type is invalid")
+              expect(Paperclip.io_adapters.for(model.submission).read).to eq broken_image_submission
+            end
+          end
+        end
+
+        describe "success cases" do
+          before(:each) do
+            expect(Forms::UnrecognizedSubmission.all.size).to eq(0)
+          end
+
+          after(:each) do
+            expect(Forms::UnrecognizedSubmission.all.size).to eq(0)
+          end
+
+          describe "area inspection" do
+            let!(:valid_area_inspection) { Rails.root.join('spec', 'resources', 'forms', 'area_inspection', 'valid.json').read }
+
+            it "should successfully parse and save an area inspection" do
+              model = nil
+              expect(Forms::AreaInspection.all.size).to eq(0)
+              lambda { model = subject.parse(source,valid_area_inspection) }.should_not raise_error
+              expect(Forms::AreaInspection.all.size).to eq(1)
+              expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_area_inspection
+            end
+          end
+
+          describe "booth eliminator checklist" do
+            let!(:valid_booth_eliminator_checklist) { Rails.root.join('spec', 'resources', 'forms', 'booth_eliminator_checklist', 'valid.json').read }
+
+            it "should successfully parse and save a booth eliminator checklist" do
+              model = nil
+              expect(Forms::BoothEliminatorChecklist.all.size).to eq(0)
+              lambda { model = subject.parse(source,valid_booth_eliminator_checklist) }.should_not raise_error
+              expect(Forms::BoothEliminatorChecklist.all.size).to eq(1)
+              expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_booth_eliminator_checklist
+            end
+          end
+
+          describe "gemba observation" do
+            let!(:valid_gemba_observation) { Rails.root.join('spec', 'resources', 'forms', 'gemba_observation', 'valid.json').read }
+
+            it "should successfully parse and save a gemba observation" do
+              model = nil
+              expect(Forms::GembaObservation.all.size).to eq(0)
+              lambda { model = subject.parse(source,valid_gemba_observation) }.should_not raise_error
+              expect(Forms::GembaObservation.all.size).to eq(1)
+              expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_gemba_observation
+            end
+          end
+
+          describe "janitorial checklist" do
+            describe "v1" do
+              let!(:valid_janitorial_checklist) { Rails.root.join('spec', 'resources', 'forms', 'janitorial_checklist', 'valid.json').read }
+  
+              it "should successfully parse and save a janitorial_checklist" do
+                model = nil
+                expect(Forms::JanitorialChecklist.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_janitorial_checklist) }.should_not raise_error
+                expect(Forms::JanitorialChecklist.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_janitorial_checklist
+              end
+            end
+            
+            describe "v2" do
+              let!(:valid_janitorial_checklist) { Rails.root.join('spec', 'resources', 'forms', 'janitorial_checklist', 'v2', 'valid_office_v2.json').read }
+
+              it "should successfully parse and save a janitorial_checklist" do
+                model = nil
+                expect(Forms::JanitorialChecklist.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_janitorial_checklist) }.should_not raise_error
+                expect(Forms::JanitorialChecklist.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_janitorial_checklist
+              end
+            end
+          end
+
+          describe "paint booth process checklist" do
+            let!(:valid_paint_booth_process_checklist) { Rails.root.join('spec', 'resources', 'forms', 'paint_booth_process_checklist', 'valid.json').read }
+
+            it "should successfully parse and save a paint booth process checklist" do
+              model = nil
+              expect(Forms::PaintBoothProcessChecklist.all.size).to eq(0)
+              lambda { model = subject.parse(source,valid_paint_booth_process_checklist) }.should_not raise_error
+              expect(Forms::PaintBoothProcessChecklist.all.size).to eq(1)
+              expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_paint_booth_process_checklist
+            end
+          end
+
+          describe "pre task safety plan" do
+            let!(:valid_pre_task_safety_plan) { Rails.root.join('spec', 'resources', 'forms', 'pre_task_safety_plan', 'valid.json').read }
+
+            it "should successfully parse and save a pre task safety plan" do
+              model = nil
+              expect(Forms::PreTaskSafetyPlan.all.size).to eq(0)
+              lambda { model = subject.parse(source,valid_pre_task_safety_plan) }.should_not raise_error
+              expect(Forms::PreTaskSafetyPlan.all.size).to eq(1)
+              expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_pre_task_safety_plan
+            end
+          end
+
+          describe "restroom checklist" do
+            let!(:valid_restroom_checklist) { Rails.root.join('spec', 'resources', 'forms', 'restroom_checklist', 'valid.json').read }
+
+            it "should successfully parse and save a restroom checklist" do
+              model = nil
+              expect(Forms::RestroomChecklist.all.size).to eq(0)
+              lambda { model = subject.parse(source,valid_restroom_checklist) }.should_not raise_error
+              expect(Forms::RestroomChecklist.all.size).to eq(1)
+              expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_restroom_checklist
+            end
+          end
+
+          describe "safery observation" do
+            let!(:valid_safety_observation) { Rails.root.join('spec', 'resources', 'forms', 'safety_observation', 'valid.json').read }
+
+            it "should successfully parse and save a safety observation" do
+              model = nil
+              expect(Forms::SafetyObservation.all.size).to eq(0)
+              lambda { model = subject.parse(source,valid_safety_observation) }.should_not raise_error
+              expect(Forms::SafetyObservation.all.size).to eq(1)
+              expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_safety_observation
+            end
+          end
+
+          describe "shift report" do
+            let!(:valid_shift_report) { Rails.root.join('spec', 'resources', 'forms', 'shift_report', 'valid.json').read }
+
+            it "should successfully parse and save a shift report" do
+              model = nil
+              expect(Forms::ShiftReport.all.size).to eq(0)
+              lambda { model = subject.parse(source,valid_shift_report) }.should_not raise_error
+              expect(Forms::ShiftReport.all.size).to eq(1)
+              expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_shift_report
+            end
+          end
+
+          describe "snow audit" do
+            let!(:valid_snow_audit) { Rails.root.join('spec', 'resources', 'forms', 'snow_audit', 'valid.json').read }
+
+            it "should successfully parse and save a snow audit" do
+              model = nil
+              expect(Forms::SnowAudit.all.size).to eq(0)
+              lambda { model = subject.parse(source,valid_snow_audit) }.should_not raise_error
+              expect(Forms::SnowAudit.all.size).to eq(1)
+              expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_snow_audit
+            end
+          end
+
+          describe "soc hourly production report" do
+            describe "v2" do
+              let!(:valid_soc_hourly_production_report) { Rails.root.join('spec', 'resources', 'forms', 'soc_hourly_production_report', 'v2', 'valid.json').read }
+
+              it "should successfully parse and save a soc hourly production report" do
+                model = nil
+                expect(Forms::SocHourlyProductionReport.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_soc_hourly_production_report) }.should_not raise_error
+                expect(Forms::SocHourlyProductionReport.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_soc_hourly_production_report
+              end
+            end
+
+            describe "v3" do
+              let!(:valid_soc_hourly_production_report) { Rails.root.join('spec', 'resources', 'forms', 'soc_hourly_production_report', 'v3', 'valid.json').read }
+
+              it "should successfully parse and save a soc hourly production report" do
+                model = nil
+                expect(Forms::SocHourlyProductionReport.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_soc_hourly_production_report) }.should_not raise_error
+                expect(Forms::SocHourlyProductionReport.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_soc_hourly_production_report
+              end
+            end
+
+            describe "v4" do
+              let!(:valid_soc_hourly_production_report) { Rails.root.join('spec', 'resources', 'forms', 'soc_hourly_production_report', 'v4', 'valid.json').read }
+
+              it "should successfully parse and save a soc hourly production report" do
+                model = nil
+                expect(Forms::SocHourlyProductionReport.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_soc_hourly_production_report) }.should_not raise_error
+                expect(Forms::SocHourlyProductionReport.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_soc_hourly_production_report
+              end
+            end
+            
+            describe "v6" do
+              let!(:valid_soc_hourly_production_report) { Rails.root.join('spec', 'resources', 'forms', 'soc_hourly_production_report', 'v6', 'valid.json').read }
+
+              it "should successfully parse and save a soc hourly production report" do
+                model = nil
+                expect(Forms::SocHourlyProductionReport.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_soc_hourly_production_report) }.should_not raise_error
+                expect(Forms::SocHourlyProductionReport.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_soc_hourly_production_report
+              end
+            end
+            
+            describe "v7" do
+              let!(:valid_soc_hourly_production_report) { Rails.root.join('spec', 'resources', 'forms', 'soc_hourly_production_report', 'v7', '20150213191727-1819221681.json').read }
+
+              it "should successfully parse and save a soc hourly production report" do
+                model = nil
+                expect(Forms::SocHourlyProductionReport.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_soc_hourly_production_report) }.should_not raise_error
+                expect(Forms::SocHourlyProductionReport.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_soc_hourly_production_report
+              end
+            end
+          end
+
+          describe "soc incident report" do
+            let!(:valid_soc_incident_report) { Rails.root.join('spec', 'resources', 'forms', 'soc_incident_report', 'valid.json').read }
+
+            it "should successfully parse and save a soc incident report" do
+              model = nil
+              expect(Forms::SocIncidentReport.all.size).to eq(0)
+              lambda { model = subject.parse(source,valid_soc_incident_report) }.should_not raise_error
+              expect(Forms::SocIncidentReport.all.size).to eq(1)
+              expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_soc_incident_report
+            end
+          end
+          
+          describe "jig cleaning" do
+            let!(:valid_jig_cleaning) { Rails.root.join('spec', 'resources', 'forms', 'jig_cleaning', 'valid.json').read }
+            let!(:valid_jig_cleaning2) { Rails.root.join('spec', 'resources', 'forms', 'jig_cleaning', 'valid.json').read }
+
+            it "should successfully parse and save a net promoter score" do
+              model = nil
+              expect(Forms::JigCleaning.all.size).to eq(0)
+              lambda { model = subject.parse(source,valid_jig_cleaning) }.should_not raise_error
+              expect(Forms::JigCleaning.all.size).to eq(1)
+              expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_jig_cleaning
+            end
+            
+            it "should successfully parse and save a jig cleaning" do
+              model = nil
+              expect(Forms::JigCleaning.all.size).to eq(0)
+              lambda { model = subject.parse(source,valid_jig_cleaning) }.should_not raise_error
+              expect(Forms::JigCleaning.all.size).to eq(1)
+              expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_jig_cleaning2
+            end
+          end
+          
+          describe "net promoter score" do
+            let!(:valid_net_promoter_score) { Rails.root.join('spec', 'resources', 'forms', 'net_promoter_score', 'valid.json').read }
+            let!(:valid_net_promoter_score2) { Rails.root.join('spec', 'resources', 'forms', 'net_promoter_score', 'valid.json').read }
+
+            it "should successfully parse and save a net promoter score" do
+              model = nil
+              expect(Forms::NetPromoterScore.all.size).to eq(0)
+              lambda { model = subject.parse(source,valid_net_promoter_score) }.should_not raise_error
+              expect(Forms::NetPromoterScore.all.size).to eq(1)
+              expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_net_promoter_score
+            end
+            
+            it "should successfully parse and save a net promoter score" do
+              model = nil
+              expect(Forms::NetPromoterScore.all.size).to eq(0)
+              lambda { model = subject.parse(source,valid_net_promoter_score2) }.should_not raise_error
+              expect(Forms::NetPromoterScore.all.size).to eq(1)
+              expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_net_promoter_score2
+            end
+          end
+          
+          describe "spare parts report" do
+            describe "v1" do
+              let!(:valid_spare_parts_report) { Rails.root.join('spec', 'resources', 'forms', 'spare_parts_report', '20141205-1817473835.json').read }
+  
+              it "should successfully parse and save a spare parts report" do
+                model = nil
+                expect(Forms::SparePartsReport.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_spare_parts_report) }.should_not raise_error
+                expect(Forms::SparePartsReport.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_spare_parts_report
+              end
+            end
+            describe "v2" do
+              let!(:valid_spare_parts_report) { Rails.root.join('spec', 'resources', 'forms', 'spare_parts_report', 'v2.json').read }
+  
+              it "should successfully parse and save a spare parts report" do
+                model = nil
+                expect(Forms::SparePartsReport.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_spare_parts_report) }.should_not raise_error
+                expect(Forms::SparePartsReport.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_spare_parts_report
+              end
+            end
+          end
+
+          describe "special service request" do
+            let!(:valid_special_service_request) { Rails.root.join('spec', 'resources', 'forms', 'special_service_request', 'valid.json').read }
+
+            it "should successfully parse and save a soc incident report" do
+              model = nil
+              expect(Forms::SpecialServiceRequest.all.size).to eq(0)
+              lambda { model = subject.parse(source,valid_special_service_request) }.should_not raise_error
+              expect(Forms::SpecialServiceRequest.all.size).to eq(1)
+              expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_special_service_request
+            end
+          end
+
+          describe "task inspection" do
+            let!(:valid_task_inspection) { Rails.root.join('spec', 'resources', 'forms', 'task_inspection', '3_tasks.json').read }
+
+            it "should successfully parse and save a task inspection" do
+              model = nil
+              expect(Forms::TaskInspection.all.size).to eq(0)
+              lambda { model = subject.parse(source,valid_task_inspection) }.should_not raise_error
+              expect(Forms::TaskInspection.all.size).to eq(1)
+              expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_task_inspection
+            end
+          end
+          
+          describe "escrub kop" do
+            describe "v1" do
+              let!(:valid_escrub_kop) { Rails.root.join('spec', 'resources', 'forms', 'escrub_kop', 'valid_inspection.json').read }
+  
+              it "should successfully parse and save a escrub_kop" do
+                model = nil
+                expect(Forms::EscrubKop.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_escrub_kop) }.should_not raise_error
+                expect(Forms::EscrubKop.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_escrub_kop
+              end
+            end
+            
+            describe "v2" do
+              let!(:valid_escrub_kop) { Rails.root.join('spec', 'resources', 'forms', 'escrub_kop', 'real_v2.json').read }
+  
+              it "should successfully parse and save a escrub_kop" do
+                model = nil
+                expect(Forms::EscrubKop.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_escrub_kop) }.should_not raise_error
+                expect(Forms::EscrubKop.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_escrub_kop
+              end
+            end
+            
+            describe "v3" do
+              let!(:valid_escrub_kop) { Rails.root.join('spec', 'resources', 'forms', 'escrub_kop', 'real_v3.json').read }
+  
+              it "should successfully parse and save a escrub_kop" do
+                model = nil
+                expect(Forms::EscrubKop.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_escrub_kop) }.should_not raise_error
+                expect(Forms::EscrubKop.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_escrub_kop
+              end
+            end
+          end
+          
+          describe "enps report" do
+            describe "v1" do
+              let!(:valid_enps_report) { Rails.root.join('spec', 'resources', 'forms', 'enps_report', 'v1', 'valid.json').read }
+  
+              it "should successfully parse and save a enps_report" do
+                model = nil
+                expect(Forms::EnpsReport.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_enps_report) }.should_not raise_error
+                expect(Forms::EnpsReport.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_enps_report
+              end
+            end
+            describe "v2" do
+              let!(:valid_enps_report) { Rails.root.join('spec', 'resources', 'forms', 'enps_report', 'v2', 'valid.json').read }
+  
+              it "should successfully parse and save a enps_report" do
+                model = nil
+                expect(Forms::EnpsReport.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_enps_report) }.should_not raise_error
+                expect(Forms::EnpsReport.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_enps_report
+              end
+            end
+            describe "v3" do
+              let!(:valid_enps_report) { Rails.root.join('spec', 'resources', 'forms', 'enps_report', 'v3', 'valid.json').read }
+  
+              it "should successfully parse and save a enps_report" do
+                model = nil
+                expect(Forms::EnpsReport.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_enps_report) }.should_not raise_error
+                expect(Forms::EnpsReport.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_enps_report
+              end
+            end
+          end
+          
+          describe "battery inspection" do
+            describe "v1" do
+              let!(:valid_battery_inspection) { Rails.root.join('spec', 'resources', 'forms', 'battery_inspection', 'v1', 'valid.json').read }
+  
+              it "should successfully parse and save a battery_inspection" do
+                model = nil
+                expect(Forms::BatteryInspection.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_battery_inspection) }.should_not raise_error
+                expect(Forms::BatteryInspection.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_battery_inspection
+              end
+            end
+            
+            describe "v2" do
+              let!(:valid_battery_inspection) { Rails.root.join('spec', 'resources', 'forms', 'battery_inspection', 'v2', 'valid.json').read }
+  
+              it "should successfully parse and save a battery_inspection" do
+                model = nil
+                expect(Forms::BatteryInspection.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_battery_inspection) }.should_not raise_error
+                expect(Forms::BatteryInspection.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_battery_inspection
+              end
+            end
+            
+            describe "v4" do
+              let!(:valid_battery_inspection) { Rails.root.join('spec', 'resources', 'forms', 'battery_inspection', 'v4', 'valid_normal.json').read }
+  
+              it "should successfully parse and save a battery inspection" do
+                model = nil
+                expect(Forms::BatteryInspection.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_battery_inspection) }.should_not raise_error
+                expect(Forms::BatteryInspection.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_battery_inspection
+              end
+            end
+          end
+          
+          describe "punchlist form" do
+            describe "v1" do
+              let!(:valid_punchlist_form) { Rails.root.join('spec', 'resources', 'forms', 'punchlist_form', 'v1', 'valid.json').read }
+  
+              it "should successfully parse and save a punchlist form" do
+                model = nil
+                expect(Forms::PunchlistForm.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_punchlist_form) }.should_not raise_error
+                expect(Forms::PunchlistForm.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_punchlist_form
+              end
+            end
+            
+            describe "v2" do
+              let!(:valid_punchlist_form) { Rails.root.join('spec', 'resources', 'forms', 'punchlist_form', 'v2', 'valid.json').read }
+  
+              it "should successfully parse and save a punchlist form" do
+                model = nil
+                expect(Forms::PunchlistForm.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_punchlist_form) }.should_not raise_error
+                expect(Forms::PunchlistForm.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_punchlist_form
+              end
+            end
+            
+            describe "v4" do
+              let!(:valid_punchlist_form) { Rails.root.join('spec', 'resources', 'forms', 'punchlist_form', 'v4', 'valid.json').read }
+  
+              it "should successfully parse and save a punchlist form" do
+                model = nil
+                expect(Forms::PunchlistForm.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_punchlist_form) }.should_not raise_error
+                expect(Forms::PunchlistForm.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_punchlist_form
+              end
+            end
+            
+            describe "v6" do
+              let!(:valid_punchlist_form) { Rails.root.join('spec', 'resources', 'forms', 'punchlist_form', 'v6', '20141201-1817329674.json').read }
+  
+              it "should successfully parse and save a punchlist form" do
+                model = nil
+                expect(Forms::PunchlistForm.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_punchlist_form) }.should_not raise_error
+                expect(Forms::PunchlistForm.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_punchlist_form
+              end
+            end
+            
+            describe "v7" do
+              let!(:valid_punchlist_form) { Rails.root.join('spec', 'resources', 'forms', 'punchlist_form', 'v7', '20141201-1817330901.json').read }
+  
+              it "should successfully parse and save a punchlist form" do
+                model = nil
+                expect(Forms::PunchlistForm.all.size).to eq(0)
+                expect(FormExtensions::PunchlistFormHistory.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_punchlist_form) }.should_not raise_error
+                expect(Forms::PunchlistForm.all.size).to eq(1)
+                expect(FormExtensions::PunchlistFormHistory.all.size).to eq(1)
+                expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_punchlist_form
+              end
+              
+              it "should create a punchlist form history" do
+                lambda { model = subject.parse(source,valid_punchlist_form) }.should_not raise_error
+                
+                history = FormExtensions::PunchlistFormHistory.first
+                punchlist = Forms::PunchlistForm.first
+                
+                expect(history.punchlist_form_id).to eq(punchlist.id)
+                expect(history.status).to eq(punchlist.status)
+                expect(history.responsible).to eq(punchlist.responsible)
+                expect(history.supplier_status).to eq(punchlist.supplier_status)
+                expect(history.bmw_comment).to eq(punchlist.bmw_comment)
+                expect(history.user_email).to eq(punchlist.username)
+                expect(history.comment).to eq('Origin')
+              end
+            end
+          end
+          describe "jkk audit form" do
+            describe "v1" do
+              let!(:valid_jkk_audit) { Rails.root.join('spec', 'resources', 'forms', 'jkk_audit', 'valid.json').read }
+              
+              it "should successfully parse and save a JKK Audit form" do
+                model = nil
+                expect(Forms::JkkAudit.all.size).to eq(0)
+                lambda { model = subject.parse(source,valid_jkk_audit) }.should_not raise_error
+                expect(Forms::JkkAudit.all.size).to eq(1)
+                #expect(Paperclip.io_adapters.for(model.submission).read).to eq valid_jkk_audit
+              end
+            end
+          end
+        end
+      end
+    end
+
+    describe "mock data" do
+
+    # source keys for a known and unknown form source
+      let!(:source_unknown) { "unknownforms" }
+      let!(:source_known) { "knownforms" }
+
+      # submission contents
+      let!(:submission_known) { "knownsubmission" }
+      let!(:submission_not_hash) { "nothashsubmission" }
+      let!(:submission_unknown) { "unknownsubmission" }
+      let!(:submission_bad_parser) { "badparsersubmission" }
+
+      # fake model object for when submission is known
+      let!(:mock_object) {
+        mock_model "SomeForm", :save! => true, :submission= => nil
+      }
+
+      # fake source parser for :source_known
+      let!(:mock_source_parser) {
+        o = Object.new
+        o.stub(:parse).with(submission_known).and_return(mock_object)
+        o.stub(:parse).with(submission_not_hash) { raise ParserException, "Could not construct hash" }
+        o.stub(:parse).with(submission_unknown) { raise ParserException, "No matching parser found" }
+        o.stub(:parse).with(submission_bad_parser) { raise ParserException, "Bad parser returned" }
+        return o
+      }
+
+      # parser instance to test against
+      let(:parser_service) {
+        p = ParserService.new
+        p.stub(:get_source_parser).with(source_known) { mock_source_parser }
+        p.stub(:get_source_parser).with(source_unknown) { nil }
+        return p
+      }
+
+      describe "mocks" do
+
+      # ensure mock_object operates as expected
+        describe "mock_object" do
+          describe "save!" do
+            specify { mock_object.save!.should eq(true) }
+          end
+        end
+
+        # ensure mock_source_parser operates as expected
+        describe "mock_source_parser" do
+          describe "parse" do
+            it "should return the mock object for a known submisison" do
+              mock_source_parser.parse(submission_known).should eq(mock_object)
+            end
+
+            it "should raise an exception for a submission that is not a hash" do
+              lambda { mock_source_parser.parse(submission_not_hash) }.should raise_error(ParserException, "Could not construct hash")
+            end
+
+            it "should raise an exception for a submission that has no matching parser" do
+              lambda { mock_source_parser.parse(submission_unknown) }.should raise_error(ParserException, "No matching parser found")
+            end
+
+            it "should raise an exception for a submission that returns the wrong type of parser" do
+              lambda { mock_source_parser.parse(submission_bad_parser) }.should raise_error(ParserException, "Bad parser returned")
+            end
+          end
+        end
+      end
+
+      it "should throw an error if parameter 'source' is nil" do
+        lambda { parser_service.parse(nil, submission_known) }.should raise_exception
+      end
+
+      it "should throw an error if parameter 'source' is blank" do
+        lambda { parser_service.parse("", submission_known) }.should raise_exception
+      end
+
+      it "should throw an error if parameter 'submission' is nil" do
+        lambda { parser_service.parse(source_known, nil) }.should raise_exception
+      end
+
+      it "should throw an error if parameter 'submission' is blank" do
+        lambda { parser_service.parse(source_known, "") }.should raise_exception
+      end
+
+      describe "result when the source is unknown" do
+        subject { parser_service.parse(source_unknown, submission_known) }
+
+        specify { subject.should be_a(Forms::UnrecognizedSubmission) }
+        its("source") { should eq(source_unknown) }
+        its("attempts") { should eq(0) }
+        its("reason") { should eq("Unrecognized source") }
+        specify { expect(Paperclip.io_adapters.for(subject.submission).read).to eq submission_known }
+      end
+
+      describe "result when the source is known" do
+
+        describe "when the submission is unrecognized" do
+          subject { parser_service.parse(source_known, submission_unknown) }
+
+          specify { subject.should be_a(Forms::UnrecognizedSubmission) }
+          its("source") { should eq(source_known)}
+          its("attempts") { should eq(0) }
+          its("reason") { should eq("No matching parser found") }
+          specify { expect(Paperclip.io_adapters.for(subject.submission).read).to eq submission_unknown }
+        end
+
+        describe "when the submission is recognized" do
+
+          describe "when the contents are good" do
+            subject { parser_service.parse(source_known, submission_known) }
+
+            specify { subject.should_not be_a(Forms::UnrecognizedSubmission) }
+          end
+        end
+      end
+    end
+  end
+end

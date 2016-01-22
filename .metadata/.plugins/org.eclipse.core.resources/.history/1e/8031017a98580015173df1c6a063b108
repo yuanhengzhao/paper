@@ -1,0 +1,5 @@
+class ChangeTotalThreadsToBigIntInSocHourly < ActiveRecord::Migration
+  def change
+    change_column :forms_soc_hourly_production_reports, :total_treads, :bigint
+  end
+end

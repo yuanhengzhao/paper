@@ -1,0 +1,5 @@
+<% title "Safety Observations" %>
+<%= render :partial => 'forms/form_export_section', :locals => {:update_url => update_export_forms_safety_observations_url(format: :json), :download_url => download_export_forms_safety_observations_url} %>
+<table id="safety_observations_datatable" class="display<%= (can?(:manage, Forms::SafetyObservation) ? ' admin' : '') %>">
+	<%= render :partial => 'forms/form_header_footer' %>
+</table>

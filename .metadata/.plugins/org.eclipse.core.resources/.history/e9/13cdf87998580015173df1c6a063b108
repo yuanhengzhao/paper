@@ -1,0 +1,2 @@
+# load the environment specific LDAP settings from the YAML file.
+LDAP_CONFIG = YAML.load(ERB.new(IO.read(File.join(Rails.root, 'config', 'ldap.yml'))).result)[Rails.env]

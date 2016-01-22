@@ -1,0 +1,248 @@
+class Security::UsersController < ApplicationController
+  
+  include DatatableServerSideProcessing
+  
+  before_action :authenticate_user!
+  
+  protect_from_forgery
+  
+  load_and_authorize_resource
+  
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  
+  add_breadcrumb "admin", :admin_index_path
+  add_breadcrumb "users", :security_users_path
+  
+  DATATABLES_COLUMNS = [ "email", "last_sign_in_at", "authorized", "admin" ]
+  
+  # list of all users in application
+  def index
+    # @users is automatically loaded
+    respond_to do |format|
+      format.html
+      format.json { render :json => @users }
+    end
+  end
+  
+  # creates a new user
+  def create
+    if cannot? :manage, Security::User
+        raise CanCan::AccessDenied.new
+    else
+      @user = Security::User.new(user_params)
+      @user.password = default_password if @user.password.nil?
+      
+      success = true
+      message = ""
+      
+      if !@user.save
+        success = false
+        message = @user.errors.full_messages * ", "
+      else
+        message = "user #{params[:email]} created successfuly"
+      end
+      
+      respond_to do |format|
+        format.html {
+          flash[(success ? :notice : :alert)] = message
+          redirect_to security_users_path
+        }
+        format.json { render text: message, :status => (success ? 200 : :unprocessable_entity)  }
+      end
+    end
+  end
+
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html { redirect_to users_url }
+      format.json {
+        authorize! :read, Security::User
+        
+        options = {
+          :safe_columns => DATATABLES_COLUMNS,
+          :column_filters => {
+            'authorized' => 'boolean',
+            'admin' => 'boolean'
+          }
+        }
+        
+        # call concern function using collection of all records the user has access to
+        render :json => datatable_data(@users, params, options)
+      }
+    end
+  end
+  
+  # GET /security/users/1/permissions
+  def edit_permissions
+    add_breadcrumb "permissions for <em>#{@user.email}</em>".html_safe, :permissions_security_user_path
+  end
+  
+  # POST /security/users/1/permissions
+  def set_permissions
+    permissions = Security::Permission.where(:user_id => @user.id, :category => params[:security_permission][:category], :subject => params[:security_permission][:subject])
+    if params[:security_permission][:action] == 'none'
+      # delete any matching records
+      permissions.destroy_all
+      head :no_content
+    else
+      # create a new record or update existing
+      @permission = permissions.first_or_initialize
+      @permission.action = params[:security_permission][:action]
+      
+      if @permission.save
+        render 'security/permissions/show'
+      else
+        render json: @permission.errors, status: :unprocessable_entity
+      end
+    end
+  end
+  
+  def change_to_admin
+    # assume it will work
+    success = true
+    
+    @user = Security::User.find_by_id(params[:id])
+    authorize! :update, @user
+    
+    if @user.nil?
+      success = false
+      message = "User [#{params[:id]}] does not exist."
+    elsif @user.admin?
+      success = false
+      message = "User [#{params[:id]}] is already an admin."
+    else
+      @user.authorized = true
+      @user.admin = true
+      if !@user.save!
+        success = false
+        message = "Update could not complete."
+      else
+        message = "Update completed."
+      end
+    end
+    
+    respond_to do |format|
+      format.html {
+        flash[(success ? :notice : :alert)] = message
+        redirect_to security_users_path
+      }
+      format.json { render json: {:message => message, :user => @user}, :status => (success ? 200 : :unprocessable_entity)  }
+    end
+  end
+  
+  def change_to_non_admin
+    # assume it will work
+    success = true
+    
+    @user = Security::User.find_by_id(params[:id])
+    authorize! :update, @user
+    
+    if @user.nil?
+      success = false
+      message = "User [#{params[:id]}] does not exist."
+    elsif !@user.admin?
+      success = false
+      message = "User [#{params[:id]}] is not an admin before."
+    else
+      @user.admin = false
+      if !@user.save!
+        success = false
+        message = "Update could not complete."
+      else
+        message = "Update completed."
+      end
+    end
+    
+    respond_to do |format|
+      format.html {
+        flash[(success ? :notice : :alert)] = message
+        redirect_to security_users_path
+      }
+      format.json { render json: {:message => message, :user => @user}, :status => (success ? 200 : :unprocessable_entity)  }
+    end
+  end
+  
+  def change_to_authorized
+    # assume it will work
+    success = true
+    
+    @user = Security::User.find_by_id(params[:id])
+    authorize! :update, @user
+    
+    if @user.nil?
+      success = false
+      message = "User [#{params[:id]}] does not exist."
+    elsif @user.authorized?
+      success = false
+      message = "User [#{params[:id]}] is already authorized."
+    else
+      @user.authorized = true
+      if !@user.save!
+        success = false
+        message = "Update could not complete."
+      else
+        message = "Update completed."
+      end
+    end
+    
+    respond_to do |format|
+      format.html {
+        flash[(success ? :notice : :alert)] = message
+        redirect_to security_users_path
+      }
+      format.json { render json: {:message => message, :user => @user}, :status => (success ? 200 : :unprocessable_entity)  }
+    end
+  end
+  
+  def change_to_non_authorized
+    # assume it will work
+    success = true
+    
+    @user = Security::User.find_by_id(params[:id])
+    authorize! :update, @user
+    
+    if @user.nil?
+      success = false
+      message = "User [#{params[:id]}] does not exist."
+    elsif !@user.authorized?
+      success = false
+      message = "User [#{params[:id]}] is not authorized before."
+    else
+      @user.admin = false
+      @user.authorized = false
+      if !@user.save!
+        success = false
+        message = "Update could not complete."
+      else
+        message = "Update completed."
+      end
+    end
+    
+    respond_to do |format|
+      format.html {
+        flash[(success ? :notice : :alert)] = message
+        redirect_to security_users_path
+      }
+      format.json { render json: {:message => message, :user => @user}, :status => (success ? 200 : :unprocessable_entity)  }
+    end
+  end
+  
+  def record_not_found(exception)
+    # redirect back to index if id not found
+    flash[:alert] = exception.message
+    redirect_to security_users_path
+  end
+
+  private
+
+  def user_params
+    params.permit(:email,:company)
+  end
+  
+  # Returns a 32 character string of random characters
+  def default_password
+    (0...32).map { (65 + rand(26)).chr }.join
+  end
+  
+end

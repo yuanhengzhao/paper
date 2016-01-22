@@ -1,0 +1,28 @@
+<% title "Jig cleaning records" %>
+
+<table id="jig_cleaning_records_datatable" class="display<%= (can?(:manage, Forms::JigCleaning) ? ' admin' : '') %>">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Jig Cleaning ID</th>
+			<th>Type</th>
+			<th>Side</th>
+			<th>Time In</th>
+			<th>Time Out</th>
+			<th>Count</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<th>ID</th>
+			<th>Jig Cleaning ID</th>
+			<th>Type</th>
+			<th>Side</th>
+			<th>Time In</th>
+			<th>Time Out</th>
+			<th>Count</th>
+			<th>Actions</th>
+		</tr>
+	</tfoot>
+</table>

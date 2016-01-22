@@ -1,0 +1,221 @@
+<% title "Shift Report #{@shift_report.id}" %>
+
+<table class="form-table">
+	<tr>
+		<td>reference_number</td><td><%= @shift_report.reference_number %></td>
+	</tr>
+	<tr>
+		<td>server_receive_date</td><td><%= @shift_report.server_receive_date %></td>
+	</tr>
+	<tr>
+		<td>device_submit_date</td><td><%= @shift_report.device_submit_date %></td>
+	</tr>
+	<tr>
+		<td>username</td><td><%= @shift_report.username %></td>
+	</tr>
+	<tr>
+		<td>version</td><td><%= @shift_report.version %></td>
+	</tr>
+	<tr>
+		<td>altitude</td><td><%= @shift_report.altitude %></td>
+	</tr>
+	<tr>
+		<td>latitude</td><td><%= @shift_report.latitude %></td>
+	</tr>
+	<tr>
+		<td>longitude</td><td><%= @shift_report.longitude %></td>
+	</tr>
+	<tr>
+		<td>source</td><td><%= @shift_report.source %></td>
+	</tr>
+	<tr>
+		<td>site</td><td><%= @shift_report.site %></td>
+	</tr>
+	<tr>
+		<td>shop</td><td><%= @shift_report.shop %></td>
+	</tr>
+	<tr>
+		<td>shift</td><td><%= @shift_report.shift %></td>
+	</tr>
+	<tr>
+		<td>date</td><td><%= @shift_report.date %></td>
+	</tr>
+	<tr>
+		<td>employees_scheduled</td><td><%= @shift_report.employees_scheduled %></td>
+	</tr>
+	<tr>
+		<td>absent_employees</td><td><%= @shift_report.absent_employees %></td>
+	</tr>
+	<tr>
+		<td>employees_present</td><td><%= @shift_report.employees_present %></td>
+	</tr>
+	<tr>
+		<td>overtime_employees</td><td><%= @shift_report.overtime_employees %></td>
+	</tr>
+
+	<tr>
+		<td>dollys_blasted</td><td><%= @shift_report.dollys_blasted %></td>
+	</tr>
+	<tr>
+		<td>ecoat_carriers_blast</td><td><%= @shift_report.ecoat_carriers_blast %></td>
+	</tr>
+	<tr>
+		<td>number_of_deficiency</td><td><%= @shift_report.number_of_deficiency %></td>
+	</tr>
+	<tr>
+		<td>first_deficiency</td><td><%= @shift_report.first_deficiency %></td>
+	</tr>
+	<tr>
+		<td>second_deficiency</td><td><%= @shift_report.second_deficiency %></td>
+	</tr>
+	<tr>
+		<td>third_deficiency</td><td><%= @shift_report.third_deficiency %></td>
+	</tr>
+	<tr>
+		<td>number_rs_deficiency</td><td><%= @shift_report.number_rs_deficiency %></td>
+	</tr>
+	<tr>
+		<td>first_rs_def</td><td><%= @shift_report.first_rs_def %></td>
+	</tr>
+	<tr>
+		<td>second_rs_def</td><td><%= @shift_report.second_rs_def %></td>
+	</tr>
+	<tr>
+		<td>third_rs_def</td><td><%= @shift_report.third_rs_def %></td>
+	</tr>
+	<tr>
+		<td>co2_tasks</td><td><%= @shift_report.co2_tasks %></td>
+	</tr>
+	<tr>
+		<td>quick_sweep</td><td><%= @shift_report.quick_sweep %></td>
+	</tr>
+	<tr>
+		<td>booth_deep_clean</td><td><%= @shift_report.booth_deep_clean %></td>
+	</tr>
+	<tr>
+		<td>scrap_flat_presses</td><td><%= @shift_report.scrap_flat_presses %></td>
+	</tr>
+	<tr>
+		<td>supervisor</td><td><%= @shift_report.supervisor %></td>
+	</tr>
+	<tr>
+		<td>supervisor_name</td><td><%= @shift_report.supervisor_name %></td>
+	</tr>
+	<tr>
+		<td>number_of_treads</td><td><%= @shift_report.number_of_treads %></td>
+	</tr>
+	<tr>
+		<td>press_1_chart</td>
+		<td><%= image_tag press_1_chart_forms_shift_report_path(@shift_report) %></td>
+	</tr>
+	<tr>
+		<td>press_2_chart</td>
+		<td><%= image_tag press_2_chart_forms_shift_report_path(@shift_report) %></td>
+	</tr>
+	<tr>
+		<td>press_3_chart</td>
+		<td><%= image_tag press_3_chart_forms_shift_report_path(@shift_report) %></td>
+	</tr>
+	<tr>
+		<td>press_4_chart</td>
+		<td><%= image_tag press_4_chart_forms_shift_report_path(@shift_report) %></td>
+	</tr>
+	<tr>
+		<td>scheduled_hours</td><td><%= @shift_report.scheduled_hours %></td>
+	</tr>
+	<tr>
+		<td>work_hours</td><td><%= @shift_report.work_hours %></td>
+	</tr>
+	<tr>
+		<td>job_cancellations</td><td><%= @shift_report.job_cancellations %></td>
+	</tr>
+	<tr>
+		<td>num_special_requests</td><td><%= @shift_report.num_special_requests %></td>
+	</tr>
+	<tr>
+		<td>downtime</td><td><%= @shift_report.downtime %></td>
+	</tr>
+	<tr>
+		<td>request_1</td><td><%= @shift_report.request_1 %></td>
+	</tr>
+	<tr>
+		<td>requestor_1</td><td><%= @shift_report.requestor_1 %></td>
+	</tr>
+	<tr>
+		<td>hours_1</td><td><%= @shift_report.hours_1 %></td>
+	</tr>
+	<tr>
+		<td>request_2</td><td><%= @shift_report.request_2 %></td>
+	</tr>
+	<tr>
+		<td>requestor_2</td><td><%= @shift_report.requestor_2 %></td>
+	</tr>
+	<tr>
+		<td>hours_2</td><td><%= @shift_report.hours_2 %></td>
+	</tr>
+	<tr>
+		<td>request_3</td><td><%= @shift_report.request_3 %></td>
+	</tr>
+	<tr>
+		<td>requestor_3</td><td><%= @shift_report.requestor_3 %></td>
+	</tr>
+	<tr>
+		<td>hours_3</td><td><%= @shift_report.hours_3 %></td>
+	</tr>
+	<tr>
+		<td>request_4</td><td><%= @shift_report.request_4 %></td>
+	</tr>
+	<tr>
+		<td>requestor_4</td><td><%= @shift_report.requestor_4 %></td>
+	</tr>
+	<tr>
+		<td>hours_4</td><td><%= @shift_report.hours_4 %></td>
+	</tr>
+	<tr>
+		<td>observations</td><td><%= @shift_report.observations %></td>
+	</tr>
+	<tr>
+		<td>incidents</td><td><%= @shift_report.incidents %></td>
+	</tr>
+	<tr>
+		<td>incident1_type</td><td><%= @shift_report.incident1_type %></td>
+	</tr>
+	<tr>
+		<td>incident2_type</td><td><%= @shift_report.incident2_type %></td>
+	</tr>
+	<tr>
+		<td>incident3_type</td><td><%= @shift_report.incident3_type %></td>
+	</tr>
+	<tr>
+		<td>picture_1</td>
+		<td><%= image_tag picture_1_forms_shift_report_path(@shift_report) %></td>
+	</tr>
+	<tr>
+		<td>picture_description1</td><td><%= @shift_report.picture_description1 %></td>
+	</tr>
+	<tr>
+		<td>picture_2</td>
+		<td><%= image_tag picture_2_forms_shift_report_path(@shift_report) %></td>
+	</tr>
+	<tr>
+		<td>picture_description2</td><td><%= @shift_report.picture_description2 %></td>
+	</tr>
+	<tr>
+		<td>picture_3</td>
+		<td><%= image_tag picture_3_forms_shift_report_path(@shift_report) %></td>
+	</tr>
+	<tr>
+		<td>picture_description3</td><td><%= @shift_report.picture_description3 %></td>
+	</tr>
+	<tr>
+		<td>picture_4</td>
+		<td><%= image_tag picture_4_forms_shift_report_path(@shift_report) %></td>
+	</tr>
+	<tr>
+		<td>picture_description4</td><td><%= @shift_report.picture_description4 %></td>
+	</tr>
+	<tr>
+		<td>shift_notes</td><td><%= @shift_report.shift_notes %></td>
+	</tr>
+<%= render :partial => 'forms/form_submission_section', :locals => { :submission_path => submission_forms_shift_report_path(@shift_report), :reparse_path => reparse_forms_shift_report_path(@shift_report) } %>
+</table>

@@ -1,0 +1,6 @@
+FactoryGirl.define do
+  factory :dolly, class: DataSources::Dolly do
+    sequence(:identifier) { |n| "#{n}" }
+    active true
+  end
+end

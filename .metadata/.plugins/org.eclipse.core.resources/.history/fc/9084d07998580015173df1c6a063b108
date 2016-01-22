@@ -1,0 +1,144 @@
+class Forms::ShiftReportsController < ApplicationController
+  
+  FORM_NAME = "shift reports"
+  
+  include DatatableServerSideProcessing
+  include XlsxReportProcessing
+  
+  before_action :authenticate_user!
+  
+  load_and_authorize_resource :except => [:press_1_chart,:press_2_chart,:press_3_chart,:press_4_chart,:picture_1,:picture_2,:picture_3,:picture_4, :update_export, :download_export, :submission]
+  
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  
+  add_breadcrumb "forms", :forms_index_path
+  add_breadcrumb "shift reports", :forms_shift_reports_path
+
+  DATATABLES_COLUMNS = [ "id", "username", "device_submit_date" ]
+
+  def index
+    # @shift_reports is automatically loaded
+  end
+
+  def show
+    # @shift_report is automatically loaded
+    add_breadcrumb "shift report #{@shift_report.id}", :forms_shift_report_path
+  end
+  
+  # Overwrites the model's existing properties with the contents of the original submission document attached.
+  def reparse
+    # @shift_report is automatically loaded
+    result = @shift_report.reparse
+    # render the show action associated with the result object
+    render action: 'show', location: result
+  end
+
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html { redirect_to forms_shift_reports_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS
+        }
+
+        # call concern function using collection of all records the user has access to
+        @shift_reports = Forms::ShiftReport.accessible_by(current_ability)
+        render :json => datatable_data(@shift_reports, params, options)
+      }
+    end
+  end
+
+  def update_export
+    authorize! :read, Forms::ShiftReport
+    
+    begin
+      raise "No data in this form."  if Forms::ShiftReport.all.count == 0
+      @export = generate_xlsx(Forms::ShiftReport, FORM_NAME, Forms::ShiftReport.maximum("updated_at"))
+      respond_to do |format|
+        format.json { render :json => @export, status: :ok  }
+      end
+    rescue => e
+      respond_to do |format|
+        format.json { render text:e.message, status: :not_acceptable }
+      end
+    end  
+  end
+  
+  def download_export
+    authorize! :read, Forms::ShiftReport
+    @export = Report::FormExport.find_by(form_name: FORM_NAME)
+    redirect_to(@export.attachment.expiring_url(10))
+  end
+
+  def press_1_chart
+    authorize! :read, Forms::ShiftReport
+    @shift_report = Forms::ShiftReport.find(params[:id])
+    authorize! :read, @shift_report
+    redirect_to(@shift_report.press_1_chart.expiring_url(10))
+  end
+
+  def press_2_chart
+    authorize! :read, Forms::ShiftReport
+    @shift_report = Forms::ShiftReport.find(params[:id])
+    authorize! :read, @shift_report
+    redirect_to(@shift_report.press_2_chart.expiring_url(10))
+  end
+
+  def press_3_chart
+    authorize! :read, Forms::ShiftReport
+    @shift_report = Forms::ShiftReport.find(params[:id])
+    authorize! :read, @shift_report
+    redirect_to(@shift_report.press_3_chart.expiring_url(10))
+  end
+
+  def press_4_chart
+    authorize! :read, Forms::ShiftReport
+    @shift_report = Forms::ShiftReport.find(params[:id])
+    authorize! :read, @shift_report
+    redirect_to(@shift_report.press_4_chart.expiring_url(10))
+  end
+
+  def picture_1
+    authorize! :read, Forms::ShiftReport
+    @shift_report = Forms::ShiftReport.find(params[:id])
+    authorize! :read, @shift_report
+    redirect_to(@shift_report.picture_1.expiring_url(10))
+  end
+
+  def picture_2
+    authorize! :read, Forms::ShiftReport
+    @shift_report = Forms::ShiftReport.find(params[:id])
+    authorize! :read, @shift_report
+    redirect_to(@shift_report.picture_2.expiring_url(10))
+  end
+
+  def picture_3
+    authorize! :read, Forms::ShiftReport
+    @shift_report = Forms::ShiftReport.find(params[:id])
+    authorize! :read, @shift_report
+    redirect_to(@shift_report.picture_3.expiring_url(10))
+  end
+
+  def picture_4
+    authorize! :read, Forms::ShiftReport
+    @shift_report = Forms::ShiftReport.find(params[:id])
+    authorize! :read, @shift_report
+    redirect_to(@shift_report.picture_4.expiring_url(10))
+  end
+
+  def submission
+    authorize! :read, Forms::ShiftReport
+    @shift_report = Forms::ShiftReport.find(params[:id])
+    authorize! :read, @shift_report
+    redirect_to(@shift_report.submission.expiring_url(10))
+  end
+
+  private
+
+  def record_not_found(exception)
+    # redirect back to index if id not found
+    flash[:alert] = exception.message
+    redirect_to forms_shift_reports_path
+  end
+end

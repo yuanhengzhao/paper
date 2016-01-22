@@ -1,0 +1,12 @@
+<% title "Robinson FormData" %>
+
+<!-- content -->
+<div class="panel panel-default introduction">
+  <div class="panel-body">
+	<p>Incident documentation and tracking is a critical step in Robinson's overall Safety Program.
+	We investigate all incidents as part of a comprehensive program designed to ensure a safe work environment.
+	Using an automated system with standardized forms and investigative procedures we uncover the details of
+	the incident.  This in leads to the identification of relevant causes, and the development of corrective 
+	actions to prevent similar incidents occurring.</p>
+  </div>
+</div>

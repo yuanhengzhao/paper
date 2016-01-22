@@ -1,0 +1,78 @@
+{ "deviceSubmitDate" : { "time" : "2014-11-07T08:38:06-05:00",
+      "zone" : "America/New_York"
+    },
+  "dispatcher" : null,
+  "form" : { "formSpaceIdentifier" : "191616057",
+      "formSpaceName" : "External - BMW Customers",
+      "identifier" : "141838286",
+      "name" : "Punchlist form",
+      "version" : 1,
+      "versionIdentifier" : "152280571"
+    },
+  "geoStamp" : { "address" : null,
+      "captureTimestamp" : null,
+      "coordinates" : null,
+      "errorMessage" : "Failed to acquire location because location services is disabled",
+      "source" : "GPS",
+      "success" : false
+    },
+  "identifier" : "1816708046",
+  "pages" : [ { "answers" : [ { "dataType" : "FreeText",
+              "label" : "customer",
+              "question" : "Customer",
+              "values" : [ "BMW" ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "shop",
+              "question" : "Shop",
+              "values" : [ "North Paint" ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "project_area",
+              "question" : "Project Area",
+              "values" : [ "Pretreatment" ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "level",
+              "question" : "Level",
+              "values" : [ "Bug" ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "column_location",
+              "question" : "Column Location",
+              "values" : [ "H" ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "els_number",
+              "question" : "ELS Number",
+              "values" : [ "G" ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "task_description",
+              "question" : "Task Description",
+              "values" : [ "Giggg" ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "bmw_comment",
+              "question" : "BMW Comment",
+              "values" : [  ]
+            },
+            { "dataType" : "FreeText",
+              "label" : "responsible",
+              "question" : "Responsible",
+              "values" : [ "Eisenmann" ]
+            }
+          ],
+        "name" : "Form"
+      } ],
+  "referenceNumber" : "20141107-1816708046",
+  "serverReceiveDate" : "2014-11-07T08:38:16-05:00",
+  "shiftedDeviceSubmitDate" : "2014-11-07T08:38:06-05:00",
+  "state" : "Complete",
+  "user" : { "displayName" : "Kenneth Beierlein (kenneth.beierlein@bmwmc.com)",
+      "identifier" : "131660051",
+      "username" : "kenneth.beierlein@bmwmc.com"
+    },
+  "version" : "v1",
+  "zone" : "America/New_York"
+}

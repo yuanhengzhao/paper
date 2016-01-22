@@ -1,0 +1,13 @@
+<% klass.all.each do |obj|%>
+<div class='checkbox-group'>
+	<%= check_box_tag "incident[#{fk}][]", obj.id, @incident.send(attr_sym).include?(obj), { id: "#{klass.name.underscore.to_sym}_#{obj.id}_#{obj.name}",  data:{field_name: obj.name} }%>
+	<%= label "#{klass.name.underscore.to_sym}_#{obj.id}", obj.name, :class => "control-label" %>
+</div>
+
+<%
+# use a hidden field to send param incident[fk][] = nil to server when
+# no option is selected to clear the existing records in the database
+%>
+
+<%= hidden_field_tag "incident[#{fk}][]", nil %> 
+<% end %>

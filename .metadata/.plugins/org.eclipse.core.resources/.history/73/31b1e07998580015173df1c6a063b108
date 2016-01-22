@@ -1,0 +1,39 @@
+# Parser to for Special Service Request forms submitted from ProntoForms
+class ProntoForms::SpecialServiceRequestParser < AbstractFormParser
+  
+  # name of the form according to ProntoForms
+  NAME = "Special Service Request"
+  
+  # Returns the highest version number this parser is capable of parsing.
+  #
+  # @return [numeric] highest version number this parser is capable of parsing
+  def max_version
+    2
+  end
+  
+  # Attempts to convert the hash provided into a database object.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @param model [Forms::SpecialServiceRequest] object to update, nil if a new object should be created
+  # @return [ActiveRecord] instance of the object
+  # @raise [ParserException] if the hash could not be parsed for whatever reason
+  def parse(form_hash, model = nil)
+    model ||= Forms::SpecialServiceRequest.new
+
+    ProntoForms::SourceParser.get_common_answer_values(form_hash, model)
+
+    model.ssr_type              = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 0)[0]
+    model.site                  = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 1)[0]
+    model.shop                  = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 2)[0]
+    model.location_column       = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 3)[0]
+    model.requestor             = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 4)[0]
+    model.man_hours             = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 5)[0]
+    model.ot                    = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 6)[0]
+    model.work_cancelled        = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 7)[0]
+    model.description           = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 8)[0]
+    
+    ProntoForms::SourceParser.handle_images(model, form_hash, 0, 9, 5, "image")
+
+    model
+  end
+end

@@ -1,0 +1,37 @@
+class CreateFormsPunchlistForms < ActiveRecord::Migration
+  def change
+    create_table :forms_punchlist_forms do |t|
+      t.string :reference_number
+      t.datetime :server_receive_date
+      t.datetime :device_submit_date
+      t.string :username
+      t.string :version
+      t.decimal :altitude, precision: 20, scale: 16
+      t.decimal :latitude, precision: 20, scale: 16
+      t.decimal :longitude, precision: 20, scale: 16
+      t.string :source
+      t.string :file_path
+      t.string :customer
+      t.string :shop
+      t.string :project_area
+      t.string :level
+      t.string :column_location
+      t.string :els_number
+      t.text :task_description
+      t.text :bmw_comment
+      t.string :responsible
+      t.attachment :picture1
+      t.attachment :picture2
+      t.attachment :picture3
+      t.attachment :picture4
+      t.attachment :picture5
+      t.attachment :picture6
+      t.attachment :picture7
+      t.attachment :picture8
+      t.attachment :submission
+      t.string :status
+
+      t.timestamps null: true
+    end
+  end
+end

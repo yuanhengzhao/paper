@@ -1,0 +1,26 @@
+<table id="edit_permissions_datatable" class="display" data-show-forms="<%= @user.permissions.where(category: 'Forms', subject: 'ALL').empty? %>" data-show-datasources="<%= @user.permissions.where(category: 'DataSources', subject: 'ALL').empty? %>">
+	<thead>
+		<tr>
+			<th>Category</th>
+			<th>Class</th>
+			<th>Permissions</th>
+		</tr>
+	</thead>
+	<tbody>
+	  <%= render :partial => 'form_edit_permissions_row', :locals => { permission_subject: "Forms::ALL" } %>
+      <% Forms.list.each do |form| %>
+	  <%= render :partial => 'form_edit_permissions_row', :locals => { permission_subject: form.name } %>
+      <% end %>
+      <%= render :partial => 'form_edit_permissions_row', :locals => { permission_subject: "DataSources::ALL" } %>
+      <% DataSources.list.each do |data_source| %>
+	  <%= render :partial => 'form_edit_permissions_row', :locals => { permission_subject: data_source.name } %>
+      <% end %>
+  	</tbody>
+  	<tfoot>
+		<tr>
+			<th>Category</th>
+			<th>Class</th>
+			<th>Permissions</th>
+		</tr>
+  	</tfoot>
+</table>

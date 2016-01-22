@@ -1,0 +1,155 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+$rsi-blue-rgb: rgb(1,100,165);
+$rsi-blue-rgba: rgba(1,100,165,1);
+$main-grey-rgba: rgba(235,235,235,1);
+$white-rgba: rgba(255, 255, 255, 1);
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  //padding: 0;
+  border: 0;
+  background-color: $white-rgba;
+  min-height: 100%;
+  font-family: 'Ubuntu', 'sans-serif';
+}
+
+#container {
+  width: 1300px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 0px;
+ 
+}
+
+#container > div {
+  display: inline-block;
+  vertical-align: top;
+  padding: 0px;
+  margin: 0px;
+  
+}
+
+.navbar-header > .navbar-brand > div
+{
+	display: inline;
+}
+
+
+/*
+#logo {
+  height: 100px;
+  background-image: image-url('robinson-logo-white.png');
+  background-repeat: no-repeat;
+  background-size: 175px;
+  background-position: center center;
+  text-indent: -9999px;
+  color: $rsi-blue-rgba;
+}
+
+
+#container > div#nav {
+  width: 250px;
+}
+
+#container > div#nav > ul {
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+}
+
+#container > div#nav > ul > li {
+  list-style-type: none;
+  border-top: 1px solid #347fb6;
+}
+
+#container > div#nav > ul > li > a {
+  display: block;
+  padding: 31px 30px 29px;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: .5px;
+  line-height: 19px;
+  text-decoration: none;
+  text-transform: uppercase;
+}*/
+
+#container > div#main {
+  width: 100%;
+  padding: 0px;
+}
+
+#container > div#main h1,
+#container > div#main div#breadcrumbs {
+  margin: 0px;
+  padding: 10px 5px;
+  border-bottom: 1px solid #aaa;
+}
+
+#container > div#main div#content {
+  padding: 10px;
+}
+
+div#content table {
+  width: 100%;
+}
+
+.clear { clear: both; }
+
+// horizontal a or button list for actions
+div#content .command-list { clear: both; overflow:hidden;}
+div#content .command-list ul { list-style-type: none; margin: 0; padding: 0; }
+div#content .command-list ul li { float: left; margin-left: 5px; }
+div#content .command-list ul li:first-child { margin-left: 0px; }
+div#content .command-list ul li a, div#content .command-list ul li form.button_to input[type="submit"] { display: block; padding: 10px; cursor: pointer; background: rgb(1,100,165); color: white; }
+div#content .command-list ul li a:hover, div#content .command-list ul li form.button_to input[type="submit"]:hover { background-color: rgb(94, 151, 50); }
+div#content .command-list ul li a { text-decoration: none; }
+div#content .command-list ul li form.button_to input[type="submit"] { border: none; font-family: 'Ubuntu', 'sans-serif'; font-size: 100%; }
+
+// specific styling for command list above datatable
+div#content div.command-list ul { float: right; padding-bottom: 10px; }
+div#content div.command-list ul li:first-child { padding: 10px; padding-right: 0px; }
+
+// // Rails flash alerts
+.flash { border: 0px solid; margin: 10px 0px; padding: 20px 5px 20px 50px; background-repeat: no-repeat; background-position: 10px center; }
+  .alert { color: #9F6000; background-color: #FEEFB3; background-repeat: no-repeat; background-image: image-url('flash/warning.png'); }
+  .error { color: #D8000C; background-color: #FFBABA; background-image: image-url('flash/error.png'); }
+  .notice, .success { color: #4F8A10; background-color: #DFF2BF; background-image: image-url('flash/success.png');}
+  .info { color: #00529B; background-color: #BDE5F8; background-image: image-url('flash/info.png'); }
+
+// loading pop-up progress bar
+.dialog-loading { height: 50px; padding-top: 25px; background-image: image-url('loading.gif'); background-repeat: no-repeat; background-position: center; }
+
+// login panels
+.login-group .login-block, .login-section { width: 390px; margin-top: 20px; vertical-align: top; align-items: center; }
+.login-group .login-block { text-align: left; color: black; margin-top: 10px; }
+.login-group .login-section { text-align: center; background: #f0f6fa; border: 1px solid #d6e6f0; color: #0065a4; }
+.login-group .login-section .devise-form div { margin: 0px; }
+.login-group .login-section .field_with_errors { display: inline-block; }
+.login-group .login-section label { display: inline-block; width: 100px; }
+.login-group .login-section input { display: inline-block; width: 190px; }
+.login-group .login-section .header { padding: 30px 0px 10px; font-weight: bold; }
+.login-group .login-section .body { padding: 10px;  }
+.login-group .login-section .body > div { padding: 5px; }
+.login-group .login-section .action { padding: 10px; text-align: center; }
+.login-group .login-section .footer { padding: 10px 0px 30px; font-size: small; }
+.login-group .login-section .footer a { color: #0065a4; }
+.login-group .login-section:only-child { text-align: center; }
+
+// global button
+.btn-global {
+  padding: 10px;
+  cursor: pointer;
+  background: #0164a5;
+  color: white;
+  border:0px;
+  font-size:16px;
+}
+
+.btn-global:hover {
+  cursor: pointer;background-color: rgb(94, 151, 50);
+}

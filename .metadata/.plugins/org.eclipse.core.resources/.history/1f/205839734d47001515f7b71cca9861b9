@@ -1,0 +1,12 @@
+class Option < ActiveRecord::Base
+  validates_presence_of :value 
+  validates :group, inclusion: ["Body Location", "Body Part", "Additional Factors"]
+  
+  def option_group_titlized_name(group_value)
+    group_value.humanize.pluralize.titleize unless group_value.blank?
+  end
+  
+  def to_s
+    self.value
+  end
+end

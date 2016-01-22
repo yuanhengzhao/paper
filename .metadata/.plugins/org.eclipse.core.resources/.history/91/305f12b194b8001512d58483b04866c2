@@ -1,0 +1,60 @@
+<%= form_for @incident, html: { class: "form-horizontal incident-form", role: "form" ,  enctype: "multipart/form-data"} do |f| %>
+
+<% if @incident.errors.any? %>
+  <div id="error_explanation">
+   <h2><%= pluralize(@incident.errors.count, "error") %> prohibited this incident from being saved:</h2>
+   <ul>
+     <% @incident.errors.full_messages.each do |msg| %>
+       <li><%= msg %></li>
+     <% end %>
+   </ul>
+  </div>
+<% end %>
+<div role="tabpanel">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs nav-justified" role="tablist">
+    <li role="presentation" class="active"><a href="#initial" aria-controls="initial" role="tab" data-toggle="tab">Initial</a></li>
+    <li role="presentation"><a href="#investigation" aria-controls="investigation" role="tab" data-toggle="tab">Investigation</a></li>
+    <% if @incident.ready_to_submit_investigation == true %>
+    <% if can? :edit_follow_up_tab, Incident %>
+    <li role="presentation"><a href="#follow_up" aria-controls="follow_up" role="tab" data-toggle="tab">Follow Up</a></li>
+    <%end%>
+    <% if can? :edit_health_and_safety_tab, Incident %>
+      <li role="presentation"><a href="#health_and_safety" aria-controls="health_and_safety" role="tab" data-toggle="tab">Health And Safety</a></li>
+    <% end %>
+    <% end %>
+  </ul>
+
+  <!-- Tab panels -->
+  <div class="tab-content">
+    <br />
+    <div role="tabpanel" class="tab-pane col-lg-12 col-md-12 col-sm-12 col-xs-12 active " id="initial">
+      <%= render partial: "incidents/form/initial", :locals => { :f => f } %>
+  	</div>
+    <div role="tabpanel" class="tab-pane col-lg-12 col-md-12 col-sm-12 col-xs-12" id="investigation">
+      <%= render partial: "incidents/form/investigation", :locals => { :f => f }  %>
+    </div>
+    
+    <% if @incident.ready_to_submit_investigation == true %>
+    <% if can? :edit_follow_up_tab, Incident %>
+    <div role="tabpanel" class="tab-pane col-lg-12 col-md-12 col-sm-12 col-xs-12" id="follow_up">
+      <%= render partial: "incidents/form/follow_up", :locals => { :f => f }  %>
+    </div>
+    <%end%>
+    <% if can? :edit_health_and_safety_tab, Incident %>
+    <div role="tabpanel" class="tab-pane col-lg-12 col-md-12 col-sm-12 col-xs-12" id="health_and_safety">
+      <%= render partial: "incidents/form/health_and_safety", :locals => { :f => f }  %>  
+    </div>
+    <% end %>
+    <% end %>
+    <div class="form-group">
+      <div class="col-xs-12 col-sm-offset-3 col-sm-9 col-md-7">
+        <%= f.submit "Submit", class: "btn btn-primary" %>
+        <%= link_to 'Cancel', root_path, class: "btn btn-default" if @incident.new_record? %>
+        <%= link_to 'Cancel', @incident, class: "btn btn-default" unless @incident.new_record? %>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

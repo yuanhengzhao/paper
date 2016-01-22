@@ -1,0 +1,362 @@
+require 'rails_helper'
+require "cancan/matchers"
+
+RSpec.describe "incidents/edit", :type => :view do
+
+  let(:incident) {
+    FactoryGirl.create(:incident, :author => user_author)
+  }
+  
+  let(:incident_ready) {
+    FactoryGirl.create(:incident_full, :ready_to_submit_investigation => true)
+  }
+  
+  let(:incident_not_ready) {
+    FactoryGirl.create(:incident_full)
+  }
+  
+  let(:user_author){
+    FactoryGirl.create(:user)
+  }
+  
+  let(:user_regular) {
+    FactoryGirl.create(:user)
+  }
+  
+  let(:user_safety_coordinator) {
+    FactoryGirl.create(:safety_coordinator)
+  }
+  
+  let(:user_safety_director) {
+    FactoryGirl.create(:safety_director)
+  }
+  
+  let(:user_admin) {
+    FactoryGirl.create(:admin)
+  }
+  
+  shared_examples "a form with initial tab" do
+    it "has expected tags" do
+      render
+      assert_select "div[role=\"tabpanel\"][id=\"initial\"]" do
+        assert_select "select#incident_building_id[name=?]", "incident[building_id]"
+        assert_select "select#incident_incident_class_id[name=?]", "incident[incident_class_id]"
+        assert_select "select#incident_incident_type_id[name=?]", "incident[incident_type_id]"
+        assert_select "input#incident_incident_type_other[name=?]", "incident[incident_type_other]"
+        assert_select "select#incident_body_part_id[name=?]", "incident[body_part_id]"
+        assert_select "select#incident_body_location_id[name=?]", "incident[body_location_id]"
+        assert_select "input#incident_column[name=?]", "incident[column]" 
+        assert_select "select#incident_floor_id[name=?]", "incident[floor_id]"
+        assert_select "input#incident_supervisor[name=?]", "incident[supervisor]"
+        assert_select "select#incident_employee_type_id[name=?]", "incident[employee_type_id]"
+        assert_select "input#incident_employee[name=?]", "incident[employee]"
+        assert_select "input#incident_job[name=?]", "incident[job]"
+        assert_select "input#incident_incident_time[name=?]", "incident[incident_time]"
+        assert_select "select#incident_safety_rep_id[name=?]", "incident[safety_rep_id]"
+        assert_select "input#incident_report_time[name=?]", "incident[report_time]"
+        assert_select "input#incident_shift_start[name=?]", "incident[shift_start]"
+        assert_select "input#incident_shift_end[name=?]", "incident[shift_end]"
+        assert_select "textarea#incident_description[name=?]", "incident[description]"
+      end
+    end  
+  end
+  
+  shared_examples "a form with investigation tab" do
+    before(:each) do
+      ppe = FactoryGirl.create_list(:ppe, 10)
+      expect(Ppe.count).to eq(10)
+      env_factors = FactoryGirl.create_list(:environmental_factor, 10)
+      expect(EnvironmentalFactor.count).to eq(10)
+      add_factors = FactoryGirl.create_list(:additional_factor, 10)
+      expect(AdditionalFactor.count).to eq(10)
+    end
+    it "has expected tags" do
+      render
+      assert_select "div[role=\"tabpanel\"][id=\"investigation\"]" do
+        assert_select "select#incident_worker_been_trained[name=?]", "incident[worker_been_trained]"
+        assert_select "input#incident_date_last_trained[name=?]", "incident[date_last_trained]"
+        assert_select "input#incident_work_instruction_ref_num[name=?]", "incident[work_instruction_ref_num]"
+        assert_select "textarea#incident_reason_not_trained[name=?]", "incident[reason_not_trained]"
+        assert_select "select#incident_was_not_trained_employee_involved[name=?]", "incident[was_not_trained_employee_involved]"
+        assert_select "textarea#incident_not_trained_employee_names[name=?]", "incident[not_trained_employee_names]"
+        assert_select "select#incident_were_reporter_aware[name=?]", "incident[were_reporter_aware]"
+        assert_select "textarea#incident_reason_why_not_aware[name=?]", "incident[reason_why_not_aware]"
+        assert_select "select#incident_did_anyone_witness[name=?]", "incident[did_anyone_witness]"
+        assert_select "textarea#incident_witness_names[name=?]", "incident[witness_names]"
+        assert_select "select#incident_was_reporter_involved[name=?]", "incident[was_reporter_involved]"
+        assert_select "textarea#incident_involved_individual_names_who_reported[name=?]", "incident[involved_individual_names_who_reported]"
+        assert_select "select#incident_was_mbl_eqp_involved[name=?]", "incident[was_mbl_eqp_involved]"
+        assert_select "select#incident_mobile_equipment_id[name=?]", "incident[mobile_equipment_id]"
+        assert_select "input#incident_other_mbl_eqp[name=?]", "incident[other_mbl_eqp]"
+        assert_select "textarea#incident_unit_identification_number[name=?]", "incident[unit_identification_number]"
+        assert_select "select#incident_does_mbl_eqp_provider_have_license[name=?]", "incident[does_mbl_eqp_provider_have_license]"
+        assert_select "textarea#incident_reason_mbl_eqp_provider_no_license[name=?]", "incident[reason_mbl_eqp_provider_no_license]"
+        assert_select "input#incident_num_months_mbl_opt_exp[name=?]", "incident[num_months_mbl_opt_exp]"
+        assert_select "input#incident_date_last_pm_eqp_performed[name=?]", "incident[date_last_pm_eqp_performed]"
+        assert_select "select#incident_was_pre_shift_inspec_completed[name=?]", "incident[was_pre_shift_inspec_completed]"
+        assert_select "textarea#incident_reason_pre_shift_inspec_not_completed[name=?]", "incident[reason_pre_shift_inspec_not_completed]"
+        assert_select "select#incident_was_eqp_tls_involved[name=?]", "incident[was_eqp_tls_involved]"
+        assert_select "input#incident_eqp_tls_involved[name=?]", "incident[eqp_tls_involved]"
+        assert_select "select#incident_was_eqp_tls_used_properly[name=?]", "incident[was_eqp_tls_used_properly]"
+        assert_select "textarea#incident_reason_eqp_tls_not_used_properly[name=?]", "incident[reason_eqp_tls_not_used_properly]"
+        assert_select "select#incident_was_eqp_tls_inspec_before[name=?]", "incident[was_eqp_tls_inspec_before]"
+        assert_select "textarea#incident_reason_eqp_tls_not_inspec_before[name=?]", "incident[reason_eqp_tls_not_inspec_before]"
+        assert_select "select#incident_does_eqp_tls_require_doc_inspec[name=?]", "incident[does_eqp_tls_require_doc_inspec]"
+        assert_select "select#incident_was_eqp_tls_inspec_doc[name=?]", "incident[was_eqp_tls_inspec_doc]"
+        assert_select "textarea#incident_reason_eqp_tls_inspec_not_doc[name=?]", "incident[reason_eqp_tls_inspec_not_doc]"
+        assert_select "select#incident_is_any_ppe_required[name=?]", "incident[is_any_ppe_required]"
+        assert_select "input[type=checkbox][name=?]", "incident[ppe_ids][]", :count => Ppe.count
+        assert_select "input[type=hidden][name=?]", "incident[ppe_ids][]", :count => Ppe.count
+        assert_select "input#incident_other_ppe[name=?]", "incident[other_ppe]"
+        assert_select "select#incident_was_all_ppe_worn_properly[name=?]", "incident[was_all_ppe_worn_properly]"
+        assert_select "textarea#incident_reason_ppe_not_worn_properly[name=?]", "incident[reason_ppe_not_worn_properly]"
+        assert_select "select#incident_was_ppe_good_cond[name=?]", "incident[was_ppe_good_cond]"
+        assert_select "textarea#incident_reason_ppe_bad_cond[name=?]", "incident[reason_ppe_bad_cond]"
+        assert_select "select#incident_is_ppe_required_in_work_inst[name=?]", "incident[is_ppe_required_in_work_inst]"
+        assert_select "select#incident_was_chemical_involved[name=?]", "incident[was_chemical_involved]"
+        assert_select "input#incident_name_chemical[name=?]", "incident[name_chemical]"
+        assert_select "select#incident_was_chemical_used_properly[name=?]", "incident[was_chemical_used_properly]"
+        assert_select "textarea#incident_reason_chemical_not_used_properly[name=?]", "incident[reason_chemical_not_used_properly]"
+        assert_select "input[type=checkbox][name=?]", "incident[environmental_factor_ids][]", :count => EnvironmentalFactor.count
+        assert_select "input[type=hidden][name=?]", "incident[environmental_factor_ids][]", :count => EnvironmentalFactor.count
+        assert_select "textarea#incident_other_env_factors[name=?]", "incident[other_env_factors]"
+        assert_select "textarea#incident_explain_more_env_factors[name=?]", "incident[explain_more_env_factors]"
+        assert_select "input[type=checkbox][name=?]", "incident[additional_factor_ids][]", :count => AdditionalFactor.count
+        assert_select "input[type=hidden][name=?]", "incident[additional_factor_ids][]", :count => AdditionalFactor.count
+        assert_select "textarea#incident_other_add_factors[name=?]", "incident[other_add_factors]"
+        assert_select "textarea#incident_explain_more_add_factors[name=?]", "incident[explain_more_add_factors]"
+        assert_select "textarea#incident_description_investigation[name=?]", "incident[description_investigation]"
+        assert_select "input#incident_investigation_photo1[name=?]", "incident[investigation_photo1]"
+        assert_select "input#incident_investigation_photo2[name=?]", "incident[investigation_photo2]"
+        assert_select "select#incident_modified_duties_prescribed_after[name=?]", "incident[modified_duties_prescribed_after]"
+        assert_select "select#incident_modified_duties_prescriber_id[name=?]", "incident[modified_duties_prescriber_id]"
+        assert_select "input#incident_other_modified_duties_prescriber[name=?]", "incident[other_modified_duties_prescriber]"
+        assert_select "input#incident_days_modified_duties_prescribed[name=?]", "incident[days_modified_duties_prescribed]"
+        assert_select "textarea#incident_immediate_action[name=?]", "incident[immediate_action]"
+        assert_select "textarea#incident_corrective_action[name=?]", "incident[corrective_action]"
+        assert_select "input#incident_corrective_action_date[name=?]", "incident[corrective_action_date]"
+        assert_select "input#incident_corrective_action_responsible[name=?]", "incident[corrective_action_responsible]"
+        assert_select "textarea#incident_corrective_action2[name=?]", "incident[corrective_action2]"
+        assert_select "input#incident_corrective_action_date2[name=?]", "incident[corrective_action_date2]"
+        assert_select "input#incident_corrective_action_responsible2[name=?]", "incident[corrective_action_responsible2]"
+        assert_select "textarea#incident_names_involved_in_investigation[name=?]", "incident[names_involved_in_investigation]"
+        assert_select "textarea#incident_additional_comments[name=?]", "incident[additional_comments]"
+        assert_select "select#incident_has_customer_property_damaged[name=?]", "incident[has_customer_property_damaged]"
+        assert_select "textarea#incident_type_of_damage[name=?]", "incident[type_of_damage]"
+        assert_select "textarea#incident_customers_contacted[name=?]", "incident[customers_contacted]"
+        assert_select "select#incident_has_employee_done_modified_work_form[name=?]", "incident[has_employee_done_modified_work_form]"
+        assert_select "textarea#incident_reason_employee_not_done_modified_work_form[name=?]", "incident[reason_employee_not_done_modified_work_form]"
+        assert_select "select#incident_modified_work_form_signed[name=?]", "incident[modified_work_form_signed]"
+        assert_select "input#incident_photo_modified_work_form_signed1[name=?]", "incident[photo_modified_work_form_signed1]"
+        assert_select "input#incident_photo_modified_work_form_signed2[name=?]", "incident[photo_modified_work_form_signed2]"
+        assert_select "textarea#incident_why_modified_work_form_not_signed[name=?]", "incident[why_modified_work_form_not_signed]"
+        assert_select "select#incident_has_employee_received_medical_attention[name=?]", "incident[has_employee_received_medical_attention]"
+        assert_select "input#incident_name_clinic_hospital[name=?]", "incident[name_clinic_hospital]"
+        assert_select "input#incident_name_nurse_doctor[name=?]", "incident[name_nurse_doctor]"
+        assert_select "textarea#incident_medical_treatment[name=?]", "incident[medical_treatment]"
+        assert_select "select#incident_can_upload_medical_doc[name=?]", "incident[can_upload_medical_doc]"
+        assert_select "input#incident_photo_medical_doc1[name=?]", "incident[photo_medical_doc1]"
+        assert_select "input#incident_photo_medical_doc2[name=?]", "incident[photo_medical_doc2]"
+        assert_select "input#incident_photo_medical_doc3[name=?]", "incident[photo_medical_doc3]"
+        assert_select "textarea#incident_reason_not_upload_medical_doc[name=?]", "incident[reason_not_upload_medical_doc]"
+        assert_select "input#incident_ready_to_submit_investigation[name=?]", "incident[ready_to_submit_investigation]"
+      end
+    end
+  end
+  
+  shared_examples "a form with follow up tab" do
+    it "has expected tags" do
+      render
+      assert_select "div[role=\"tabpanel\"][id=\"follow_up\"]" do
+        assert_select "select#incident_wsib_recordable[name=?]", "incident[wsib_recordable]"
+        assert_select "select#incident_wsib_form_7[name=?]", "incident[wsib_form_7]"
+        assert_select "textarea#incident_reason_wsib_form_7_not_submitted[name=?]", "incident[reason_wsib_form_7_not_submitted]"
+        assert_select "input#incident_wsib_claim[name=?]", "incident[wsib_claim]"
+        assert_select "select#incident_wsib_lost_time[name=?]", "incident[wsib_lost_time]"
+      
+        assert_select "select#incident_osha_recordable[name=?]", "incident[osha_recordable]"
+        assert_select "select#incident_has_compensation_claim_submitted[name=?]", "incident[has_compensation_claim_submitted]"
+        assert_select "textarea#incident_reason_compensation_claim_not_submitted[name=?]", "incident[reason_compensation_claim_not_submitted]"
+        assert_select "input#incident_osha_claim[name=?]", "incident[osha_claim]"
+        assert_select "select#incident_osha_lost_time[name=?]", "incident[osha_lost_time]"
+      
+        assert_select "input#incident_lost_days_start[name=?]", "incident[lost_days_start]"
+        assert_select "input#incident_lost_days_end[name=?]", "incident[lost_days_end]"
+        assert_select "input#incident_lost_days[name=?]", "incident[lost_days]"
+        assert_select "select#incident_modified_work[name=?]", "incident[modified_work]"
+        assert_select "input#incident_modified_work_start[name=?]", "incident[modified_work_start]"
+        assert_select "input#incident_modified_work_end[name=?]", "incident[modified_work_end]"
+        assert_select "input#incident_modified_work_days[name=?]", "incident[modified_work_days]"
+      
+        assert_select "select#incident_additional_health_safety_comments[name=?]", "incident[additional_health_safety_comments]"
+        assert_select "textarea#incident_comment[name=?]", "incident[comment]"
+        assert_select "input#incident_closed_date[name=?]", "incident[closed_date]"
+        assert_select "select#incident_implemented[name=?]", "incident[implemented]"
+        assert_select "input#incident_implemented_support_file1[name=?]", "incident[implemented_support_file1]"
+        assert_select "input#incident_implemented_support_file2[name=?]", "incident[implemented_support_file2]"
+        assert_select "input#incident_implemented_support_file3[name=?]", "incident[implemented_support_file3]"
+        assert_select "input#incident_implemented_support_file4[name=?]", "incident[implemented_support_file4]"
+        assert_select "textarea#incident_reason_implemented_not_upload[name=?]", "incident[reason_implemented_not_upload]"
+      end
+    end
+  end
+  
+  shared_examples "a form without follow up tab" do
+    it "has expected tags" do
+      render
+      assert_select "div[role=\"tabpanel\"][id=\"follow_up\"]", :count => 0 do
+        assert_select "select#incident_wsib_recordable[name=?]", "incident[wsib_recordable]", :count => 0
+        assert_select "select#incident_wsib_form_7[name=?]", "incident[wsib_form_7]", :count => 0
+        assert_select "textarea#incident_reason_wsib_form_7_not_submitted[name=?]", "incident[reason_wsib_form_7_not_submitted]", :count => 0
+        assert_select "input#incident_wsib_claim[name=?]", "incident[wsib_claim]", :count => 0
+        assert_select "select#incident_wsib_lost_time[name=?]", "incident[wsib_lost_time]", :count => 0
+      
+        assert_select "select#incident_osha_recordable[name=?]", "incident[osha_recordable]", :count => 0
+        assert_select "select#incident_has_compensation_claim_submitted[name=?]", "incident[has_compensation_claim_submitted]", :count => 0
+        assert_select "textarea#incident_reason_compensation_claim_not_submitted[name=?]", "incident[reason_compensation_claim_not_submitted]", :count => 0
+        assert_select "input#incident_osha_claim[name=?]", "incident[osha_claim]", :count => 0
+        assert_select "select#incident_osha_lost_time[name=?]", "incident[osha_lost_time]", :count => 0
+      
+        assert_select "input#incident_lost_days_start[name=?]", "incident[lost_days_start]", :count => 0
+        assert_select "input#incident_lost_days_end[name=?]", "incident[lost_days_end]", :count => 0
+        assert_select "input#incident_lost_days[name=?]", "incident[lost_days]", :count => 0
+        assert_select "select#incident_modified_work[name=?]", "incident[modified_work]", :count => 0
+        assert_select "input#incident_modified_work_start[name=?]", "incident[modified_work_start]", :count => 0
+        assert_select "input#incident_modified_work_end[name=?]", "incident[modified_work_end]", :count => 0
+        assert_select "input#incident_modified_work_days[name=?]", "incident[modified_work_days]", :count => 0
+      
+        assert_select "select#incident_additional_health_safety_comments[name=?]", "incident[additional_health_safety_comments]", :count => 0
+        assert_select "textarea#incident_comment[name=?]", "incident[comment]", :count => 0
+        assert_select "input#incident_closed_date[name=?]", "incident[closed_date]", :count => 0
+        assert_select "select#incident_implemented[name=?]", "incident[implemented]", :count => 0
+        assert_select "input#incident_implemented_support_file1[name=?]", "incident[implemented_support_file1]", :count => 0
+        assert_select "input#incident_implemented_support_file2[name=?]", "incident[implemented_support_file2]", :count => 0
+        assert_select "input#incident_implemented_support_file3[name=?]", "incident[implemented_support_file3]", :count => 0
+        assert_select "input#incident_implemented_support_file4[name=?]", "incident[implemented_support_file4]", :count => 0
+        assert_select "textarea#incident_reason_implemented_not_upload[name=?]", "incident[reason_implemented_not_upload]", :count => 0
+      end
+    end
+  end
+  
+  shared_examples "a form with health and safety tab" do
+    it "has expected tags" do
+      render
+      assert_select "div[role=\"tabpanel\"][id=\"health_and_safety\"]" do
+        assert_select "select#incident_incident_classified_osha_recordable[name=?]", "incident[incident_classified_osha_recordable]"
+        assert_select "textarea#incident_reason_osha_not_recordable[name=?]", "incident[reason_osha_not_recordable]"
+      end
+    end
+  end
+  
+  shared_examples "a form without health and safety tab" do
+    it "has expected tags" do 
+      render
+      assert_select "div[role=\"tabpanel\"][id=\"health_and_safety\"]", :count => 0 do
+        assert_select "select#incident_incident_classified_osha_recordable[name=?]", "incident[incident_classified_osha_recordable]", :count => 0
+        assert_select "textarea#incident_reason_osha_not_recordable[name=?]", "incident[reason_osha_not_recordable]", :count => 0
+      end
+    end
+  end
+  
+  describe "renders the edit incident form" do
+    before(:each) do
+      sign_in(user)
+    end
+    describe "for the author" do
+      let(:user) { user_author }
+      before(:each) do
+        @incident = incident
+      end
+      describe "renders form when ready_to_submit_investigation is false" do
+        before(:each) do
+          @incident = incident_not_ready
+        end
+        it_behaves_like "a form with initial tab"
+        it_behaves_like "a form with investigation tab"
+        it_behaves_like "a form without follow up tab"
+        it_behaves_like "a form without health and safety tab"
+      end
+      
+      describe "renders form for when ready_to_submit_investigation is true" do
+        before(:each) do
+          @incident = incident_ready
+        end
+        it_behaves_like "a form with initial tab"
+        it_behaves_like "a form with investigation tab"
+        it_behaves_like "a form without follow up tab"
+        it_behaves_like "a form without health and safety tab"
+      end
+    end
+    
+    describe "for safety coordinator" do
+      let(:user) { user_safety_coordinator }
+      describe "renders form when ready_to_submit_investigation is false" do
+        before(:each) do
+          @incident = incident_not_ready
+        end
+        it_behaves_like "a form with initial tab"
+        it_behaves_like "a form with investigation tab"
+        it_behaves_like "a form without follow up tab"
+        it_behaves_like "a form without health and safety tab"
+      end
+      
+      describe "renders form for when ready_to_submit_investigation is true" do
+        before(:each) do
+          @incident = incident_ready
+        end
+        it_behaves_like "a form with initial tab"
+        it_behaves_like "a form with investigation tab"
+        it_behaves_like "a form with follow up tab"
+        it_behaves_like "a form without health and safety tab"
+      end
+      
+    end
+    
+    describe "for safety director" do
+      let(:user) { user_safety_director }
+      describe "renders form when ready_to_submit_investigation is false" do
+        before(:each) do
+          @incident = incident_not_ready
+        end
+        it_behaves_like "a form with initial tab"
+        it_behaves_like "a form with investigation tab"
+        it_behaves_like "a form without follow up tab"
+        it_behaves_like "a form without health and safety tab"
+      end
+      
+      describe "renders form when ready_to_submit_investigation is true" do
+        before(:each) do
+          @incident = incident_ready
+        end
+        it_behaves_like "a form with initial tab"
+        it_behaves_like "a form with investigation tab"
+        it_behaves_like "a form with follow up tab"
+        it_behaves_like "a form with health and safety tab"
+      end
+    end
+    
+    describe "for admin" do
+      let(:user) { user_admin }
+      
+      describe "renders form when ready_to_submit_investigation is false" do
+        before(:each) do
+          @incident = incident_not_ready
+        end
+        it_behaves_like "a form with initial tab"
+        it_behaves_like "a form with investigation tab"
+        it_behaves_like "a form without follow up tab"
+        it_behaves_like "a form without health and safety tab"
+      end
+      
+      describe "renders form when ready_to_submit_investigation is true" do
+        before(:each) do
+          @incident = incident_ready
+        end
+        it_behaves_like "a form with initial tab"
+        it_behaves_like "a form with investigation tab"
+        it_behaves_like "a form with follow up tab"
+        it_behaves_like "a form with health and safety tab"
+      end
+    end
+  end
+end

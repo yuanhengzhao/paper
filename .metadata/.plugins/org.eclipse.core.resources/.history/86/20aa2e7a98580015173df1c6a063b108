@@ -1,0 +1,99 @@
+{
+    "identifier": "1819616731",
+    "version": "v1",
+    "zone": "America/Toronto",
+    "referenceNumber": "20150226-1819616731",
+    "state": "Complete",
+    "deviceSubmitDate": {
+        "time": "2015-02-26T14:28:33-05:00",
+        "zone": "America/Toronto"
+    },
+    "shiftedDeviceSubmitDate": "2015-02-26T14:28:33-05:00",
+    "serverReceiveDate": "2015-02-26T14:28:35-05:00",
+    "form": {
+        "identifier": "141947545",
+        "versionIdentifier": "152444227",
+        "name": "Dolly Cleaning Event",
+        "version": 1,
+        "formSpaceIdentifier": "191703094",
+        "formSpaceName": "Space - Dollies"
+    },
+    "user": {
+        "identifier": "131590062",
+        "username": "nshakoori@robinsonsolutions.com",
+        "displayName": "Naeimeh Shakoori-Najafi (nshakoori@robinsonsolutions.com)"
+    },
+    "dispatcher": null,
+    "geoStamp": {
+        "success": true,
+        "captureTimestamp": {
+            "provided": {
+                "time": "2015-02-26T14:27:59-05:00",
+                "zone": "America/Toronto"
+            },
+            "shifted": "2015-02-26T14:27:59-05:00"
+        },
+        "errorMessage": null,
+        "source": "GPS",
+        "coordinates": {
+            "latitude": 43.65204966441592,
+            "longitude": -79.38191864300354,
+            "altitude": 112.386
+        },
+        "address": "Queen Street West, Toronto, ON, CA"
+    },
+    "pages": [
+        {
+            "name": "Cleaning Event",
+            "answers": [
+                {
+                    "label": "process",
+                    "dataType": "FreeText",
+                    "question": "Process",
+                    "values": [
+                        "Dollies"
+                    ]
+                },
+                {
+                    "label": "cleaning_event",
+                    "dataType": "FreeText",
+                    "question": "Cleaning Event",
+                    "values": [
+                        "Gcdt"
+                    ],
+                    "selectOptions": [
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "No Dirty Dollies"
+                        },
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "Production Down"
+                        },
+                        {
+                            "selected": true,
+                            "other": true,
+                            "value": "Gcdt"
+                        }
+                    ]
+                },
+                {
+                    "label": "datetime",
+                    "dataType": "Timestamp",
+                    "question": "Date/Time",
+                    "values": [
+                        {
+                            "provided": {
+                                "time": "2015-02-26T14:28:20-05:00",
+                                "zone": "America/Toronto"
+                            },
+                            "shifted": "2015-02-26T14:28:20-05:00"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

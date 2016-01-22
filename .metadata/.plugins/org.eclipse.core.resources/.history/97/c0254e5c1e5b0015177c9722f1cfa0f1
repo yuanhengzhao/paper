@@ -1,0 +1,24 @@
+class TransferPhotosAttributesFromIncidentsToAttachments < ActiveRecord::Migration
+  def up
+    attachment_map = {}
+    incident_relationships = select_all("select id, investigation_photo1_file_name, investigation_photo1_content_type, investigation_photo1_file_size, investigation_photo1_updated_at from attachments_incidents, incidents where attachments_incidents.incident_id=incidents.id")
+    incident_relationships.each do |incident_relationship|
+      
+      if attachment_map[incident_relationship['id']].nil?
+        attachment_map[incident_relationship['id']] = []
+      end
+      attachment_map[incident_relationship['id']] << incident_relationship['name']
+    end
+    attachments = select_all("select incident_id from attachments")
+    attachments.each do |attachment|
+      arr = attachment_map[attachment["incident_id"]]||[]
+      update("update attachments set incidents ='#{arr.to_yaml}' where incident_id=#{attachment['incident_id']}")
+    end
+    drop_table :attachments_incidents
+    drop_table :incidents
+  end
+  
+  def down
+    rais ActiveRecord: :IrreversibleMigration
+  end
+end

@@ -1,0 +1,9 @@
+require 'spec_helper'
+
+describe Forms::AreaInspectionsController do
+  it_behaves_like "a form controller" do
+    let(:model) { Forms::AreaInspection }
+    let(:image_fields) { [ :image1, :image2, :image3 ] }
+    let(:pre_model_name) { "" }
+  end
+end

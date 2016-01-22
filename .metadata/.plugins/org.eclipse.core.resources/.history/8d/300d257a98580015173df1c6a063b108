@@ -1,0 +1,15 @@
+FactoryGirl.define do
+  factory :jig_cleaning, class: Forms::JigCleaning do
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions', 'fake.json'), 'text/plain') }
+    
+    factory :jig_cleaning_valid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'jig_cleaning', 'valid.json'), 'text/plain') }
+    end
+    
+    factory :jig_cleaning_invalid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'jig_cleaning', 'missing_pages.json'), 'text/plain') }
+    end
+  end
+end

@@ -1,0 +1,19 @@
+# @abstract Subclass and override {#parse} to implement form-specific parser.
+class AbstractFormParser
+  
+  # Attempts to convert the hash provided into a database object.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @param model [ActiveRecord] object to update, nil if a new object should be created
+  # @return [ActiveRecord] instance of the object
+  # @raise [ParserException] if the hash could not be parsed for whatever reason
+  # @raise [NotImplementedError] when the method has not been overridden
+  def parse(form_hash, model = nil); raise NotImplementedError end
+  
+  # Returns the highest version number this parser is capable of parsing.
+  #
+  # @return [string] source-specific version number
+  # @raise [NotImplementedError] when the method has not been overridden
+  def max_version; raise NotImplementedError end
+  
+end

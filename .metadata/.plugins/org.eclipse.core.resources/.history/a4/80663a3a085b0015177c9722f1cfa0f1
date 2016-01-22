@@ -1,0 +1,23 @@
+class TransferPhotosAttributesFromIncidentsToAttachments < ActiveRecord::Migration
+  def up
+    update <<-SQL
+      insert into attachments (group, incident_id, file_file_name, file_content_type, file_file_size, file_updated_at)
+      select id, investigation_photo1_file_name, investigation_photo1_content_type, investigation_photo1_file_size, investigation_photo1_updated_at 
+      from incidents;
+      set group='investigation_photo1'
+    SQL
+    remove_column :incidents, :investigation_photo1_file_name, :investigation_photo1_content_type, :investigation_photo1_file_size, :investigation_photo1_updated_at
+  end
+  
+  def down
+    add_column :incidents, :investigation_photo1_file_name, :investigation_photo1_content_type, :investigation_photo1_file_size, :investigation_photo1_updated_at
+    update <<-SQL
+        UPDATE incidents
+      LEFT JOIN attachments where group='investigation_photo1' ON incident.id = attachments.incident_id
+      SET incident_
+      insert into attachments (incident_id, file_file_name, file_content_type, file_file_size, file_updated_at)
+      select id, investigation_photo1_file_name, investigation_photo1_content_type, investigation_photo1_file_size, investigation_photo1_updated_at 
+      from incidents
+    SQL
+  end
+end

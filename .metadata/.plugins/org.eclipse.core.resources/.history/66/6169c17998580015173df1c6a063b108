@@ -1,0 +1,5 @@
+jQuery ->  
+  # datatable for site shifts page
+  datatable = $("#site_shifts_datatable").DataTable
+    "processing": true
+    "serverSide": false

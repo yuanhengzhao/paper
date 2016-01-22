@@ -1,0 +1,1314 @@
+[  
+    [  
+        {  
+            "record":{  
+                "ID":"95",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2014-08-05 15:40:00",
+                "CREATED_BY":"nshakoori",
+                "CREATED_LOCATION":"43.652165:-79.382033:112.607475:69.287587:10.000000:-1.000000:-1.000000:1407267598.334322",
+                "CREATED_DEVICE_ID":"d6b00a86e76a4d8f1fd40f971d99130698907415",
+                "MODIFIED_DATE":"2014-08-05 15:40:00",
+                "MODIFIED_BY":"nshakoori",
+                "MODIFIED_LOCATION":"43.652165:-79.382033:112.607475:69.287587:10.000000:-1.000000:-1.000000:1407267598.334322",
+                "MODIFIED_DEVICE_ID":"d6b00a86e76a4d8f1fd40f971d99130698907415",
+                "SERVER_MODIFIED_DATE":"2014-08-05 15:40:07",
+                "inspection_date":null,
+                "user_name":null,
+                "observer_email":null,
+                "site":"oshawa",
+                "plant":"osh_stamping",
+                "deck__area":null,
+                "abnormality1":"no",
+                "comments":null,
+                "picture_1":null,
+                "picture_2":null,
+                "picture_3":null,
+                "send_email":"no",
+                "send_email_to":"",
+                "time_of_observation":"Tue Aug 05 2014 15:39:39 GMT-0400 (EDT)",
+                "equipmentarea_type":"booth"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.652165,
+                    -79.382033
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"89",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2014-05-22 18:37:14",
+                "CREATED_BY":"eluepkes",
+                "CREATED_LOCATION":"33.590813:-83.515728:235.156906:5.000000:9.500000:0.000000:-1.000000:1400798211.716957",
+                "CREATED_DEVICE_ID":"854bfde8272951eec2376c5657c21e2ba79edf51",
+                "MODIFIED_DATE":"2014-05-22 18:37:14",
+                "MODIFIED_BY":"eluepkes",
+                "MODIFIED_LOCATION":"33.590813:-83.515728:235.156906:5.000000:9.500000:0.000000:-1.000000:1400798211.716957",
+                "MODIFIED_DEVICE_ID":"854bfde8272951eec2376c5657c21e2ba79edf51",
+                "SERVER_MODIFIED_DATE":"2014-05-22 18:38:06",
+                "inspection_date":null,
+                "user_name":null,
+                "observer_email":null,
+                "site":"cambridge",
+                "plant":"stamping",
+                "deck__area":null,
+                "abnormality1":"no",
+                "comments":null,
+                "picture_1":null,
+                "picture_2":null,
+                "picture_3":null,
+                "send_email":"no",
+                "send_email_to":"",
+                "time_of_observation":"Thu May 22 2014 18:36:34 GMT-0400 (EDT)",
+                "equipmentarea_type":"tank"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    33.590813,
+                    -83.515728
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"86",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2014-05-03 23:34:43",
+                "CREATED_BY":"jalmanza",
+                "CREATED_LOCATION":"43.403218:-80.346580:289.000000:5.000000:4.000000:0.000000:-1.000000:1399174471.286428",
+                "CREATED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "MODIFIED_DATE":"2014-05-03 23:34:44",
+                "MODIFIED_BY":"jalmanza",
+                "MODIFIED_LOCATION":"43.403218:-80.346580:289.000000:5.000000:4.000000:0.000000:-1.000000:1399174471.286428",
+                "MODIFIED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "SERVER_MODIFIED_DATE":"2014-05-03 23:34:51",
+                "inspection_date":"2014-05-03",
+                "user_name":"Juan Almanza",
+                "observer_email":"jalmanza@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"E-coat sanding",
+                "abnormality1":"yes",
+                "comments":"Needs to be done",
+                "picture_1":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_13446424015365b55cf163d.jpg",
+                "picture_2":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_21170693715365b55be0689.jpg",
+                "picture_3":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_16444129105365b55c6bdf2.jpg",
+                "send_email":"yes",
+                "send_email_to":"bobrien@robinsonsolutions.com, justina.mendoza@tmmc.ca, rick.bedi@tmmc.ca",
+                "time_of_observation":"Sat May 03 2014 23:32:15 GMT-0400 (EDT)",
+                "equipmentarea_type":"underdecking"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.403218,
+                    -80.34658
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"83",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2014-05-03 23:30:51",
+                "CREATED_BY":"jalmanza",
+                "CREATED_LOCATION":"43.403209:-80.346586:289.000000:5.000000:3.000000:0.000000:191.953125:1399174250.098169",
+                "CREATED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "MODIFIED_DATE":"2014-05-03 23:31:54",
+                "MODIFIED_BY":"jalmanza",
+                "MODIFIED_LOCATION":"43.403218:-80.346580:289.000000:5.000000:3.000000:0.000000:-1.000000:1399174312.669976",
+                "MODIFIED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "SERVER_MODIFIED_DATE":"2014-05-03 23:32:01",
+                "inspection_date":"2014-05-03",
+                "user_name":"Juan Almanza",
+                "observer_email":"jalmanza@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"Sealer line",
+                "abnormality1":"no",
+                "comments":"Needs to be done",
+                "picture_1":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_5896662565365b4b13c1fa.jpg",
+                "picture_2":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_9227311235365b4b1cc414.jpg",
+                "picture_3":null,
+                "send_email":"yes",
+                "send_email_to":"bobrien@robinsonsolutions.com, justina.mendoza@tmmc.ca, rick.bedi@tmmc.ca",
+                "time_of_observation":"Sat May 03 2014 23:29:22 GMT-0400 (EDT)",
+                "equipmentarea_type":"underdecking"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.403218,
+                    -80.34658
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"80",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2014-05-03 23:28:56",
+                "CREATED_BY":"jalmanza",
+                "CREATED_LOCATION":"43.403280:-80.346554:287.000000:5.000000:3.000000:0.000000:81.914062:1399174134.624702",
+                "CREATED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "MODIFIED_DATE":"2014-05-03 23:28:57",
+                "MODIFIED_BY":"jalmanza",
+                "MODIFIED_LOCATION":"43.403280:-80.346554:287.000000:5.000000:3.000000:0.000000:81.914062:1399174134.624702",
+                "MODIFIED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "SERVER_MODIFIED_DATE":"2014-05-03 23:29:04",
+                "inspection_date":"2014-05-03",
+                "user_name":"Juan Almanza",
+                "observer_email":"jalmanza@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"Cavitywax",
+                "abnormality1":"yes",
+                "comments":"Needs to be done",
+                "picture_1":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_19164197695365b40707ff0.jpg",
+                "picture_2":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_2706146485365b40027c86.jpg",
+                "picture_3":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_14257562495365b40671f19.jpg",
+                "send_email":"yes",
+                "send_email_to":"bobrien@robinsonsolutions.com, justina.mendoza@tmmc.ca, rick.bedi@tmmc.ca",
+                "time_of_observation":"Sat May 03 2014 23:25:30 GMT-0400 (EDT)",
+                "equipmentarea_type":"underdecking"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.40328,
+                    -80.346554
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"77",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2014-05-03 23:24:20",
+                "CREATED_BY":"jalmanza",
+                "CREATED_LOCATION":"43.403210:-80.346515:288.000000:5.000000:2.000000:0.000000:-1.000000:1399173856.367521",
+                "CREATED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "MODIFIED_DATE":"2014-05-03 23:24:21",
+                "MODIFIED_BY":"jalmanza",
+                "MODIFIED_LOCATION":"43.403210:-80.346515:288.000000:5.000000:2.000000:0.000000:-1.000000:1399173856.367521",
+                "MODIFIED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "SERVER_MODIFIED_DATE":"2014-05-03 23:24:27",
+                "inspection_date":"2014-05-03",
+                "user_name":"Juan Almanza",
+                "observer_email":"jalmanza@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"Blackout",
+                "abnormality1":"yes",
+                "comments":"Needs to be clean during shutdown .",
+                "picture_1":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_6887054385365b2f0155f3.jpg",
+                "picture_2":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_20599823375365b2eb12940.jpg",
+                "picture_3":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_16724087655365b2ef00709.jpg",
+                "send_email":"yes",
+                "send_email_to":"bobrien@robinsonsolutions.com, justina.mendoza@tmmc.ca, rick.bedi@tmmc.ca",
+                "time_of_observation":"Sat May 03 2014 23:19:44 GMT-0400 (EDT)",
+                "equipmentarea_type":"underdecking"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.40321,
+                    -80.346515
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"74",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2014-05-03 20:58:05",
+                "CREATED_BY":"jalmanza",
+                "CREATED_LOCATION":"43.420312:-80.373723:313.712921:65.000000:10.000000:-1.000000:-1.000000:1399165084.970729",
+                "CREATED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "MODIFIED_DATE":"2014-05-03 20:58:06",
+                "MODIFIED_BY":"jalmanza",
+                "MODIFIED_LOCATION":"43.420312:-80.373723:313.712921:65.000000:10.000000:-1.000000:-1.000000:1399165084.970729",
+                "MODIFIED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "SERVER_MODIFIED_DATE":"2014-05-03 20:58:32",
+                "inspection_date":"2014-05-03",
+                "user_name":"Juan Almanza",
+                "observer_email":"jalmanza@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"Final inspection",
+                "abnormality1":"no",
+                "comments":"Will need to be done during shutdown .",
+                "picture_1":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_1713870564536590ba98ff9.jpg",
+                "picture_2":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_708359176536590b8988f0.jpg",
+                "picture_3":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_1004767749536590b9669c1.jpg",
+                "send_email":"yes",
+                "send_email_to":"bobrien@robinsonsolutions.com, justina.mendoza@tmmc.ca, rick.bedi@tmmc.ca",
+                "time_of_observation":"Sat May 03 2014 20:48:13 GMT-0400 (EDT)",
+                "equipmentarea_type":"underdecking"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.420312,
+                    -80.373723
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"71",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2014-04-15 11:56:49",
+                "CREATED_BY":"iahmed",
+                "CREATED_LOCATION":"43.419603:-80.372500:317.013092:65.000000:10.000000:-1.000000:-1.000000:1397577408.151629",
+                "CREATED_DEVICE_ID":"FFFFFFFFD91CDD4959004DE6A6609485CDD48572",
+                "MODIFIED_DATE":"2014-04-15 15:06:47",
+                "MODIFIED_BY":"iahmed",
+                "MODIFIED_LOCATION":"43.419603:-80.372500:317.013092:65.000000:10.000000:-1.000000:-1.000000:1397577408.151629",
+                "MODIFIED_DEVICE_ID":"FFFFFFFFD91CDD4959004DE6A6609485CDD48572",
+                "SERVER_MODIFIED_DATE":"2014-04-15 15:06:53",
+                "inspection_date":null,
+                "user_name":null,
+                "observer_email":null,
+                "site":"oshawa",
+                "plant":"stamping",
+                "deck__area":null,
+                "abnormality1":"no",
+                "comments":null,
+                "picture_1":null,
+                "picture_2":null,
+                "picture_3":null,
+                "send_email":"no",
+                "send_email_to":"",
+                "time_of_observation":"Tue Apr 15 2014 11:38:07 GMT-0400 (EDT)",
+                "equipmentarea_type":"tank"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.419603,
+                    -80.3725
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"69",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2014-03-18 14:16:54",
+                "CREATED_BY":"jalmanza",
+                "CREATED_LOCATION":"43.420316:-80.372589:318.799866:65.000000:10.000000:-1.000000:-1.000000:1395166613.337286",
+                "CREATED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "MODIFIED_DATE":"2014-03-18 14:16:55",
+                "MODIFIED_BY":"jalmanza",
+                "MODIFIED_LOCATION":"43.420316:-80.372589:318.799866:65.000000:10.000000:-1.000000:-1.000000:1395166613.337286",
+                "MODIFIED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "SERVER_MODIFIED_DATE":"2014-03-18 14:16:59",
+                "inspection_date":"2014-03-18",
+                "user_name":"Juan Almanza",
+                "observer_email":"jalmanza@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"Blackout",
+                "abnormality1":"yes",
+                "comments":"Test",
+                "picture_1":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_92609804953288d9ce5f0b.jpg",
+                "picture_2":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_150084865353288d9b36552.jpg",
+                "picture_3":null,
+                "send_email":"yes",
+                "send_email_to":null,
+                "time_of_observation":"Tue Mar 18 2014 14:13:48 GMT-0400 (EDT)",
+                "equipmentarea_type":"booth"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.420316,
+                    -80.372589
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"68",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2014-01-13 01:25:56",
+                "CREATED_BY":"nangelo",
+                "CREATED_LOCATION":"43.420263:-80.372576:318.294647:74.647526:10.000000:-1.000000:-1.000000:1389594354.981913",
+                "CREATED_DEVICE_ID":"FFFFFFFFD91CDD4959004DE6A6609485CDD48572",
+                "MODIFIED_DATE":"2014-01-13 01:25:57",
+                "MODIFIED_BY":"nangelo",
+                "MODIFIED_LOCATION":"43.420263:-80.372576:318.294647:74.647526:10.000000:-1.000000:-1.000000:1389594354.981913",
+                "MODIFIED_DEVICE_ID":"FFFFFFFFD91CDD4959004DE6A6609485CDD48572",
+                "SERVER_MODIFIED_DATE":"2014-01-16 01:42:41",
+                "inspection_date":"2014-01-13",
+                "user_name":"Nagib Angelo ",
+                "observer_email":"nangelo@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"topcoat repeier deck",
+                "abnormality1":"yes",
+                "comments":"To match of waste under the decking.",
+                "picture_1":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_77716112652d77f6437f17.jpg",
+                "picture_2":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_143776362252d77f61636be.jpg",
+                "picture_3":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_154986777952d77f62b5c80.jpg",
+                "send_email":"yes",
+                "send_email_to":"bobrien@robinsonsolutions.com, jalmanza@robinsonsolutions.com",
+                "time_of_observation":"Mon Jan 13 2014 01:18:32 GMT-0500 (EST)",
+                "equipmentarea_type":"underdecking"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.420263,
+                    -80.372576
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"65",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2014-01-06 17:57:24",
+                "CREATED_BY":"nangelo",
+                "CREATED_LOCATION":"43.420326:-80.371792:320.420135:65.000000:10.000000:-1.000000:-1.000000:1389049030.161014",
+                "CREATED_DEVICE_ID":"FFFFFFFFD91CDD4959004DE6A6609485CDD48572",
+                "MODIFIED_DATE":"2014-01-06 17:57:25",
+                "MODIFIED_BY":"nangelo",
+                "MODIFIED_LOCATION":"43.420326:-80.371792:320.420135:65.000000:10.000000:-1.000000:-1.000000:1389049030.161014",
+                "MODIFIED_DEVICE_ID":"FFFFFFFFD91CDD4959004DE6A6609485CDD48572",
+                "SERVER_MODIFIED_DATE":"2014-01-06 18:04:24",
+                "inspection_date":"2014-01-06",
+                "user_name":"Nagib Angelo ",
+                "observer_email":"nangelo@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"Balsting booth( carriers)",
+                "abnormality1":"yes",
+                "comments":"The rails and floor needs to get clean, the doors and lights also need to be clean pre shift.",
+                "picture_1":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_78235958852cb367a7c513.jpg",
+                "picture_2":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_108692776552cb3678690ce.jpg",
+                "picture_3":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_106375477752cb36796c045.jpg",
+                "send_email":"yes",
+                "send_email_to":"bobrien@robinsonsolutions.com, jalmanza@robinsonsolutions.com",
+                "time_of_observation":"Mon Jan 06 2014 17:47:15 GMT-0500 (EST)",
+                "equipmentarea_type":"booth"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.420326,
+                    -80.371792
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"62",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2014-01-06 15:54:21",
+                "CREATED_BY":"nangelo",
+                "CREATED_LOCATION":"43.420257:-80.374266:312.155090:65.000000:10.000000:-1.000000:-1.000000:1389041659.792421",
+                "CREATED_DEVICE_ID":"FFFFFFFFD91CDD4959004DE6A6609485CDD48572",
+                "MODIFIED_DATE":"2014-01-06 15:54:22",
+                "MODIFIED_BY":"nangelo",
+                "MODIFIED_LOCATION":"43.420257:-80.374266:312.155090:65.000000:10.000000:-1.000000:-1.000000:1389041659.792421",
+                "MODIFIED_DEVICE_ID":"FFFFFFFFD91CDD4959004DE6A6609485CDD48572",
+                "SERVER_MODIFIED_DATE":"2014-01-06 15:59:20",
+                "inspection_date":"2014-01-05",
+                "user_name":"Nagib Angelo ",
+                "observer_email":"nangelo@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"Sealer ACC line.",
+                "abnormality1":"yes",
+                "comments":"Dust building up on conveyor and floor area.",
+                "picture_1":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_182463659452cb192b7fe6c.jpg",
+                "picture_2":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_101054569852cb1928ce1a4.jpg",
+                "picture_3":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_34659566652cb192a5d64b.jpg",
+                "send_email":"yes",
+                "send_email_to":"bobrien@robinsonsolutions.com, jalmanza@robinsonsolutions.com",
+                "time_of_observation":"Mon Jan 06 2014 15:49:21 GMT-0500 (EST)",
+                "equipmentarea_type":"acc"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.420257,
+                    -80.374266
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"59",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2013-11-10 17:33:37",
+                "CREATED_BY":"jalmanza",
+                "CREATED_LOCATION":"43.420321:-80.371692:318.076935:165.000000:10.000000:-1.000000:-1.000000:1384122794.486905",
+                "CREATED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "MODIFIED_DATE":"2013-11-18 03:50:38",
+                "MODIFIED_BY":"jalmanza",
+                "MODIFIED_LOCATION":"43.420308:-80.371879:319.723480:165.000000:10.000000:-1.000000:-1.000000:1384764633.511557",
+                "MODIFIED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "SERVER_MODIFIED_DATE":"2013-11-18 03:53:06",
+                "inspection_date":"2013-11-10",
+                "user_name":"Juan Almanza",
+                "observer_email":"jalmanza@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"Topcoat repair deck.",
+                "abnormality1":"no",
+                "comments":"There some debris in some areas..",
+                "picture_1":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_16227058715289d57433b44.jpg",
+                "picture_2":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_1285814105289d572a82e1.jpg",
+                "picture_3":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_651586155289d5737b39e.jpg",
+                "send_email":"yes",
+                "send_email_to":"bobrien@robinsonsolutions.com, imaldonado@robinsonsolutions.com, justina.mendoza@tmmc.ca, rick.bedi@tmmc.ca",
+                "time_of_observation":"Sun Nov 10 2013 17:33:04 GMT-0500 (EST)",
+                "equipmentarea_type":"underdecking"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.420308,
+                    -80.371879
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"56",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2013-11-10 17:32:44",
+                "CREATED_BY":"jalmanza",
+                "CREATED_LOCATION":"43.420300:-80.371820:315.546204:165.000000:10.000000:-1.000000:-1.000000:1384122764.325764",
+                "CREATED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "MODIFIED_DATE":"2013-11-10 17:32:45",
+                "MODIFIED_BY":"jalmanza",
+                "MODIFIED_LOCATION":"43.420300:-80.371820:315.546204:165.000000:10.000000:-1.000000:-1.000000:1384122764.325764",
+                "MODIFIED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "SERVER_MODIFIED_DATE":"2013-11-10 17:34:59",
+                "inspection_date":"2013-11-10",
+                "user_name":"Juan Almanza",
+                "observer_email":"jalmanza@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"Test",
+                "abnormality1":"no",
+                "comments":"Testing",
+                "picture_1":null,
+                "picture_2":null,
+                "picture_3":null,
+                "send_email":"no",
+                "send_email_to":"",
+                "time_of_observation":"Sun Nov 10 2013 17:31:40 GMT-0500 (EST)",
+                "equipmentarea_type":"oven"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.4203,
+                    -80.37182
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"53",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2013-11-10 03:26:42",
+                "CREATED_BY":"jalmanza",
+                "CREATED_LOCATION":"43.420396:-80.370801:318.882416:65.000000:10.000000:-1.000000:-1.000000:1384072002.442047",
+                "CREATED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "MODIFIED_DATE":"2013-11-10 03:28:45",
+                "MODIFIED_BY":"jalmanza",
+                "MODIFIED_LOCATION":"43.420670:-80.369853:314.427765:65.000000:11.586956:-1.000000:-1.000000:1384072122.807061",
+                "MODIFIED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "SERVER_MODIFIED_DATE":"2013-11-10 06:21:53",
+                "inspection_date":"2013-11-10",
+                "user_name":"Juan Almanza",
+                "observer_email":"jalmanza@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"Old blackout tape",
+                "abnormality1":"no",
+                "comments":"Line is bad need to be clean",
+                "picture_1":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_2071334515527f6c5151292.jpg",
+                "picture_2":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_821816594527f6c5228297.jpg",
+                "picture_3":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_1218823846527f6c52ebdec.jpg",
+                "send_email":"no",
+                "send_email_to":"",
+                "time_of_observation":"Sun Nov 10 2013 03:23:58 GMT-0500 (EST)",
+                "equipmentarea_type":"underdecking"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.42067,
+                    -80.369853
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"50",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2013-11-10 03:20:31",
+                "CREATED_BY":"jalmanza",
+                "CREATED_LOCATION":"43.420452:-80.370592:317.714661:65.000000:10.000000:-1.000000:-1.000000:1384071629.933579",
+                "CREATED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "MODIFIED_DATE":"2013-11-10 03:21:02",
+                "MODIFIED_BY":"jalmanza",
+                "MODIFIED_LOCATION":"43.420452:-80.370592:317.714661:65.000000:10.000000:-1.000000:-1.000000:1384071629.933579",
+                "MODIFIED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "SERVER_MODIFIED_DATE":"2013-11-10 03:26:07",
+                "inspection_date":"2013-11-09",
+                "user_name":"Juan Almanza",
+                "observer_email":"jalmanza@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"Cavitywax/ under decking",
+                "abnormality1":"yes",
+                "comments":"Very light dust from traverser.line in the booth my need to be clean..",
+                "picture_1":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_2069906879527f43207d07d.jpg",
+                "picture_2":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_1190919708527f431f2fbdb.jpg",
+                "picture_3":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_1179453386527f431fd01d8.jpg",
+                "send_email":"yes",
+                "send_email_to":"bobrien@robinsonsolutions.com, imaldonado@robinsonsolutions.com, justina.mendoza@tmmc.ca, rick.bedi@tmmc.ca",
+                "time_of_observation":"Sun Nov 10 2013 03:12:14 GMT-0500 (EST)",
+                "equipmentarea_type":"underdecking"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.420452,
+                    -80.370592
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"47",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2013-11-10 03:06:17",
+                "CREATED_BY":"jalmanza",
+                "CREATED_LOCATION":"43.420359:-80.371162:311.000092:65.000000:14.472179:-1.000000:-1.000000:1384070777.027312",
+                "CREATED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "MODIFIED_DATE":"2013-11-10 03:09:57",
+                "MODIFIED_BY":"jalmanza",
+                "MODIFIED_LOCATION":"43.420407:-80.370555:319.246246:65.000000:10.000000:-1.000000:-1.000000:1384070994.812764",
+                "MODIFIED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "SERVER_MODIFIED_DATE":"2013-11-10 03:16:30",
+                "inspection_date":"2013-11-09",
+                "user_name":"Juan Almanza",
+                "observer_email":"jalmanza@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"Blackout/ under decking",
+                "abnormality1":"no",
+                "comments":"Very light dust at booth entrance ..",
+                "picture_1":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_1403045579527f40e01ef36.jpg",
+                "picture_2":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_1948969928527f40de57598.jpg",
+                "picture_3":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_1001434812527f40df12a5a.jpg",
+                "send_email":"yes",
+                "send_email_to":"bobrien@robinsonsolutions.com, imaldonado@robinsonsolutions.com, justina.mendoza@tmmc.ca, rick.bedi@tmmc.ca",
+                "time_of_observation":"Sun Nov 10 2013 03:01:01 GMT-0500 (EST)",
+                "equipmentarea_type":"deck"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.420407,
+                    -80.370555
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"44",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2013-10-31 12:47:53",
+                "CREATED_BY":"jalmanza",
+                "CREATED_LOCATION":"43.420316:-80.372556:317.821228:65.000000:11.604746:-1.000000:-1.000000:1383238070.243853",
+                "CREATED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "MODIFIED_DATE":"2013-10-31 12:47:53",
+                "MODIFIED_BY":"jalmanza",
+                "MODIFIED_LOCATION":"43.420316:-80.372556:317.821228:65.000000:11.604746:-1.000000:-1.000000:1383238070.243853",
+                "MODIFIED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "SERVER_MODIFIED_DATE":"2013-10-31 12:53:19",
+                "inspection_date":"2013-10-27",
+                "user_name":"Juan Almanza",
+                "observer_email":"jalmanza@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"Seler slot line",
+                "abnormality1":"yes",
+                "comments":"Job was completed",
+                "picture_1":null,
+                "picture_2":null,
+                "picture_3":null,
+                "send_email":"no",
+                "send_email_to":"",
+                "time_of_observation":"Thu Oct 31 2013 12:45:42 GMT-0400 (EDT)",
+                "equipmentarea_type":"underdecking"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.420316,
+                    -80.372556
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"41",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2013-09-29 22:32:04",
+                "CREATED_BY":"agaukel",
+                "CREATED_LOCATION":"43.420327:-80.371275:313.385010:65.000000:12.299151:-1.000000:-1.000000:1380508323.192026",
+                "CREATED_DEVICE_ID":"c2a7edde9d04f7ca37c962523f4b77f7ade5395b",
+                "MODIFIED_DATE":"2013-09-29 22:32:05",
+                "MODIFIED_BY":"agaukel",
+                "MODIFIED_LOCATION":"43.420327:-80.371275:313.385010:65.000000:12.299151:-1.000000:-1.000000:1380508323.192026",
+                "MODIFIED_DEVICE_ID":"c2a7edde9d04f7ca37c962523f4b77f7ade5395b",
+                "SERVER_MODIFIED_DATE":null,
+                "inspection_date":"2013-09-29",
+                "user_name":"Alan Gaukel",
+                "observer_email":"agaukel@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"E-coat sanding off line",
+                "abnormality1":"no",
+                "comments":"Area look clean",
+                "picture_1":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_18984826245248e585df88b.jpg",
+                "picture_2":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_18054238375248e58334d68.jpg",
+                "picture_3":null,
+                "send_email":"yes",
+                "send_email_to":"bobrien@robinsonsolutions.com, agaukel@robinsonsolutions.com, imaldonado@robinsonsolutions.com",
+                "time_of_observation":"Sun Sep 29 2013 22:27:53 GMT-0400 (EDT)",
+                "equipmentarea_type":"underdecking"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.420327,
+                    -80.371275
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"38",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2013-09-29 22:26:53",
+                "CREATED_BY":"agaukel",
+                "CREATED_LOCATION":"43.420305:-80.371585:315.142853:65.000000:11.638827:-1.000000:-1.000000:1380508011.122153",
+                "CREATED_DEVICE_ID":"c2a7edde9d04f7ca37c962523f4b77f7ade5395b",
+                "MODIFIED_DATE":"2013-09-29 22:27:42",
+                "MODIFIED_BY":"agaukel",
+                "MODIFIED_LOCATION":"43.420272:-80.371559:315.576965:65.000000:13.350828:-1.000000:-1.000000:1380508058.867851",
+                "MODIFIED_DEVICE_ID":"c2a7edde9d04f7ca37c962523f4b77f7ade5395b",
+                "SERVER_MODIFIED_DATE":null,
+                "inspection_date":"2013-09-29",
+                "user_name":"Alan Gaukel",
+                "observer_email":"agaukel@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"E-coat sanding deck",
+                "abnormality1":"no",
+                "comments":"Area look clean",
+                "picture_1":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_2968694725248e57d98032.jpg",
+                "picture_2":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_11516793755248e57c7042a.jpg",
+                "picture_3":null,
+                "send_email":"yes",
+                "send_email_to":"bobrien@robinsonsolutions.com, agaukel@robinsonsolutions.com, imaldonado@robinsonsolutions.com",
+                "time_of_observation":"Sun Sep 29 2013 22:22:13 GMT-0400 (EDT)",
+                "equipmentarea_type":"underdecking"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.420272,
+                    -80.371559
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"35",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2013-08-26 14:09:54",
+                "CREATED_BY":"ydesta",
+                "CREATED_LOCATION":"43.420330:-80.372037:319.223969:65.613207:10.000000:-1.000000:-1.000000:1377540583.915268",
+                "CREATED_DEVICE_ID":"c2a7edde9d04f7ca37c962523f4b77f7ade5395b",
+                "MODIFIED_DATE":"2013-09-12 14:16:48",
+                "MODIFIED_BY":"ydesta",
+                "MODIFIED_LOCATION":"43.420319:-80.372082:319.413788:65.000000:10.000000:-1.000000:-1.000000:1379009795.842439",
+                "MODIFIED_DEVICE_ID":"c2a7edde9d04f7ca37c962523f4b77f7ade5395b",
+                "SERVER_MODIFIED_DATE":null,
+                "inspection_date":"2013-08-26",
+                "user_name":"Yeshihareg Desta",
+                "observer_email":"ydesta@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"T/B booth",
+                "abnormality1":"no",
+                "comments":null,
+                "picture_1":null,
+                "picture_2":null,
+                "picture_3":null,
+                "send_email":"no",
+                "send_email_to":"",
+                "time_of_observation":"Mon Aug 26 2013 14:06:30 GMT-0400 (EDT)",
+                "equipmentarea_type":"booth"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.420319,
+                    -80.372082
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"32",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2013-08-17 00:44:37",
+                "CREATED_BY":"jalmanza",
+                "CREATED_LOCATION":"43.403102:-80.346598:286.000000:5.000000:6.000000:0.000000:323.085938:1376714368.563807",
+                "CREATED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "MODIFIED_DATE":"2013-08-17 00:44:37",
+                "MODIFIED_BY":"jalmanza",
+                "MODIFIED_LOCATION":"43.403102:-80.346598:286.000000:5.000000:6.000000:0.000000:323.085938:1376714368.563807",
+                "MODIFIED_DEVICE_ID":"4e4ae6db9af64a1fdea0d81c713246b5d01d02e6",
+                "SERVER_MODIFIED_DATE":null,
+                "inspection_date":null,
+                "user_name":null,
+                "observer_email":null,
+                "site":"oshawa",
+                "plant":"stamping",
+                "deck__area":null,
+                "abnormality1":"no",
+                "comments":null,
+                "picture_1":null,
+                "picture_2":null,
+                "picture_3":null,
+                "send_email":"no",
+                "send_email_to":"",
+                "time_of_observation":"Sat Aug 17 2013 00:36:01 GMT-0400 (EDT)",
+                "equipmentarea_type":null
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.403102,
+                    -80.346598
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"29",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2013-08-02 08:53:57",
+                "CREATED_BY":"test11",
+                "CREATED_LOCATION":"39.355505:-84.345436:275.000000:10.000000:12.000000:0.000000:-1.000000:1375448031.957790",
+                "CREATED_DEVICE_ID":"fd49c5428277b4faa2c698f7b097369769e42b11",
+                "MODIFIED_DATE":"2013-08-02 08:54:00",
+                "MODIFIED_BY":"test11",
+                "MODIFIED_LOCATION":"39.355505:-84.345436:275.000000:10.000000:12.000000:0.000000:-1.000000:1375448031.957790",
+                "MODIFIED_DEVICE_ID":"fd49c5428277b4faa2c698f7b097369769e42b11",
+                "SERVER_MODIFIED_DATE":null,
+                "inspection_date":"2013-08-02",
+                "user_name":"test11 user",
+                "observer_email":"imaldonado@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"Ecoat production deck",
+                "abnormality1":"no",
+                "comments":"Under decking is clean",
+                "picture_1":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_26528211651fbac7992537.jpg",
+                "picture_2":"https://7f3bb28ce7a05c89765e-458f438ab93fcbdf0da247cf86f9bed0.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_77318551251fbac79143b3.jpg",
+                "picture_3":null,
+                "send_email":"no",
+                "send_email_to":"",
+                "time_of_observation":"Fri Aug 02 2013 08:49:00 GMT-0400 (EDT)",
+                "equipmentarea_type":"underdecking"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    39.355505,
+                    -84.345436
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"26",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2013-06-17 14:41:01",
+                "CREATED_BY":"imaldonado",
+                "CREATED_LOCATION":"39.355500:-84.345579:266.000000:5.000000:6.000000:0.000000:-1.000000:1371494458.596876",
+                "CREATED_DEVICE_ID":"bc3e36157a70cf7fcb16e4fdeeaaa8139f026238",
+                "MODIFIED_DATE":"2013-06-17 14:41:04",
+                "MODIFIED_BY":"imaldonado",
+                "MODIFIED_LOCATION":"39.355500:-84.345579:266.000000:5.000000:6.000000:0.000000:-1.000000:1371494458.596876",
+                "MODIFIED_DEVICE_ID":"bc3e36157a70cf7fcb16e4fdeeaaa8139f026238",
+                "SERVER_MODIFIED_DATE":null,
+                "inspection_date":"2013-06-17",
+                "user_name":"Ivan Maldonado",
+                "observer_email":"imaldonado@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"Ecoat sand",
+                "abnormality1":"no",
+                "comments":null,
+                "picture_1":"https://robinson.iformbuilder.com/exzact/media/robinson/12469/_data12469_equipmentarea_inspection_v1/field_166338655251bf58ad23d24.jpg",
+                "picture_2":null,
+                "picture_3":null,
+                "send_email":"no",
+                "send_email_to":"",
+                "time_of_observation":"Mon Jun 17 2013 14:39:42 GMT-0400 (EDT)",
+                "equipmentarea_type":"underdecking"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    39.3555,
+                    -84.345579
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"24",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2013-05-03 09:15:01",
+                "CREATED_BY":"test11",
+                "CREATED_LOCATION":"43.420308:-80.373113:317.303253:173.885132:10.000000:-1.000000:-1.000000:1367586900.956917",
+                "CREATED_DEVICE_ID":"bc3e36157a70cf7fcb16e4fdeeaaa8139f026238",
+                "MODIFIED_DATE":"2013-05-03 09:15:03",
+                "MODIFIED_BY":"test11",
+                "MODIFIED_LOCATION":"43.420308:-80.373113:317.303253:173.885132:10.000000:-1.000000:-1.000000:1367586900.956917",
+                "MODIFIED_DEVICE_ID":"bc3e36157a70cf7fcb16e4fdeeaaa8139f026238",
+                "SERVER_MODIFIED_DATE":null,
+                "inspection_date":"2013-05-03",
+                "user_name":"test11 user",
+                "observer_email":"imaldonado@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"TC A",
+                "abnormality1":"no",
+                "comments":"All ok",
+                "picture_1":"https://c13056850.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_18854428635183b8a0cc67e.jpg",
+                "picture_2":null,
+                "picture_3":null,
+                "send_email":"yes",
+                "send_email_to":"imaldonado@robinsonsolutions.com",
+                "time_of_observation":"Fri May 03 2013 09:13:38 GMT-0400 (EDT)",
+                "equipmentarea_type":"oven"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.420308,
+                    -80.373113
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"21",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2013-05-03 09:05:32",
+                "CREATED_BY":"test11",
+                "CREATED_LOCATION":"43.420410:-80.373233:315.257111:165.000000:10.000000:-1.000000:-1.000000:1367586328.283263",
+                "CREATED_DEVICE_ID":"bc3e36157a70cf7fcb16e4fdeeaaa8139f026238",
+                "MODIFIED_DATE":"2013-05-03 09:05:34",
+                "MODIFIED_BY":"test11",
+                "MODIFIED_LOCATION":"43.420410:-80.373233:315.257111:165.000000:10.000000:-1.000000:-1.000000:1367586328.283263",
+                "MODIFIED_DEVICE_ID":"bc3e36157a70cf7fcb16e4fdeeaaa8139f026238",
+                "SERVER_MODIFIED_DATE":null,
+                "inspection_date":"2013-05-03",
+                "user_name":"test11 user",
+                "observer_email":"imaldonado@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"Entrance to ecoat repair booth",
+                "abnormality1":"no",
+                "comments":null,
+                "picture_1":"https://c13056850.ssl.cf2.rackcdn.com/robinson/12469/_data12469_equipmentarea_inspection_v1/field_11497444015183b667d5e0d.jpg",
+                "picture_2":null,
+                "picture_3":null,
+                "send_email":"yes",
+                "send_email_to":"rcotton@robinsonsolutions.com",
+                "time_of_observation":"Fri May 03 2013 09:03:28 GMT-0400 (EDT)",
+                "equipmentarea_type":"underdecking"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.42041,
+                    -80.373233
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"18",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2013-05-03 08:54:34",
+                "CREATED_BY":"imaldonado",
+                "CREATED_LOCATION":"43.420409:-80.373241:315.363281:165.000000:10.000000:-1.000000:-1.000000:1367585672.100722",
+                "CREATED_DEVICE_ID":"bc3e36157a70cf7fcb16e4fdeeaaa8139f026238",
+                "MODIFIED_DATE":"2013-05-03 08:54:37",
+                "MODIFIED_BY":"imaldonado",
+                "MODIFIED_LOCATION":"43.420409:-80.373241:315.363281:165.000000:10.000000:-1.000000:-1.000000:1367585672.100722",
+                "MODIFIED_DEVICE_ID":"bc3e36157a70cf7fcb16e4fdeeaaa8139f026238",
+                "SERVER_MODIFIED_DATE":null,
+                "inspection_date":"2013-05-03",
+                "user_name":"Ivan Maldonado",
+                "observer_email":"imaldonado@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"Primer Oven",
+                "abnormality1":"no",
+                "comments":"Field for observations:\nYou can write\nSeveral lines of text",
+                "picture_1":"https://c13056850.ssl.cf2.rackcdn.com/robinson/12469/_data12469_underdecking_inspection_v1/field_4349254795183b45009b5f.jpg",
+                "picture_2":"https://c13056850.ssl.cf2.rackcdn.com/robinson/12469/_data12469_underdecking_inspection_v1/field_5552770235183b44f87ec5.jpg",
+                "picture_3":null,
+                "send_email":"yes",
+                "send_email_to":"bobrien@robinsonsolutions.com, rcotton@robinsonsolutions.com",
+                "time_of_observation":"Fri May 03 2013 08:51:59 GMT-0400 (EDT)",
+                "equipmentarea_type":"oven"
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.420409,
+                    -80.373241
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"15",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2013-04-17 11:23:30",
+                "CREATED_BY":"test11",
+                "CREATED_LOCATION":"43.419755:-80.372293:317.897003:234.436696:10.000000:-1.000000:-1.000000:1366212209.563370",
+                "CREATED_DEVICE_ID":"bc3e36157a70cf7fcb16e4fdeeaaa8139f026238",
+                "MODIFIED_DATE":"2013-04-17 11:23:32",
+                "MODIFIED_BY":"test11",
+                "MODIFIED_LOCATION":"43.419755:-80.372293:317.897003:234.436696:10.000000:-1.000000:-1.000000:1366212209.563370",
+                "MODIFIED_DEVICE_ID":"bc3e36157a70cf7fcb16e4fdeeaaa8139f026238",
+                "SERVER_MODIFIED_DATE":null,
+                "inspection_date":"2013-04-17",
+                "user_name":"test11 user",
+                "observer_email":"imaldonado@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"Blackout exit traverse",
+                "abnormality1":"yes",
+                "comments":"Significant accumulation of blackout / dirt",
+                "picture_1":"https://c13056850.ssl.cf2.rackcdn.com/robinson/12469/_data12469_underdecking_inspection_v1/field_1680768828516ebeb78189a.jpg",
+                "picture_2":null,
+                "picture_3":null,
+                "send_email":"yes",
+                "send_email_to":"rcotton@robinsonsolutions.com, imaldonado@robinsonsolutions.com",
+                "time_of_observation":"Wed Apr 17 2013 11:21:55 GMT-0400 (EDT)",
+                "equipmentarea_type":null
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.419755,
+                    -80.372293
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"12",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2013-04-17 11:20:34",
+                "CREATED_BY":"imaldonado",
+                "CREATED_LOCATION":"43.420449:-80.373200:315.171021:165.000000:10.000000:-1.000000:-1.000000:1366212030.684411",
+                "CREATED_DEVICE_ID":"bc3e36157a70cf7fcb16e4fdeeaaa8139f026238",
+                "MODIFIED_DATE":"2013-04-17 11:20:36",
+                "MODIFIED_BY":"imaldonado",
+                "MODIFIED_LOCATION":"43.420449:-80.373200:315.171021:165.000000:10.000000:-1.000000:-1.000000:1366212030.684411",
+                "MODIFIED_DEVICE_ID":"bc3e36157a70cf7fcb16e4fdeeaaa8139f026238",
+                "SERVER_MODIFIED_DATE":null,
+                "inspection_date":"2013-04-17",
+                "user_name":"Ivan Maldonado",
+                "observer_email":"imaldonado@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"Blackout exit deck",
+                "abnormality1":"yes",
+                "comments":"Significant accumulation of blackout/dirt.",
+                "picture_1":"https://c13056850.ssl.cf2.rackcdn.com/robinson/12469/_data12469_underdecking_inspection_v1/field_1833920365516ebe04f244f.jpg",
+                "picture_2":null,
+                "picture_3":null,
+                "send_email":"no",
+                "send_email_to":null,
+                "time_of_observation":"Wed Apr 17 2013 11:19:08 GMT-0400 (EDT)",
+                "equipmentarea_type":null
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.420449,
+                    -80.3732
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"9",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2013-04-17 11:07:34",
+                "CREATED_BY":"test11",
+                "CREATED_LOCATION":"43.420434:-80.373182:314.900208:165.000000:10.000000:-1.000000:-1.000000:1366211254.043777",
+                "CREATED_DEVICE_ID":"bc3e36157a70cf7fcb16e4fdeeaaa8139f026238",
+                "MODIFIED_DATE":"2013-04-17 11:07:36",
+                "MODIFIED_BY":"test11",
+                "MODIFIED_LOCATION":"43.420434:-80.373182:314.900208:165.000000:10.000000:-1.000000:-1.000000:1366211254.043777",
+                "MODIFIED_DEVICE_ID":"bc3e36157a70cf7fcb16e4fdeeaaa8139f026238",
+                "SERVER_MODIFIED_DATE":null,
+                "inspection_date":"2013-04-17",
+                "user_name":"test11 user",
+                "observer_email":"imaldonado@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"Deck name",
+                "abnormality1":"no",
+                "comments":"Free text box",
+                "picture_1":"https://c13056850.ssl.cf2.rackcdn.com/robinson/12469/_data12469_underdecking_inspection_v1/field_42124611516ebafe3340a.jpg",
+                "picture_2":null,
+                "picture_3":null,
+                "send_email":"no",
+                "send_email_to":null,
+                "time_of_observation":"Wed Apr 17 2013 11:06:42 GMT-0400 (EDT)",
+                "equipmentarea_type":null
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.420434,
+                    -80.373182
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"6",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2013-04-17 10:55:33",
+                "CREATED_BY":"imaldonado",
+                "CREATED_LOCATION":"43.420454:-80.373207:314.222717:165.000000:10.000000:-1.000000:-1.000000:1366210533.327935",
+                "CREATED_DEVICE_ID":"bc3e36157a70cf7fcb16e4fdeeaaa8139f026238",
+                "MODIFIED_DATE":"2013-04-17 10:55:36",
+                "MODIFIED_BY":"imaldonado",
+                "MODIFIED_LOCATION":"43.420454:-80.373207:314.222717:165.000000:10.000000:-1.000000:-1.000000:1366210533.327935",
+                "MODIFIED_DEVICE_ID":"bc3e36157a70cf7fcb16e4fdeeaaa8139f026238",
+                "SERVER_MODIFIED_DATE":null,
+                "inspection_date":"2013-04-17",
+                "user_name":"Ivan Maldonado",
+                "observer_email":"imaldonado@robinsonsolutions.com",
+                "site":"cambridge",
+                "plant":"north_paint",
+                "deck__area":"Traverse sealer exit",
+                "abnormality1":"no",
+                "comments":null,
+                "picture_1":"https://c13056850.ssl.cf2.rackcdn.com/robinson/12469/_data12469_underdecking_inspection_v1/field_1659018699516eb830e7338.jpg",
+                "picture_2":"https://c13056850.ssl.cf2.rackcdn.com/robinson/12469/_data12469_underdecking_inspection_v1/field_1170868761516eb8306df67.jpg",
+                "picture_3":null,
+                "send_email":"yes",
+                "send_email_to":"imaldonado@robinsonsolutions.com",
+                "time_of_observation":"Wed Apr 17 2013 10:52:22 GMT-0400 (EDT)",
+                "equipmentarea_type":null
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.420454,
+                    -80.373207
+                ]
+            }
+        }
+    ],
+    [  
+        {  
+            "record":{  
+                "ID":"3",
+                "PARENT_RECORD_ID":"0",
+                "PARENT_PAGE_ID":"0",
+                "PARENT_ELEMENT_ID":"0",
+                "CREATED_DATE":"2013-04-17 10:47:25",
+                "CREATED_BY":"imaldonado",
+                "CREATED_LOCATION":"43.419745:-80.372305:317.321167:263.220301:10.000000:-1.000000:-1.000000:1366210035.378073",
+                "CREATED_DEVICE_ID":"bc3e36157a70cf7fcb16e4fdeeaaa8139f026238",
+                "MODIFIED_DATE":"2013-04-17 10:47:27",
+                "MODIFIED_BY":"imaldonado",
+                "MODIFIED_LOCATION":"43.419745:-80.372305:317.321167:263.220301:10.000000:-1.000000:-1.000000:1366210035.378073",
+                "MODIFIED_DEVICE_ID":"bc3e36157a70cf7fcb16e4fdeeaaa8139f026238",
+                "SERVER_MODIFIED_DATE":null,
+                "inspection_date":"2013-04-17",
+                "user_name":"Ivan Maldonado",
+                "observer_email":"imaldonado@robinsonsolutions.com",
+                "site":"oshawa",
+                "plant":null,
+                "deck__area":"Sealer exit traverse",
+                "abnormality1":"no",
+                "comments":null,
+                "picture_1":"https://c13056850.ssl.cf2.rackcdn.com/robinson/12469/_data12469_underdecking_inspection_v1/field_697703170516eb64188035.jpg",
+                "picture_2":null,
+                "picture_3":null,
+                "send_email":"no",
+                "send_email_to":"",
+                "time_of_observation":"Wed Apr 17 2013 10:46:19 GMT-0400 (EDT)",
+                "equipmentarea_type":null
+            },
+            "location":{  
+                "type":"point",
+                "coordinate":[  
+                    43.419745,
+                    -80.372305
+                ]
+            }
+        }
+    ]
+]

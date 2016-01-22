@@ -1,0 +1,135 @@
+require 'spec_helper'
+
+describe Security::Permission do
+  describe "factories" do
+    it "has a valid base factory" do
+      expect(build(:permission)).to be_valid
+    end
+    it "has a valid read factory" do
+      expect(build(:read_permission)).to be_valid
+    end
+    it "has a valid edit factory" do
+      expect(build(:edit_permission)).to be_valid
+    end
+  end
+  
+  describe "user attribute" do
+    it "cannot be nil" do
+      expect(build(:permission, user: nil)).to_not be_valid
+    end
+  end
+  
+  describe "category attribute" do
+    it "cannot be nil" do
+      expect(build(:permission, category: nil)).to_not be_valid
+    end
+    it "can be 'Forms'" do
+      expect(build(:permission, category: 'Forms')).to be_valid
+    end
+    it "can be 'DataSources'" do
+      expect(build(:permission, category: 'DataSources')).to be_valid
+    end
+    it "cannot be some other text" do
+      expect(build(:permission, category: "test")).to_not be_valid
+    end
+  end
+  
+  describe "subject attribute" do
+    it "cannot be nil" do
+      expect(build(:permission, subject: nil)).to_not be_valid
+    end
+    it "cannot be blank" do
+      expect(build(:permission, subject: "")).to_not be_valid
+    end
+  end
+  
+  describe "action attribute" do
+    it "can be nil" do
+      expect(build(:permission, action: nil)).to be_valid
+    end
+    it "can be 'read'" do
+      expect(build(:permission, action: "read")).to be_valid
+    end
+    it "can be 'edit'" do
+      expect(build(:permission, action: "edit")).to be_valid
+    end
+    it "cannot be some other text" do
+      expect(build(:permission, action: "test")).to_not be_valid
+    end
+  end
+  
+  describe "subject_class" do
+    it "returns the category and subject joined by double colon" do
+      expect(build(:permission, category: "Forms", subject: "RestroomChecklist").subject_class).to eq("Forms::RestroomChecklist")
+    end
+  end
+  
+  describe "action_symbol" do
+    it "returns nil when action is nil" do
+      expect(build(:permission, action: nil).action_symbol).to be_nil
+    end
+    it "returns :read when action is 'read'" do
+      expect(build(:read_permission).action_symbol).to eq(:read)
+    end
+    it "returns :edit when action is 'edit'" do
+      expect(build(:edit_permission).action_symbol).to eq(:manage)
+    end
+  end
+  
+  it "scopes 'forms' and 'datasourcs' work correctly" do
+    form_permission = create(:permission, category: "Forms")
+    datasource_permission = create(:permission, category: "DataSources")
+    
+    expect(Security::Permission.forms).to eq([ form_permission ])
+    expect(Security::Permission.datasources).to eq([ datasource_permission ])
+  end
+  
+  describe "specific permission" do
+    it "is invalid if an ALL permission for the same category exists" do
+      all_permission = create(:permission, subject: "ALL")
+      expect(all_permission).to be_valid
+      
+      expect(build(:permission, user_id: all_permission.user.id, category: all_permission.category)).to_not be_valid
+    end
+  end
+  
+  describe "creating an ALL permission" do
+    let!(:user1) { create(:user) }
+    let!(:user2) { create(:user) }
+    let!(:specific1a) { create(:permission, user_id: user1.id, category: "Forms") }
+    let!(:specific1b) { create(:permission, user_id: user1.id, category: "DataSources") }
+    let!(:specific2) { create(:permission, user_id: user2.id, category: "Forms") }
+    
+    before(:each) do
+      [ user1, user2 ].map { |x| x.reload }
+      expect(user1.permissions.size).to eq(2)
+      expect(user1.permissions).to include(specific1a)
+      expect(user1.permissions).to include(specific1b)
+      
+      expect(user2.permissions).to eq([specific2])
+    end
+    
+    let(:all_permission) { build(:permission, user_id: specific1a.user.id, category: specific1a.category, subject: "ALL", action: specific1a.action) }
+    
+    it "deletes the user's specific permissions for the same category" do
+      # create an ALL permission for user1 for the same category as their current permission
+      all_permission.save
+      user1.reload
+      expect(user1.permissions).to_not include(specific1a)
+    end
+    
+    it "does not affect permissions from other categories" do
+      # create an ALL permission for user1 for the same category as their current permission
+      all_permission.save
+      user1.reload
+      expect(user1.permissions).to include(specific1b)
+    end
+    
+    it "does not affect other users" do
+      # create an ALL permission for user1 for the same category as their current permission
+      all_permission.save
+      user2.reload
+      expect(user2.permissions).to eq([specific2])
+    end
+  end
+end

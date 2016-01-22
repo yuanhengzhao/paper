@@ -1,0 +1,80 @@
+# Jkk Audit's model
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user
+# - version (string) - current version of the form
+# - altitude (decimal(20,20)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,20)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,20)) - longitude of the user's location when submitted the form
+# - created_at
+# - updated_at
+# 
+# - audit_time (date)
+# - site (string)
+# - shop (string)
+# - shift (string)
+# - job_name (string)
+# - job_number (string)
+# - location (string)
+# - frequency (string)
+# - form_identifier (string)
+# - hazards_identified (string)
+# - hazards_identified_comments (text)
+# - hazards_aware (string)
+# - hazards_aware_comments (text)
+# - ppe_specified (string)
+# - ppe_specified_comments (text)
+# - ppe_properly (string)
+# - ppe_properly_comments (text)
+# - lockout_identified (string)
+# - lockout_identified_comments (text)
+# - lockout_performed (string)
+# - lockout_performed_comments (text)
+# - trained (string)
+# - trained_comments (text)
+# - steps (string)
+# - steps_comments (text)
+# - sequential (string) 
+# - sequential_comments (text)
+# - requirements (string)
+# - requirements_comments (text)
+# - approved (string)
+# - approved_comments (text)
+# - five_s (string)
+# - five_s_comments (text)
+# - standardized_work_good_total (integer)
+# - standardized_work_no_good_total (integer)
+# - standardized_work_percentage (decimal)
+# - equipment_present (string)
+# - equipment_present_comments (text)
+# - equipment_adequate (string)
+# - equipment_adequate_comments (text)
+# - equipment_safe (string)
+# - equipment_safe_comments (text)
+# - equipment_good (string)
+# - equipment_good_comments (text) 
+# - lighting (string)
+# - lighting_comments (text)
+# - plan (string)
+# - plan_comments (text)
+# - energy (string) 
+# - energy_comments (text)
+# - temperature (string)
+# - temperature_comments (text)
+# - necessary_conditions_good_total (integer)
+# - necessary_conditions_no_good_total (integer)
+# - necessary_conditions_percentage (decimal)
+# - jkk_ratio (decimal)
+# - time_scheduled_hours (decimal)
+# - time_studied (decimal)
+# - notes (text)
+
+class Forms::JkkAudit < ActiveRecord::Base
+  
+  include HasSubmission
+  include Reparseable
+end

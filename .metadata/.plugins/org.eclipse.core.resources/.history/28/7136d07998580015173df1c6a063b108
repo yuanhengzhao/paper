@@ -1,0 +1,95 @@
+class Forms::PaintBoothProcessChecklistsController < ApplicationController
+  
+  FORM_NAME = "paint booth process checklists"
+  
+  include DatatableServerSideProcessing
+  include XlsxReportProcessing
+  
+  before_action :authenticate_user!
+  
+  load_and_authorize_resource :except => [:image1, :update_export, :download_export, :submission]
+  
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  
+  add_breadcrumb "forms", :forms_index_path
+  add_breadcrumb "paint booth process checklists", :forms_paint_booth_process_checklists_path
+  
+  DATATABLES_COLUMNS = [ "id", "username", "device_submit_date" ]
+  
+  def index
+    # @paint_booth_process_checklists is automatically loaded
+  end
+
+  def show
+    # @paint_booth_process_checklist is automatically loaded
+    add_breadcrumb "paint booth process checklist #{@paint_booth_process_checklist.id}", :forms_paint_booth_process_checklist_path
+  end
+  
+  # Overwrites the model's existing properties with the contents of the original submission document attached.
+  def reparse
+    # @paint_booth_process_checklist is automatically loaded
+    result = @paint_booth_process_checklist.reparse
+    # render the show action associated with the result object
+    render action: 'show', location: result
+  end
+  
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html { redirect_to forms_paint_booth_process_checklists_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS
+        }
+        
+        # call concern function using collection of all records the user has access to
+        @paint_booth_process_checklists = Forms::PaintBoothProcessChecklist.accessible_by(current_ability)
+        render :json => datatable_data(@paint_booth_process_checklists, params, options)
+      }
+    end
+  end
+
+  def update_export
+    authorize! :read, Forms::PaintBoothProcessChecklist
+    
+    begin
+      raise "No data in this form."  if Forms::PaintBoothProcessChecklist.all.count == 0
+      @export = generate_xlsx(Forms::PaintBoothProcessChecklist, FORM_NAME, Forms::PaintBoothProcessChecklist.maximum("updated_at"))
+      respond_to do |format|
+        format.json { render :json => @export, status: :ok  }
+      end
+    rescue => e
+      respond_to do |format|
+        format.json { render text:e.message, status: :not_acceptable }
+      end
+    end  
+  end
+
+  def download_export
+    authorize! :read, Forms::PaintBoothProcessChecklist
+    @export = Report::FormExport.find_by(form_name: FORM_NAME)
+    redirect_to(@export.attachment.expiring_url(10))
+  end
+
+  def image1
+    authorize! :read, Forms::PaintBoothProcessChecklist
+    @paint_booth_process_checklist = Forms::PaintBoothProcessChecklist.find(params[:id])
+    authorize! :read, @paint_booth_process_checklist
+    redirect_to(@paint_booth_process_checklist.image1.expiring_url(10))
+  end
+  
+  def submission
+    authorize! :read, Forms::PaintBoothProcessChecklist
+    @paint_booth_process_checklist = Forms::PaintBoothProcessChecklist.find(params[:id])
+    authorize! :read, @paint_booth_process_checklist
+    redirect_to(@paint_booth_process_checklist.submission.expiring_url(10))
+  end
+  
+  private
+  
+  def record_not_found(exception)
+    # redirect back to index if id not found
+    flash[:alert] = exception.message
+    redirect_to forms_paint_booth_process_checklists_path
+  end
+end

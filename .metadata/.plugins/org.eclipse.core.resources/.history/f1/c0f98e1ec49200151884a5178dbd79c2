@@ -1,0 +1,181 @@
+require 'spec_helper'
+
+
+describe Admin::ProntoForms::UserGroupsController, :type => :controller do
+
+  let(:valid_attributes) { { "name" => "MyString", "prontoforms_identifier" => 1 } }
+
+  shared_examples "an anonymous option request" do
+    it "should redirect to sign in page" do
+      subject
+      expect(response).to redirect_to(new_user_session_url)
+    end
+  end
+  
+  shared_examples "a valid user_group index request" do
+    it "assigns the requested user_group as @user_group" do
+       subject
+       expect(assigns(:user_groups)).to eq([user_group])
+    end
+  end
+  
+  shared_examples "a valid user_group show request" do
+    it "assigns the requested user_group as @user_group" do
+      subject
+      expect(assigns(:user_group)).to eq(user_group)
+    end
+  end
+
+  # This should return the minimal set of values that should be in the session
+  # in order to pass any filters (e.g. authentication) defined in
+  # Admin::ProntoForms::UserGroupsController. Be sure to keep this updated too.
+  let(:valid_create_attributes) {
+      { name: "Harry Potter", prontoforms_identifier: 9527 }
+    }
+    
+    let(:invalid_create_attributes) {
+      { name: nil, prontoforms_identifier: nil }
+    }
+    
+    let(:valid_update_attributes) {
+      { name: "Ross" }
+    }
+    
+    let(:invalid_update_attributes) {
+      { name: nil }
+    }
+    
+    # before(:each) do
+      # login_user(user) unless user.nil?
+    # end
+
+  describe "GET index" do
+      
+      it "should fail and redirect to root" do
+          get 'index'
+          response.should_not be_success
+          response.status.should eq(302)
+          response.should redirect_to(root_url)
+        end
+  end
+
+  describe "GET show" do
+    it "assigns the requested admin_pronto_form as @admin_pronto_form" do
+      user_group = Admin::ProntoForms::UserGroup.create! valid_attributes
+      get :show, {:id => user_group.to_param}, valid_session
+      assigns(:admin_pronto_form).should eq(user_group)
+    end
+  end
+
+  describe "GET new" do
+    it "assigns a new admin_pronto_form as @admin_pronto_form" do
+      get :new, {}, valid_session
+      assigns(:admin_pronto_form).should be_a_new(Admin::ProntoForms::UserGroup)
+    end
+  end
+
+  describe "GET edit" do
+    it "assigns the requested admin_pronto_form as @admin_pronto_form" do
+      user_group = Admin::ProntoForms::UserGroup.create! valid_attributes
+      get :edit, {:id => user_group.to_param}, valid_session
+      assigns(:admin_pronto_form).should eq(user_group)
+    end
+  end
+
+  describe "POST create" do
+    describe "with valid params" do
+      it "creates a new Admin::ProntoForms::UserGroup" do
+        expect {
+          post :create, {:admin_pronto_form => valid_attributes}, valid_session
+        }.to change(Admin::ProntoForms::UserGroup, :count).by(1)
+      end
+
+      it "assigns a newly created admin_pronto_form as @admin_pronto_form" do
+        post :create, {:admin_pronto_form => valid_attributes}, valid_session
+        assigns(:admin_pronto_form).should be_a(Admin::ProntoForms::UserGroup)
+        assigns(:admin_pronto_form).should be_persisted
+      end
+
+      it "redirects to the created admin_pronto_form" do
+        post :create, {:admin_pronto_form => valid_attributes}, valid_session
+        response.should redirect_to(Admin::ProntoForms::UserGroup.last)
+      end
+    end
+
+    describe "with invalid params" do
+      it "assigns a newly created but unsaved admin_pronto_form as @admin_pronto_form" do
+        # Trigger the behavior that occurs when invalid params are submitted
+        Admin::ProntoForms::UserGroup.any_instance.stub(:save).and_return(false)
+        post :create, {:admin_pronto_form => { "name" => "invalid value" }}, valid_session
+        assigns(:admin_pronto_form).should be_a_new(Admin::ProntoForms::UserGroup)
+      end
+
+      it "re-renders the 'new' template" do
+        # Trigger the behavior that occurs when invalid params are submitted
+        Admin::ProntoForms::UserGroup.any_instance.stub(:save).and_return(false)
+        post :create, {:admin_pronto_form => { "name" => "invalid value" }}, valid_session
+        response.should render_template("new")
+      end
+    end
+  end
+
+  describe "PUT update" do
+    describe "with valid params" do
+      it "updates the requested admin_pronto_form" do
+        user_group = Admin::ProntoForms::UserGroup.create! valid_attributes
+        # Assuming there are no other admin_pronto_forms_user_groups in the database, this
+        # specifies that the Admin::ProntoForms::UserGroup created on the previous line
+        # receives the :update_attributes message with whatever params are
+        # submitted in the request.
+        Admin::ProntoForms::UserGroup.any_instance.should_receive(:update).with({ "name" => "MyString" })
+        put :update, {:id => user_group.to_param, :admin_pronto_form => { "name" => "MyString" }}, valid_session
+      end
+
+      it "assigns the requested admin_pronto_form as @admin_pronto_form" do
+        user_group = Admin::ProntoForms::UserGroup.create! valid_attributes
+        put :update, {:id => user_group.to_param, :admin_pronto_form => valid_attributes}, valid_session
+        assigns(:admin_pronto_form).should eq(user_group)
+      end
+
+      it "redirects to the admin_pronto_form" do
+        user_group = Admin::ProntoForms::UserGroup.create! valid_attributes
+        put :update, {:id => user_group.to_param, :admin_pronto_form => valid_attributes}, valid_session
+        response.should redirect_to(user_group)
+      end
+    end
+
+    describe "with invalid params" do
+      it "assigns the admin_pronto_form as @admin_pronto_form" do
+        user_group = Admin::ProntoForms::UserGroup.create! valid_attributes
+        # Trigger the behavior that occurs when invalid params are submitted
+        Admin::ProntoForms::UserGroup.any_instance.stub(:save).and_return(false)
+        put :update, {:id => user_group.to_param, :admin_pronto_form => { "name" => "invalid value" }}, valid_session
+        assigns(:admin_pronto_form).should eq(user_group)
+      end
+
+      it "re-renders the 'edit' template" do
+        user_group = Admin::ProntoForms::UserGroup.create! valid_attributes
+        # Trigger the behavior that occurs when invalid params are submitted
+        Admin::ProntoForms::UserGroup.any_instance.stub(:save).and_return(false)
+        put :update, {:id => user_group.to_param, :admin_pronto_form => { "name" => "invalid value" }}, valid_session
+        response.should render_template("edit")
+      end
+    end
+  end
+
+  describe "DELETE destroy" do
+    it "destroys the requested admin_pronto_form" do
+      user_group = Admin::ProntoForms::UserGroup.create! valid_attributes
+      expect {
+        delete :destroy, {:id => user_group.to_param}, valid_session
+      }.to change(Admin::ProntoForms::UserGroup, :count).by(-1)
+    end
+
+    it "redirects to the admin_pronto_forms_user_groups list" do
+      user_group = Admin::ProntoForms::UserGroup.create! valid_attributes
+      delete :destroy, {:id => user_group.to_param}, valid_session
+      response.should redirect_to(admin_pronto_forms_user_groups_url)
+    end
+  end
+
+end

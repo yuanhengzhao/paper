@@ -1,0 +1,10 @@
+FactoryGirl.define do
+  factory :punchlist_form_history, class: FormExtensions::PunchlistFormHistory do
+    status "open"
+    responsible "responsible"
+    comment "comment" 
+    bmw_comment "bmw_comment"
+    punchlist_form
+    user_email "email@email.com"
+  end
+end

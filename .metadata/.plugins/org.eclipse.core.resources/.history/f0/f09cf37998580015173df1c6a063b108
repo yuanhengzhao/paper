@@ -1,0 +1,5 @@
+<% title "Snow Audits" %>
+<%= render :partial => 'forms/form_export_section', :locals => {:update_url => update_export_forms_snow_audits_url(format: :json), :download_url => download_export_forms_snow_audits_url} %>
+<table id="snow_audits_datatable" class="display<%= (can?(:manage, Forms::SnowAudit) ? ' admin' : '') %>">
+	<%= render :partial => 'forms/form_header_footer' %>
+</table>

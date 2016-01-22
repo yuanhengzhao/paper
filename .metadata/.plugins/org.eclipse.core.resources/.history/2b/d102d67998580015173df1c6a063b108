@@ -1,0 +1,124 @@
+# Equipment Unit's model
+#
+# Properties:
+# - site (string) - site's name
+# - shop (string) - shop's name
+# - equipment_type (string) - type of the equipment
+# - unit_number (string) - unit number
+# - barcode  (string) - barcode of the unit
+# - photo  (attachment) - photo of the unit
+# - manufacturer (string) - manufacturer of the unit
+# - date_into_service (date) - the date the unit start being used
+# - battery_serial_number (string) - the battery serial number
+# - battery_voltage (integer) - the battery voltage
+# - inspection_frequency (string) - the frequency of inspection
+# - inspection_code (string) - the code of inspection
+# - inspection_days (integer) - the days of inspection
+require 'csv'
+
+class DataSources::EquipmentUnit < ActiveRecord::Base
+  has_attached_file :photo
+  validates_attachment_content_type :photo, :content_type => /\Aimage/\
+
+  validates_presence_of :site, :shop, :equipment_type, :unit_number, :barcode
+  validates :barcode, uniqueness: true
+  validates :inspection_days, :numericality => { :greater_than => 0, :message => 'needs to be a number'  }, :allow_nil => true
+  validates :battery_voltage, :numericality => { :greater_than => 0, :message => 'needs to be a number' }, :allow_nil => true
+  validates :unit_number, :numericality => { :greater_than => 0, :message => 'needs to be a number' }, :allow_nil => false
+  validates :date_into_service, date: { message: 'format needs to be yyyy/mm/dd or yyyy-mm-dd', allow_blank: true }
+  
+  after_create :export_csv_to_s3
+  after_update :export_csv_to_s3, :if => :datasource_columns_changed
+  
+  private
+  def export_csv_to_s3
+    file_path = self.class.create_datasource_csv
+    self.class.upload_to_s3(file_path)
+    File.delete(file_path)
+  end
+  
+  def datasource_columns_changed
+    (self.changed & self.class.datasource_columns).present?
+  end
+  
+  def self.datasource_columns
+    ['site', 'shop', 'barcode', 'unit_number']
+  end
+
+  def self.create_datasource_csv
+    file_path = Rails.root.join('tmp').join("temp_battery_equipment_units.csv")
+    CSV.open(file_path, "wb") do |csv|
+      csv << ["site","shop","barcode","unit_number"]
+      all.each { |eu| csv << [ eu.site, eu.shop, eu.barcode, eu.unit_number ] }
+    end
+    
+    file_path
+  end
+  
+  def self.upload_to_s3(file_path)
+    storage = Fog::Storage.new(Rails.application.config.fog_credentials)
+    directory = storage.directories.create(
+      :key    => ENV['S3_BUCKET_NAME'], # globally unique name
+      :public => false
+    )
+    key = "datasources/battery_equipment_units.csv"
+    directory.files.create(
+      :key    => key,
+      :body   => File.open(file_path),
+      :public => false
+    )
+  end
+  
+  def self.import_from_csv(path)
+    csv_text = File.read(path)
+    csv = CSV.parse(csv_text, :headers => true)
+    
+    errors = {}
+    
+    ActiveRecord::Base.transaction do
+      csv.each do |row|
+        eu = DataSources::EquipmentUnit.find_or_initialize_by(unit_number: row[0])
+        eu.barcode = row[1].present? ? row[1]: "unknown:#{eu.unit_number}"
+        eu.battery_voltage = row[2].present? ? row[2] : nil
+        eu.site = row[3]
+        
+        eu.shop = row[4]
+        if eu.site == 'Cambridge'
+          eu.shop = 'North Assembly' if eu.shop == 'North Assy'
+          eu.shop = 'South Assembly' if eu.shop == 'South Assy'
+          eu.shop = 'North Plastics' if eu.shop == 'Plastics'
+          eu.shop = 'South Assembly' if eu.shop == 'South Mat?'
+        elsif eu.site == 'Woodstock'
+          eu.shop = 'West Weld' if eu.shop == 'Weld'
+        end
+        
+        eu.equipment_type = 'Unknown' if eu.equipment_type.blank?
+          
+        eu.battery_serial_number = row[5].present? ? row[5] : nil
+        if row[7] == 'A'
+          eu.inspection_frequency = 'A - Weekly'
+          eu.inspection_code = 'A'
+          eu.inspection_days = '7'
+        elsif row[7] == 'B'
+          eu.inspection_frequency = 'B - Biweekly'
+          eu.inspection_code = 'B'
+          eu.inspection_days = '14'
+        elsif row[7] == 'C'
+          eu.inspection_frequency = 'C - Biweekly'
+          eu.inspection_code = 'C'
+          eu.inspection_days = '14'
+        else 
+          eu.inspection_frequency = nil
+          eu.inspection_code = nil
+          eu.inspection_days = nil
+        end
+         
+        unless eu.save
+          errors[eu.unit_number] = eu.errors
+        end
+      end
+    end
+      
+    errors
+  end
+end

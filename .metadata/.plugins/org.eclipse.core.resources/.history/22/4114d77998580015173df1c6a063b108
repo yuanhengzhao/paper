@@ -1,0 +1,41 @@
+# Punchlist Form History's model
+#
+# This model keeps track of the change of a punchlist form
+# 
+# Properties:
+# - id (integer) - primary key
+# - punchlist_form_id (integer) - foreign key to the associated punchlist form
+# - status (string) - new status
+# - comment (text) - comment for the change
+# - responsible (string) - the person the case newly asigned to
+# - user_id (integer) - the id of a formdata logined user who creates the change
+# - user_email (string) - the email of the user
+
+class FormExtensions::PunchlistFormHistory < ActiveRecord::Base
+  belongs_to :punchlist_form, class_name: "Forms::PunchlistForm"
+  belongs_to :user,           class_name: "Security::User"
+  after_create :update_punchlist_properties
+  validates :status, presence: true
+  validates :responsible, presence: true
+  validates :punchlist_form_id, presence: true
+  validates :user_email, presence: true
+  validate :has_been_changed
+  
+  private
+  def update_punchlist_properties
+    histories = self.punchlist_form.punchlist_form_histories.order(created_at: :desc)
+    if histories.empty? or self.created_at > histories.first.created_at
+      self.punchlist_form.status = self.status
+      self.punchlist_form.responsible = self.responsible
+      self.punchlist_form.supplier_status = self.supplier_status
+      self.punchlist_form.bmw_comment = self.bmw_comment
+      self.punchlist_form.save!
+    end
+  end
+  
+  def has_been_changed
+    if self.status == self.punchlist_form.status and self.responsible == self.punchlist_form.responsible and self.bmw_comment == self.punchlist_form.bmw_comment and self.supplier_status == self.punchlist_form.supplier_status 
+      errors.add(:error, "No property has been changed")
+    end
+  end
+end

@@ -1,0 +1,5 @@
+class ChangeSafetyRepIdToReferenceUser < ActiveRecord::Migration
+  def change
+    remove_foreign_key  :incidents, :safety_rep_id, :safety_reps, :id
+  end
+end

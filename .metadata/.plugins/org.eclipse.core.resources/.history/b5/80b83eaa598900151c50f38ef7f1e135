@@ -1,0 +1,1022 @@
+jQuery ->
+
+  in_array = (val, arr)->
+    return $.inArray(val, arr) > -1
+  
+  #For reset bootstrap validation
+  clear_field = (form, revalidate, name) -> 
+    field_group = $('[name="'+name+'"]')
+    
+    if (field_group.length == 0)
+      return null;
+    
+    if field_group.is('input[type="text"], input[type="file"], textarea, select')
+      field_group.val(null)
+    else if field_group.is('input[type=checkbox], input[type=radio]')
+      field_group.filter(':checked').attr('checked', false)
+      
+    if revalidate
+      form.formValidation('revalidateField', name)
+  
+  clear_all_fields_in_tab = (form, tab_selector) ->
+    $(tab_selector).find('input, textarea, select').each ()->
+      field_name = $(this).attr('name')
+      clear_field(form, false, field_name)
+      check_field_visibility(form, field_name, false)
+  
+  dp_revalidate = (name) ->
+    $('form.incident-form').formValidation('revalidateField', name)
+    
+  setup_date_time_fields = (field_group, hidden_field, date_id, time_id, date_name, time_name) ->
+    # update the composite hidden field when either of the components change
+    $(field_group).on 'dp.change', (e) ->
+      $(hidden_field).val($(date_id).val() + ' ' + $(time_id).val())
+      dp_revalidate(date_name)
+      dp_revalidate(time_name)
+      true
+    $(date_id).on 'change', (e) ->
+      $(hidden_field).val($(date_id).val() + ' ' + $(time_id).val())
+      dp_revalidate(date_name)
+      dp_revalidate(time_name)
+    $(time_id).on 'change', (e) ->
+      $(hidden_field).val($(date_id).val() + ' ' + $(time_id).val())
+      dp_revalidate(date_name)
+      dp_revalidate(time_name)
+  
+  setup_date_fields = (field_group, start_time_name, end_time_name, result_time_name) ->
+    $(field_group).on 'dp.change', (e) ->
+      $('[name="'+start_time_name+'"], [name="'+end_time_name+'"]').trigger "change"
+      true
+  
+    $('[name="'+start_time_name+'"]').on 'change', (e) ->
+      dp_revalidate(start_time_name)
+      if($('[name="'+end_time_name+'"]').val() != "")
+        count_days(start_time_name, end_time_name, result_time_name)
+        dp_revalidate(result_time_name)
+      
+    $('[name="'+end_time_name+'"]').on 'change', (e) ->
+      dp_revalidate(end_time_name)
+      if($('[name="'+start_time_name+'"]').val() != "")
+        count_days(start_time_name, end_time_name, result_time_name)
+        dp_revalidate(result_time_name)
+    
+
+  setup_date_field = (field_group, field_name) ->
+    $(field_group).on 'dp.change', (e) ->
+      dp_revalidate(field_name)
+      true
+      
+    $('[name="'+field_name+'"]').on 'change', (e) ->
+      dp_revalidate(field_name)
+  
+  count_days = (beginning, ending, result) ->
+    beginning_parts = $('[name="'+beginning+'"]').val().split("/")
+    ending_parts = $('[name="'+ending+'"]').val().split("/")
+    date_beg = new Date("#{beginning_parts[0]}-#{beginning_parts[1]}-#{beginning_parts[2]}")
+    date_end = new Date("#{ending_parts[0]}-#{ending_parts[1]}-#{ending_parts[2]}")
+    if(date_end - date_beg >= 0)
+      result_val = (date_end - date_beg) / 86400000
+      #Because there are 86400000 milliseconds in a day
+    else
+      result_val = ""
+    $('[name="'+result+'"]').val(result_val)
+    return  
+
+  
+  # helper functions to to handle doc
+  field_value = (name) ->
+    field_group = $('[name="'+name+'"]')
+    
+    if (field_group.length == 0)
+      return null;
+    
+    if field_group.is('input[type="text"], textarea')
+      return field_group.val()
+    else if field_group.is('select')
+      if field_group.hasClass('yes-or-no')
+        if in_array(field_group.val() ,['1', 'Yes'])
+          return true
+        else if in_array(field_group.val() ,['0', 'No'])
+          return false
+        else
+          return null
+      else
+        return field_group.find("option:selected").html()
+    else if field_group.is('input[type=checkbox]')
+      values = []
+      field_group.filter(':checked').each ()->
+        values.push $(this).attr('data-field-name')
+      return values
+    else if field_group.is('input[type=radio]')
+      if field_group.filter(':checked').length > 0 and in_array(field_group.filter(':checked').val() ,['1', 'Yes'])
+        return true
+      else if field_group.filter(':checked').length > 0 and in_array(field_group.filter(':checked').val() ,['0', 'No'])
+        return false
+      else
+        return null
+        
+  show_field = (name) ->
+    $('[name="'+name+'"]').closest("div.form-group").show()
+    return
+  
+  show_fields = (group) ->
+    $('[name*="'+group+'"]').closest(".photo-collection").show()
+    return
+  
+  hide_field = (form, revalidate ,name) ->
+    clear_field(form, revalidate, name)
+    $('[name="'+name+'"]').closest("div.form-group").hide()
+    return
+    
+  hide_fields = (form, revalidate, group) ->
+    $('[name*="'+group+'"]').each ->
+      if($(this).is("input, textarea, select"))
+        name = $(this).attr("name")
+        if(name.endsWith("[file]"))
+          clear_field(form, revalidate, name)
+        form.formValidation("resetField", name)
+        
+    $('[name*="'+group+'"]').closest(".photo-collection").hide()
+    return
+
+  # helper functions to if handle conditional checking 
+  is_injury = ()->
+    return in_array(field_value('incident[incident_class]'), ["First Aid", "Non First Aid", "Non Work Related", "WSIB/OSHA"])
+      
+  is_property_damage = ()->
+    return field_value('incident[incident_class]') == 'Property Damage'
+      
+  is_osha_wsib = ()->
+    return in_array(field_value('incident[incident_class]'), [ 'OSHA/WSIB', 'WSIB/OSHA' ])
+      
+  is_work_related = ()->
+    field_value('incident[incident_class]') != "Non Work Related"
+  
+  get_site = ()->
+    return $('[name="incident[building_id]"] option:selected').parent().data("country")
+    
+  is_ca_site = () ->
+    get_site() == "CA"
+    
+  is_us_site = () ->
+    get_site() == "US"
+  
+  form_fields = 
+    'incident[building_id]':
+      dependants: [
+        'incident[wsib_recordable]', 'incident[wsib_form_7]', 'incident[reason_wsib_form_7_not_submitted]', 'incident[wsib_claim]', 'incident[wsib_lost_time]', 
+        'incident[osha_recordable]', 'incident[has_compensation_claim_submitted]', 'incident[reason_compensation_claim_not_submitted]', 'incident[osha_claim]', 'incident[osha_lost_time]', 
+        'incident[lost_days_start]', 'incident[lost_days_end]', 'incident[lost_days]',
+        'incident[modified_work]', 'incident[modified_work_start]', 'incident[modified_work_end]', 'incident[modified_work_days]'
+      ]
+    'incident[incident_class]':
+      dependants: [
+        'incident[body_part]', 'incident[body_location]', 'incident[column]', 'incident[floor]', 'incident[job]', 'incident[worker_been_trained]', 
+        'incident[date_last_trained]', 'incident[work_instruction_ref_num]', 'incident[reason_not_trained]', 'incident[was_not_trained_employee_involved]', 
+        'incident[not_trained_employee_names]', 'incident[were_reporter_aware]', 'incident[reason_why_not_aware]', 'incident[did_anyone_witness]', 'incident[witness_names]', 'incident[witness_statements_attributes]', 
+        'incident[was_reporter_involved]', 'incident[involved_individual_names_who_reported]', 'incident[was_mbl_eqp_involved]', 'incident[mobile_equipment]', 
+        'incident[other_mbl_eqp]', 'incident[unit_identification_number]', 'incident[does_mbl_eqp_provider_have_license]', 'incident[reason_mbl_eqp_provider_no_license]', 
+        'incident[num_months_mbl_opt_exp]', 'incident[date_last_pm_eqp_performed]', 'incident[was_pre_shift_inspec_completed]', 'incident[reason_pre_shift_inspec_not_completed]', 
+        'incident[was_eqp_tls_involved]', 'incident[eqp_tls_involved]', 'incident[was_eqp_tls_used_properly]', 'incident[reason_eqp_tls_not_used_properly]', 
+        'incident[was_eqp_tls_inspec_before]', 'incident[does_eqp_tls_require_doc_inspec]', 'incident[was_eqp_tls_inspec_doc]', 'incident[reason_eqp_tls_inspec_not_doc]', 
+        'incident[is_any_ppe_required]', 'incident[ppes][]', 'incident[other_ppe]', 'incident[was_all_ppe_worn_properly]', 'incident[reason_ppe_not_worn_properly]', 
+        'incident[was_ppe_good_cond]', 'incident[reason_ppe_bad_cond]', 'incident[is_ppe_required_in_work_inst]', 'incident[missing_ppe]', 'incident[was_chemical_involved]', 
+        'incident[name_chemical]', 'incident[was_chemical_used_properly]', 'incident[reason_chemical_not_used_properly]', 'incident[environmental_factors][]', 
+        'incident[other_env_factors]', 'incident[explain_more_env_factors]', 'incident[additional_factors][]', 'incident[other_add_factors]', 'incident[explain_more_add_factors]', 
+        'incident[description_investigation]', 'incident[investigation_photos_attributes]', 'incident[modified_duties_prescribed_after]', 'incident[modified_duties_prescriber]', 
+        'incident[other_modified_duties_prescriber]', 'incident[days_modified_duties_prescribed]', 'incident[immediate_action]', 'incident[names_involved_in_investigation]', 
+        'incident[additional_comments]', 'incident[has_customer_property_damaged]', 'incident[type_of_damage]', 'incident[customers_contacted]', 
+        'incident[has_employee_done_modified_work_form]', 'incident[reason_employee_not_done_modified_work_form]', 'incident[modified_work_form_signed]', 
+        'incident[modified_work_documents_attributes]', 'incident[why_modified_work_form_not_signed]', 'incident[has_employee_received_medical_attention]', 
+        'incident[name_clinic_hospital]', 'incident[name_nurse_doctor]', 'incident[medical_treatment]', 'incident[can_upload_medical_doc]', 'incident[medical_documents_attributes]', 
+        'incident[reason_not_upload_medical_doc]', 'incident[wsib_recordable]', 'incident[wsib_form_7]', 'incident[reason_wsib_form_7_not_submitted]', 'incident[wsib_claim]', 
+        'incident[wsib_lost_time]', 'incident[osha_recordable]', 'incident[has_compensation_claim_submitted]', 'incident[reason_compensation_claim_not_submitted]', 
+        'incident[osha_claim]', 'incident[osha_lost_time]', 'incident[lost_days_start]', 'incident[lost_days_end]', 'incident[lost_days]', 'incident[modified_work]', 
+        'incident[modified_work_start]', 'incident[modified_work_end]', 'incident[modified_work_days]', 'incident[mobile_equipment_tagged]', 'incident[mobile_equipment_tagged_reason]'
+        ]
+    'incident[incident_category]':
+      dependants: ['incident[incident_category_other]', 'incident[body_part]', 'incident[body_location]', 'incident[column]']
+    'incident[incident_category_other]': 
+      rule: (form,revalidate=true)->
+        if field_value('incident[incident_category]') == "Other"
+          show_field('incident[incident_category_other]')
+        else
+          hide_field(form, revalidate, 'incident[incident_category_other]')
+    'incident[incident_type]':
+      rule: (form,revalidate=true)->
+        if is_injury()
+          show_field('incident[incident_type]')
+        else
+          hide_field(form, revalidate, 'incident[incident_type]')
+      dependants: [ 'incident[incident_type_other]' ]
+    'incident[incident_type_other]':
+      rule: (form,revalidate=true)->
+        if is_injury() && field_value('incident[incident_type]') == "Other"
+          show_field('incident[incident_type_other]')
+        else
+          hide_field(form, revalidate, 'incident[incident_type_other]')
+    'incident[body_part]':
+      rule: (form,revalidate=true)->
+        if is_injury()
+          show_field('incident[body_part]')
+        else
+          hide_field(form, revalidate, 'incident[body_part]')
+    'incident[body_location]':
+      rule: (form,revalidate=true)->
+        if is_injury()
+          show_field('incident[body_location]')
+        else
+          hide_field(form, revalidate, 'incident[body_location]')
+    'incident[column]':
+      rule: (form,revalidate=true)->
+        if is_work_related()
+          show_field('incident[column]')
+        else
+          hide_field(form, revalidate, 'incident[column]')
+    'incident[floor]':
+      rule: (form,revalidate=true)->
+        if is_work_related()
+          show_field('incident[floor]')
+        else
+          hide_field(form, revalidate, 'incident[floor]')
+    'incident[job]':
+      rule: (form,revalidate=true)->
+        if is_work_related()
+          show_field('incident[job]')
+        else
+          hide_field(form, revalidate, 'incident[job]')
+    'incident[worker_been_trained]':
+      rule: (form,revalidate=true)->
+        if is_work_related()
+          show_field('incident[worker_been_trained]')
+        else
+          hide_field(form, revalidate, 'incident[worker_been_trained]')
+      dependants: [ 'incident[date_last_trained]', 'incident[date_last_trained]', 'incident[work_instruction_ref_num]', 'incident[reason_not_trained]' ]
+    'incident[date_last_trained]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[worker_been_trained]')
+          show_field('incident[date_last_trained]')
+        else
+          hide_field(form, revalidate, 'incident[date_last_trained]')
+    'incident[work_instruction_ref_num]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[worker_been_trained]')
+          show_field('incident[work_instruction_ref_num]')
+        else
+          hide_field(form, revalidate, 'incident[work_instruction_ref_num]')
+    'incident[reason_not_trained]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[worker_been_trained]') == false
+          show_field('incident[reason_not_trained]')
+        else
+          hide_field(form, revalidate, 'incident[reason_not_trained]')
+    'incident[was_not_trained_employee_involved]':
+      rule: (form,revalidate=true)->
+        if is_work_related()
+          show_field('incident[was_not_trained_employee_involved]')
+        else
+          hide_field(form, revalidate, 'incident[was_not_trained_employee_involved]')
+      dependants: [ 'incident[not_trained_employee_names]' ]
+    'incident[not_trained_employee_names]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_not_trained_employee_involved]')
+          show_field('incident[not_trained_employee_names]')
+        else
+          hide_field(form, revalidate, 'incident[not_trained_employee_names]')
+    'incident[were_reporter_aware]':
+      rule: (form,revalidate=true)->
+        if is_work_related()
+          show_field('incident[were_reporter_aware]')
+        else
+          hide_field(form, revalidate, 'incident[were_reporter_aware]')
+      dependants: [ 'incident[reason_why_not_aware]' ]
+    'incident[reason_why_not_aware]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[were_reporter_aware]') == false
+          show_field('incident[reason_why_not_aware]')
+        else
+          hide_field(form, revalidate, 'incident[reason_why_not_aware]')
+    'incident[did_anyone_witness]':
+      rule: (form,revalidate=true)->
+        if is_work_related()
+          show_field('incident[did_anyone_witness]')
+        else
+          hide_field(form, revalidate, 'incident[did_anyone_witness]')
+      dependants: [ 'incident[witness_names]', 'incident[witness_statements_attributes]' ]
+    'incident[witness_names]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[did_anyone_witness]')
+          show_field('incident[witness_names]')
+        else
+          hide_field(form, revalidate, 'incident[witness_names]')
+    'incident[witness_statements_attributes]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[did_anyone_witness]')
+          show_fields('incident[witness_statements_attributes]')
+        else
+          hide_fields(form, revalidate, 'incident[witness_statements_attributes]')
+    'incident[was_reporter_involved]':
+      rule: (form,revalidate=true)->
+        if is_work_related()
+          show_field('incident[was_reporter_involved]')
+        else
+          hide_field(form, revalidate, 'incident[was_reporter_involved]')
+      dependants: [ 'incident[involved_individual_names_who_reported]' ]
+    'incident[involved_individual_names_who_reported]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_reporter_involved]') == false
+          show_field('incident[involved_individual_names_who_reported]')
+        else
+          hide_field(form, revalidate, 'incident[involved_individual_names_who_reported]')
+    'incident[was_mbl_eqp_involved]':
+      rule: (form,revalidate=true)->
+        if is_work_related()
+          show_field('incident[was_mbl_eqp_involved]')
+        else
+          hide_field(form, revalidate, 'incident[was_mbl_eqp_involved]')
+      dependants: [ 'incident[mobile_equipment]', 'incident[other_mbl_eqp]','incident[unit_identification_number]','incident[does_mbl_eqp_provider_have_license]',
+        'incident[reason_mbl_eqp_provider_no_license]','incident[num_months_mbl_opt_exp]','incident[date_last_pm_eqp_performed]','incident[was_pre_shift_inspec_completed]',
+        'incident[reason_pre_shift_inspec_not_completed]', 'incident[mobile_equipment_tagged]', 'incident[mobile_equipment_tagged_reason]']
+    'incident[mobile_equipment]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_mbl_eqp_involved]')
+          show_field('incident[mobile_equipment]')
+        else
+          hide_field(form, revalidate, 'incident[mobile_equipment]')
+      dependants: [ 'incident[other_mbl_eqp]' ]
+    'incident[other_mbl_eqp]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_mbl_eqp_involved]') and field_value('incident[mobile_equipment]') == "Other"
+          show_field('incident[other_mbl_eqp]')
+        else
+          hide_field(form, revalidate, 'incident[other_mbl_eqp]')
+    'incident[unit_identification_number]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_mbl_eqp_involved]')
+          show_field('incident[unit_identification_number]')
+        else
+          hide_field(form, revalidate, 'incident[unit_identification_number]')
+    'incident[does_mbl_eqp_provider_have_license]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_mbl_eqp_involved]')
+          show_field('incident[does_mbl_eqp_provider_have_license]')
+        else
+          hide_field(form, revalidate, 'incident[does_mbl_eqp_provider_have_license]')
+      dependants: ['incident[reason_mbl_eqp_provider_no_license]']
+    'incident[reason_mbl_eqp_provider_no_license]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_mbl_eqp_involved]') and field_value('incident[does_mbl_eqp_provider_have_license]') == false
+          show_field('incident[reason_mbl_eqp_provider_no_license]')
+        else
+          hide_field(form, revalidate, 'incident[reason_mbl_eqp_provider_no_license]')
+    'incident[num_months_mbl_opt_exp]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_mbl_eqp_involved]')
+          show_field('incident[num_months_mbl_opt_exp]')
+        else
+          hide_field(form, revalidate, 'incident[num_months_mbl_opt_exp]')
+    'incident[date_last_pm_eqp_performed]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_mbl_eqp_involved]')
+          show_field('incident[date_last_pm_eqp_performed]')
+        else
+          hide_field(form, revalidate, 'incident[date_last_pm_eqp_performed]')
+    'incident[was_pre_shift_inspec_completed]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_mbl_eqp_involved]')
+          show_field('incident[was_pre_shift_inspec_completed]')
+        else
+          hide_field(form, revalidate, 'incident[was_pre_shift_inspec_completed]')
+      dependants: ['incident[reason_pre_shift_inspec_not_completed]']
+    'incident[reason_pre_shift_inspec_not_completed]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_mbl_eqp_involved]') and field_value('incident[was_pre_shift_inspec_completed]') == false
+          show_field('incident[reason_pre_shift_inspec_not_completed]')
+        else
+          hide_field(form, revalidate, 'incident[reason_pre_shift_inspec_not_completed]')    
+    'incident[mobile_equipment_tagged]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_mbl_eqp_involved]')
+          show_field('incident[mobile_equipment_tagged]')
+        else
+          hide_field(form, revalidate, 'incident[mobile_equipment_tagged]')
+      dependants: ['incident[mobile_equipment_tagged_reason]']
+    'incident[mobile_equipment_tagged_reason]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_mbl_eqp_involved]') and field_value('incident[mobile_equipment_tagged]') == false
+          show_field('incident[mobile_equipment_tagged_reason]')
+        else
+          hide_field(form, revalidate, 'incident[mobile_equipment_tagged_reason]')
+    'incident[was_eqp_tls_involved]':
+      rule: (form,revalidate=true)->
+        if is_work_related()
+          show_field('incident[was_eqp_tls_involved]')
+        else
+          hide_field(form, revalidate, 'incident[was_eqp_tls_involved]')
+      dependants: [ 'incident[eqp_tls_involved]', 'incident[was_eqp_tls_used_properly]','incident[reason_eqp_tls_not_used_properly]','incident[was_eqp_tls_inspec_before]',
+        'incident[reason_eqp_tls_not_inspec_before]','incident[does_eqp_tls_require_doc_inspec]','incident[was_eqp_tls_inspec_doc]','incident[reason_eqp_tls_inspec_not_doc]' ]
+    'incident[eqp_tls_involved]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_eqp_tls_involved]')
+          show_field('incident[eqp_tls_involved]')
+        else
+          hide_field(form, revalidate, 'incident[eqp_tls_involved]')
+    'incident[was_eqp_tls_used_properly]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_eqp_tls_involved]')
+          show_field('incident[was_eqp_tls_used_properly]')
+        else
+          hide_field(form, revalidate, 'incident[was_eqp_tls_used_properly]')
+      dependants: [ 'incident[reason_eqp_tls_not_used_properly]' ]
+    'incident[reason_eqp_tls_not_used_properly]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_eqp_tls_involved]') and field_value('incident[was_eqp_tls_used_properly]') == false
+          show_field('incident[reason_eqp_tls_not_used_properly]')
+        else
+          hide_field(form, revalidate, 'incident[reason_eqp_tls_not_used_properly]')
+    'incident[was_eqp_tls_inspec_before]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_eqp_tls_involved]')
+          show_field('incident[was_eqp_tls_inspec_before]')
+        else
+          hide_field(form, revalidate, 'incident[was_eqp_tls_inspec_before]')
+      dependants: [ 'incident[reason_eqp_tls_not_inspec_before]' ]
+    'incident[reason_eqp_tls_not_inspec_before]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_eqp_tls_involved]') and field_value('incident[was_eqp_tls_inspec_before]') == false
+          show_field('incident[reason_eqp_tls_not_inspec_before]')
+        else
+          hide_field(form, revalidate, 'incident[reason_eqp_tls_not_inspec_before]')
+    'incident[does_eqp_tls_require_doc_inspec]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_eqp_tls_involved]')
+          show_field('incident[does_eqp_tls_require_doc_inspec]')
+        else
+          hide_field(form, revalidate, 'incident[does_eqp_tls_require_doc_inspec]')
+      dependants: [ 'incident[was_eqp_tls_inspec_doc]', 'incident[reason_eqp_tls_inspec_not_doc]' ]
+    'incident[was_eqp_tls_inspec_doc]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_eqp_tls_involved]') and field_value('incident[does_eqp_tls_require_doc_inspec]')
+          show_field('incident[was_eqp_tls_inspec_doc]')
+        else
+          hide_field(form, revalidate, 'incident[was_eqp_tls_inspec_doc]')
+      dependants: [ 'incident[reason_eqp_tls_inspec_not_doc]' ]
+    'incident[reason_eqp_tls_inspec_not_doc]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_eqp_tls_involved]') and field_value('incident[does_eqp_tls_require_doc_inspec]') and field_value('incident[was_eqp_tls_inspec_doc]') == false
+          show_field('incident[reason_eqp_tls_inspec_not_doc]')
+        else
+          hide_field(form, revalidate, 'incident[reason_eqp_tls_inspec_not_doc]')
+    'incident[is_any_ppe_required]':
+      rule: (form,revalidate=true)->
+        if is_work_related()
+          show_field('incident[is_any_ppe_required]')
+        else
+          hide_field(form, revalidate, 'incident[is_any_ppe_required]')
+      dependants: [ 'incident[ppes][]', 'incident[other_ppe]','incident[was_all_ppe_worn_properly]','incident[reason_ppe_not_worn_properly]','incident[was_ppe_good_cond]','incident[reason_ppe_bad_cond]','incident[is_ppe_required_in_work_inst]','incident[missing_ppe]']
+    'incident[ppes][]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[is_any_ppe_required]')
+          show_field('incident[ppes][]')
+        else
+          hide_field(form, revalidate, 'incident[ppes][]')
+      dependants: [ 'incident[other_ppe]' ]
+    'incident[other_ppe]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[is_any_ppe_required]') and in_array( 'Other', field_value('incident[ppes][]') )
+          show_field('incident[other_ppe]')
+        else
+          hide_field(form, revalidate, 'incident[other_ppe]')
+    'incident[was_all_ppe_worn_properly]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[is_any_ppe_required]')
+          show_field('incident[was_all_ppe_worn_properly]')
+        else
+          hide_field(form, revalidate, 'incident[was_all_ppe_worn_properly]')
+      dependants: [ 'incident[reason_ppe_not_worn_properly]' ]
+    'incident[reason_ppe_not_worn_properly]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[is_any_ppe_required]') and field_value('incident[was_all_ppe_worn_properly]') == false
+          show_field('incident[reason_ppe_not_worn_properly]')
+        else
+          hide_field(form, revalidate, 'incident[reason_ppe_not_worn_properly]')
+    'incident[was_ppe_good_cond]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[is_any_ppe_required]')
+          show_field('incident[was_ppe_good_cond]')
+        else
+          hide_field(form, revalidate, 'incident[was_ppe_good_cond]')
+      dependants: [ 'incident[reason_ppe_bad_cond]' ]
+    'incident[reason_ppe_bad_cond]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[is_any_ppe_required]') and field_value('incident[was_ppe_good_cond]') == false
+          show_field('incident[reason_ppe_bad_cond]')
+        else
+          hide_field(form, revalidate, 'incident[reason_ppe_bad_cond]')
+    'incident[is_ppe_required_in_work_inst]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[is_any_ppe_required]')
+          show_field('incident[is_ppe_required_in_work_inst]')
+        else
+          hide_field(form, revalidate, 'incident[is_ppe_required_in_work_inst]')
+      dependants: [ 'incident[missing_ppe]' ]
+    'incident[missing_ppe]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[is_any_ppe_required]') and field_value('incident[is_ppe_required_in_work_inst]') == false
+          show_field('incident[missing_ppe]')
+        else
+          hide_field(form, revalidate, 'incident[missing_ppe]')
+    'incident[was_chemical_involved]':
+      rule: (form,revalidate=true)->
+        if is_work_related()
+          show_field('incident[was_chemical_involved]')
+        else
+          hide_field(form, revalidate, 'incident[was_chemical_involved]')
+      dependants: [ 'incident[name_chemical]', 'incident[was_chemical_used_properly]', 'incident[reason_chemical_not_used_properly]' ]
+    'incident[name_chemical]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_chemical_involved]')
+          show_field('incident[name_chemical]')
+        else
+          hide_field(form, revalidate, 'incident[name_chemical]')
+    'incident[was_chemical_used_properly]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_chemical_involved]')
+          show_field('incident[was_chemical_used_properly]')
+        else
+          hide_field(form, revalidate, 'incident[was_chemical_used_properly]')
+      dependants: [ 'incident[reason_chemical_not_used_properly]' ]
+    'incident[reason_chemical_not_used_properly]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[was_chemical_involved]') and field_value('incident[was_chemical_used_properly]') == false
+          show_field('incident[reason_chemical_not_used_properly]')
+        else
+          hide_field(form, revalidate, 'incident[reason_chemical_not_used_properly]')
+    'incident[environmental_factors][]':
+      rule: (form,revalidate=true)->
+        if is_work_related()
+          show_field('incident[environmental_factors][]')
+        else
+          hide_field(form, revalidate, 'incident[environmental_factors][]')
+      dependants: [ 'incident[other_env_factors]', 'incident[explain_more_env_factors]' ]
+    'incident[other_env_factors]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and  in_array( 'Other', field_value('incident[environmental_factors][]'))
+          show_field('incident[other_env_factors]')
+        else
+          hide_field(form, revalidate, 'incident[other_env_factors]')
+    'incident[explain_more_env_factors]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[environmental_factors][]').length > 0
+          show_field('incident[explain_more_env_factors]')
+        else
+          hide_field(form, revalidate, 'incident[explain_more_env_factors]')
+    'incident[additional_factors][]':
+      rule: (form,revalidate=true)->
+        if is_work_related()
+          show_field('incident[additional_factors][]')
+        else
+          hide_field(form, revalidate, 'incident[additional_factors][]')
+      dependants: [ 'incident[other_add_factors]', 'incident[explain_more_add_factors]' ]
+    'incident[other_add_factors]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and  in_array( 'Other', field_value('incident[additional_factors][]'))
+          show_field('incident[other_add_factors]')
+        else
+          hide_field(form, revalidate, 'incident[other_add_factors]')
+    'incident[explain_more_add_factors]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[additional_factors][]').length > 0
+          show_field('incident[explain_more_add_factors]')
+        else
+          hide_field(form, revalidate, 'incident[explain_more_add_factors]')
+    'incident[description_investigation]':
+      rule: (form,revalidate=true)->
+        if is_work_related()
+          show_field('incident[description_investigation]')
+        else
+          hide_field(form, revalidate, 'incident[description_investigation]')
+    'incident[investigation_photos_attributes]':
+      rule: (form,revalidate=true)->
+        if is_work_related()
+          show_fields('incident[investigation_photos_attributes]')
+        else
+          hide_fields(form, revalidate, 'incident[investigation_photos_attributes]')
+    'incident[modified_duties_prescribed_after]':
+      rule: (form,revalidate=true)->
+        if is_work_related()
+          show_field('incident[modified_duties_prescribed_after]')
+        else
+          hide_field(form, revalidate, 'incident[modified_duties_prescribed_after]')
+      dependants: [ 'incident[modified_duties_prescriber]', 'incident[other_modified_duties_prescriber]', 'incident[days_modified_duties_prescribed]' ]
+    'incident[modified_duties_prescriber]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[modified_duties_prescribed_after]')
+          show_field('incident[modified_duties_prescriber]')
+        else
+          hide_field(form, revalidate, 'incident[modified_duties_prescriber]')
+      dependants: ['incident[other_modified_duties_prescriber]' ]
+    'incident[other_modified_duties_prescriber]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[modified_duties_prescriber]') == 'Other'
+          show_field('incident[other_modified_duties_prescriber]')
+        else
+          hide_field(form, revalidate, 'incident[other_modified_duties_prescriber]')
+    'incident[days_modified_duties_prescribed]':
+      rule: (form,revalidate=true)->
+        if is_work_related() and field_value('incident[modified_duties_prescribed_after]')
+          show_field('incident[days_modified_duties_prescribed]')
+        else
+          hide_field(form, revalidate, 'incident[days_modified_duties_prescribed]')
+    'incident[immediate_action]':
+      rule: (form,revalidate=true)->
+        if is_work_related()
+          show_field('incident[immediate_action]')
+        else
+          hide_field(form, revalidate, 'incident[immediate_action]')
+    'incident[names_involved_in_investigation]':
+      rule: (form,revalidate=true)->
+        if is_work_related()
+          show_field('incident[names_involved_in_investigation]')
+        else
+          hide_field(form, revalidate, 'incident[names_involved_in_investigation]')
+    'incident[additional_comments]':
+      rule: (form,revalidate=true)->
+        if is_work_related()
+          show_field('incident[additional_comments]')
+        else
+          hide_field(form, revalidate, 'incident[additional_comments]')
+    'incident[has_customer_property_damaged]':
+      rule: (form,revalidate=true)->
+        if is_property_damage()
+          show_field('incident[has_customer_property_damaged]')
+        else
+          hide_field(form, revalidate, 'incident[has_customer_property_damaged]')
+      dependants: ['incident[type_of_damage]', 'incident[customers_contacted]' ]
+    'incident[type_of_damage]':
+      rule: (form,revalidate=true)->
+        if is_property_damage() and field_value('incident[has_customer_property_damaged]')
+          show_field('incident[type_of_damage]')
+        else
+          hide_field(form, revalidate, 'incident[type_of_damage]')
+    'incident[customers_contacted]':
+      rule: (form,revalidate=true)->
+        if is_property_damage() and field_value('incident[has_customer_property_damaged]')
+          show_field('incident[customers_contacted]')
+        else
+          hide_field(form, revalidate, 'incident[customers_contacted]')
+    'incident[has_employee_done_modified_work_form]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib()
+          show_field('incident[has_employee_done_modified_work_form]')
+        else
+          hide_field(form, revalidate, 'incident[has_employee_done_modified_work_form]')      
+      dependants: [ 'incident[reason_employee_not_done_modified_work_form]', 'incident[modified_work_form_signed]', 'incident[modified_work_documents_attributes]', 'incident[why_modified_work_form_not_signed]' ]    
+    'incident[reason_employee_not_done_modified_work_form]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and field_value('incident[has_employee_done_modified_work_form]') == false
+          show_field('incident[reason_employee_not_done_modified_work_form]')
+        else
+          hide_field(form, revalidate, 'incident[reason_employee_not_done_modified_work_form]')
+    'incident[modified_work_form_signed]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and field_value('incident[has_employee_done_modified_work_form]')
+          show_field('incident[modified_work_form_signed]')
+        else
+          hide_field(form, revalidate, 'incident[modified_work_form_signed]')
+      dependants: [ 'incident[modified_work_documents_attributes]', 'incident[why_modified_work_form_not_signed]' ]
+    'incident[modified_work_documents_attributes]':
+      rule: (form, revalidate=true)->
+        if is_osha_wsib() and field_value('incident[has_employee_done_modified_work_form]') and field_value('incident[modified_work_form_signed]')
+          show_fields("incident[modified_work_documents_attributes]")
+        else
+          hide_fields(form, revalidate, "incident[modified_work_documents_attributes]")
+    'incident[why_modified_work_form_not_signed]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and field_value('incident[has_employee_done_modified_work_form]') and field_value('incident[modified_work_form_signed]') == false
+          show_field('incident[why_modified_work_form_not_signed]')
+        else
+          hide_field(form, revalidate, 'incident[why_modified_work_form_not_signed]')
+    'incident[has_employee_received_medical_attention]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib()
+          show_field('incident[has_employee_received_medical_attention]')
+        else
+          hide_field(form, revalidate, 'incident[has_employee_received_medical_attention]')
+      dependants: [ 'incident[name_clinic_hospital]','incident[name_nurse_doctor]','incident[medical_treatment]','incident[can_upload_medical_doc]', 
+          'incident[medical_documents_attributes]', 'incident[reason_not_upload_medical_doc]' ]
+    'incident[name_clinic_hospital]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and field_value('incident[has_employee_received_medical_attention]') 
+          show_field('incident[name_clinic_hospital]')
+        else
+          hide_field(form, revalidate, 'incident[name_clinic_hospital]')
+    'incident[name_nurse_doctor]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and field_value('incident[has_employee_received_medical_attention]') 
+          show_field('incident[name_nurse_doctor]')
+        else
+          hide_field(form, revalidate, 'incident[name_nurse_doctor]')
+    'incident[medical_treatment]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and field_value('incident[has_employee_received_medical_attention]') 
+          show_field('incident[medical_treatment]')
+        else
+          hide_field(form, revalidate, 'incident[medical_treatment]')
+    'incident[can_upload_medical_doc]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and field_value('incident[has_employee_received_medical_attention]') 
+          show_field('incident[can_upload_medical_doc]')
+        else
+          hide_field(form, revalidate, 'incident[can_upload_medical_doc]')
+      dependants: ['incident[medical_documents_attributes]', 'incident[reason_not_upload_medical_doc]' ]
+    'incident[medical_documents_attributes]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and field_value('incident[has_employee_received_medical_attention]') and field_value('incident[can_upload_medical_doc]') 
+          show_fields('incident[medical_documents_attributes]')
+        else
+          hide_fields(form, revalidate, 'incident[medical_documents_attributes]')
+    'incident[reason_not_upload_medical_doc]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and field_value('incident[has_employee_received_medical_attention]') and field_value('incident[can_upload_medical_doc]') == false 
+          show_field('incident[reason_not_upload_medical_doc]')
+        else
+          hide_field(form, revalidate, 'incident[reason_not_upload_medical_doc]')
+    'incident[wsib_recordable]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and is_ca_site()
+          show_field('incident[wsib_recordable]')
+        else
+          hide_field(form, revalidate, 'incident[wsib_recordable]')
+      dependants: ['incident[wsib_form_7]', 'incident[reason_wsib_form_7_not_submitted]', 'incident[wsib_claim]', 'incident[wsib_form_7]', 'incident[reason_wsib_form_7_not_submitted]', 'incident[wsib_claim]',
+        'incident[wsib_lost_time]', 'incident[lost_days_start]', 'incident[lost_days_end]', 'incident[lost_days]',
+        'incident[modified_work]', 'incident[modified_work_start]', 'incident[modified_work_end]', 'incident[modified_work_days]'
+        ]
+    'incident[wsib_form_7]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and is_ca_site() and field_value('incident[wsib_recordable]')
+          show_field('incident[wsib_form_7]')
+        else
+          hide_field(form, revalidate, 'incident[wsib_form_7]')
+      dependants: ['incident[reason_wsib_form_7_not_submitted]', 'incident[wsib_claim]',
+        'incident[wsib_lost_time]', 'incident[lost_days_start]', 'incident[lost_days_end]', 'incident[lost_days]',
+        'incident[modified_work]', 'incident[modified_work_start]', 'incident[modified_work_end]', 'incident[modified_work_days]']
+    'incident[reason_wsib_form_7_not_submitted]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and is_ca_site() and field_value('incident[wsib_recordable]') and field_value('incident[wsib_form_7]') == false
+          show_field('incident[reason_wsib_form_7_not_submitted]')
+        else
+          hide_field(form, revalidate, 'incident[reason_wsib_form_7_not_submitted]')
+    'incident[wsib_claim]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and is_ca_site() and field_value('incident[wsib_recordable]') and field_value('incident[wsib_form_7]')
+          show_field('incident[wsib_claim]')
+        else
+          hide_field(form, revalidate, 'incident[wsib_claim]')
+    'incident[wsib_lost_time]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and is_ca_site() and field_value('incident[wsib_recordable]')
+          show_field('incident[wsib_lost_time]')
+        else
+          hide_field(form, revalidate, 'incident[wsib_lost_time]')
+      dependants: ['incident[lost_days_start]', 'incident[lost_days_end]', 'incident[lost_days]']
+    'incident[osha_recordable]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and is_us_site()
+          show_field('incident[osha_recordable]')
+        else
+          hide_field(form, revalidate, 'incident[osha_recordable]')
+      dependants: ['incident[has_compensation_claim_submitted]', 'incident[reason_compensation_claim_not_submitted]', 'incident[osha_claim]', 'incident[osha_lost_time]', 
+        'incident[lost_days_start]', 'incident[lost_days_end]', 'incident[lost_days]',
+        'incident[modified_work]', 'incident[modified_work_start]', 'incident[modified_work_end]', 'incident[modified_work_days]'
+        ]
+    'incident[has_compensation_claim_submitted]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and is_us_site() and field_value('incident[osha_recordable]')
+          show_field('incident[has_compensation_claim_submitted]')
+        else
+          hide_field(form, revalidate, 'incident[has_compensation_claim_submitted]')
+      dependants: ['incident[reason_compensation_claim_not_submitted]', 'incident[osha_claim]']
+    'incident[reason_compensation_claim_not_submitted]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and is_us_site() and field_value('incident[osha_recordable]') and field_value('incident[has_compensation_claim_submitted]') == false
+          show_field('incident[reason_compensation_claim_not_submitted]')
+        else
+          hide_field(form, revalidate, 'incident[reason_compensation_claim_not_submitted]')
+    'incident[osha_claim]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and is_us_site() and field_value('incident[osha_recordable]') and field_value('incident[has_compensation_claim_submitted]')
+          show_field('incident[osha_claim]')
+        else
+          hide_field(form, revalidate, 'incident[osha_claim]')
+    'incident[osha_lost_time]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and is_us_site() and field_value('incident[osha_recordable]')
+          show_field('incident[osha_lost_time]')
+        else
+          hide_field(form, revalidate, 'incident[osha_lost_time]')
+      dependants: ['incident[lost_days_start]', 'incident[lost_days_end]', 'incident[lost_days]']
+    'incident[lost_days_start]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and (field_value('incident[wsib_recordable]') or field_value('incident[osha_recordable]')) and (field_value('incident[wsib_lost_time]') or field_value('incident[osha_lost_time]'))
+          show_field('incident[lost_days_start]')
+        else
+          hide_field(form, revalidate, 'incident[lost_days_start]')
+    'incident[lost_days_end]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and (field_value('incident[wsib_recordable]') or field_value('incident[osha_recordable]')) and (field_value('incident[wsib_lost_time]') or field_value('incident[osha_lost_time]'))
+          show_field('incident[lost_days_end]')
+        else
+          hide_field(form, revalidate, 'incident[lost_days_end]')
+    'incident[lost_days]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and (field_value('incident[wsib_recordable]') or field_value('incident[osha_recordable]')) and (field_value('incident[wsib_lost_time]') or field_value('incident[osha_lost_time]'))
+          show_field('incident[lost_days]')
+        else
+          hide_field(form, revalidate, 'incident[lost_days]')
+    'incident[modified_work]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and (field_value('incident[wsib_recordable]') or field_value('incident[osha_recordable]'))
+          show_field('incident[modified_work]')
+        else
+          hide_field(form, revalidate, 'incident[modified_work]')
+      dependants: ['incident[modified_work_start]', 'incident[modified_work_end]', 'incident[modified_work_days]']
+    'incident[modified_work_start]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and (field_value('incident[wsib_recordable]') or field_value('incident[osha_recordable]')) and field_value('incident[modified_work]')
+          show_field('incident[modified_work_start]')
+        else
+          hide_field(form, revalidate, 'incident[modified_work_start]')
+    'incident[modified_work_end]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and (field_value('incident[wsib_recordable]') or field_value('incident[osha_recordable]')) and field_value('incident[modified_work]')
+          show_field('incident[modified_work_end]')
+        else
+          hide_field(form, revalidate, 'incident[modified_work_end]')
+    'incident[modified_work_days]':
+      rule: (form,revalidate=true)->
+        if is_osha_wsib() and (field_value('incident[wsib_recordable]') or field_value('incident[osha_recordable]')) and field_value('incident[modified_work]')
+          show_field('incident[modified_work_days]')
+        else
+          hide_field(form, revalidate, 'incident[modified_work_days]')
+    'incident[additional_health_safety_comments]':
+      dependants: ['incident[comment]']
+    'incident[comment]':
+      rule: (form,revalidate=true)->
+        if field_value('incident[additional_health_safety_comments]')
+          show_field('incident[comment]')
+        else
+          hide_field(form, revalidate, 'incident[comment]')
+    'incident[implemented]':
+      dependants: ['incident[support_files_attributes]', 'incident[reason_implemented_not_upload]']
+    'incident[support_files_attributes]':
+      rule: (form,revalidate=true)->
+        if field_value('incident[implemented]')
+          show_fields('incident[support_files_attributes]')
+        else
+          hide_fields(form, revalidate, 'incident[support_files_attributes]')
+    'incident[reason_implemented_not_upload]':
+      rule: (form,revalidate=true)->
+        if field_value('incident[implemented]') == false
+          show_field('incident[reason_implemented_not_upload]')
+        else
+          hide_field(form, revalidate, 'incident[reason_implemented_not_upload]')
+    'incident[incident_classified_osha_recordable]':
+      dependants: ['incident[reason_osha_not_recordable]']
+    'incident[reason_osha_not_recordable]':
+      rule: (form,revalidate=true)->
+        if field_value('incident[incident_classified_osha_recordable]')
+          show_field('incident[reason_osha_not_recordable]')
+        else
+          hide_field(form, revalidate, 'incident[reason_osha_not_recordable]')
+          
+  check_field_visibility = (form,name, revalidate=true) ->
+    if form_fields[name] == undefined or form_fields[name].dependants == undefined
+      return
+    
+    for dependant_name in form_fields[name].dependants
+      form_fields[dependant_name].rule(form, revalidate)
+      check_field_visibility(form, dependant_name, revalidate)
+    
+  form = $("form.incident-form")
+    
+  if form.length > 0
+    # initialize the visibility of fields in the form
+    for field_name, obj of form_fields
+      $('[name="'+field_name+'"]').on 'change', ()->
+        check_field_visibility(form, $(this).attr('name'), true)
+    
+      check_field_visibility(form, field_name, false)
+      $('[name="'+field_name+'"]').on 'change', ()->
+        check_field_visibility(form, $(this).attr('name'), true)
+    
+    
+    $('.bootstrap-date-picker').datetimepicker(
+      'format': 'YYYY/MM/DD'
+    ).on 'dp.change', (e) ->
+      dp_revalidate($(this).find('input').attr('name') || ("incident[" + $(this).find('input').attr('id') + "]"))
+      
+    $('.bootstrap-time-picker').datetimepicker(
+      'format': 'HH:mm'
+    ).on 'dp.change', (e) ->
+      dp_revalidate($(this).find('input').attr('name') || ("incident[" + $(this).find('input').attr('id') + "]"))
+    
+    setup_date_time_fields('.incident_time_field', '#incident_incident_time', '#incident_time-date-part', '#incident_time-time-part', 'incident[incident_time-date-part]', 'incident[incident_time-time-part]')
+    setup_date_time_fields('.report_time_field', '#incident_report_time', '#report_time-date-part', '#report_time-time-part', 'incident[report_time-date-part]', 'incident[report_time-time-part]')  
+    setup_date_time_fields('.report_submitted_time_field', '#incident_report_submitted_time', '#report_submitted_time-date-part', '#report_submitted_time-time-part', 'incident[report_submitted_time-date-part]', 'incident[report_submitted_time-time-part]')
+    #investigation
+    setup_date_field(".date_last_trained_field", "incident[date_last_trained]")
+    setup_date_field(".data_last_pm_eqp_performed_field", "incident[date_last_pm_eqp_performed]")
+    #follow_up
+    setup_date_fields(".incident_lost_days_field", "incident[lost_days_start]",  "incident[lost_days_end]",  "incident[lost_days]")
+    setup_date_fields(".incident_modified_work_field", "incident[modified_work_start]", "incident[modified_work_end]", "incident[modified_work_days]")
+    setup_date_field(".incident_closed_date_field", "incident[closed_date]")
+    
+    # handle changing ready to submit checkbox
+    $('[name="incident[ready_to_submit_investigation]"]')
+    .on 'change', ()->
+      # clear the style for the validation. The reason it is done in this way is 
+      # because when the checkbox is changed, the related fields will be ignored because of the exclude option in the setting and 
+      # bootstrapValidator('resetForm') will not affect these fields.
+      checkbox = $(this)
+      checked = checkbox.prop('checked')
+      checkbox.prop('checked', true)
+      form.bootstrapValidator('resetForm')
+      checkbox.prop('checked', checked)
+      
+      tab_follow_up = $('a[href="#follow_up"]')
+      tab_health_safety = $('a[href="#health_and_safety"]')
+      if checkbox.prop('checked') == false and (tab_follow_up.length > 0 or tab_health_safety.length > 0)
+        bootbox.dialog(
+          
+          title: "Explain why you are rejecting the investigation"
+          
+          # HTML code for the modal form
+          message: $("#modal-form")
+          # class name
+          className: "incident-form-modal"
+          #close button
+          onEscape: () ->
+            checkbox.prop('checked', true)
+          # Buttons to ether submit or just close the modal window
+          buttons: 
+            success:
+              className: "btn-primary" 
+              label: "OK"
+              callback: (result) ->
+                # checking the status of the validation of the rejection reason field
+                text_element = $("#incident_rejection_reason_modal") 
+                # it returns null, if the field is not validated, true if the input meets the requirements and false if doesn't
+                status = form.data("formValidation").isValidField("incident[rejection_reason_modal]") 
+                if (status == null)
+                  # if the field is not validated
+                  form.formValidation("revalidateField", "incident[rejection_reason_modal]")
+                  return false # preventing the modal window from closing
+                else  
+                  # Hiding Follow Up and Health & Safety tabs
+                  if tab_follow_up.length > 0 
+                    if checkbox.prop('checked') == false
+                      tab_follow_up.closest('li').hide()
+                      clear_all_fields_in_tab(form, '#follow_up')
+                  if tab_health_safety.length > 0
+                    if checkbox.prop('checked') == false
+                      tab_health_safety.closest('li').hide()
+                      clear_all_fields_in_tab(form, '#health_and_safety')
+                      
+                  # changing the value of the hidden value
+                  text = text_element.val()
+                  show_field("incident[rejection_reason]")
+                  $("#incident_rejection_reason").val(text) # setting the value of the hidden field
+                  $("#rejection_reason_holder").text(text) # holder text filling with the input from the modal window
+            cancel:
+              label: "Cancel",
+              className: "btn-default"
+              callback: (result) ->
+                checkbox.prop('checked', true)
+        )
+        .on('shown.bs.modal', () ->
+          $('#modal-form').show()
+        )
+        .on('hide.bs.modal', (e) ->
+          #hiding and cleaning the field
+          clear_field(form, false, "incident[rejection_reason_modal]")
+          form.formValidation("resetField", "incident[rejection_reason_modal]")
+          $('#modal-form').hide().appendTo('div#investigation')
+        )
+       else
+         if tab_follow_up.length > 0 
+           tab_follow_up.closest('li').show()
+         if tab_health_safety.length > 0
+           tab_health_safety.closest('li').show()
+      true
+    $
+    
+    # handle changing close date
+    $('[name="incident[closed_date]"]').on 'keyup', ()->
+      # clear the style for the validation when the field was cleared. The reason it is done in this way is 
+      # because when the checkbox is changed, the related fields will be ignored because of the exclude option in the setting and 
+      # bootstrapValidator('resetForm') will not affect these fields. 
+      if(!$(this).val())
+        $(this).val('fake')
+        form.bootstrapValidator('resetForm')
+        $(this).val('')

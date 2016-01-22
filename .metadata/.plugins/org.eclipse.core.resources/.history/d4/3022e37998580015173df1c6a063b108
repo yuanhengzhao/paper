@@ -1,0 +1,41 @@
+<% title "Customer Sites" %>
+
+<% if can? :create, DataSources::CustomerSite %>
+<div class="command-list">
+	<ul>
+		<li>Command:</li>
+		<li><%= link_to 'New Customer Site', new_data_sources_customer_site_path %></li>
+	</ul>
+</div>
+<% end %>
+<table id="customer_sites_datatable" class="data-source-table display">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Company</th>
+      <th>Customer</th>
+      <th>Site</th>
+      <th>Shop</th>
+      <th class="actions">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @customer_sites.each do |data_sources_customer_site| %>
+      <tr>
+      	<td><%= data_sources_customer_site.id %></td>
+        <td><%= data_sources_customer_site.company %></td>
+        <td><%= data_sources_customer_site.customer %></td>
+        <td><%= data_sources_customer_site.site %></td>
+        <td><%= data_sources_customer_site.shop %></td>
+        <td class="actions">
+        	<ul>
+        		<li><%= link_to 'Show', data_sources_customer_site %></li>
+        	    <% if can? :edit, data_sources_customer_site %><li><%= link_to 'Edit', edit_data_sources_customer_site_path(data_sources_customer_site) %></li><% end %>
+        	    <% if can? :destroy, data_sources_customer_site %><li><%= link_to 'Destroy', data_sources_customer_site, method: :delete, data: { confirm: 'Are you sure?' } %></li><% end %>
+        	</ul>
+		</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

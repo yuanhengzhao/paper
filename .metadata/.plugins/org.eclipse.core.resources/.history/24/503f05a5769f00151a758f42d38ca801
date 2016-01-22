@@ -1,0 +1,404 @@
+require 'rails_helper'
+require 'cancan/matchers'
+
+RSpec.describe User, :type => :model do
+  it "has a valid factory" do
+    expect(FactoryGirl.build(:user)).to be_valid
+  end
+  
+  describe "email attribute" do
+    
+    it "allows @robinsonsolutions.com emails" do
+       expect(FactoryGirl.build(:robinson_solutions_user)).to be_valid
+    end
+    
+    
+    it "allows @robinson-innovations.com emails" do
+       expect(FactoryGirl.build(:robinson_innovations_user)).to be_valid
+    end
+    
+    
+    it "does not allow @gmail.com emails" do
+       expect(FactoryGirl.build(:user, email: "user@gmail.com")).to_not be_valid
+    end
+    
+  end
+  
+  describe "full name" do
+    it 'should return the first name when last name is blank' do
+      expect(FactoryGirl.build(:user, first_name: 'first name', last_name: '').full_name).to eq('first name')
+    end
+    
+    it 'should return the last name when first name is blank' do
+      expect(FactoryGirl.build(:user, first_name: '', last_name: 'last name').full_name).to eq('last name')
+    end
+    
+    it 'should return the concatenation of first_name and last_name separated by a space character' do
+      expect(FactoryGirl.build(:user, first_name: 'first name', last_name: 'last name').full_name).to eq('first name last name')
+    end
+  end
+  
+  describe "to_s" do
+    it "should return the same as full_name" do
+      user = FactoryGirl.build(:user, first_name: 'first name', last_name: 'last name')
+      expect(user.to_s).to eq(user.full_name)
+    end
+  end
+  
+  describe "incidents attribute" do
+    let!(:author) { FactoryGirl.create(:user) }
+    let!(:other_user) { FactoryGirl.create(:user) }
+    
+    let!(:incident1) { FactoryGirl.create(:incident, author: author) }
+    let!(:incident2) { FactoryGirl.create(:incident, author: other_user) }
+    
+    it "returns the incidents that match the user" do
+      expect(author.incidents).to eq([ incident1 ])
+    end
+  end
+  
+  describe "role" do
+    it "defaults to 'user'" do
+      user = FactoryGirl.build(:user)
+      expect(user.user?).to be_truthy
+    end
+    
+    describe "user" do
+      let(:user) { FactoryGirl.build(:user) }
+      
+      it "has a valid factory" do
+        expect(user).to be_valid
+      end
+      
+      it "has the responds to the appropriate role" do
+        expect(user.user?).to be_truthy
+        expect(user.reader?).to be_falsey
+        expect(user.safety_coordinator?).to be_falsey
+        expect(user.safety_director?).to be_falsey
+        expect(user.admin?).to be_falsey
+      end
+    end
+    
+    describe "reader" do
+      let(:user) { FactoryGirl.build(:reader) }
+      
+      it "has a valid factory" do
+        expect(user).to be_valid
+      end
+      
+      it "has the responds to the appropriate role" do
+        expect(user.user?).to be_falsey
+        expect(user.reader?).to be_truthy
+        expect(user.safety_coordinator?).to be_falsey
+        expect(user.safety_director?).to be_falsey
+        expect(user.admin?).to be_falsey
+      end
+    end
+    
+    describe "safety coordinator" do
+      let(:user) { FactoryGirl.build(:safety_coordinator) }
+      
+      it "has a valid factory" do
+        expect(user).to be_valid
+      end
+      
+      it "has the responds to the appropriate role" do
+        expect(user.user?).to be_falsey
+        expect(user.reader?).to be_falsey
+        expect(user.safety_coordinator?).to be_truthy
+        expect(user.safety_director?).to be_falsey
+        expect(user.admin?).to be_falsey
+      end
+    end
+    
+    describe "safety director" do
+      let(:user) { FactoryGirl.build(:safety_director) }
+      
+      it "has a valid factory" do
+        expect(user).to be_valid
+      end
+      
+      it "has the responds to the appropriate role" do
+        expect(user.user?).to be_falsey
+        expect(user.reader?).to be_falsey
+        expect(user.safety_coordinator?).to be_falsey
+        expect(user.safety_director?).to be_truthy
+        expect(user.admin?).to be_falsey
+      end
+    end
+    
+    describe "admin" do
+      let(:user) { FactoryGirl.build(:admin) }
+      
+      it "has a valid factory" do
+        expect(user).to be_valid
+      end
+      
+      it "has the responds to the appropriate role" do
+        expect(user.user?).to be_falsey
+        expect(user.reader?).to be_falsey
+        expect(user.safety_coordinator?).to be_falsey
+        expect(user.safety_director?).to be_falsey
+        expect(user.admin?).to be_truthy
+      end
+    end
+  end
+  
+  describe "scope safety_reps" do
+    let!(:user) { FactoryGirl.create(:user) }
+    let!(:reader) { FactoryGirl.create(:reader) }
+    let!(:admin) { FactoryGirl.create(:admin) }
+    let!(:safety_coordinator1) { FactoryGirl.create(:safety_coordinator) }
+    let!(:safety_coordinator2) { FactoryGirl.create(:safety_coordinator) }
+    let!(:safety_director1) { FactoryGirl.create(:safety_director) }
+    let!(:safety_director2) { FactoryGirl.create(:safety_director) }
+    
+    before(:each) do
+      expect(User.all.order(:id)).to eq( [ 
+          user, 
+          reader, 
+          admin, 
+          safety_coordinator1, 
+          safety_coordinator2, 
+          safety_director1, 
+          safety_director2 
+        ].sort_by { |user| user.id } 
+      )
+    end
+    
+    it 'should return the union of all safety_coordinators and safety_directors' do
+      expect(User.safety_reps.order(:id)).to eq( [ safety_coordinator1, safety_coordinator2, safety_director1, safety_director2 ].sort_by { |user| user.id } )
+    end
+  end
+  
+  describe "self.find_for_omniauth" do
+    
+    let(:omniauth) { { 'provider' => 'google_oauth2', 'uid' => '963852', 'info' => { 'email' => 'user@robinsonsolutions.com', 'first_name'=> 'Joe', 'last_name'=> 'Don' } } }
+    
+    it "creates a new user if the user with the uid and the provider or the email does not exist" do
+      # ensure system has no users before calling method
+      expect(User.all).to be_empty
+      
+      result = User.find_for_omniauth(omniauth)
+      
+      # result should match hash properties
+      expect(result.provider).to eq(omniauth['provider'])
+      expect(result.uid).to eq(omniauth['uid'])
+      expect(result.email).to eq(omniauth['info']['email'])
+      expect(result.first_name).to eq(omniauth['info']['first_name'])
+      expect(result.last_name).to eq(omniauth['info']['last_name'])
+      
+      # should not have been saved to the system yet
+      expect(result).to_not be_persisted
+      expect(result).to be_valid
+      expect(User.all).to be_empty
+    end
+    
+    it "finds the user if the provider and uid match" do
+      # create user in system before calling method
+      expected = FactoryGirl.create(:user, provider: omniauth['provider'], uid: omniauth['uid'], email: omniauth['info']['email'], first_name: 'Joe', last_name: 'Don')
+      
+      result = User.find_for_omniauth(omniauth)
+      
+      # result should match expected properties
+      expect(result.provider).to eq(expected.provider)
+      expect(result.uid).to eq(expected.uid)
+      expect(result.email).to eq(expected.email)
+      expect(result.first_name).to eq(expected.first_name)
+      expect(result.last_name).to eq(expected.last_name)
+      
+      # should not be a new object
+      expect(result).to be_persisted
+      expect(result).to be_valid
+    end
+    
+     it "finds the user without provider and uid but the email matches" do
+      # create user in system before calling method
+      FactoryGirl.create(:user, provider: 'randomprovider', uid: 'randomuid', email: omniauth['info']['email'], first_name: 'Joe', last_name: 'Don')
+      expected = FactoryGirl.build(:user, provider: omniauth['provider'], uid: omniauth['uid'], email: omniauth['info']['email'], first_name: 'Joe', last_name: 'Don')
+      
+      result = User.find_for_omniauth(omniauth)
+      
+      # result should match expected properties
+      expect(result.provider).to eq(expected.provider)
+      expect(result.uid).to eq(expected.uid)
+      expect(result.email).to eq(expected.email)
+      expect(result.first_name).to eq(expected.first_name)
+      expect(result.last_name).to eq(expected.last_name)
+      
+      # should not be a new object
+      expect(result).to be_persisted
+      expect(result).to be_valid
+    end
+  end
+  
+  describe "contacted_for" do
+    let!(:user) { FactoryGirl.create(:safety_coordinator) }
+    
+    let!(:incident1) { FactoryGirl.create(:incident, safety_rep: user) }
+    let!(:incident2) { FactoryGirl.create(:incident, safety_rep: user) }
+    
+    it "should return all the incidents of which the safety rep is the user" do
+      expect(user.contacted_for).to eq [ incident1, incident2 ]
+    end
+  end
+  
+  describe "abilities" do
+    subject(:ability) { Ability.new(user) }
+    let(:user) { nil }
+    
+    context "for a regular user" do
+      let(:user) { FactoryGirl.build_stubbed(:user) }
+      
+      it "cannot generate an open incidents report" do
+        expect(subject).to_not be_able_to(:generate, :open_incidents_report)
+      end
+      
+      
+      
+      describe "who is the author" do
+        # instantiate an incident that was authored by the current user
+        let(:incident) { FactoryGirl.build_stubbed(:incident, author: user) }
+        before(:each) do
+          expect(incident.author).to eq(user)
+        end
+        
+        it "can see medical documents attached to an incident" do
+          expect(subject).to be_able_to(:see_medical_documents, incident)
+        end
+        
+        it "can see witness statements attached to an incident" do
+          expect(subject).to be_able_to(:see_witness_statements, incident)
+        end
+        
+        it "cannot distribute report" do
+          expect(subject).not_to be_able_to(:distribute, incident)
+        end
+        
+        it "cannot assign author to other user" do
+          expect(subject).to_not be_able_to(:assign,incident)
+        end
+      end
+      
+      describe "who is not the author" do
+        # instantiate an incident that was not authored by the current user
+        let(:incident) { FactoryGirl.build_stubbed(:incident) }
+        before(:each) do
+          expect(incident.author).to_not eq(user)
+        end
+        
+        it "cannot see medical documents attached to an incident" do
+          expect(subject).to_not be_able_to(:see_medical_documents, incident)
+        end
+        
+        it "cannot see witness statements attached to an incident" do
+          expect(subject).to_not be_able_to(:see_witness_statements, incident)
+        end
+        
+        it "cannot distribute report" do
+          expect(subject).not_to be_able_to(:distribute, incident)
+        end
+        
+        it "cannot assign author to other user" do
+          expect(subject).to_not be_able_to(:assign,incident)
+        end
+      end
+    end
+    
+    context "for a reader" do
+      let(:user) { FactoryGirl.build_stubbed(:reader) }
+      let(:incident) { FactoryGirl.build_stubbed(:incident) }
+      
+      it "cannot see medical documents attached to an incident" do
+        expect(subject).to_not be_able_to(:see_medical_documents, FactoryGirl.create(:incident))
+      end
+      
+      it "can generate an open incidents report" do
+        expect(subject).to be_able_to(:generate, :open_incidents_report)
+      end
+      
+      it "cannot see witness statements" do
+         expect(subject).to_not be_able_to(:see_witness_statements, Incident.new)
+      end
+        
+      it "cannot distribute report" do
+        expect(subject).not_to be_able_to(:distribute, incident)
+      end
+      
+      it "cannot assign author to other user" do
+        expect(subject).to_not be_able_to(:assign, incident)
+      end
+    end
+    
+    context "for a safety coordinator" do
+      let(:user) { FactoryGirl.build_stubbed(:safety_coordinator) }
+      let(:incident) { FactoryGirl.build_stubbed(:incident) }
+      
+      it "can see medical documents attached to an incident" do
+        expect(subject).to be_able_to(:see_medical_documents, incident)
+      end
+      
+      it "can see witness statements attached to an incident" do
+        expect(subject).to be_able_to(:see_witness_statements, incident)
+      end
+      
+      it "can generate an open incidents report" do
+        expect(subject).to be_able_to(:generate, :open_incidents_report)
+      end
+        
+      it "can distribute report" do
+        expect(subject).to be_able_to(:distribute, incident)
+      end
+      
+      it "can assign author to other user" do
+        expect(subject).to be_able_to(:assign, incident)
+      end
+    end
+    
+    context "for a safety director" do
+      let(:user) { FactoryGirl.build_stubbed(:safety_director) }
+      let(:incident) { FactoryGirl.build_stubbed(:incident) }
+      
+      it "can see medical documents attached to an incident" do
+        expect(subject).to be_able_to(:see_medical_documents, incident)
+      end
+      
+      it "can see witness statements attached to an incident" do
+        expect(subject).to be_able_to(:see_witness_statements, incident)
+      end
+      
+      it "can generate an open incidents report" do
+        expect(subject).to be_able_to(:generate, :open_incidents_report)
+      end
+        
+      it "can distribute report" do
+        expect(subject).to be_able_to(:distribute, incident)
+      end
+    end
+    
+    context "for an admin" do
+      let(:user) { FactoryGirl.build_stubbed(:admin) }
+      let(:incident) { FactoryGirl.build_stubbed(:incident) }
+      
+      it "can see medical documents attached to an incident" do
+        expect(subject).to be_able_to(:see_medical_documents, incident)
+      end
+      
+      it "can see witness statements attached to an incident" do
+        expect(subject).to be_able_to(:see_witness_statements, incident)
+      end
+      
+      it "can generate an open incidents report" do
+        expect(subject).to be_able_to(:generate, :open_incidents_report)
+      end
+        
+      it "can distribute report" do
+        expect(subject).to be_able_to(:distribute, incident)
+      end
+      
+      it "can assign author to other user" do
+        expect(subject).to be_able_to(:assign, incident)
+      end
+    end
+  end
+end

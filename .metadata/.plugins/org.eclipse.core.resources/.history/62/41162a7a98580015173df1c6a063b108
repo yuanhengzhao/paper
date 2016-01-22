@@ -1,0 +1,14 @@
+require 'spec_helper'
+
+describe Forms::JkkAudit do
+  it "should be included in Forms.list" do
+    expect(Forms.list).to include described_class
+  end
+  
+  it "has a valid factory" do
+    build(:jkk_audit_valid).should be_valid
+  end
+  
+  it_behaves_like "reparseable"
+  
+end

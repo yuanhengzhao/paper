@@ -1,0 +1,19 @@
+class CreateFormsSafetyObservationsView < ActiveRecord::Migration
+  def up
+    create_view :forms_safety_observations_views, "select
+      forms_safety_observations.*,
+      case when ep is null then 0 when ep = '' then 0 when ep = '0' then 0 else 1 end ep_bool,
+      case when etws is null then 0 when etws = '' then 0 when etws = '0' then 0 else 1 end etws_bool,
+      case when fs is null then 0 when fs = '' then 0 when fs = '0' then 0 else 1 end fs_bool,
+      case when pbr is null then 0 when pbr = '' then 0 when pbr = '0' then 0 else 1 end pbr_bool,
+      case when ppe is null then 0 when ppe = '' then 0 when ppe = '0' then 0 else 1 end ppe_bool,
+      case when ws is null then 0 when ws = '' then 0 when ws = '0' then 0 else 1 end ws_bool
+    from
+      forms_safety_observations"
+  end
+  
+  def down
+    drop_view :forms_safety_observations_views, :if_exists => true
+  end
+  
+end

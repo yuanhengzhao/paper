@@ -1,0 +1,2246 @@
+require 'rails_helper'
+
+RSpec.describe IncidentsController, :type => :controller do
+  
+  describe "commits form attributes to database" do
+    shared_examples "a simple Incident model attribute" do
+      let!(:incident) { FactoryGirl.create(:incident, { attr => old_val }) }
+      
+      it "can be updated" do
+        expect(incident[attr]).to eq(old_val)
+        put :update, {:id => incident.to_param, :incident => { attr => new_val } }
+        incident.reload
+        expect(incident[attr]).to eq(new_val)
+      end
+    end
+    
+    shared_examples "a Paperclip Incident model attribute" do
+      let(:img_old)  { "redcircle.png" }
+      let(:img_new)  { "greencircle.png" }
+      let(:img_type) { "image/png" }
+      
+      let!(:incident) { FactoryGirl.create(:incident, { attr => fixture_file_upload(img_old, img_type) }) }
+      
+      it "can be updated" do
+        expect(incident.send(attr).original_filename).to eq(img_old)
+        put :update, {:id => incident.to_param, :incident => { attr => fixture_file_upload(img_new, img_type)  } }
+        incident.reload
+        expect(incident.send(attr).original_filename).to eq(img_new)
+      end
+    end
+    
+    # log in a user capable of doing the update
+    let(:user) { FactoryGirl.create(:admin) }
+    before(:each) do
+      login_user(user)
+    end
+   
+    describe "building_id" do
+      let(:attr) { :building_id }
+      let(:old_val) { FactoryGirl.create(:building).id }
+      let(:new_val) { FactoryGirl.create(:building).id }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "incident_class_id" do
+      let(:attr) { :incident_class_id }
+      let(:old_val) { FactoryGirl.create(:incident_class).id }
+      let(:new_val) { FactoryGirl.create(:incident_class).id }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "incident_category_id" do
+      let(:attr) { :incident_category_id }
+      let(:old_val) { FactoryGirl.create(:incident_category).id }
+      let(:new_val) { FactoryGirl.create(:incident_category).id }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "incident_category_other" do
+      let(:attr) { :incident_category_other }
+      let(:old_val) { "Other" }
+      let(:new_val) { "Mama mia, you've changed that" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "incident_type_id" do
+      let(:attr) { :incident_type_id }
+      let(:old_val) { FactoryGirl.create(:incident_type).id }
+      let(:new_val) { FactoryGirl.create(:incident_type).id }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "incident_type_other" do
+      let(:attr) { :incident_type_other }
+      let(:old_val) { "other" }
+      let(:new_val) { "Changed" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "body_part" do
+      let(:attr) { :body_part }
+      let(:old_val) { FactoryGirl.create(:body_part) }
+      let(:new_val) { FactoryGirl.create(:body_part) }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "body_location_id" do
+      let(:attr) { :body_location_id }
+      let(:old_val) { FactoryGirl.create(:body_location).id }
+      let(:new_val) { FactoryGirl.create(:body_location).id }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "column" do
+      let(:attr) { :column }
+      let(:old_val) { "Column" }
+      let(:new_val) { "New column" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "floor_id" do
+      let(:attr) { :floor_id }
+      let(:old_val) { FactoryGirl.create(:floor).id }
+      let(:new_val) { FactoryGirl.create(:floor).id }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "supervisor" do
+      let(:attr) { :supervisor }
+      let(:old_val) { "Supervisor" }
+      let(:new_val) { "New supervisor" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "employee_type_id" do
+      let(:attr) { :employee_type_id }
+      let(:old_val) { FactoryGirl.create(:employee_type).id }
+      let(:new_val) { FactoryGirl.create(:employee_type).id }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "employee" do
+      let(:attr) { :employee }
+      let(:old_val) { "Employee" }
+      let(:new_val) { "New Employee" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "job" do
+      let(:attr) { :job }
+      let(:old_val) { "Job" }
+      let(:new_val) { "New Job" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "incident_time" do
+      let(:attr) { :incident_time }
+      let(:old_val) { "2015-01-01 12:00:00".to_date }
+      let(:new_val) { "2015-01-01 12:06:00".to_date }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "safety_rep_id" do
+      let(:attr) { :safety_rep_id }
+      let(:old_val) { FactoryGirl.create(:safety_rep).id }
+      let(:new_val) { FactoryGirl.create(:safety_rep).id }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "report_time" do
+      let(:attr) { :report_time }
+      let(:old_val) { "2015-01-01 12:30:00".to_date }
+      let(:new_val) { "2015-01-02 12:30:00".to_date }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "shift_start" do
+      let(:attr) { :shift_start }
+      let(:old_val) { "2000-01-01 08:00".to_time(:utc) }
+      let(:new_val) { "2000-01-01 10:00".to_time(:utc) }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "shift_end" do
+      let(:attr) { :shift_end }
+      let(:old_val) { "2000-01-01 17:00:00".to_time(:utc) }
+      let(:new_val) { "2000-01-01 19:00:00".to_time(:utc) }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "description" do
+      let(:attr) { :description }
+      let(:old_val) { "Random" }
+      let(:new_val) { "Change Random" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "worker_been_trained" do
+      let(:attr) { :worker_been_trained }
+      let(:old_val) { "Yes" }
+      let(:new_val) { "No" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "date_last_trained" do
+      let(:attr) { :date_last_trained }
+      let(:old_val) { "2014-12-28".to_date }
+      let(:new_val) { "2014-12-29".to_date }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "work_instruction_ref_num" do
+      let(:attr) { :work_instruction_ref_num }
+      let(:old_val) { "123456" }
+      let(:new_val) { "1234567" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "reason_not_trained" do
+      let(:attr) { :reason_not_trained }
+      let(:old_val) { "Trained" }
+      let(:new_val) { "Yes Trained" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "was_not_trained_employee_involved" do
+      let(:attr) { :was_not_trained_employee_involved }
+      let(:old_val) { "No" }
+      let(:new_val) { "Yes" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "not_trained_employee_names" do
+      let(:attr) { :not_trained_employee_names }
+      let(:old_val) { "N/A" }
+      let(:new_val) { "Nah, really N/A" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "were_reporter_aware" do
+      let(:attr) { :were_reporter_aware }
+      let(:old_val) { "Yes" }
+      let(:new_val) { "No" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "reason_why_not_aware" do
+      let(:attr) { :reason_why_not_aware }
+      let(:old_val) { "N/A" }
+      let(:new_val) { "Really, N/A" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "did_anyone_witness" do
+      let(:attr) { :did_anyone_witness }
+      let(:old_val) { "No" }
+      let(:new_val) { "Yes" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "witness_names" do
+      let(:attr) { :witness_names }
+      let(:old_val) { "N/A" }
+      let(:new_val) { "Not N/A" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "was_reporter_involved" do
+      let(:attr) { :was_reporter_involved }
+      let(:old_val) { "Yes" }
+      let(:new_val) { "No" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "involved_individual_names_who_reported" do
+      let(:attr) { :involved_individual_names_who_reported }
+      let(:old_val) { "Test Name1\nTest Name2\nTest Name3" }
+      let(:new_val) { "Test Name1\nTest Name2\nTest Name3\nTest Name4" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "was_mbl_eqp_involved" do
+      let(:attr) { :was_mbl_eqp_involved }
+      let(:old_val) { "No" }
+      let(:new_val) { "Yes" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "mobile_equipment_id" do
+      let(:attr) { :mobile_equipment_id }
+      let(:old_val) { FactoryGirl.create(:mobile_equipment).id }
+      let(:new_val) { FactoryGirl.create(:mobile_equipment).id }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "other_mbl_eqp" do
+      let(:attr) { :other_mbl_eqp }
+      let(:old_val) { "Other" }
+      let(:new_val) { "Completely random" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "unit_identification_number" do
+      let(:attr) { :unit_identification_number }
+      let(:old_val) { "12345678-ABCDEFG-9" }
+      let(:new_val) { "12345678-ABCDEFG-90" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "does_mbl_eqp_provider_have_license" do
+      let(:attr) { :does_mbl_eqp_provider_have_license }
+      let(:old_val) { "Yes" }
+      let(:new_val) { "No" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "reason_mbl_eqp_provider_no_license" do
+      let(:attr) { :reason_mbl_eqp_provider_no_license }
+      let(:old_val) { "N/A" }
+      let(:new_val) { "Yep, N/A" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "num_months_mbl_opt_exp" do
+      let(:attr) { :num_months_mbl_opt_exp }
+      let(:old_val) { 9 }
+      let(:new_val) { 10 }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "date_last_pm_eqp_performed" do
+      let(:attr) { :date_last_pm_eqp_performed }
+      let(:old_val) { "2015-01-01".to_date }
+      let(:new_val) { "2015-01-02".to_date }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "was_pre_shift_inspec_completed" do
+      let(:attr) { :was_pre_shift_inspec_completed }
+      let(:old_val) { "Yes" }
+      let(:new_val) { "No" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "reason_pre_shift_inspec_not_completed" do
+      let(:attr) { :reason_pre_shift_inspec_not_completed }
+      let(:old_val) { "N/A" }
+      let(:new_val) { "Test N/A" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "was_eqp_tls_involved" do
+      let(:attr) { :was_eqp_tls_involved }
+      let(:old_val) { "No" }
+      let(:new_val) { "Yes" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "eqp_tls_involved" do
+      let(:attr) { :eqp_tls_involved }
+      let(:old_val) { "N/A" }
+      let(:new_val) { "Aha N/A" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "was_eqp_tls_used_properly" do
+      let(:attr) { :was_eqp_tls_used_properly }
+      let(:old_val) { "No" }
+      let(:new_val) { "Yes" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "reason_eqp_tls_not_used_properly" do
+      let(:attr) { :reason_eqp_tls_not_used_properly }
+      let(:old_val) { "N/A" }
+      let(:new_val) { "Truly N/A" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "was_eqp_tls_inspec_before" do
+      let(:attr) { :was_eqp_tls_inspec_before }
+      let(:old_val) { "No" }
+      let(:new_val) { "Yes" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "reason_eqp_tls_not_inspec_before" do
+      let(:attr) { :reason_eqp_tls_not_inspec_before }
+      let(:old_val) { "N/A" }
+      let(:new_val) { "Yep N/A" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "does_eqp_tls_require_doc_inspec" do
+      let(:attr) { :does_eqp_tls_require_doc_inspec }
+      let(:old_val) { "No" }
+      let(:new_val) { "Yes" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "was_eqp_tls_inspec_doc" do
+      let(:attr) { :was_eqp_tls_inspec_doc }
+      let(:old_val) { "Yes" }
+      let(:new_val) { "No" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "reason_eqp_tls_inspec_not_doc" do
+      let(:attr) { :reason_eqp_tls_inspec_not_doc }
+      let(:old_val) { "N/A" }
+      let(:new_val) { "Nyan" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "is_any_ppe_required" do
+      let(:attr) { :is_any_ppe_required }
+      let(:old_val) { "No" }
+      let(:new_val) { "Yes" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "missing_ppe" do
+      let(:attr) { :missing_ppe }
+      let(:old_val) { "Missing" }
+      let(:new_val) { "Nope" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "other_ppe" do
+      let(:attr) { :other_ppe }
+      let(:old_val) { "Other" }
+      let(:new_val) { "Random" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "was_all_ppe_worn_properly" do
+      let(:attr) { :was_all_ppe_worn_properly }
+      let(:old_val) { nil }
+      let(:new_val) { "Yes" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "reason_ppe_not_worn_properly" do
+      let(:attr) { :reason_ppe_not_worn_properly }
+      let(:old_val) { nil }
+      let(:new_val) { "because" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "was_ppe_good_cond" do
+      let(:attr) { :was_ppe_good_cond }
+      let(:old_val) { "Yes" }
+      let(:new_val) { "No" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "reason_ppe_bad_cond" do
+      let(:attr) { :reason_ppe_bad_cond }
+      let(:old_val) { "N/A" }
+      let(:new_val) { "Some" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "is_ppe_required_in_work_inst" do
+      let(:attr) { :is_ppe_required_in_work_inst }
+      let(:old_val) { nil }
+      let(:new_val) { "No" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "was_chemical_involved" do
+      let(:attr) { :was_chemical_involved }
+      let(:old_val) { "Yes" }
+      let(:new_val) { "No" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "name_chemical" do
+      let(:attr) { :name_chemical }
+      let(:old_val) { "Pyroxide" }
+      let(:new_val) { nil }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "was_chemical_used_properly" do
+      let(:attr) { :was_chemical_used_properly }
+      let(:old_val) { "Yes" }
+      let(:new_val) { "No" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "reason_chemical_not_used_properly" do
+      let(:attr) { :reason_chemical_not_used_properly }
+      let(:old_val) { nil }
+      let(:new_val) { "Prost" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "other_env_factors" do
+      let(:attr) { :other_env_factors }
+      let(:old_val) { "Other" }
+      let(:new_val) { "Other 2" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "explain_more_env_factors" do
+      let(:attr) { :explain_more_env_factors }
+      let(:old_val) { "More" }
+      let(:new_val) { "More 2" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "other_add_factors" do
+      let(:attr) { :other_add_factors }
+      let(:old_val) { "Other" }
+      let(:new_val) { "Other 2" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "explain_more_add_factors" do
+      let(:attr) { :explain_more_add_factors }
+      let(:old_val) { "More" }
+      let(:new_val) { "More 2" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "description_investigation" do
+      let(:attr) { :description_investigation }
+      let(:old_val) { "Description" }
+      let(:new_val) { "Description2" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "investigation_photo1" do
+      let(:attr) { :investigation_photo1 }
+      it_behaves_like "a Paperclip Incident model attribute"
+    end
+
+    describe "investigation_photo2" do
+      let(:attr) { :investigation_photo2 }
+      it_behaves_like "a Paperclip Incident model attribute"
+    end
+
+    describe "modified_duties_prescribed_after" do
+      let(:attr) { :modified_duties_prescribed_after }
+      let(:old_val) { "Yes" }
+      let(:new_val) { "No" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "modified_duties_prescriber_id" do
+      let(:attr) { :modified_duties_prescriber_id }
+      let(:old_val) { FactoryGirl.create(:modified_duties_prescriber).id }
+      let(:new_val) { FactoryGirl.create(:modified_duties_prescriber).id }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "other_modified_duties_prescriber" do
+      let(:attr) { :other_modified_duties_prescriber }
+      let(:old_val) { "N/A" }
+      let(:new_val) { "Other" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "days_modified_duties_prescribed" do
+      let(:attr) { :days_modified_duties_prescribed }
+      let(:old_val) { 20 }
+      let(:new_val) { 24 }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "immediate_action" do
+      let(:attr) { :immediate_action }
+      let(:old_val) { "action test" }
+      let(:new_val) { "action test 2" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "corrective_action" do
+      let(:attr) { :corrective_action }
+      let(:old_val) { "action test" }
+      let(:new_val) { "action test 2" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "corrective_action_date" do
+      let(:attr) { :corrective_action_date }
+      let(:old_val) { "2015-01-01".to_date }
+      let(:new_val) { "2015-01-02".to_date }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "corrective_action_responsible" do
+      let(:attr) { :corrective_action_responsible }
+      let(:old_val) { "Random Person" }
+      let(:new_val) { "Random Person 2" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "corrective_action2" do
+      let(:attr) { :corrective_action2 }
+      let(:old_val) { "action test" }
+      let(:new_val) { "action test 2" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "corrective_action_date2" do
+      let(:attr) { :corrective_action_date2 }
+      let(:old_val) { "2015-01-03".to_date }
+      let(:new_val) { "2015-01-04".to_date }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "corrective_action_responsible2" do
+      let(:attr) { :corrective_action_responsible2 }
+      let(:old_val) { "Random Person" }
+      let(:new_val) { "Random Person 2" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "names_involved_in_investigation" do
+      let(:attr) { :names_involved_in_investigation }
+      let(:old_val) { "Name1  Name2  Name3  Name4  Name5  Name6" }
+      let(:new_val) { "Name1  Name2  Name3  Name4  Name5" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "additional_comments" do
+      let(:attr) { :additional_comments }
+      let(:old_val) { "Comment" }
+      let(:new_val) { "New Comment" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "has_customer_property_damaged" do
+      let(:attr) { :has_customer_property_damaged }
+      let(:old_val) { "No" }
+      let(:new_val) { "Yes" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "type_of_damage" do
+      let(:attr) { :type_of_damage }
+      let(:old_val) { "None" }
+      let(:new_val) { "Some" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    describe "customers_contacted" do
+      let(:attr) { :customers_contacted }
+      let(:old_val) { "None" }
+      let(:new_val) { "Some" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "has_employee_done_modified_work_form" do
+      let(:attr) { :has_employee_done_modified_work_form }
+      let(:old_val) { "Yes" }
+      let(:new_val) { "No" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "reason_employee_not_done_modified_work_form" do
+      let(:attr) { :reason_employee_not_done_modified_work_form }
+      let(:old_val) { "N/A" }
+      let(:new_val) { "Prost" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "modified_work_form_signed" do
+      let(:attr) { :modified_work_form_signed }
+      let(:old_val) { "Yes" }
+      let(:new_val) { "No" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "photo_modified_work_form_signed1" do
+      let(:attr) { :photo_modified_work_form_signed1 }
+      it_behaves_like "a Paperclip Incident model attribute"
+    end
+    
+    describe "photo_modified_work_form_signed2" do
+      let(:attr) { :photo_modified_work_form_signed2 }
+      it_behaves_like "a Paperclip Incident model attribute"
+    end
+    
+    describe "why_modified_work_form_not_signed" do
+      let(:attr) { :why_modified_work_form_not_signed }
+      let(:old_val) { "N/A" }
+      let(:new_val) { "I am not responsible for that" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "has_employee_received_medical_attention" do
+      let(:attr) { :has_employee_received_medical_attention }
+      let(:old_val) { "Yes" }
+      let(:new_val) { "No" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "name_clinic_hospital" do
+      let(:attr) { :name_clinic_hospital }
+      let(:old_val) { "Clinic" }
+      let(:new_val) { "No clinic" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "name_nurse_doctor" do
+      let(:attr) { :name_nurse_doctor }
+      let(:old_val) { "Doctor" }
+      let(:new_val) { "No doctor" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "medical_treatment" do
+      let(:attr) { :medical_treatment }
+      let(:old_val) { "Treatment" }
+      let(:new_val) { "No treatment" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "can_upload_medical_doc" do
+      let(:attr) { :can_upload_medical_doc }
+      let(:old_val) { "Yes" }
+      let(:new_val) { "No" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "photo_medical_doc1" do
+      let(:attr) { :photo_medical_doc1 }
+      it_behaves_like "a Paperclip Incident model attribute"
+    end
+    
+    describe "photo_medical_doc2" do
+      let(:attr) { :photo_medical_doc2 }
+      it_behaves_like "a Paperclip Incident model attribute"
+    end
+    
+    describe "photo_medical_doc3" do
+      let(:attr) { :photo_medical_doc3 }
+      it_behaves_like "a Paperclip Incident model attribute"
+    end
+    
+    describe "reason_not_upload_medical_doc" do
+      let(:attr) { :reason_not_upload_medical_doc }
+      let(:old_val) { "N/a" }
+      let(:new_val) { "Didn't hap papers on him" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "ready_to_submit_investigation" do
+      let(:attr) { :ready_to_submit_investigation }
+      let(:old_val) { true }
+      let(:new_val) { false }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "wsib_recordable" do
+      let(:attr) { :wsib_recordable }
+      let(:old_val) { "Yes" }
+      let(:new_val) { "No" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "wsib_form_7" do
+      let(:attr) { :wsib_form_7 }
+      let(:old_val) { "12345" }
+      let(:new_val) { "123456" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "reason_wsib_form_7_not_submitted" do
+      let(:attr) { :reason_wsib_form_7_not_submitted }
+      let(:old_val) { "N/A" }
+      let(:new_val) { "Couldn't fill it up properly" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "wsib_claim" do
+      let(:attr) { :wsib_claim }
+      let(:old_val) { "12345678" }
+      let(:new_val) { "123456789" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "wsib_lost_time" do
+      let(:attr) { :wsib_lost_time }
+      let(:old_val) { "Yes" }
+      let(:new_val) { "No" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "lost_days_start" do
+      let(:attr) { :lost_days_start }
+      let(:old_val) { "2015-01-01".to_date }
+      let(:new_val) { "2015-01-02".to_date }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "lost_days_end" do
+      let(:attr) { :lost_days_end }
+      let(:old_val) { "2015-01-03".to_date }
+      let(:new_val) { "2015-01-06".to_date }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "lost_days" do
+      let(:attr) { :lost_days }
+      let(:old_val) { 2 }
+      let(:new_val) { 4 }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "modified_work" do
+      let(:attr) { :modified_work }
+      let(:old_val) { "Yes" }
+      let(:new_val) { "No" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "modified_work_start" do
+      let(:attr) { :modified_work_start }
+      let(:old_val) { "2015-01-03".to_date }
+      let(:new_val) { "2015-01-08".to_date }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "modified_work_end" do
+      let(:attr) { :modified_work_end }
+      let(:old_val) { "2015-01-06".to_date }
+      let(:new_val) { "2015-01-13".to_date }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "modified_work_days" do
+      let(:attr) { :modified_work_days }
+      let(:old_val) { 3 }
+      let(:new_val) { 5 }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "osha_recordable" do
+      let(:attr) { :osha_recordable }
+      let(:old_val) { nil }
+      let(:new_val) { "Yes" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "has_compensation_claim_submitted" do
+      let(:attr) { :has_compensation_claim_submitted }
+      let(:old_val) { nil }
+      let(:new_val) { "Yes" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "reason_compensation_claim_not_submitted" do
+      let(:attr) { :reason_compensation_claim_not_submitted }
+      let(:old_val) { nil }
+      let(:new_val) { "N/A" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "osha_claim" do
+      let(:attr) { :osha_claim }
+      let(:old_val) { nil }
+      let(:new_val) { 123456 }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "osha_lost_time" do
+      let(:attr) { :osha_lost_time }
+      let(:old_val) { "No" }
+      let(:new_val) { "Yes" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "additional_health_safety_comments" do
+      let(:attr) { :additional_health_safety_comments }
+      let(:old_val) { "Additional comment" }
+      let(:new_val) { "Additional comment 2" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "comment" do
+      let(:attr) { :comment }
+      let(:old_val) { "Comment" }
+      let(:new_val) { "New Comment" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "closed_date" do
+      let(:attr) { :closed_date }
+      let(:old_val) { "2015-01-10 14:20:40" }
+      let(:new_val) { "2015-01-24 09:46:54" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "implemented" do
+      let(:attr) { :implemented }
+      let(:old_val) { "Yes" }
+      let(:new_val) { "No" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "implemented_support_file1" do
+      let(:attr) { :implemented_support_file1 }
+      it_behaves_like "a Paperclip Incident model attribute"
+    end
+    
+    describe "implemented_support_file2" do
+      let(:attr) { :implemented_support_file2 }
+      it_behaves_like "a Paperclip Incident model attribute"
+    end
+    
+    describe "implemented_support_file3" do
+      let(:attr) { :implemented_support_file3 }
+      it_behaves_like "a Paperclip Incident model attribute"
+    end
+    
+    describe "implemented_support_file4" do
+      let(:attr) { :implemented_support_file4 }
+      it_behaves_like "a Paperclip Incident model attribute"
+    end
+    
+    describe "reason_implemented_not_upload" do
+      let(:attr) { :reason_implemented_not_upload }
+      let(:old_val) { "N/a" }
+      let(:new_val) { "I am too lazy for this" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "incident_classified_osha_recordable" do
+      let(:attr) { :incident_classified_osha_recordable }
+      let(:old_val) { "Yes" }
+      let(:new_val) { "No" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+    
+    describe "reason_osha_not_recordable" do
+      let(:attr) { :reason_osha_not_recordable }
+      let(:old_val) { "N/A" }
+      let(:new_val) { "This is CANADA!" }
+      it_behaves_like "a simple Incident model attribute"
+    end
+  end
+  
+  
+  let(:valid_attributes) {
+    incident = FactoryGirl.build(:incident)
+    { employee: incident.employee }
+  }
+  
+  let(:invalid_attributes) {
+    { employee: nil }
+  }
+  
+  describe "GET index" do
+    # method call
+    subject { get :index, {} }
+    
+    # log in the user if one is set
+    before(:each) do
+      login_user(user) unless user.nil?
+    end
+    
+    describe "for an anonymous user" do
+      let(:user) { nil }
+      
+      it "should redirect to sign in page" do
+        subject
+        expect(response).to redirect_to(new_user_session_url)
+      end
+    end
+    
+    describe "for a regular user" do
+      let(:user) { FactoryGirl.create(:user) }
+      
+      describe "who is the author" do
+        let(:incident) { FactoryGirl.create(:incident, author: user) }
+        before(:each) { expect(user).to eq(incident.author) }
+        
+        it "returns the incident in @incidents" do
+          subject
+          expect(assigns(:incidents)).to eq([ incident ])
+        end
+      end
+      
+      describe "who is not the author" do
+        let(:incident) { FactoryGirl.create(:incident) }
+        before(:each) { expect(user).to_not eq(incident.author) }
+        
+        it "returns the empty array for @incidents" do
+          subject
+          expect(assigns(:incidents)).to be_empty
+        end
+      end
+    end
+    
+    describe "for a reader user" do
+      let(:user) { FactoryGirl.create(:reader) }
+      
+      describe "who is the author" do
+        let(:incident) { FactoryGirl.create(:incident, author: user) }
+        before(:each) { expect(user).to eq(incident.author) }
+        
+        it "returns the incident in @incidents" do
+          subject
+          expect(assigns(:incidents)).to eq([ incident ])
+        end
+      end
+      
+      describe "who is not the author" do
+        let(:incident) { FactoryGirl.create(:incident) }
+        before(:each) { expect(user).to_not eq(incident.author) }
+        
+        it "returns the empty array for @incidents" do
+          subject
+          expect(assigns(:incidents)).to be_empty
+        end
+      end
+    end
+    
+    describe "for a safety coordinator user" do
+      let(:user) { FactoryGirl.create(:safety_coordinator) }
+      
+      describe "who is the author" do
+        let(:incident) { FactoryGirl.create(:incident, author: user) }
+        before(:each) { expect(user).to eq(incident.author) }
+        
+        it "returns the incident in @incidents" do
+          subject
+          expect(assigns(:incidents)).to eq([ incident ])
+        end
+      end
+      
+      describe "who is not the author" do
+        let(:incident) { FactoryGirl.create(:incident) }
+        before(:each) { expect(user).to_not eq(incident.author) }
+        
+        it "returns the empty array for @incidents" do
+          subject
+          expect(assigns(:incidents)).to be_empty
+        end
+      end
+    end
+    
+    describe "for a safety director user" do
+      let(:user) { FactoryGirl.create(:safety_director) }
+      
+      describe "who is the author" do
+        let(:incident) { FactoryGirl.create(:incident, author: user) }
+        before(:each) { expect(user).to eq(incident.author) }
+        
+        it "returns the incident in @incidents" do
+          subject
+          expect(assigns(:incidents)).to eq([ incident ])
+        end
+      end
+      
+      describe "who is not the author" do
+        let(:incident) { FactoryGirl.create(:incident) }
+        before(:each) { expect(user).to_not eq(incident.author) }
+        
+        it "returns the empty array for @incidents" do
+          subject
+          expect(assigns(:incidents)).to be_empty
+        end
+      end
+    end
+    
+    describe "for an admin user" do
+      let(:user) { FactoryGirl.create(:admin) }
+      
+      describe "who is the author" do
+        let(:incident) { FactoryGirl.create(:incident, author: user) }
+        before(:each) { expect(user).to eq(incident.author) }
+        
+        it "returns the incident in @incidents" do
+          subject
+          expect(assigns(:incidents)).to eq([ incident ])
+        end
+      end
+      
+      describe "who is not the author" do
+        let(:incident) { FactoryGirl.create(:incident) }
+        before(:each) { expect(user).to_not eq(incident.author) }
+        
+        it "returns the empty array for @incidents" do
+          subject
+          expect(assigns(:incidents)).to be_empty
+        end
+      end
+    end
+  end
+  
+  describe "GET show" do
+    # method call and necessary parameters
+    let(:incident) { FactoryGirl.create(:incident) }
+    subject { get :show, {:id => incident.to_param} }
+    
+    # log in the user if one is set
+    before(:each) do
+      login_user(user) unless user.nil?
+    end
+    
+    describe "for an anonymous user" do
+      let(:user) { nil }
+      
+      it "should redirect to sign in page" do
+        subject
+        expect(response).to redirect_to(new_user_session_url)
+      end
+    end
+    
+    describe "for regular user" do
+      describe "who is the author" do
+        let(:user) { incident.author }
+        before(:each) { expect(user).to eq(incident.author) }
+        
+        it "assigns the requested incident as @incident" do
+          subject
+          expect(assigns(:incident)).to eq(incident)
+        end
+      end
+      
+      describe "who is not the author" do
+        let(:user) { FactoryGirl.create(:user) }
+        before(:each) { expect(user).to_not eq(incident.author) }
+        
+        it "should error" do
+          expect {
+            subject
+          }.to raise_error(CanCan::AccessDenied)
+        end
+      end
+    end
+    
+    describe "for a reader user" do
+      let(:user) { FactoryGirl.create(:reader) }
+      
+      it "assigns the requested incident as @incident" do
+        subject
+        expect(assigns(:incident)).to eq(incident)
+      end
+    end
+    
+    describe "for a safety coordinator user" do
+      let(:user) { FactoryGirl.create(:safety_coordinator) }
+      
+      it "assigns the requested incident as @incident" do
+        subject
+        expect(assigns(:incident)).to eq(incident)
+      end
+    end
+    
+    describe "for a safety director user" do
+      let(:user) { FactoryGirl.create(:safety_director) }
+      
+      it "assigns the requested incident as @incident" do
+        subject
+        expect(assigns(:incident)).to eq(incident)
+      end
+    end
+    
+    describe "for an admin user" do
+      let(:user) { FactoryGirl.create(:admin) }
+      
+      it "assigns the requested incident as @incident" do
+        subject
+        expect(assigns(:incident)).to eq(incident)
+      end
+    end
+  end
+  
+  describe "GET new" do
+    # method call and necessary parameters
+    subject { get :new, {} }
+    
+    # log in the user if one is set
+    before(:each) do
+      login_user(user) unless user.nil?
+    end
+    
+    describe "for an anonymous user" do
+      let(:user) { nil }
+      
+      it "should redirect to sign in page" do
+        subject
+        expect(response).to redirect_to(new_user_session_url)
+      end
+    end
+    
+    describe "for a regular user" do
+      let(:user) { FactoryGirl.create(:user) }
+      
+      it "assigns a new incident as @incident" do
+        subject
+        expect(assigns(:incident)).to be_a_new(Incident)
+      end
+      
+      it "sets the current user as the author" do
+        subject
+        expect(assigns(:incident).author).to eq(user)
+      end
+    end
+    
+    describe "for a reader user" do
+      let(:user) { FactoryGirl.create(:reader) }
+      
+      it "assigns a new incident as @incident" do
+        subject
+        expect(assigns(:incident)).to be_a_new(Incident)
+      end
+      
+      it "sets the current user as the author" do
+        subject
+        expect(assigns(:incident).author).to eq(user)
+      end
+    end
+    
+    describe "for a safety coordinator user" do
+      let(:user) { FactoryGirl.create(:safety_coordinator) }
+      
+      it "assigns a new incident as @incident" do
+        subject
+        expect(assigns(:incident)).to be_a_new(Incident)
+      end
+      
+      it "sets the current user as the author" do
+        subject
+        expect(assigns(:incident).author).to eq(user)
+      end
+    end
+    
+    describe "for a safety director user" do
+      let(:user) { FactoryGirl.create(:safety_director) }
+      
+      it "assigns a new incident as @incident" do
+        subject
+        expect(assigns(:incident)).to be_a_new(Incident)
+      end
+      
+      it "sets the current user as the author" do
+        subject
+        expect(assigns(:incident).author).to eq(user)
+      end
+    end
+    
+    describe "for an admin user" do
+      let(:user) { FactoryGirl.create(:admin) }
+      
+      it "assigns a new incident as @incident" do
+        subject
+        expect(assigns(:incident)).to be_a_new(Incident)
+      end
+      
+      it "sets the current user as the author" do
+        subject
+        expect(assigns(:incident).author).to eq(user)
+      end
+    end
+  end
+  
+  describe "GET edit" do
+    # method call and necessary parameters
+    subject { get :edit, {:id => incident.to_param} }
+    
+    # log in the user if one is set
+    before(:each) do
+      login_user(user) unless user.nil?
+    end
+    
+    describe "for an anonymous user" do
+      let(:incident) { FactoryGirl.create(:incident) }
+      let(:user) { nil }
+      let(:author) { nil }
+      
+      it "should redirect to sign in page" do
+        subject
+        expect(response).to redirect_to(new_user_session_url)
+      end
+    end
+    
+    describe "for regular user" do
+      let(:user) { FactoryGirl.create(:user) }
+      
+      describe "who is the author" do
+        let(:incident) { FactoryGirl.create(:incident, author: user) }
+        before(:each) { expect(user).to eq(incident.author) }
+        
+        it "assigns the requested incident as @incident" do
+          subject
+          expect(assigns(:incident)).to eq(incident)
+        end
+      end
+      
+      describe "who is not the author" do
+        let(:incident) { FactoryGirl.create(:incident) }
+        before(:each) { expect(user).to_not eq(incident.author) }
+        
+        it "should error" do
+          expect {
+            subject
+          }.to raise_error(CanCan::AccessDenied)
+        end
+      end
+    end
+    
+    describe "for a reader user" do
+      let(:user) { FactoryGirl.create(:reader) }
+      
+      describe "who is the author" do
+        let(:incident) { FactoryGirl.create(:incident, author: user) }
+        before(:each) { expect(user).to eq(incident.author) }
+        
+        it "assigns the requested incident as @incident" do
+          subject
+          expect(assigns(:incident)).to eq(incident)
+        end
+      end
+      
+      describe "who is not the author" do
+        let(:incident) { FactoryGirl.create(:incident) }
+        before(:each) { expect(user).to_not eq(incident.author) }
+        
+        it "should error" do
+          expect {
+            subject
+          }.to raise_error(CanCan::AccessDenied)
+        end
+      end
+    end
+    
+    describe "for a safety coordinator user" do
+      let(:user) { FactoryGirl.create(:safety_coordinator) }
+      
+      describe "who is the author" do
+        let(:incident) { FactoryGirl.create(:incident, author: user) }
+        before(:each) { expect(user).to eq(incident.author) }
+        
+        it "assigns the requested incident as @incident" do
+          subject
+          expect(assigns(:incident)).to eq(incident)
+        end
+      end
+      
+      describe "who is not the author" do
+        let(:incident) { FactoryGirl.create(:incident) }
+        before(:each) { expect(user).to_not eq(incident.author) }
+        
+        it "assigns the requested incident as @incident" do
+          subject
+          expect(assigns(:incident)).to eq(incident)
+        end
+      end
+    end
+    
+    describe "for a safety director user" do
+      let(:user) { FactoryGirl.create(:safety_director) }
+      
+      describe "who is the author" do
+        let(:incident) { FactoryGirl.create(:incident, author: user) }
+        before(:each) { expect(user).to eq(incident.author) }
+        
+        it "assigns the requested incident as @incident" do
+          subject
+          expect(assigns(:incident)).to eq(incident)
+        end
+      end
+      
+      describe "who is not the author" do
+        let(:incident) { FactoryGirl.create(:incident) }
+        before(:each) { expect(user).to_not eq(incident.author) }
+        
+        it "assigns the requested incident as @incident" do
+          subject
+          expect(assigns(:incident)).to eq(incident)
+        end
+      end
+    end
+    
+    describe "for an admin user" do
+      let(:user) { FactoryGirl.create(:admin) }
+      
+      describe "who is the author" do
+        let(:incident) { FactoryGirl.create(:incident, author: user) }
+        before(:each) { expect(user).to eq(incident.author) }
+        
+        it "assigns the requested incident as @incident" do
+          subject
+          expect(assigns(:incident)).to eq(incident)
+        end
+      end
+      
+      describe "who is not the author" do
+        let(:incident) { FactoryGirl.create(:incident) }
+        before(:each) { expect(user).to_not eq(incident.author) }
+        
+        it "assigns the requested incident as @incident" do
+          subject
+          expect(assigns(:incident)).to eq(incident)
+        end
+      end
+    end
+  end
+  
+  describe "POST create" do
+    # block the sending of notifications for new
+    before(:each) do
+      allow_any_instance_of(Incident).to receive(:send_group_notification).and_return(nil)
+    end
+    
+    describe "for an anonymous user" do
+      describe "with valid params" do
+        it "redirect to sign in page" do
+          post :create, {:incident => valid_attributes}
+          expect(response).to redirect_to(new_user_session_url)
+        end
+      end
+      
+      describe "with invalid params" do
+        it "redirect to sign in page" do
+          post :create, {:incident => invalid_attributes}
+          expect(response).to redirect_to(new_user_session_url)
+        end
+      end
+    end
+    
+    describe "for an authenticated user" do
+      before(:each) do
+        login_user
+      end
+      
+      describe "with valid params" do
+        it "creates a new Incident" do
+          expect {
+            post :create, {:incident => valid_attributes}
+          }.to change(Incident, :count).by(1)
+        end
+        
+        it "assigns a newly created incident as @incident" do
+          post :create, {:incident => valid_attributes}
+          expect(assigns(:incident)).to be_a(Incident)
+          expect(assigns(:incident)).to be_persisted
+        end
+        
+        # TODO in Phase 2, this should redirect to the incident's show view
+        #it "redirects to the created incident" do
+          #post :create, {:incident => valid_attributes}
+          #expect(response).to redirect_to(root_url)
+        #end
+        it "redirects to the root" do
+          post :create, {:incident => valid_attributes}
+          expect(response).to redirect_to(root_url)
+        end
+        
+        describe "converts date/time fields to the site's timezone" do
+          let(:time_zone) { "Central Time (US & Canada)" }
+          let(:site) { FactoryGirl.create(:site, name: "Lawton", time_zone: time_zone) }
+          let(:building) { FactoryGirl.create(:building, name: "East/West", site: site) }
+          let(:attributes) {
+            {
+              employee: "Matt Murdoch",
+              building_id: building.id,
+              incident_time: "2014-01-01 12:00:00",
+              report_time: "2014-01-02 12:00:00",
+              closed_date: DateTime.civil_from_format(:local, 2014, 01, 03, 12, 00, 00)
+            }
+          }
+          let(:expected) {
+            {
+              incident_time: ActiveSupport::TimeZone[time_zone].parse(attributes[:incident_time]),
+              report_time: ActiveSupport::TimeZone[time_zone].parse(attributes[:report_time]),
+              closed_date: DateTime.civil_from_format(:local, 2014, 01, 03, 12, 00, 00)
+            }
+          }
+          
+          before(:each) do
+            post :create, {:incident => attributes}
+          end
+          
+          it "handles :incident_time" do
+            # incident time attribute should now be in the same time zone as the site
+            expect(assigns(:incident).incident_time).to eq(expected[:incident_time])
+          end
+          
+          it "handles :report_time" do
+            # report time attribute should now be in the same time zone as the site
+            expect(assigns(:incident).report_time).to eq(expected[:report_time])
+          end
+          
+          it "does not handle :closed_date" do
+            # report time attribute should now be in the same time zone as the site
+            expect(assigns(:incident).closed_date).to eq(expected[:closed_date])
+            #expect(assigns(:incident).closed_date).to be_nil
+          end
+        end
+      end
+      
+      describe "with invalid params" do
+        it "assigns a newly created but unsaved incident as @incident" do
+          post :create, {:incident => invalid_attributes}
+          expect(assigns(:incident)).to be_a_new(Incident)
+        end
+        
+        it "re-renders the 'new' template" do
+          post :create, {:incident => invalid_attributes}
+          expect(response).to render_template("new")
+        end
+      end
+    end
+  end
+  
+  describe "PUT update" do
+    let(:new_attributes) {
+      { description: "New Description" }
+    }
+    # method call and necessary parameters
+    subject { put :update, {:id => incident.to_param, :incident => update_attributes} }
+    
+    # log in the user if one is set
+    before(:each) do
+      login_user(user) unless user.nil?
+    end
+    
+    describe "for an anonymous user" do
+      let(:incident) { FactoryGirl.create(:incident) }
+      let(:user) { nil }
+      
+      describe "with valid params" do
+        let(:update_attributes) { new_attributes }
+        
+        it "redirect to sign in page" do
+          subject
+          expect(response).to redirect_to(new_user_session_url)
+        end
+      end
+      
+      describe "with invalid params" do
+        let(:update_attributes) { invalid_attributes }
+        
+        it "redirect to sign in page" do
+          subject
+          expect(response).to redirect_to(new_user_session_url)
+        end
+      end
+    end
+    
+    describe "for a regular user" do
+      let(:user) { FactoryGirl.create(:user) }
+      
+      describe "who is the author" do
+        
+        describe "the form is ready to review" do
+          let(:incident) { FactoryGirl.create(:incident, ready_to_submit_investigation: true) }
+          before(:each) { expect(user).to_not eq(incident.author) }
+          
+          describe "with valid params" do
+            let(:update_attributes) { new_attributes }
+            
+            it "should error" do
+              expect {
+                subject
+              }.to raise_error(CanCan::AccessDenied)
+            end
+          end
+          
+          describe "with invalid params" do
+            let(:update_attributes) { invalid_attributes }
+            
+            it "should error" do
+              expect {
+                subject
+              }.to raise_error(CanCan::AccessDenied)
+            end
+          end
+        end
+        
+        describe "the form is not ready to review" do
+          
+          let(:incident) { FactoryGirl.create(:incident, author: user, ready_to_submit_investigation: false) }
+          before(:each) { expect(user).to eq(incident.author) }
+          
+          describe "special situation for reason_wsib_form_7_not_submitted attribute" do
+            before(:each) {
+              expect(incident.reason_wsib_form_7_not_submitted).to be_nil
+            }
+            
+            let(:update_attributes) { { reason_wsib_form_7_not_submitted: "the reason" } }
+            
+            it "should update the incident" do
+              subject
+              incident.reload
+              expect(incident.reason_wsib_form_7_not_submitted).to eq("the reason")
+            end
+          end
+          
+          describe "with valid params" do
+            let(:update_attributes) { new_attributes }
+            
+            it "updates the requested incident" do
+              subject
+              incident.reload
+              expect(incident.description).to eq(new_attributes[:description])
+            end
+            
+            it "assigns the requested incident as @incident" do
+              subject
+              expect(assigns(:incident)).to eq(incident)
+            end
+            
+            it "redirects to the incident" do
+              subject
+              expect(response).to redirect_to(incident)
+            end
+            
+            describe "converts date/time fields to the site's timezone" do
+              let(:time_zone) { "Central Time (US & Canada)" }
+              let(:site) { FactoryGirl.create(:site, name: "Lawton", time_zone: time_zone) }
+              let(:building) { FactoryGirl.create(:building, name: "East/West", site: site) }
+              let(:attributes) {
+                {
+                  building_id: building.id,
+                  incident_time: "2014-01-01 12:00:00",
+                  report_time: "2014-01-02 12:00:00",
+                  closed_date: '2015-01-01'
+                }
+              }
+              let(:expected) {
+                {
+                  incident_time: ActiveSupport::TimeZone[time_zone].parse(attributes[:incident_time]),
+                  report_time: ActiveSupport::TimeZone[time_zone].parse(attributes[:report_time]),
+                  closed_date: '2015-01-01 06:00:00'
+                }
+              }
+              
+              before(:each) do
+                put :update, {:id => incident.to_param, :incident => attributes}
+              end
+            
+              it "handles :incident_time" do
+                # incident time attribute should now be in the same time zone as the site
+                expect(assigns(:incident).incident_time).to eq(expected[:incident_time])
+              end
+              
+              it "handles :report_time" do
+                # report time attribute should now be in the same time zone as the site
+                expect(assigns(:incident).report_time).to eq(expected[:report_time])
+              end
+              
+              it "does not change :closed_date to time" do
+                # report time attribute should now be in the same time zone as the site
+                expect(assigns(:incident).closed_date).to eq(expected[:closed_date].to_date)
+              end
+            end
+          end
+          
+          describe "with invalid params" do
+            let(:update_attributes) { invalid_attributes }
+            
+            it "assigns the incident as @incident" do
+              subject
+              expect(assigns(:incident)).to eq(incident)
+            end
+            
+            it "re-renders the 'edit' template" do
+              subject
+              expect(response).to render_template("edit")
+            end
+          end
+        end
+      end
+      
+      describe "who is not the author" do
+        let(:incident) { FactoryGirl.create(:incident) }
+        before(:each) { expect(user).to_not eq(incident.author) }
+        
+        describe "with valid params" do
+          let(:update_attributes) { new_attributes }
+          
+          it "should error" do
+            expect {
+              subject
+            }.to raise_error(CanCan::AccessDenied)
+          end
+        end
+        
+        describe "with invalid params" do
+          let(:update_attributes) { invalid_attributes }
+          
+          it "should error" do
+            expect {
+              subject
+            }.to raise_error(CanCan::AccessDenied)
+          end
+        end
+      end
+    end
+    
+    describe "for a reader user" do
+      let(:user) { FactoryGirl.create(:reader) }
+      
+      describe "who is the author" do
+        let(:incident) { FactoryGirl.create(:incident, author: user) }
+        before(:each) { expect(user).to eq(incident.author) }
+        
+        describe "with valid params" do
+          let(:update_attributes) { new_attributes }
+          
+          it "updates the requested incident" do
+            subject
+            incident.reload
+            expect(incident.description).to eq(new_attributes[:description])
+          end
+          
+          it "assigns the requested incident as @incident" do
+            subject
+            expect(assigns(:incident)).to eq(incident)
+          end
+          
+          it "redirects to the incident" do
+            subject
+            expect(response).to redirect_to(incident)
+          end
+        end
+        
+        describe "with invalid params" do
+          let(:update_attributes) { invalid_attributes }
+          
+          it "assigns the incident as @incident" do
+            subject
+            expect(assigns(:incident)).to eq(incident)
+          end
+          
+          it "re-renders the 'edit' template" do
+            subject
+            expect(response).to render_template("edit")
+          end
+        end
+      end
+      
+      describe "who is not the author" do
+        let(:incident) { FactoryGirl.create(:incident) }
+        before(:each) { expect(user).to_not eq(incident.author) }
+        
+        describe "with valid params" do
+          let(:update_attributes) { new_attributes }
+          
+          it "should error" do
+            expect {
+              subject
+            }.to raise_error(CanCan::AccessDenied)
+          end
+        end
+        
+        describe "with invalid params" do
+          let(:update_attributes) { invalid_attributes }
+          
+          it "should error" do
+            expect {
+              subject
+            }.to raise_error(CanCan::AccessDenied)
+          end
+        end
+      end
+    end
+    
+    describe "for a safety coordinator user" do
+      let(:user) { FactoryGirl.create(:safety_coordinator) }
+      
+      describe "who is the author" do
+        let(:incident) { FactoryGirl.create(:incident, author: user) }
+        before(:each) { expect(user).to eq(incident.author) }
+        
+        describe "with valid params" do
+          let(:update_attributes) { new_attributes }
+          
+          it "updates the requested incident" do
+            subject
+            incident.reload
+            expect(incident.description).to eq(new_attributes[:description])
+          end
+          
+          it "assigns the requested incident as @incident" do
+            subject
+            expect(assigns(:incident)).to eq(incident)
+          end
+          
+          it "redirects to the incident" do
+            subject
+            expect(response).to redirect_to(incident)
+          end
+        end
+        
+        describe "with invalid params" do
+          let(:update_attributes) { invalid_attributes }
+          
+          it "assigns the incident as @incident" do
+            subject
+            expect(assigns(:incident)).to eq(incident)
+          end
+          
+          it "re-renders the 'edit' template" do
+            subject
+            expect(response).to render_template("edit")
+          end
+        end
+      end
+      
+      describe "who is not the author" do
+        let(:incident) { FactoryGirl.create(:incident) }
+        before(:each) { expect(user).to_not eq(incident.author) }
+        
+        describe "with valid params" do
+          let(:update_attributes) { new_attributes }
+          
+          it "updates the requested incident" do
+            subject
+            incident.reload
+            expect(incident.description).to eq(new_attributes[:description])
+          end
+          
+          it "assigns the requested incident as @incident" do
+            subject
+            expect(assigns(:incident)).to eq(incident)
+          end
+          
+          it "redirects to the incident" do
+            subject
+            expect(response).to redirect_to(incident)
+          end
+        end
+        
+        describe "with invalid params" do
+          let(:update_attributes) { invalid_attributes }
+          
+          it "assigns the incident as @incident" do
+            subject
+            expect(assigns(:incident)).to eq(incident)
+          end
+          
+          it "re-renders the 'edit' template" do
+            subject
+            expect(response).to render_template("edit")
+          end
+        end
+      end
+    end
+    
+    describe "for a safety director user" do
+      let(:user) { FactoryGirl.create(:safety_director) }
+      
+      describe "who is the author" do
+        let(:incident) { FactoryGirl.create(:incident, author: user) }
+        before(:each) { expect(user).to eq(incident.author) }
+        
+        describe "with valid params" do
+          let(:update_attributes) { new_attributes }
+          
+          it "updates the requested incident" do
+            subject
+            incident.reload
+            expect(incident.description).to eq(new_attributes[:description])
+          end
+          
+          it "assigns the requested incident as @incident" do
+            subject
+            expect(assigns(:incident)).to eq(incident)
+          end
+          
+          it "redirects to the incident" do
+            subject
+            expect(response).to redirect_to(incident)
+          end
+        end
+        
+        describe "with invalid params" do
+          let(:update_attributes) { invalid_attributes }
+          
+          it "assigns the incident as @incident" do
+            subject
+            expect(assigns(:incident)).to eq(incident)
+          end
+          
+          it "re-renders the 'edit' template" do
+            subject
+            expect(response).to render_template("edit")
+          end
+        end
+      end
+      
+      describe "who is not the author" do
+        let(:incident) { FactoryGirl.create(:incident) }
+        before(:each) { expect(user).to_not eq(incident.author) }
+        
+        describe "with valid params" do
+          let(:update_attributes) { new_attributes }
+          
+          it "updates the requested incident" do
+            subject
+            incident.reload
+            expect(incident.description).to eq(new_attributes[:description])
+          end
+          
+          it "assigns the requested incident as @incident" do
+            subject
+            expect(assigns(:incident)).to eq(incident)
+          end
+          
+          it "redirects to the incident" do
+            subject
+            expect(response).to redirect_to(incident)
+          end
+        end
+        
+        describe "with invalid params" do
+          let(:update_attributes) { invalid_attributes }
+          
+          it "assigns the incident as @incident" do
+            subject
+            expect(assigns(:incident)).to eq(incident)
+          end
+          
+          it "re-renders the 'edit' template" do
+            subject
+            expect(response).to render_template("edit")
+          end
+        end
+      end
+    end
+    
+    describe "for an admin user" do
+      let(:user) { FactoryGirl.create(:admin) }
+      
+      describe "who is the author" do
+        let(:incident) { FactoryGirl.create(:incident, author: user) }
+        before(:each) { expect(user).to eq(incident.author) }
+        
+        describe "with valid params" do
+          let(:update_attributes) { new_attributes }
+          
+          it "updates the requested incident" do
+            subject
+            incident.reload
+            expect(incident.description).to eq(new_attributes[:description])
+          end
+          
+          it "assigns the requested incident as @incident" do
+            subject
+            expect(assigns(:incident)).to eq(incident)
+          end
+          
+          it "redirects to the incident" do
+            subject
+            expect(response).to redirect_to(incident)
+          end
+        end
+        
+        describe "with invalid params" do
+          let(:update_attributes) { invalid_attributes }
+          
+          it "assigns the incident as @incident" do
+            subject
+            expect(assigns(:incident)).to eq(incident)
+          end
+          
+          it "re-renders the 'edit' template" do
+            subject
+            expect(response).to render_template("edit")
+          end
+        end
+      end
+      
+      describe "who is not the author" do
+        let(:incident) { FactoryGirl.create(:incident) }
+        before(:each) { expect(user).to_not eq(incident.author) }
+        
+        describe "with valid params" do
+          let(:update_attributes) { new_attributes }
+          
+          it "updates the requested incident" do
+            subject
+            incident.reload
+            expect(incident.description).to eq(new_attributes[:description])
+          end
+          
+          it "assigns the requested incident as @incident" do
+            subject
+            expect(assigns(:incident)).to eq(incident)
+          end
+          
+          it "redirects to the incident" do
+            subject
+            expect(response).to redirect_to(incident)
+          end
+        end
+        
+        describe "with invalid params" do
+          let(:update_attributes) { invalid_attributes }
+          
+          it "assigns the incident as @incident" do
+            subject
+            expect(assigns(:incident)).to eq(incident)
+          end
+          
+          it "re-renders the 'edit' template" do
+            subject
+            expect(response).to render_template("edit")
+          end
+        end
+      end
+    end
+    
+    describe "audited" do
+      let(:user) { FactoryGirl.create(:admin) }
+      let(:incident) { FactoryGirl.create(:incident, author: user, description: "Description") }
+      before(:each) { expect(user).to eq(incident.author) }
+      
+      describe "with valid params" do
+        let(:update_attributes) { { description: "New Description" } }
+        
+        it "updates the requested incident" do
+          subject
+          incident.reload
+          expect(incident.description).to eq(new_attributes[:description])
+          expect(incident.audits.last.audited_changes['description'][0]).to eq("Description")
+          expect(incident.audits.last.audited_changes['description'][1]).to eq("New Description")
+          expect(incident.audits.last.user).to eq(user)
+        end
+        
+        it "keeps track of who makes the change" do
+          subject
+          incident.reload
+          expect(incident.audits.last.user).to eq(user)
+        end
+      end
+    end
+  end
+  
+  describe "DELETE destroy" do
+    # method call and necessary parameters -- ! is required to confirm count changes later on
+    let!(:incident) { FactoryGirl.create(:incident) }
+    subject { delete :destroy, {:id => incident.to_param} }
+    
+    # log in the user if one is set
+    before(:each) do
+      login_user(user) unless user.nil?
+    end
+    
+    describe "for an anonymous user" do
+      let(:user) { nil }
+      
+      it "should redirect to sign in page" do
+        subject
+        expect(response).to redirect_to(new_user_session_url)
+      end
+    end
+    
+    describe "for regular user" do
+      describe "who is the author" do
+        let(:user) { incident.author }
+        before(:each) { expect(user).to eq(incident.author) }
+        
+        it "should error" do
+          expect {
+            subject
+          }.to raise_error(CanCan::AccessDenied)
+        end
+      end
+      
+      describe "who is not the author" do
+        let(:user) { FactoryGirl.create(:user) }
+        before(:each) { expect(user).to_not eq(incident.author) }
+        
+        it "should error" do
+          expect {
+            subject
+          }.to raise_error(CanCan::AccessDenied)
+        end
+      end
+    end
+    
+    describe "for a reader user" do
+      let(:user) { FactoryGirl.create(:reader) }
+      
+      it "should error" do
+        expect {
+          subject
+        }.to raise_error(CanCan::AccessDenied)
+      end
+    end
+    
+    describe "for a safety coordinator user" do
+      let(:user) { FactoryGirl.create(:safety_coordinator) }
+      
+      it "destroys the requested incident" do
+        expect {
+          subject
+        }.to change(Incident, :count).by(-1)
+      end
+      
+      it "redirects to the incidents list" do
+        subject
+        expect(response).to redirect_to(tracker_url)
+      end
+    end
+    
+    describe "for a safety director user" do
+      let(:user) { FactoryGirl.create(:safety_director) }
+      
+      it "destroys the requested incident" do
+        expect {
+          subject
+        }.to change(Incident, :count).by(-1)
+      end
+      
+      it "redirects to the incidents list" do
+        subject
+        expect(response).to redirect_to(tracker_url)
+      end
+    end
+    
+    describe "for an admin user" do
+      let(:user) { FactoryGirl.create(:admin) }
+      
+      it "destroys the requested incident" do
+        expect {
+          subject
+        }.to change(Incident, :count).by(-1)
+      end
+      
+      it "redirects to the incidents list" do
+        subject
+        expect(response).to redirect_to(tracker_url)
+      end
+    end
+  end
+  
+  describe "GET tracker" do
+    subject { get :tracker, {} }
+    
+    shared_examples "a valid GET tracker" do
+      it "succeeds" do
+        subject
+        expect(response.status).to eq(200)
+      end
+      
+      it "renders the 'tracker' template" do
+        subject
+        expect(response).to render_template("tracker")
+      end
+    end
+    
+    # log in the user if one is set
+    before(:each) do
+      login_user(user) unless user.nil?
+    end
+    
+    describe "for an anonymous user" do
+      let(:user) { nil }
+      
+      it "should redirect to sign in page" do
+        subject
+        expect(response).to redirect_to(new_user_session_url)
+      end
+    end
+    
+    describe "for a regular user" do
+      let(:user) { FactoryGirl.create(:user) }
+      
+      it "errors" do
+        expect {
+          subject
+        }.to raise_error(CanCan::AccessDenied)
+      end
+    end
+    
+    describe "for a reader user" do
+      let(:user) { FactoryGirl.create(:reader) }
+      
+      it_behaves_like "a valid GET tracker"
+    end
+    
+    describe "for a safety coordinator user" do
+      let(:user) { FactoryGirl.create(:safety_coordinator) }
+      
+      it_behaves_like "a valid GET tracker"
+    end
+    
+    describe "for a safety director user" do
+      let(:user) { FactoryGirl.create(:safety_director) }
+      
+      it_behaves_like "a valid GET tracker"
+    end
+    
+    describe "for an admin user" do
+      let(:user) { FactoryGirl.create(:admin) }
+      
+      it_behaves_like "a valid GET tracker"
+    end
+  end
+  
+  describe "GET filter" do
+    # method call
+    subject { get :filter, {} }
+    
+    # log in the user if one is set
+    before(:each) do
+      login_user(user) unless user.nil?
+    end
+    
+    describe "for an anonymous user" do
+      let(:user) { nil }
+      
+      it "should redirect to sign in page" do
+        subject
+        expect(response).to redirect_to(new_user_session_url)
+      end
+    end
+    
+    describe "for a regular user" do
+      let(:user) { FactoryGirl.create(:user) }
+      
+      it "should error" do
+        expect {
+          subject
+        }.to raise_error(CanCan::AccessDenied)
+      end
+    end
+    
+    describe "for a reader user" do
+      let(:user) { FactoryGirl.create(:reader) }
+      
+      it "succeeds" do
+        get :filter
+        expect(response.status).to eq(200)
+      end
+    end
+    
+    describe "for a safety coordinator user" do
+      let(:user) { FactoryGirl.create(:safety_coordinator) }
+      
+      it "succeeds" do
+        get :filter
+        expect(response.status).to eq(200)
+      end
+    end
+    
+    describe "for a safety director user" do
+      let(:user) { FactoryGirl.create(:safety_director) }
+      
+      it "succeeds" do
+        get :filter
+        expect(response.status).to eq(200)
+      end
+    end
+    
+    describe "for an admin user" do
+      let(:user) { FactoryGirl.create(:admin) }
+      
+      it "succeeds" do
+        get :filter
+        expect(response.status).to eq(200)
+      end
+    end
+  end
+end

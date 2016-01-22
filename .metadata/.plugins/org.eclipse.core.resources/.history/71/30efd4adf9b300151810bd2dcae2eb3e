@@ -1,0 +1,20 @@
+
+
+nums = [5,3,2,7,9,10,24,67,18]
+target = 28
+
+nums_sort = nums.sort
+self.two_sum(nums,target)
+
+def two_sum(nums,target)
+  nums_sort = nums.sort
+  
+  for i in 1..nums_sort.size
+    if num-target<0
+      k = i-2
+      break
+    end
+  end
+  nums_sort_part = nums_sort.slice(0,k)
+  return nums_sort_part    #[index1, index2]
+end

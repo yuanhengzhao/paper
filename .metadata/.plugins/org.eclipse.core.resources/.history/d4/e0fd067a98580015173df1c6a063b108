@@ -1,0 +1,32 @@
+class CreateFormsNewEquipmentUnit < ActiveRecord::Migration
+  def change
+    create_table :forms_new_equipment_units do |t|
+      t.string :reference_number
+      t.datetime :server_receive_date
+      t.datetime :device_submit_date
+      t.string :username
+      t.string :version
+      t.decimal :altitude, precision: 20, scale: 15
+      t.decimal :latitude, precision: 20, scale: 16
+      t.decimal :longitude, precision: 20, scale: 16
+      t.string :source
+      t.attachment :submission
+      
+      t.string  :site
+      t.string  :shop
+      t.string  :equipment_type
+      t.integer :unit_number     
+      t.string  :barcode
+      t.attachment :photo
+      t.string  :manufacturer 
+      t.date    :date_into_service  
+      t.string  :battery_serial_number  
+      t.integer :battery_voltage  
+      t.string  :inspection_frequency  
+      t.string  :inspection_code 
+      t.integer :inspection_days 
+      
+      t.timestamps null: true
+    end
+  end
+end

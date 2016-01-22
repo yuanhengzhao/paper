@@ -1,0 +1,1 @@
+json.extract! @punchlist_form_history, :id, :created_at, :updated_at, :status, :supplier_status, :responsible, :punchlist_form_id, :bmw_comment, :errors

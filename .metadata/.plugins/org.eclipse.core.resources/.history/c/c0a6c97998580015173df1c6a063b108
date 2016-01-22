@@ -1,0 +1,9 @@
+class AdminController < ApplicationController
+  
+  add_breadcrumb "admin", :admin_index_path
+  
+  def index
+    # forward on to view if current user can read user information
+    authorize! :read, Security::User
+  end
+end

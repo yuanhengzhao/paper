@@ -1,0 +1,121 @@
+<% title "Paint Booth Process Checklists #{@paint_booth_process_checklist.id}" %>
+
+<div class="container">
+	<table class="table table-striped table-hover admin-responsive-table form-table">
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td><%= @paint_booth_process_checklist.id %></td>
+			</tr>
+			<tr>
+				<td>reference_number</td>
+				<td><%= @paint_booth_process_checklist.reference_number %></td>
+			</tr>
+			<tr>
+				<td>server_receive_date</td>
+				<td><%= @paint_booth_process_checklist.server_receive_date %></td>
+			</tr>
+			<tr>
+				<td>device_submit_date</td>
+				<td><%= @paint_booth_process_checklist.device_submit_date %></td>
+			</tr>
+			<tr>
+				<td>username</td>
+				<td><%= @paint_booth_process_checklist.username %></td>
+			</tr>
+			<tr>
+				<td>version</td>
+				<td><%= @paint_booth_process_checklist.version %></td>
+			</tr>
+			<tr>
+				<td>altitude</td>
+				<td><%= @paint_booth_process_checklist.altitude %></td>
+			</tr>
+			<tr>
+				<td>latitude</td>
+				<td><%= @paint_booth_process_checklist.latitude %></td>
+			</tr>
+			<tr>
+				<td>longitude</td>
+				<td><%= @paint_booth_process_checklist.longitude %></td>
+			</tr>
+			<tr>
+				<td>source</td>
+				<td><%= @paint_booth_process_checklist.source %></td>
+			</tr>
+			<tr>
+				<td>client</td>
+				<td><%= @paint_booth_process_checklist.client %></td>
+			</tr>
+			<tr>
+				<td>site</td>
+				<td><%= @paint_booth_process_checklist.site %></td>
+			</tr>
+			<tr>
+				<td>shop</td>
+				<td><%= @paint_booth_process_checklist.shop %></td>
+			</tr>
+			<tr>
+				<td>process</td>
+				<td><%= @paint_booth_process_checklist.process %></td>
+			</tr>
+			<tr>
+				<td>line</td>
+				<td><%= @paint_booth_process_checklist.line %></td>
+			</tr>
+			<tr>
+				<td>area</td>
+				<td><%= @paint_booth_process_checklist.area %></td>
+			</tr>
+			<tr>
+				<td>ceiling_filter</td>
+				<td><%= @paint_booth_process_checklist.ceiling_filter %></td>
+			</tr>
+			<tr>
+				<td>lights_fixtures</td>
+				<td><%= @paint_booth_process_checklist.lights_fixtures %></td>
+			</tr>
+			<tr>
+				<td>walls_windows</td>
+				<td><%= @paint_booth_process_checklist.walls_windows %></td>
+			</tr>
+			<tr>
+				<td>robot_covers</td>
+				<td><%= @paint_booth_process_checklist.robot_covers %></td>
+			</tr>
+			<tr>
+				<td>grates</td>
+				<td><%= @paint_booth_process_checklist.grates %></td>
+			</tr>
+			<tr>
+				<td>conveyor</td>
+				<td><%= @paint_booth_process_checklist.conveyor %></td>
+			</tr>
+			<tr>
+				<td>structural_steel</td>
+				<td><%= @paint_booth_process_checklist.structural_steel %></td>
+			</tr>
+			<tr>
+				<td>flood_pan</td>
+				<td><%= @paint_booth_process_checklist.flood_pan %></td>
+			</tr>
+			<tr>
+				<td>floor_platforms</td>
+				<td><%= @paint_booth_process_checklist.floor_platforms %></td>
+			</tr>
+			<tr>
+				<td>comments</td>
+				<td><%= @paint_booth_process_checklist.comments %></td>
+			</tr>
+			<tr>
+				<td>image1</td>
+				<td><%= image_tag image1_forms_paint_booth_process_checklist_path(@paint_booth_process_checklist) %></td>
+			</tr>
+			<tr>
+				<td>overall_rate</td>
+				<td><%= @paint_booth_process_checklist.overall_rate %></td>
+			</tr>
+		</tbody>
+	</table>
+<%= render :partial => 'forms/form_submission_section', :locals => { :submission_path => submission_forms_paint_booth_process_checklist_path(@paint_booth_process_checklist), :reparse_path => reparse_forms_paint_booth_process_checklist_path(@paint_booth_process_checklist) } %>
+</div>

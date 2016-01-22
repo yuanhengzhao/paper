@@ -1,0 +1,9 @@
+require 'spec_helper'
+
+describe Forms::BatteryInspectionsController do
+  it_behaves_like "a form controller" do
+    let(:model) { Forms::BatteryInspection }
+    let(:image_fields) { [ :photo ] }
+    let(:pre_model_name) { "" }
+  end
+end

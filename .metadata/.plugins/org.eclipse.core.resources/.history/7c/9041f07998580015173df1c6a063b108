@@ -1,0 +1,5 @@
+<% title "Jig Cleaning" %>
+<%= render :partial => 'forms/form_export_section', :locals => {:extra_buttons => [ (link_to "Jig Cleaning Records", form_extensions_jig_cleaning_records_url) ], :update_url => update_export_forms_jig_cleanings_url(format: :json), :download_url => download_export_forms_jig_cleanings_url} %>
+<table id="jig_cleanings_datatable" class="display<%= (can?(:manage, Forms::JigCleaning) ? ' admin' : '') %>">
+	<%= render :partial => 'forms/form_header_footer' %>
+</table>

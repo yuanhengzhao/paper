@@ -1,0 +1,390 @@
+require 'rails_helper'
+
+RSpec.describe Incident, :type => :model do
+  it "has a valid factory" do
+    expect(FactoryGirl.build(:incident)).to be_valid
+  end
+  let(:closed_date) { DateTime.new(2015, 11, 3, 14, 25) }
+  # describe "building attribute" do
+    # it "cannot be nil" do
+      # expect(FactoryGirl.build(:incident, building: nil)).to_not be_valid
+    # end
+  # end
+  
+  # describe "supervisor attribute" do
+    # it "cannot be nil" do
+      # expect(FactoryGirl.build(:incident, supervisor: nil)).to_not be_valid
+    # end
+#     
+    # it "cannot be blank" do
+      # expect(FactoryGirl.build(:incident, supervisor: "")).to_not be_valid
+    # end
+  # end
+  
+  # describe "shift_start attribute" do
+    # it "cannot be nil" do
+      # expect(FactoryGirl.build(:incident, shift_start: nil)).to_not be_valid
+    # end
+#     
+    # it "cannot be blank" do
+      # expect(FactoryGirl.build(:incident, shift_start: "")).to_not be_valid
+    # end
+  # end
+  
+  # describe "shift_end attribute" do
+    # it "cannot be nil" do
+      # expect(FactoryGirl.build(:incident, shift_end: nil)).to_not be_valid
+    # end
+#     
+    # it "cannot be blank" do
+      # expect(FactoryGirl.build(:incident, shift_end: "")).to_not be_valid
+    # end
+  # end
+  
+  # describe "employee attribute" do
+    # it "cannot be nil" do
+      # expect(FactoryGirl.build(:incident, employee: nil)).to_not be_valid
+    # end
+#     
+    # it "cannot be blank" do
+      # expect(FactoryGirl.build(:incident, employee: "")).to_not be_valid
+    # end
+  # end
+  
+  # describe "job attribute" do
+    # it "cannot be nil" do
+      # expect(FactoryGirl.build(:incident, job: nil)).to_not be_valid
+    # end
+#     
+    # it "cannot be blank" do
+      # expect(FactoryGirl.build(:incident, job: "")).to_not be_valid
+    # end
+  # end
+  
+  describe "incident_time attribute" do
+    # it "cannot be nil" do
+      # expect(FactoryGirl.build(:incident, incident_time: nil)).to_not be_valid
+    # end
+#     
+    # it "cannot be blank" do
+      # expect(FactoryGirl.build(:incident, incident_time: "")).to_not be_valid
+    # end
+    describe "compared to report_time attribute" do
+      let(:incident_time) { DateTime.new(2015, 1, 2, 3, 4, 5) }
+      it "can be before" do
+        expect(FactoryGirl.build(:incident, incident_time: incident_time, report_time: (incident_time + 1.second))).to be_valid
+      end
+      
+      it "can equal" do
+        expect(FactoryGirl.build(:incident, incident_time: incident_time, report_time: incident_time)).to be_valid
+      end
+      
+      it "cannot be after" do
+        incident = FactoryGirl.build(:incident, incident_time: incident_time, report_time: (incident_time - 1.second))
+        expect(incident).to_not be_valid
+        expect(incident.errors[:incident_time]).to eq(["is not before date/time reported"])
+        expect(incident.errors[:report_time]).to eq(["is not after date/time of incident"])
+      end
+    end
+  end
+  
+  # describe "safety_rep attribute" do
+    # it "cannot be nil" do
+      # expect(FactoryGirl.build(:incident, safety_rep: nil)).to_not be_valid
+    # end
+  # end
+  
+  # describe "incident_class attribute" do
+    # it "cannot be nil" do
+      # expect(FactoryGirl.build(:incident, incident_class: nil)).to_not be_valid
+    # end
+  # end
+  
+  # describe "incident_type attribute" do
+    # it "cannot be nil" do
+      # expect(FactoryGirl.build(:incident, incident_type: nil)).to_not be_valid
+    # end
+  # end
+  
+  # describe "description attribute" do
+    # it "cannot be nil" do
+      # expect(FactoryGirl.build(:incident, description: nil)).to_not be_valid
+    # end
+#     
+    # it "cannot be blank" do
+      # expect(FactoryGirl.build(:incident, description: "")).to_not be_valid
+    # end
+  # end
+  
+  describe "site attribute" do
+    it "should return the building's site if there is a building" do
+      building = FactoryGirl.create(:building)
+      incident = FactoryGirl.create(:incident, building: building)
+      expect(incident.site).to eq(building.site)
+    end
+    
+    it "should return nil if there is no building" do
+      incident = FactoryGirl.build(:incident, building: nil)
+      expect(incident.site).to be_nil
+    end
+  end
+  
+  describe "destroy method" do
+    it "should not destroy associated author" do
+      incident = FactoryGirl.create(:incident_full)
+      author = incident.author
+      expect{ incident.destroy }.to_not raise_error
+      expect(User.find_by_id(author.id)).to_not be_nil
+    end
+    
+    it "should not destroy associated building" do
+      incident = FactoryGirl.create(:incident_full)
+      building = incident.building
+      expect{ incident.destroy }.to_not raise_error
+      expect(Building.find_by_id(building.id)).to_not be_nil
+    end
+    
+    it "should not destroy associated safety rep" do
+      incident = FactoryGirl.create(:incident_full)
+      safety_rep = incident.safety_rep
+      expect{ incident.destroy }.to_not raise_error
+      expect(SafetyRep.find_by_id(safety_rep.id)).to_not be_nil
+    end
+    
+    it "should not destroy associated incident class" do
+      incident = FactoryGirl.create(:incident_full)
+      incident_class = incident.incident_class
+      expect{ incident.destroy }.to_not raise_error
+      expect(IncidentClass.find_by_id(incident_class.id)).to_not be_nil
+    end
+    
+    it "should not destroy associated incident type" do
+      incident = FactoryGirl.create(:incident_full)
+      incident_type = incident.incident_type
+      expect{ incident.destroy }.to_not raise_error
+      expect(IncidentType.find_by_id(incident_type.id)).to_not be_nil
+    end
+    
+    it "should not destroy associated body part" do
+      incident = FactoryGirl.create(:incident_full)
+      body_part = incident.body_part
+      expect{ incident.destroy }.to_not raise_error
+      expect(BodyPart.find_by_id(body_part.id)).to_not be_nil
+    end
+    
+    it "should not destroy associated body parts" do
+      incident = FactoryGirl.create(:incident_full)
+      body_parts = incident.body_parts
+      expect{ incident.destroy }.to_not raise_error
+      expect(BodyPart.find_by_id(body_parts.id)).to_not be_nil
+    end
+  end
+  
+  describe "open vs closed scope" do
+    let!(:open) { FactoryGirl.create(:incident, closed_date: nil) }
+    let!(:closed) { FactoryGirl.create(:incident, closed_date: Time.now) }
+    
+    it "open scope includes only open cases" do
+      expect(Incident.open).to eq([ open ])
+    end
+    
+    it "open scope does not include closed cases" do
+      expect(Incident.open).not_to include([ closed ])
+    end
+    
+    it "closed scope includes only closed cases" do
+      expect(Incident.closed).to eq([ closed ])
+    end
+    
+    it "closed scope does not include open cases" do
+      expect(Incident.closed).not_to include([ open ])
+    end
+    
+  end
+  
+  describe "ready vs draft scope" do
+    let!(:draft_false) { FactoryGirl.create(:incident, ready_to_submit_investigation: false) }
+    let!(:draft_nil) { FactoryGirl.create(:incident, ready_to_submit_investigation: nil) }
+    let!(:ready) { FactoryGirl.create(:incident, ready_to_submit_investigation: true) }
+    
+    it "ready only includes ready_to_submit_investigation = true" do
+      expect(Incident.ready).to eq( [ready] )
+    end
+    
+    it "draft includes ready_to_submit_investigation = nil" do
+      expect(Incident.draft).to include(draft_nil)
+    end
+    
+    it "draft includes ready_to_submit_investigation = false" do
+      expect(Incident.draft).to include(draft_false)
+    end
+    
+    it "draft does not include ready_to_submit_investigation = true" do
+      expect(Incident.draft).to_not include(ready)
+    end
+  end
+  
+  describe "notification callbacks" do
+    # manually clear the mailer array since this is not a mailer spec
+    before(:each) { ActionMailer::Base.deliveries.clear }
+    
+    describe "for create" do
+      
+      it "sends group notification when ready_to_submit_investigation is false but does not send safety rep notification" do
+        incident = nil
+        expect{
+          incident = FactoryGirl.create(:incident_full, ready_to_submit_investigation: false)
+        }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        
+        # that notification should have the expected subject
+        expect(ActionMailer::Base.deliveries.last.subject).to eq("#{incident.incident_class} Incident Investigation - #{incident.building}")
+      end
+      
+      it "sends group notification and safety rep notification when ready_to_submit_investigation is true" do
+        incident = nil
+        expect{
+          incident = FactoryGirl.create(:incident_full, ready_to_submit_investigation: true)
+        }.to change(ActionMailer::Base.deliveries, :count).by(2)
+        
+        # those notifications should have the expected subjects
+        returned_subjects = ActionMailer::Base.deliveries.last(2).map(&:subject).sort
+        
+        expected_subjects = [
+          "#{incident.incident_class} Incident Investigation - #{incident.building}",
+          "Investigation on Incident ##{incident.id} (#{incident.incident_class}) has been completed"
+        ].sort
+        
+        expect(returned_subjects).to eq(expected_subjects)
+      end
+      
+    end
+    
+    describe "for update" do
+      let(:incident) { FactoryGirl.create(:incident_full) }
+      
+      let(:incident_ready) { FactoryGirl.create(:incident_full, ready_to_submit_investigation: true) }
+      let(:incident_ready_no_date) { FactoryGirl.create(:incident_full, ready_to_submit_investigation: true, closed_date: nil) }
+      let(:incident_not_ready) { FactoryGirl.create(:incident_full, ready_to_submit_investigation: false, closed_date: nil) }
+      
+      
+      let!(:safety_director1) { FactoryGirl.build(:safety_director)}
+      let!(:safety_director2) { FactoryGirl.create(:safety_director)}
+      
+      describe "group notification" do
+        it "is not sent when ready_to_submit_investigation is false" do
+          incident.update(ready_to_submit_investigation: false)
+          expect(ActionMailer::Base.deliveries.map(&:subject)).not_to include(["#{incident.incident_class} Incident Investigation - #{incident.building}"])
+        end
+      
+        it "is not sent when ready_to_submit_investigation is true" do
+          incident.update(ready_to_submit_investigation: true)
+          expect(ActionMailer::Base.deliveries.map(&:subject)).not_to include(["#{incident.incident_class} Incident Investigation - #{incident.building}"])
+        end
+      end
+      
+      describe "the author" do
+        it "is notified when ready_to_submit_investigation changes from true to false" do
+          incident = incident_ready
+          expect{
+            incident.update(ready_to_submit_investigation: false)
+          }.to change(ActionMailer::Base.deliveries, :count).by(1)
+          expect(ActionMailer::Base.deliveries.last.to).to eq([incident.author.email])
+          expect(ActionMailer::Base.deliveries.last.subject).to eq("Investigation on Incident ##{incident.id} (#{incident.incident_class}) has been reverted")
+        end
+      
+        it "is not notified when ready_to_submit_investigation changes from false to true" do
+          #its always sending email when there is the change from false to true in ready_to_submit_investigation, but not to the author, as to the safety rep
+          incident = incident_not_ready
+          expect{
+            incident.update(ready_to_submit_investigation: true)
+          }.to change(ActionMailer::Base.deliveries, :count).by(1)  
+          expect(ActionMailer::Base.deliveries.last.to).not_to eq(incident.author.email)
+          expect(ActionMailer::Base.deliveries.last.subject).not_to eq("Investigation on Incident ##{incident.id} (#{incident.incident_class}) has been reverted")
+        end
+      end
+      
+      describe "a safety representative" do
+        it "is not notified when ready_to_submit_investigation changes from false to true" do
+          incident = incident_not_ready
+          expect{
+            incident.update(ready_to_submit_investigation: true)
+          }.to change(ActionMailer::Base.deliveries, :count).by(1)
+          expect(ActionMailer::Base.deliveries.last.subject).to eq("Investigation on Incident ##{incident.id} (#{incident.incident_class}) has been completed")
+        end
+      
+        it "is not notified when ready_to_submit_investigation changes from true to false" do
+          #its always sending email when there is the change from true to false in ready_to_submit_investigation, but not to the rep, as to the author
+          expect{
+            incident.update(ready_to_submit_investigation: false)
+          }.to change(ActionMailer::Base.deliveries, :count).by(1)
+          expect(ActionMailer::Base.deliveries.last.to).not_to eq(incident.safety_rep.email)
+          expect(ActionMailer::Base.deliveries.last.subject).not_to eq("Investigation on Incident ##{incident.id} (#{incident.incident_class}) has been completed")
+        end
+      end
+      
+      describe "safety directors" do
+        it "are notified when closed_date changes from nil to not nil and ready_to_submit_investigation is true" do
+          expect(User.all).not_to be_empty
+        
+          expect(User.where(:role => "3")).not_to be_empty
+          incident = incident_ready_no_date
+          expect{
+            incident.update(closed_date: closed_date)
+          }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        end
+      
+        it "are not notified when closed_date changes from nil to not nil and ready_to_submit_investigation is false" do
+          incident = incident_not_ready
+          expect{
+            incident.update(closed_date: closed_date)
+          }.to change(ActionMailer::Base.deliveries, :count).by(0)
+        end
+      
+        it "are not notified when closed_date is nil and ready_to_submit_investigation is true" do
+          incident.update(ready_to_submit_investigation: true, closed_date: nil)
+          expect(ActionMailer::Base.deliveries.last.subject).not_to eq("Incident ##{incident.id} (#{incident.incident_class}) has been marked as closed")
+        end
+      
+        it "are not notified when closed_date changes from not nil to another not nil value and ready_to_submit_investigation is true" do
+          expect(User.all).not_to be_empty
+          expect(User.where(:role => "3")).not_to be_empty
+          
+          incident = incident_ready
+          incident.update(closed_date: closed_date)
+          another_closed_date = DateTime.new(2015, 11, 4, 20, 01)
+          expect{
+            incident.update(closed_date: another_closed_date)
+          }.to change(ActionMailer::Base.deliveries, :count).by(0)
+        end
+      end
+    end
+    
+  end
+  describe "audited" do
+    let!(:incident) {FactoryGirl.create(:incident_full, description: 'old desc', job: 'old job')}
+    
+    subject do
+      incident.description = 'new desc'
+      incident.job = 'new job'
+      incident.save
+    end
+    
+    before(:each) do
+      expect(incident.audits.count).to eq(1) # audit created when the factory is created
+    end
+    
+    it "should create an audit object when the incident got updated" do
+      subject
+      expect(incident.audits.count).to eq(2)
+    end
+    
+    it "should save the old data and new data" do
+      subject
+      audit = incident.audits.last
+      expect(audit.audited_changes['description'][0]).to eq('old desc')
+      expect(audit.audited_changes['description'][1]).to eq('new desc')
+      expect(audit.audited_changes['job'][0]).to eq('old job')
+      expect(audit.audited_changes['job'][1]).to eq('new job')
+    end
+  end
+end

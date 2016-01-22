@@ -1,0 +1,1 @@
+json.extract! @booth_eliminator_checklist, :id, :created_at, :updated_at

@@ -1,0 +1,209 @@
+require 'spec_helper'
+
+describe Forms::EnpsReportsController do
+  it_behaves_like "a form controller" do
+    let(:model) { Forms::EnpsReport }
+    let(:image_fields) { [] }
+    let(:pre_model_name) { "" }
+    let(:enps_reports) {"/forms/enps_reports"}
+    
+  end
+  
+  describe "POST change_exclude" do
+    let!(:enps) { FactoryGirl.create(:enps_report_valid)}
+    describe "for an anonymous user" do
+
+      it "does not succeed" do
+        post :change_exclude, {id: enps.id}
+        expect(response).not_to be_success
+      end
+
+      it "responds with redirect HTTP 302" do
+        post :change_exclude, {id: enps.id}
+        expect(response.status).to eq(302)
+      end
+    end
+
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+
+      it "does not succeed" do
+        post :change_exclude, {id: enps.id}
+        expect(response).to_not be_success
+      end
+
+      it "responds with redirect HTTP 302" do
+        post :change_exclude, {id: enps.id}
+        expect(response.status).to eq(302)
+      end
+    end
+
+    describe "for an authorized user", :with_authorized_user => true do
+      describe "with no permissions" do
+        before(:each) do
+          expect(@user.permissions).to be_empty
+        end
+        
+        it "does not succeed" do
+          post :change_exclude, {id: enps.id}
+          expect(response).not_to be_success
+        end
+        
+      end
+
+      describe "with specific permission" do
+      # attach read permission to the user
+        before(:each) do
+          @user = FactoryGirl.create(:authorized)
+          create(:edit_permission, category: "Forms", subject: "EnpsReport", user: @user)
+          sign_in @user
+        end
+
+        it "succeeds" do
+          post :change_exclude, {id: enps.id, format: "json"}
+          expect(response).to be_success
+        end
+
+        it "responds successfully with HTTP 200" do
+          post :change_exclude, {id: enps.id, format: "json"}
+          expect(response.status).to eq(200)
+        end
+
+        it "changes the Enps Report record exclude" do
+          post :change_exclude, {id: enps.id, format: "json"}
+          expect(response.body).to eq("true")
+        end
+      end
+
+      describe "with ALL permission" do
+      # attach read permission to the user with admin role
+        before(:each) do
+          @user = FactoryGirl.create(:admin)
+          sign_in @user
+          #create(:edit_permission, category: "Forms", subject: "ALL", user: @user)
+        end
+
+        it "succeeds" do
+          post :change_exclude, {id: enps.id, format: "json"}
+          expect(response).to be_success
+        end
+
+        it "responds successfully with HTTP 200" do
+          post :change_exclude, {id: enps.id, format: "json"}
+          expect(response.status).to eq(200)
+        end
+
+        it "changes the Enps Report record exclude" do
+          post :change_exclude, {id: enps.id, format: "json"}
+          expect(response.body).to eq("true")
+        end
+      end
+    end
+
+  end
+  
+  describe "GET index" do
+    describe "for an anonymous user" do
+
+      it "does not succeed" do
+        get :index
+        expect(response).not_to be_success
+      end
+
+      it "responds with redirect HTTP 302" do
+        get :index
+        expect(response.status).to eq(302)
+        expect(response).to redirect_to(root_url)
+      end
+
+      it "does not render index template" do
+        get :index
+        expect(response).to_not render_template("index")
+      end
+
+    end
+
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+
+      it "does not succeed" do
+        get :index
+        expect(response).to_not be_success
+      end
+
+      it "responds with redirect HTTP 302" do
+        get :index
+        expect(response.status).to eq(302)
+        expect(response).to redirect_to(authenticated_root_url)
+      end
+
+      it "does not render index template" do
+        get :index
+        expect(response).to_not render_template("index")
+      end
+
+    end
+
+    describe "for an authorized user", :with_authorized_user => true do
+      describe "with no permissions" do
+        before(:each) do
+          expect(@user.permissions).to be_empty
+        end
+        
+        it "does not succeed" do
+          get :index
+          expect(response).not_to be_success
+        end
+        
+        it "does not render index template" do
+          get :index
+          expect(response).not_to render_template("index")
+        end
+        
+      end
+
+      describe "with specific permission" do
+      # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: "EnpsReport", user: @user)
+        end
+
+        it "succeeds" do
+          get :index
+          expect(response).to be_success
+        end
+
+        it "responds successfully with HTTP 200" do
+          get :index
+          expect(response.status).to eq(200)
+        end
+
+        it "renders index template" do
+          get :index
+          expect(response).to render_template("index")
+        end
+      end
+
+      describe "with ALL permission" do
+      # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: "ALL", user: @user)
+        end
+
+        it "succeeds" do
+          get :index
+          expect(response).to be_success
+        end
+
+        it "responds successfully with HTTP 200" do
+          get :index
+          expect(response.status).to eq(200)
+        end
+
+        it "renders index template" do
+          get :index
+          expect(response).to render_template("index")
+        end
+      end
+    end
+
+  end
+end

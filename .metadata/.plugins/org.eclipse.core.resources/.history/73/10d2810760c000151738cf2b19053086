@@ -1,0 +1,19 @@
+class Api::PapersController < ApplicationController
+
+  before_action :doorkeeper_authorize!
+  doorkeeper_for :all
+  def index
+    user = User.find(doorkeeper_token.resource_owner_id)
+    @papers = Paper.all
+    respond_to do |format|
+      format.json { render :json => @papers }
+    end
+  end
+  
+  def show
+    @paper = Paper.find(params[:id])
+    respond_to do |format|
+      format.json { render :json => @paper}
+    end
+  end
+end

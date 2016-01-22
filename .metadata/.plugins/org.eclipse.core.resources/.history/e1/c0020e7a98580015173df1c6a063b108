@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Forms::JanitorialChecklist
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!Forms/JanitorialChecklist.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (J)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Forms.html" title="Forms (module)">Forms</a></span></span>
+     &raquo; 
+    <span class="title">JanitorialChecklist</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: Forms::JanitorialChecklist
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">ActiveRecord::Base</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ActiveRecord::Base</li>
+          
+            <li class="next">Forms::JanitorialChecklist</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">app/models/forms/janitorial_checklist.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <ul><li>
+<p>zone_qr_code (string) - the scanned qr code</p>
+</li><li>
+<p>qr_client (string) - client&#39;s name, got from the scanned qr code</p>
+</li><li>
+<p>qr_site (string) - site&#39;s name, got from the scanned qr code</p>
+</li><li>
+<p>qr_shop (string) - shop&#39;s name, got from the scanned qr code</p>
+</li><li>
+<p>qr_location (string) - location, got from the scanned qr code</p>
+</li><li>
+<p>qr_floor (string) - floor, got from the scanned qr code</p>
+</li><li>
+<p>qr_type_mwu (string) - type, got from the scanned qr code</p>
+</li><li>
+<p>qr_reference (string) - reference, got from the scanned qr code</p>
+</li><li>
+<p>qr_plant_id (string) - plant id, got from the scanned qr code</p>
+</li><li>
+<p>area_type (string) - type of the area</p>
+</li><li>
+<p>fi (string) - green/yellow/red/NA rating</p>
+</li><li>
+<p>floor (string) - green/yellow/red/NA rating</p>
+</li><li>
+<p>trash (string) -  green/yellow/red/NA rating</p>
+</li><li>
+<p>windows (string) - green/yellow/red/NA rating</p>
+</li><li>
+<p>ledges (string) - green/yellow/red/NA rating</p>
+</li><li>
+<p>vents (string) -  green/yellow/red/NA rating</p>
+</li><li>
+<p>chairs (string) - green/yellow/red/NA rating</p>
+</li><li>
+<p>tables (string) - green/yellow/red/NA rating</p>
+</li><li>
+<p>microwave (string) - green/yellow/red/NA rating</p>
+</li><li>
+<p>drinking_fount (string) - green/yellow/red/NA rating</p>
+</li><li>
+<p>sinks (string) - green/yellow/red/NA rating</p>
+</li><li>
+<p>dispensers (string) - green/yellow/red/NA rating</p>
+</li><li>
+<p>guard_rails (string) - green/yellow/red/NA rating</p>
+</li><li>
+<p>are_repairs_required (string) - answer to question “are repairs required”</p>
+</li><li>
+<p>list_reapairs (string) - list of repairs</p>
+</li><li>
+<p>comments (text) - comment</p>
+</li><li>
+<p>image1 (attachment)</p>
+</li><li>
+<p>image2 (attachment)</p>
+</li><li>
+<p>sum_total (integer) - the sum of the rating questions answered</p>
+</li><li>
+<p>overall_rate (float) - average of the ratings</p>
+</li></ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+
+  
+
+</div>
+
+    <div id="footer">
+  Generated on Wed Aug 20 16:56:36 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-2.0.0).
+</div>
+
+  </body>
+</html>

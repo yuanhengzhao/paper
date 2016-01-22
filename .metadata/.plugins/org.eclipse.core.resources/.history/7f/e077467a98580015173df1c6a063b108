@@ -1,0 +1,17 @@
+require 'spec_helper'
+
+describe "data_sources/site_shifts/edit" do
+  before(:each) do
+    @site_shift = assign(:site_shift, create(:site_shift))
+  end
+
+  it "renders the edit data_sources_site_shift form" do
+    render
+
+    # Run the generator again with the --webrat flag if you want to use webrat matchers
+    assert_select "form[action=?][method=?]", data_sources_site_shift_path(@site_shift), "post" do
+      assert_select "input#data_sources_site_shift_site[name=?]", "site_shift[site]"
+      assert_select "input#data_sources_site_shift_shift[name=?]", "site_shift[shift]"
+    end
+  end
+end

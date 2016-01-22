@@ -1,0 +1,9 @@
+require 'spec_helper'
+
+describe Forms::SpecialServiceRequestsController do
+  it_behaves_like "a form controller" do
+    let(:model) { Forms::SpecialServiceRequest }
+    let(:image_fields) { [ :image1, :image2, :image3, :image4, :image5 ] }
+    let(:pre_model_name) { "" }
+  end
+end

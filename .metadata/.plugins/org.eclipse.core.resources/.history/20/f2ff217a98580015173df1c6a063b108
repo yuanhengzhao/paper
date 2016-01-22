@@ -1,0 +1,9 @@
+require 'spec_helper'
+
+describe Forms::TaskInspectionsController do
+  it_behaves_like "a form controller" do
+    let(:model) { Forms::TaskInspection }
+    let(:image_fields) { [ :abnormality_picture1, :picture_before_task1, :picture_after_task1, :abnormality_picture2, :picture_before_task2, :picture_after_task2, :abnormality_picture3, :picture_before_task3, :picture_after_task3 ] }
+    let(:pre_model_name) { "" }
+  end
+end

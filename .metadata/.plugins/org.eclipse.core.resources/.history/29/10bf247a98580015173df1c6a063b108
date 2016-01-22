@@ -1,0 +1,30 @@
+FactoryGirl.define do
+  factory :escrub_kop, class: Forms::EscrubKop do
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions', 'fake.json'), 'text/plain') }
+    
+    factory :escrub_kop_valid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'escrub_kop', 'valid_inspection.json'), 'text/plain') }
+    end
+    
+    factory :escrub_kop_invalid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'escrub_kop', 'missing_pages.json'), 'text/plain') }
+    end
+    
+    factory :escrub_kop_inspection_valid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'escrub_kop', 'valid_inspection.json'), 'text/plain') }
+    end
+    
+    factory :escrub_kop_key_operating_parameters_valid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'escrub_kop', 'valid_key_operating_parameters.json'), 'text/plain') }
+    end
+    
+    factory :escrub_kop_key_chemistry_parameters_valid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'escrub_kop', 'valid_key_chemistry_parameters.json'), 'text/plain') }
+    end
+  end
+end

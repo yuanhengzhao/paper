@@ -1,0 +1,1 @@
+json.extract! @jkk_audit, :id, :created_at, :updated_at

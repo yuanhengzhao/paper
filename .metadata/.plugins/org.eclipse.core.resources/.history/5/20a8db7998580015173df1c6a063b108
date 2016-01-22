@@ -1,0 +1,82 @@
+class Consumer::AwsSqsS3
+  
+  # Configures a new consumer of an SQS queue.
+  #
+  # @param fog_credentials [Hash]
+  # @param queue_url [String] URL of the queue in AWS to poll
+  # @param bucket_name [String] name of the bucket where it will read files from
+  # @param source [String] the form provider key, i.e. `prontoforms`, `iforms`, etc.
+  # @param options [Hash] options to send to queue with each request, see {http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/SQS/Queue.html#receive_message-instance_method}
+  def initialize(fog_credentials, queue_url, bucket_name, source, options = {})
+    # create SQS reference using credentials
+    raise ArgumentError, "fog_credentials cannot be nil" if fog_credentials.nil?
+    @sqs = Fog::AWS::SQS.new(fog_credentials)
+    
+    # ensure SQS queue exists
+    raise ArgumentError, "queue_url cannot be nil" if queue_url.nil?
+    @queue_url = queue_url
+    
+    # ensure source parameter is non-empty
+    raise ArgumentError, "source cannot be nil" if source.nil?
+    @source = source
+    
+    # ensure S3 bucket exists
+    raise ArgumentError, "bucket_name cannot be nil" if bucket_name.nil?
+    
+    # add in extra parameter
+    s3_fog_credentials = fog_credentials.clone
+    s3_fog_credentials[:path_style] = true
+    s3 = Fog::Storage::AWS.new(s3_fog_credentials)
+    @bucket = s3.directories.get(bucket_name)
+    raise ArgumentError, "no bucket found for bucket_name [#{bucket_name}]" if @bucket.nil?
+    
+    # hold on to options hash
+    @options = options
+    
+    # instantiate the parser object
+    @parser_service = ParserService.new
+  end
+  
+  # Performs a single request for messages from the queue and if at least one is received, it extracts the
+  # submission details, parses them into the application, and if successful, deletes the object.
+  def poll
+    response = @sqs.receive_message(@queue_url)
+    response.body['Message'].each do |message|
+      # get the receipt handle for later
+      handle = message["ReceiptHandle"]
+      
+      # get the contents of the form submission
+      body = ActiveSupport::JSON.decode(message["Body"])
+      path = body['Message']
+      submission = fetch_submission(path)
+      
+      # parse and destroy the original file
+      @parser_service.parse(@source, submission)
+      destroy_submission(path)
+      
+      # delete the message from the queue
+      @sqs.delete_message(@queue_url, handle)
+    end
+    
+    return response.body['Message'].length
+  end
+  
+  private
+  
+  # Returns the contents of the file in the configured S3 bucket at the given path
+  #
+  # @param path [String] key of the object in S3 containing a form submission
+  # @return the contents of the object at the given path
+  def fetch_submission(path)
+    @bucket.files.get(path).body
+  end
+  
+  # Deletes the file in the configured S3 bucket at the given path
+  #
+  # @param path [String] key of the object in S3 containing a form submission
+  # @return true if the object at the given path was deleted, false otherwise
+  def destroy_submission(path)
+    @bucket.files.get(path).destroy
+  end
+  
+end

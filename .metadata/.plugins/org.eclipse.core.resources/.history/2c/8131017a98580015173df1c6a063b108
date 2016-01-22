@@ -1,0 +1,5 @@
+class AddColumnFloorBaseboardToRestroomChecklist < ActiveRecord::Migration
+  def change
+    add_column :forms_restroom_checklists, :floor_baseboard, :string
+  end
+end

@@ -1,0 +1,63 @@
+class CreateFormsSnowAudits < ActiveRecord::Migration
+  def change
+    create_table :forms_snow_audits do |t|
+      t.string :reference_number
+      t.datetime :server_receive_date
+      t.datetime :device_submit_date
+      t.string :username
+      t.string :version
+      t.decimal :altitude, precision: 20, scale: 16
+      t.decimal :latitude, precision: 20, scale: 16
+      t.decimal :longitude, precision: 20, scale: 16
+      t.string :source
+      t.string :file_path
+      t.date :audit_date
+      t.datetime :audit_time
+      t.string :contractors_supervis
+      t.datetime :time_snow_called_for
+      t.datetime :time_snow_started
+      t.datetime :time_snow_ended
+      t.string :area_to_audit
+      t.string :gg_supervisor_onsite
+      t.text :comments1
+      t.string :time_operators_start
+      t.text :comments2
+      t.string :priority_addressed
+      t.text :comments3
+      t.string :ring_roads
+      t.text :comments4
+      t.string :docks_cleared_salted
+      t.text :comments5
+      t.string :parking_lots_salted
+      t.text :comments6
+      t.string :rumble_track
+      t.text :comments7
+      t.string :awl_chute
+      t.text :comments8
+      t.string :quality_auditslopes
+      t.text :comments9
+      t.string :emergency_addressed
+      t.text :comments10
+      t.string :all_equipment
+      t.text :comments11
+      t.string :emergency_entrances
+      t.text :comments12
+      t.string :windrows_removed
+      t.text :comments13
+      t.string :cleanuppile_removal
+      t.text :comments14
+      t.attachment :images1
+      t.attachment :images2
+      t.attachment :images3
+      t.attachment :images4
+      t.attachment :images5
+      t.attachment :images6
+      t.attachment :images7
+      t.attachment :images8
+      t.attachment :images9
+      t.attachment :images10
+
+      t.timestamps null: true
+    end
+  end
+end

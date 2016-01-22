@@ -1,0 +1,5 @@
+json.array!(@equipment_units) do |data_sources_equipment_unit|
+  json.extract! data_sources_equipment_unit, :id, :site, :shop, :equipment_type, :unit_number, :barcode, :manufacturer, :date_into_service, :battery_serial_number, :battery_voltage, :inspection_frequency, :inspection_code, :inspection_days
+  json.photo photo_data_sources_equipment_unit_url(data_sources_equipment_unit.id)
+  json.url data_sources_equipment_unit_url(data_sources_equipment_unit, format: :json)
+end

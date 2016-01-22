@@ -1,0 +1,62 @@
+require 'rails_helper'
+
+RSpec.describe "incidents/new", :type => :view do
+  before(:each) do
+    assign(:incident, Incident.new)
+  end
+  
+  it "needs to be reviewed to ensure all HTML is correct"
+
+  it "renders new incident form" do
+    render
+
+    assert_select "form[action=?][method=?]", incidents_path, "post" do
+
+      assert_select "select#incident_building_id[name=?]", "incident[building_id]"
+      
+      assert_select "select#incident_floor_id[name=?]", "incident[floor_id]"
+      
+      assert_select "select#incident_employee_type_id[name=?]", "incident[employee_type_id]"
+      
+      assert_select "textarea#incident_incident_category_other[name=?]", "incident[incident_category_other]"
+      
+      assert_select "input#incident_incident_type_other[name=?]", "incident[incident_type_other]"
+
+      assert_select "input#incident_column[name=?]", "incident[column]"
+
+      assert_select "input#incident_supervisor[name=?]", "incident[supervisor]"
+
+      assert_select "input#incident_employee[name=?]", "incident[employee]"
+
+      assert_select "input#incident_job[name=?]", "incident[job]"
+      
+      assert_select "input#incident_incident_time[name=?]", "incident[incident_time]"
+      
+      assert_select "input#incident_time-date-part"
+      
+      assert_select "input#incident_time-time-part"
+
+      assert_select "select#incident_safety_rep_id[name=?]", "incident[safety_rep_id]"
+      
+      assert_select "input#incident_report_time[name=?]", "incident[report_time]"
+      
+      assert_select "input#report_time-date-part"
+      
+      assert_select "input#report_time-time-part"
+
+      assert_select "select#incident_incident_class_id[name=?]", "incident[incident_class_id]"
+
+      assert_select "select#incident_incident_type_id[name=?]", "incident[incident_type_id]"
+
+      assert_select "select#incident_body_part_id[name=?]", "incident[body_part_id]"
+
+      assert_select "select#incident_body_location_id[name=?]", "incident[body_location_id]"
+
+      assert_select "input#incident_shift_start[name=?]", "incident[shift_start]"
+
+      assert_select "input#incident_shift_end[name=?]", "incident[shift_end]"
+      
+      assert_select "textarea#incident_description[name=?]", "incident[description]"
+    end
+  end
+end

@@ -1,0 +1,15 @@
+FactoryGirl.define do
+  factory :janitorial_checklist, class: Forms::JanitorialChecklist do
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions', 'fake.json'), 'text/plain') }
+    
+    factory :janitorial_checklist_valid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'janitorial_checklist', 'valid.json'), 'text/plain') }
+    end
+    
+    factory :janitorial_checklist_invalid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'janitorial_checklist', 'too_many_images.json'), 'text/plain') }
+    end
+  end
+end

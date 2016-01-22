@@ -1,0 +1,15 @@
+FactoryGirl.define do
+  factory :snow_audit, class: Forms::SnowAudit do
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions', 'fake.json'), 'text/plain') }
+    
+    factory :snow_audit_valid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'snow_audit', 'valid.json'), 'text/plain') }
+    end
+    
+    factory :snow_audit_invalid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'snow_audit', 'too_many_pictures.json'), 'text/plain') }
+    end
+  end
+end

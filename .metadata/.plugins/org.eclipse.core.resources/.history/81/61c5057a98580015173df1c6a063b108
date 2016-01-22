@@ -1,0 +1,5 @@
+class AddSupplierStatusToFormExtensionsPunchlistFormHistories < ActiveRecord::Migration
+  def change
+    add_column :form_extensions_punchlist_form_histories, :supplier_status, :string
+  end
+end

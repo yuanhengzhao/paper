@@ -1,0 +1,143 @@
+// bootstrap widths
+$bootstrap_min_width: 768px;
+$bootstrap_max_width: 767px;
+
+// corporate colours
+$corporate_blue:        #0065a4;
+$corporate_dark_blue:   #004773;
+$corporate_light_blue:  #5284a3;
+$corporate_green:       #5e9732;
+$corporate_light_green: #c8df8e;
+$corporate_cool_gray:   #e6e7e8;
+
+// navbar colours
+$bgDefault      : $corporate_blue;
+$bgHighlight    : $corporate_dark_blue;
+$colDefault     : $corporate_cool_gray;
+$colHighlight   : white;
+
+// logo padding requirement
+$logoXheight: 20px;
+
+// button colours
+$btnPrimaryColor:          $corporate_blue;
+$btnPrimaryBorder:         $corporate_dark_blue;
+$btnPrimaryActiveColor:    $corporate_dark_blue;
+$btnPrimaryActiveBorder:   $corporate_dark_blue;
+$btnPrimaryDisabledColor:  $corporate_light_blue;
+$btnPrimaryDisabledBorder: $corporate_blue;
+
+body { padding-top: 80px; }
+.navbar { margin-bottom: 0px; }
+
+
+// Robinson logo and application name
+.navbar-brand { height: inherit; padding: $logoXheight $logoXheight; }
+@media (min-width: $bootstrap_min_width) {
+  .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand { margin-left: -1*$logoXheight; }
+  .navbar-nav > li > a { padding-top: $logoXheight; padding-bottom: $logoXheight; line-height: 29px; }
+}
+
+.navbar-brand > div { display: inline; padding-left: $logoXheight; vertical-align: bottom; }
+@media (max-width: $bootstrap_max_width) {
+  body { padding-top: 70px; }
+  .navbar-brand > img { display: none; }
+  .navbar-brand > div { padding-left: 0px; }
+}
+
+// Primary button
+.btn-primary {
+  color: white;
+  background-color: $btnPrimaryColor;
+  border-color: $btnPrimaryBorder;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .btn-primary.dropdown-toggle {
+  color: white;
+  background-color: $btnPrimaryActiveColor;
+  border-color: $btnPrimaryActiveBorder;
+}
+.btn-primary.disabled, .btn-primary.disabled:hover, .btn-primary.disabled:focus, .btn-primary.disabled:active, .btn-primary.disabled.active, .btn-primary[disabled], .btn-primary[disabled]:hover, .btn-primary[disabled]:focus, .btn-primary[disabled]:active, .btn-primary[disabled].active, fieldset[disabled] .btn-primary, fieldset[disabled] .btn-primary:hover, fieldset[disabled] .btn-primary:focus, fieldset[disabled] .btn-primary:active, fieldset[disabled] .btn-primary.active {
+  background-color: $btnPrimaryDisabledColor;
+  border-color: $btnPrimaryDisabledBorder;
+}
+.btn-primary .badge {
+  color: $btnPrimaryColor;
+  background-color: white;
+}
+
+// Navigation
+.navbar-default {
+  background-color: $bgDefault;
+  border-color: $bgHighlight;
+  .navbar-brand {
+    color: $colDefault;
+    &:hover, &:focus {
+      color: $colHighlight;
+    }
+  }
+  .navbar-text {
+    color: $colDefault;
+  }
+  .navbar-nav {
+    > li {
+      > a {
+        color: $colDefault;
+        &:hover,  &:focus {
+          color: $colHighlight;
+        }
+      }
+    }
+    > .active {
+      > a, > a:hover, > a:focus {
+        color: $colHighlight;
+        background-color: $bgHighlight;
+      }
+    }
+    > .open {
+      > a, > a:hover, > a:focus {
+        color: $colHighlight;
+        background-color: $bgHighlight;
+      }
+    }
+  }
+  .navbar-toggle {
+    border-color: $bgHighlight;
+    &:hover, &:focus {
+      background-color: $bgHighlight;
+    }
+    .icon-bar {
+      background-color: $colDefault;
+    }
+  }
+  .navbar-collapse,
+  .navbar-form {
+    border-color: $colDefault;
+  }
+  .navbar-link {
+    color: $colDefault;
+    &:hover {
+      color: $colHighlight; 
+    }
+  }
+  .badge {
+    background-color: white;
+    color: $btnPrimaryColor;
+  }
+}
+
+@media (max-width: $bootstrap_max_width) {
+  .navbar-default .navbar-nav .open .dropdown-menu {
+    > li > a {
+      color: $colDefault;
+      &:hover, &:focus {
+        color: $colHighlight;
+      }
+    }
+    > .active {
+      > a, > a:hover, > a:focus, {
+        color: $colHighlight;
+        background-color: $bgHighlight;
+      }
+    }
+  }
+}

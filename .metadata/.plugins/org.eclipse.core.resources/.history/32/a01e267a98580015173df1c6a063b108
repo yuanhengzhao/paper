@@ -1,0 +1,44 @@
+include ActionDispatch::TestProcess
+FactoryGirl.define do
+  factory :unrecognized_submission, class: Forms::UnrecognizedSubmission do
+    source "prontoforms"
+    attempts 0
+    reason "reason"
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions','unrecognized.json'), 'text/plain') }
+  end
+  
+  factory :recognized_submission, class: Forms::UnrecognizedSubmission do
+    source "prontoforms"
+    attempts 0
+    reason "reason"
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions','valid.json'), 'text/plain') }
+  end
+  
+  factory :recognized_submission2, class: Forms::UnrecognizedSubmission do
+    source "prontoforms"
+    attempts 0
+    reason "reason"
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions','valid2.json'), 'text/plain') }
+  end
+  
+  factory :broken_image_submission, class: Forms::UnrecognizedSubmission do
+    source "prontoforms"
+    attempts 0
+    reason "reason"
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions','broken_image.json'), 'text/plain') }
+  end
+  
+  factory :punchlist_submission, class: Forms::UnrecognizedSubmission do
+    source "prontoforms"
+    attempts 0
+    reason "reason"
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions','punchlist.json'), 'text/plain') }
+  end
+  
+  factory :unrecognized_source_submission, class: Forms::UnrecognizedSubmission do
+    source "whateversource"
+    attempts 0
+    reason "reason"
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions','punchlist.json'), 'text/plain') }
+  end
+end

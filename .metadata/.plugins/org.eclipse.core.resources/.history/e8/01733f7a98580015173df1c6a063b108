@@ -1,0 +1,138 @@
+require_relative '../../spec_helper'
+
+describe ProntoForms::BatteryInspectionParser do
+  
+  let(:missing_image) { "/assets/missing.jpg" }
+
+  describe "max_version" do
+    subject { ProntoForms::BatteryInspectionParser.new }
+    it "should not throw an error" do
+      lambda { subject.max_version }.should_not raise_error
+    end
+  end
+  
+  describe "parse" do
+    
+    # call the parse method on a parameter defined in the sub-describes
+    subject { ProntoForms::BatteryInspectionParser.new.parse(form_hash) }
+    
+    # ensure that form_hash has been properly set for the specs  
+    before(:each) do
+      form_hash.should_not be_nil
+    end
+    
+    describe "for a hash missing pages" do
+      
+      let(:form_hash) { 
+        f = Rails.root.join('spec', 'resources', 'forms', 'battery_inspection', 'v1', 'missing_pages.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+      
+      it "should throw a parser error" do
+        lambda { subject }.should raise_error(ParserException, "Could not find expected page [page: 7]")
+      end
+      
+    end
+    
+    describe "for a hash with too many pictures" do
+      
+      let(:form_hash) { 
+        f = Rails.root.join('spec', 'resources', 'forms', 'battery_inspection', 'v1', 'too_many_pictures.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+      
+      it "should throw a parser error" do
+        lambda { subject }.should raise_error(ParserException, "Too many images attached to form")
+      end
+      
+    end
+    
+    describe "for a valid hash" do
+      
+      let(:form_hash) { 
+        f = Rails.root.join('spec', 'resources', 'forms', 'battery_inspection', 'v1', 'inaccessible_inspection.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+      
+      let(:expected) {
+        o = Forms::BatteryInspection.new
+        
+        o.reference_number = "20150716150550-1825014783"
+        o.server_receive_date = "2015-07-16T11:05:51-04:00"
+        o.device_submit_date = "2015-07-16T11:05:42-04:00"
+        o.username = "mliao@robinsonsolutions.com"
+        o.version = "1"
+        o.altitude = 0.0
+        o.latitude = 43.65212
+        o.longitude = -79.38205
+        o.source = "prontoforms"
+        
+        o.site = "Toronto"
+        o.shop = "Technology"
+        o.equipment_bar_code = nil
+        o.equipment_unit_number = "1234"
+        o.unit_accessible = false
+        o.plugged_in = false
+        o.battery_hot = nil
+        o.battery_temperature = nil
+        o.faults = nil
+        o.bad_cables = nil
+        o.water_filled = nil
+        o.blown_valves = nil
+        o.valves_to_change = nil
+        o.battery_cleaned = nil
+        o.comments = "comments"
+        
+        return o
+      }
+    
+      subject { ProntoForms::BatteryInspectionParser.new.parse(form_hash) }
+      
+      it "should return a Forms::BatteryInspection object" do
+        subject.should be_a_kind_of(Forms::BatteryInspection)
+      end
+      
+      it "should be valid" do
+        expect(subject).to  be_valid
+        expect(expected).to be_valid
+      end
+      
+      it "should not save a new equipment unit" do
+        expect{ subject }.to change{ DataSources::EquipmentUnit.count }.by(0)
+      end
+      
+      describe "should match expected" do
+        before(:each) do
+          subject.save
+          subject.reload
+        end
+        
+        it "should have the same base form values" do
+          expect(subject).to have_same_base_form_attributes_as(expected)
+        end
+      
+        its("site") { should eq(expected.site) }
+        its("shop") { should eq(expected.shop) }
+        its("equipment_bar_code") { should eq(expected.equipment_bar_code) }
+        its("equipment_unit_number") { should eq(expected.equipment_unit_number) }
+        its("unit_accessible") { should eq(expected.unit_accessible) }
+        its("plugged_in") { should eq(expected.plugged_in) }
+        its("battery_hot") { should eq(expected.battery_hot) }
+        its("battery_temperature") { should eq(expected.battery_temperature) }
+        its("faults") { should eq(expected.faults) }
+        its("bad_cables") { should eq(expected.bad_cables) }
+        its("water_filled") { should eq(expected.water_filled) }
+        its("blown_valves") { should eq(expected.blown_valves) }
+        its("valves_to_change") { should eq(expected.valves_to_change) }
+        its("battery_cleaned") { should eq(expected.battery_cleaned) }
+        its("comments") { should eq(expected.comments) }
+        
+        its("photo") { should_not be_nil }
+        its("photo") { should_not eq(missing_image) }
+        its("photo_content_type") { should eq(expected.photo_content_type) }
+        its("photo_file_name") { should eq(expected.photo_file_name) }
+        its("photo_file_size") { should eq(expected.photo_file_size) }
+      end
+    end
+  end
+end

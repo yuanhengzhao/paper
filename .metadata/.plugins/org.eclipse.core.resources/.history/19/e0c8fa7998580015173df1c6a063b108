@@ -1,0 +1,14 @@
+test:
+  :key: <%= ENV['PRONTO_FORMS_KEY'] %>
+  :secret: <%= ENV['PRONTO_FORMS_SECRET'] %>
+  :version: <%= ENV['PRONTO_FORMS_VERSION'] %>
+
+development:
+  :key: <%= ENV['PRONTO_FORMS_KEY'] %>
+  :secret: <%= ENV['PRONTO_FORMS_SECRET'] %>
+  :version: <%= ENV['PRONTO_FORMS_VERSION'] %>
+
+production:
+  :key: <%= ENV['PRONTO_FORMS_KEY'] %>
+  :secret: <%= ENV['PRONTO_FORMS_SECRET'] %>
+  :version: <%= ENV['PRONTO_FORMS_VERSION'] %>

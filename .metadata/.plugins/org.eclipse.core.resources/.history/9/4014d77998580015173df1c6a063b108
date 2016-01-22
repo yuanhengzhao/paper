@@ -1,0 +1,23 @@
+# Jig Cleaning Record's model
+#
+# This model nomalizes the Jig Cleaning Form. In the form it accepts records of
+# all differnt types of jig. When a form is created, it will seperate the types of 
+# jigs in the form and create corresponding objects of this model.
+# Check Forms::JigCleaning.create_normalized_records for more details
+#
+# Properties:
+# - id (integer) - primary key
+# - jig_cleaning_id (integer) - foreign key to the associated jig cleaning form
+# - jig_type (string) - type of the jig, such as Front Door, Kickstand, etc
+# - side (string) - side of the jig, should be L, R or N/A
+# - machine (string) - machine of the jig
+# - time_in (datetime) - time the jig record starts
+# - time_out (datatime) - time the jig record ends
+# - cycle (demical) - cycle of the jig
+# - count (integer) - number of the jig cleaned
+# - notes (text) - notes
+# - extra_time (datetime) - extra time
+
+class FormExtensions::JigCleaningRecord < ActiveRecord::Base
+  belongs_to :jig_cleaning, class_name: Forms::JigCleaning, foreign_key: :jig_cleaning_id
+end

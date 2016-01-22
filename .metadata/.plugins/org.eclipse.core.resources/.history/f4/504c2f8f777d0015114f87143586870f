@@ -1,0 +1,308 @@
+require 'rails_helper'
+
+RSpec.describe "incidents/show", :type => :view do
+
+  
+  
+describe "a regular user" do
+  let(:incident) { FactoryGirl.create(:incident) }
+  incident.FactoryGirl.attributes_for(:incident, ready_to_submit_investigation: 1)
+  it "has 3 link buttons named: export, edit and cancel" do
+    response
+    expect have_link("export", href:export_incident_path(incident))
+    expect have_link("edit", edit_incident_path(incident))
+    expect have_link("cancel", tracker_path)
+  end
+end
+#TODO: Refactor the code
+
+# the following code has issues. It uses 
+# assert_select "div.detail-value", :text => incident.... to test
+# whether the value of a field is existing on the view. However, when 
+# the attribute is nil, it always passes when there is at leat one 
+# tag of the div.detail-value class that has empty text. The code is left for 
+# future preference.
+
+=begin
+  
+  let(:incident) {
+    FactoryGirl.create(:incident_full, {ppes: FactoryGirl.create_list(:ppe, 10), environmental_factors: FactoryGirl.create_list(:environmental_factor, 10), additional_factors: FactoryGirl.create_list(:additional_factor, 10)})
+  }
+  
+  let(:user) {
+    FactoryGirl.create(:user)
+  }
+  
+  let(:user_safety_coordinator) {
+    FactoryGirl.create(:safety_coordinator)
+  }
+  
+  let(:user_safety_director) {
+    FactoryGirl.create(:safety_director)
+  }
+  
+  let(:user_admin) {
+    FactoryGirl.create(:admin)
+  }
+  
+  shared_examples "a form with initial tab" do
+    it "check" do 
+      render
+      assert_select "div[role=\"tabpanel\"][id=\"initial\"]" do
+        assert_select "div.detail-value", :text => incident.site
+        assert_select "div.detail-value", :text => incident.building
+        assert_select "div.detail-value", :text => incident.incident_class
+        assert_select "div.detail-value", :html => incident.incident_category
+        assert_select "div.detail-value", :value => incident.body_part
+        assert_select "div.detail-value", :value => incident.body_location
+        assert_select "div.detail-value", :text => incident.column
+        assert_select "div.detail-value", :text => incident.floor
+        assert_select "div.detail-value", :text => incident.supervisor
+        assert_select "div.detail-value", :text => incident.employee_type
+        assert_select "div.detail-value", :text => incident.employee
+        assert_select "div.detail-value", :text => incident.job
+        assert_select "div.detail-value", :value => incident.incident_time
+        assert_select "div.detail-value", :text => incident.safety_rep
+        assert_select "div.detail-value", :value => incident.report_time
+        assert_select "div.detail-value", :value => incident.shift_start
+        assert_select "div.detail-value", :value => incident.shift_end
+        assert_select "div.detail-value", :text => incident.description
+      end
+    end  
+  end
+  
+  shared_examples "a form with investigation tab" do
+    let(:incident) do
+      FactoryGirl.create(:incident_full, {
+        ppes: FactoryGirl.create_list(:ppe, 10), 
+        environmental_factors: FactoryGirl.create_list(:environmental_factor, 10), 
+        additional_factors: FactoryGirl.create_list(:additional_factor, 10),
+        incident_class: "OSHA/WSIB",
+        is_any_ppe_required: "Yes",
+        has_employee_done_modified_work_form: "Yes",
+        modified_work_form_signed: "Yes",
+        has_employee_received_medical_attention: "Yes",
+        can_upload_medical_doc: "Yes"
+      })
+    end
+    
+    it "check if appropriate general information for the incident is in place" do
+      render
+      assert_select "div[role=\"tabpanel\"][id=\"investigation\"]" do
+        assert_select "div.detail-value", :text => incident.worker_been_trained
+        assert_select "div.detail-value", :text => incident.date_last_trained
+        assert_select "div.detail-value", :text => incident.work_instruction_ref_num
+        assert_select "div.detail-value", :text => incident.reason_not_trained
+        assert_select "div.detail-value", :text => incident.was_not_trained_employee_involved
+        assert_select "div.detail-value", :text => incident.not_trained_employee_names
+        assert_select "div.detail-value", :text => incident.were_reporter_aware
+        assert_select "div.detail-value", :text => incident.reason_why_not_aware
+        assert_select "div.detail-value", :text => incident.did_anyone_witness
+        assert_select "div.detail-value", :text => incident.witness_names
+        assert_select "div.detail-value", :text => incident.was_reporter_involved
+        assert_select "div.detail-value", :text => incident.involved_individual_names_who_reported
+        assert_select "div.detail-value", :text => incident.was_mbl_eqp_involved
+        assert_select "div.detail-value", :text => incident.mobile_equipment
+        assert_select "div.detail-value", :text => incident.other_mbl_eqp
+        assert_select "div.detail-value", :text => incident.unit_identification_number
+        assert_select "div.detail-value", :text => incident.does_mbl_eqp_provider_have_license
+        assert_select "div.detail-value", :text => incident.reason_mbl_eqp_provider_no_license
+        assert_select "div.detail-value", :text => incident.num_months_mbl_opt_exp
+        assert_select "div.detail-value", :text => incident.date_last_pm_eqp_performed
+        assert_select "div.detail-value", :text => incident.was_pre_shift_inspec_completed
+        assert_select "div.detail-value", :text => incident.reason_pre_shift_inspec_not_completed
+        assert_select "div.detail-value", :text => incident.was_eqp_tls_involved
+        assert_select "div.detail-value", :text => incident.eqp_tls_involved
+        assert_select "div.detail-value", :text => incident.was_eqp_tls_used_properly
+        assert_select "div.detail-value", :text => incident.reason_eqp_tls_not_used_properly
+        assert_select "div.detail-value", :text => incident.was_eqp_tls_inspec_before
+        assert_select "div.detail-value", :text => incident.reason_eqp_tls_not_inspec_before
+        assert_select "div.detail-value", :text => incident.does_eqp_tls_require_doc_inspec
+        assert_select "div.detail-value", :text => incident.was_eqp_tls_inspec_doc
+        assert_select "div.detail-value", :text => incident.reason_eqp_tls_inspec_not_doc
+        assert_select "div.detail-value", :text => incident.is_any_ppe_required
+        expect(incident.ppes.count).to eq(10)
+        assert_select "div.detail-value", :text => incident.other_ppe
+        assert_select "div.detail-value", :text => incident.was_all_ppe_worn_properly
+        assert_select "div.detail-value", :text => incident.reason_ppe_not_worn_properly
+        assert_select "div.detail-value", :text => incident.was_ppe_good_cond
+        assert_select "div.detail-value", :text => incident.reason_ppe_bad_cond
+        assert_select "div.detail-value", :text => incident.is_ppe_required_in_work_inst
+        assert_select "div.detail-value", :text => incident.was_chemical_involved
+        assert_select "div.detail-value", :text => incident.name_chemical
+        assert_select "div.detail-value", :text => incident.was_chemical_used_properly
+        assert_select "div.detail-value", :text => incident.reason_chemical_not_used_properly
+        expect(incident.environmental_factors.count).to eq(10)
+        assert_select "div.detail-value > div", {:text => incident.environmental_factors.first.name, :count => incident.environmental_factors.count}
+        assert_select "div.detail-value", :text => incident.other_env_factors
+        assert_select "div.detail-value", :text => incident.explain_more_env_factors
+        expect(incident.additional_factors.count).to eq(10)
+        assert_select "div.detail-value > div", {:text => incident.additional_factors.first.name, :count => incident.additional_factors.count}
+        assert_select "div.detail-value", :text => incident.other_add_factors
+        assert_select "div.detail-value", :text => incident.explain_more_add_factors
+        assert_select "div.detail-value", :text => incident.description_investigation
+        assert_select "div.detail-value > img[src=\"#{investigation_photo1_incident_url(incident.id)}\"]"
+        assert_select "div.detail-value > img[src=\"#{investigation_photo2_incident_url(incident.id)}\"]"
+        assert_select "div.detail-value", :text => incident.modified_duties_prescribed_after
+        assert_select "div.detail-value", :text => incident.modified_duties_prescriber
+        assert_select "div.detail-value", :text => incident.other_modified_duties_prescriber
+        assert_select "div.detail-value", :text => incident.days_modified_duties_prescribed
+        assert_select "div.detail-value", :text => incident.immediate_action
+        assert_select "div.detail-value", :text => incident.corrective_action_responsible
+        assert_select "div.detail-value", :text => incident.corrective_action2
+        assert_select "div.detail-value", :text => incident.corrective_action_date2
+        assert_select "div.detail-value", :text => incident.corrective_action_responsible2
+        assert_select "div.detail-value", :text => incident.names_involved_in_investigation
+        assert_select "div.detail-value", :text => incident.additional_comments
+        assert_select "div.detail-value", :text => incident.has_customer_property_damaged
+        assert_select "div.detail-value", :text => incident.type_of_damage
+        assert_select "div.detail-value", :text => incident.customers_contacted
+        assert_select "div.detail-value", :text => incident.has_employee_done_modified_work_form
+        assert_select "div.detail-value", :text => incident.reason_employee_not_done_modified_work_form
+        assert_select "div.detail-value", :text => incident.modified_work_form_signed
+        
+        assert_select "div.detail-value", :text => incident.why_modified_work_form_not_signed
+        assert_select "div.detail-value", :text => incident.has_employee_received_medical_attention
+        assert_select "div.detail-value", :text => incident.name_clinic_hospital
+        assert_select "div.detail-value", :text => incident.name_nurse_doctor
+        assert_select "div.detail-value", :text => incident.medical_treatment
+        assert_select "div.detail-value", :text => incident.can_upload_medical_doc
+        
+        assert_select "div.detail-value", :text => incident.reason_not_upload_medical_doc
+        assert_select "div.detail-value", :text => incident.ready_to_submit_investigation
+      end
+    end
+
+    it "PPE modified work form photos and medical doc photos check" do
+      render
+      expect(incident.ppes.count).to eq(10)
+      assert_select "div.detail-value > div", {:text => incident.ppes.first.name, :count => incident.ppes.count}
+      assert_select "div.detail-value > img[src=\"#{photo_modified_work_form_signed1_incident_url(incident.id)}\"]"
+      assert_select "div.detail-value > img[src=\"#{photo_modified_work_form_signed2_incident_url(incident.id)}\"]"
+      assert_select "div.detail-value > img[src=\"#{photo_medical_doc1_incident_url(incident.id)}\"]"
+      assert_select "div.detail-value > img[src=\"#{photo_medical_doc2_incident_url(incident.id)}\"]"
+      assert_select "div.detail-value > img[src=\"#{photo_medical_doc3_incident_url(incident.id)}\"]"
+    end
+  end
+  
+  shared_examples "a form with follow up tab" do
+    
+    let(:incident) do
+      FactoryGirl.create(:incident_full, {
+        ppes: FactoryGirl.create_list(:ppe, 10), 
+        environmental_factors: FactoryGirl.create_list(:environmental_factor, 10), 
+        additional_factors: FactoryGirl.create_list(:additional_factor, 10),
+        implemented: "Yes"
+      })
+    end
+    
+    it "check" do 
+      render
+      assert_select "div[role=\"tabpanel\"][id=\"follow-up\"]" do
+        assert_select "div.detail-value", :value => incident.wsib_recordable
+        assert_select "div.detail-value", :value => incident.wsib_form_7
+        assert_select "div.detail-value", :text => incident.reason_wsib_form_7_not_submitted
+        assert_select "div.detail-value", :value => incident.wsib_claim
+        assert_select "div.detail-value", :value => incident.wsib_lost_time
+        assert_select "div.detail-value", :value => incident.osha_recordable
+        assert_select "div.detail-value", :value => incident.has_compensation_claim_submitted
+        assert_select "div.detail-value", :text => incident.reason_compensation_claim_not_submitted
+        assert_select "div.detail-value", :value => incident.osha_claim
+        assert_select "div.detail-value", :value => incident.osha_lost_time
+        assert_select "div.detail-value", :value => incident.lost_days_start
+        assert_select "div.detail-value", :value => incident.lost_days_end
+        assert_select "div.detail-value", :value => incident.lost_days
+        assert_select "div.detail-value", :text => incident.modified_work
+        assert_select "div.detail-value", :value => incident.modified_work_start
+        assert_select "div.detail-value", :value => incident.modified_work_end
+        assert_select "div.detail-value", :value => incident.modified_work_days
+        assert_select "div.detail-value", :text => incident.additional_health_safety_comments
+        assert_select "div.detail-value", :value => incident.comment
+        assert_select "div.detail-value", :value => incident.closed_date
+        assert_select "div.detail-value", :text => incident.implemented
+        
+        assert_select "div.detail-value", :text => incident.reason_implemented_not_upload
+      end
+    end
+    
+    it "implemented check" do
+      render
+      assert_select "div.detail-value > img[src=\"#{implemented_support_file1_incident_url(incident.id)}\"]"
+      assert_select "div.detail-value > img[src=\"#{implemented_support_file2_incident_url(incident.id)}\"]"
+      assert_select "div.detail-value > img[src=\"#{implemented_support_file3_incident_url(incident.id)}\"]"
+      assert_select "div.detail-value > img[src=\"#{implemented_support_file4_incident_url(incident.id)}\"]"
+    end
+  end
+  
+  shared_examples "a form with health and safety tab" do
+    it "check" do
+      render
+      assert_select "div[role=\"tabpanel\"][id=\"health-safety\"]" do
+        assert_select "div.detail-value", :text => incident.incident_classified_osha_recordable
+        assert_select "div.detail-value", :text => incident.reason_osha_not_recordable
+      end 
+    end
+  end
+  
+  before(:each) do
+    @incident = incident
+  end
+  
+  describe "GET show" do
+    describe "for the author" do
+      before(:each) do
+        @user = user
+        sign_in(@user)
+        @incident.update(author: @user)
+      end
+      describe "renders show page" do
+        it_should_behave_like "a form with initial tab"
+        it_should_behave_like "a form with investigation tab"
+        it_should_behave_like "a form with follow up tab"
+        it_should_behave_like "a form with health and safety tab"
+      end
+    end
+    
+    describe "for safety coordinator" do
+      before(:each) do
+        @user = user_safety_coordinator
+        sign_in(@user)
+      end
+      describe "renders show page" do
+        it_should_behave_like "a form with initial tab"
+        it_should_behave_like "a form with investigation tab"
+        it_should_behave_like "a form with follow up tab"
+        it_should_behave_like "a form with health and safety tab"
+      end
+    end
+    
+    describe "for safety director" do
+      @incident = nil
+      before(:each) do
+        @user = user_safety_director
+        sign_in(@user)
+      end
+      describe "renders show page" do
+        it_should_behave_like "a form with initial tab"
+        it_should_behave_like "a form with investigation tab"
+        it_should_behave_like "a form with follow up tab"
+        it_should_behave_like "a form with health and safety tab"
+      end
+    end
+    
+    describe "for admin" do
+      before(:each) do
+        @user = user_admin
+        sign_in(@user)
+      end
+      describe "renders show page" do
+        it_should_behave_like "a form with initial tab"
+        it_should_behave_like "a form with investigation tab"
+        it_should_behave_like "a form with follow up tab"
+        it_should_behave_like "a form with health and safety tab"
+      end
+    end
+  end 
+
+=end
+end

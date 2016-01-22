@@ -1,0 +1,5 @@
+require 'spec_helper'
+
+describe "pronto_forms/synchronize_users.html.erb" do
+  pending "add some examples to (or delete) #{__FILE__}"
+end

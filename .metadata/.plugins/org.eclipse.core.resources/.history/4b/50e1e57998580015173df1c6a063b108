@@ -1,0 +1,3 @@
+json.extract! @equipment_unit, :id, :site, :shop, :equipment_type, :unit_number, :barcode, :manufacturer, :date_into_service, :battery_serial_number, :battery_voltage, :inspection_frequency, :inspection_code, :inspection_days
+json.photo photo_data_sources_equipment_unit_url(@equipment_unit.id, format: :json)
+json.url data_sources_equipment_unit_url(@equipment_unit, format: :json)

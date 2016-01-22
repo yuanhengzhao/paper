@@ -1,0 +1,230 @@
+<% title "E-Scrub KOP #{@escrub_kop.id}" %>
+
+	<table class="table table-striped table-hover admin-responsive-table form-table">
+		<tbody>
+			<tr>
+				<td>reference_number</td><td><%= @escrub_kop.reference_number %></td>
+			</tr>
+			<tr>
+				<td>server_receive_date</td><td><%= @escrub_kop.server_receive_date %></td>
+			</tr>
+			<tr>
+				<td>device_submit_date</td><td><%= @escrub_kop.device_submit_date %></td>
+			</tr>
+			<tr>
+				<td>username</td><td><%= @escrub_kop.username %></td>
+			</tr>
+			<tr>
+				<td>version</td><td><%= @escrub_kop.version %></td>
+			</tr>
+			<tr>
+				<td>altitude</td><td><%= @escrub_kop.altitude %></td>
+			</tr>
+			<tr>
+				<td>latitude</td><td><%= @escrub_kop.latitude %></td>
+			</tr>
+			<tr>
+				<td>longitude</td><td><%= @escrub_kop.longitude %></td>
+			</tr>
+			<tr>
+				<td>source</td><td><%= @escrub_kop.source %></td>
+			</tr>	
+			<tr>
+				<td>date</td><td><%= @escrub_kop.date %></td>
+			</tr>
+			<tr>
+				<td>time</td><td><%= @escrub_kop.time %></td>
+			</tr>
+			<tr>
+				<td>crew</td><td><%= @escrub_kop.crew %></td>
+			</tr>
+			<tr>
+				<td>shift</td><td><%= @escrub_kop.shift %></td>
+			</tr>
+			<tr>
+				<td>check_list</td><td><%= @escrub_kop.check_list %></td>
+			</tr>
+			<% if @escrub_kop.check_list == "Module Inspection" %>
+			<tr>
+				<td>bc_matrix_dist</td><td><%= @escrub_kop.bc_matrix_dist %></td>
+			</tr>
+			<tr>
+				<td>bc_matrix_flow</td><td><%= @escrub_kop.bc_matrix_flow %></td>
+			</tr>
+			<tr>
+				<td>bc_particles_trough</td><td><%= @escrub_kop.bc_particles_trough %></td>
+			</tr>
+			<tr>
+				<td>bc_residues</td><td><%= @escrub_kop.bc_residues %></td>
+			</tr>
+			<tr>
+				<td>bc_remarks</td><td><%= @escrub_kop.bc_remarks %></td>
+			</tr>
+			<tr>
+				<td>bc picture</td>
+				<td><%= image_tag bc_picture_forms_escrub_kop_path(@escrub_kop) %></td>
+			</tr>
+			<tr>
+				<td>bc picture1</td>
+				<td><%= image_tag bc_picture1_forms_escrub_kop_path(@escrub_kop) %></td>
+			</tr>
+			<tr>
+				<td>bc picture2</td>
+				<td><%= image_tag bc_picture2_forms_escrub_kop_path(@escrub_kop) %></td>
+			</tr>
+			<tr>
+				<td>bc picture3</td>
+				<td><%= image_tag bc_picture3_forms_escrub_kop_path(@escrub_kop) %></td>
+			</tr>
+			<tr>
+				<td>bc picture4</td>
+				<td><%= image_tag bc_picture4_forms_escrub_kop_path(@escrub_kop) %></td>
+			</tr>
+			<tr>
+				<td>bc picture5</td>
+				<td><%= image_tag bc_picture5_forms_escrub_kop_path(@escrub_kop) %></td>
+			</tr>
+			<tr>
+				<td>cc_matrix_dist</td><td><%= @escrub_kop.cc_matrix_dist %></td>
+			</tr>
+			<tr>
+				<td>cc_matrix_flow</td><td><%= @escrub_kop.cc_matrix_flow %></td>
+			</tr>
+			<tr>
+				<td>cc_particles_trough</td><td><%= @escrub_kop.cc_particles_trough %></td>
+			</tr>
+			<tr>
+				<td>cc_residues</td><td><%= @escrub_kop.cc_residues %></td>
+			</tr>
+			<tr>
+				<td>cc_remarks</td><td><%= @escrub_kop.cc_remarks %></td>
+			</tr>
+			<tr>
+				<td>cc picture</td>
+				<td><%= image_tag cc_picture_forms_escrub_kop_path(@escrub_kop) %></td>
+			</tr>
+			<tr>
+				<td>cc picture1</td>
+				<td><%= image_tag cc_picture1_forms_escrub_kop_path(@escrub_kop) %></td>
+			</tr>
+			<tr>
+				<td>cc picture2</td>
+				<td><%= image_tag cc_picture2_forms_escrub_kop_path(@escrub_kop) %></td>
+			</tr>
+			<tr>
+				<td>cc picture3</td>
+				<td><%= image_tag cc_picture3_forms_escrub_kop_path(@escrub_kop) %></td>
+			</tr>
+			<tr>
+				<td>cc picture4</td>
+				<td><%= image_tag cc_picture4_forms_escrub_kop_path(@escrub_kop) %></td>
+			</tr>
+			<tr>
+				<td>cc picture5</td>
+				<td><%= image_tag cc_picture5_forms_escrub_kop_path(@escrub_kop) %></td>
+			</tr>
+			<% end %>
+			<% if @escrub_kop.check_list == "Key Operating Parameters" %>
+			<tr>
+				<td>bc_sludge</td><td><%= @escrub_kop.bc_sludge %></td>
+			</tr>
+			<tr>
+				<td>bc_sludge_col_hours</td><td><%= @escrub_kop.bc_sludge_col_hours %></td>
+			</tr>
+			<tr>
+				<td>bc_sludge_hr</td><td><%= @escrub_kop.bc_sludge_hr %></td>
+			</tr>
+			<tr>
+				<td>bc_sludge_stick_test</td><td><%= @escrub_kop.bc_sludge_stick_test %></td>
+			</tr>
+			<tr>
+				<td>bc_supply_mtr11</td><td><%= @escrub_kop.bc_supply_mtr11 %></td>
+			</tr>
+			<tr>
+				<td>bc_supply_mtr21</td><td><%= @escrub_kop.bc_supply_mtr21 %></td>
+			</tr>
+			<tr>
+				<td>bc_supply_mtr31</td><td><%= @escrub_kop.bc_supply_mtr31 %></td>
+			</tr>
+			<tr>
+				<td>bc_flow_rate_em0106</td><td><%= @escrub_kop.bc_flow_rate_em0104 %></td>
+			</tr>
+			<tr>
+				<td>bc_flow_rate_em0711</td><td><%= @escrub_kop.bc_flow_rate_em0508 %></td>
+			</tr>
+			<tr>
+				<td>cc_sludge</td><td><%= @escrub_kop.cc_sludge %></td>
+			</tr>
+			<tr>
+				<td>cc_sludge_col_hours</td><td><%= @escrub_kop.cc_sludge_col_hours %></td>
+			</tr>
+			<tr>
+				<td>cc_sludge_hr</td><td><%= @escrub_kop.cc_sludge_hr %></td>
+			</tr>
+			<tr>
+				<td>cc_sludge_stick_test</td><td><%= @escrub_kop.cc_sludge_stick_test %></td>
+			</tr>
+			<tr>
+				<td>cc_supply_mtr11</td><td><%= @escrub_kop.cc_supply_mtr11 %></td>
+			</tr>
+			<tr>
+				<td>cc_supply_mtr21</td><td><%= @escrub_kop.cc_supply_mtr21 %></td>
+			</tr>
+			<tr>
+				<td>cc_supply_mtr31</td><td><%= @escrub_kop.cc_supply_mtr31 %></td>
+			</tr>
+			<tr>
+				<td>cc_flow_rate_em0104</td><td><%= @escrub_kop.cc_flow_rate_em0104 %></td>
+			</tr>
+			<tr>
+				<td>cc_flow_rate_em0508</td><td><%= @escrub_kop.cc_flow_rate_em0508 %></td>
+			</tr>
+			<tr>
+				<td>operating_comments</td><td><%= @escrub_kop.operating_comments %></td>
+			</tr>
+			<% end %>
+			
+			<% if @escrub_kop.check_list == "Key Chemistry Parameters" %>
+			<tr>
+				<td>bc_viscosity</td><td><%= @escrub_kop.bc_viscosity %></td>
+			</tr>
+			<tr>
+				<td>bc_system_tank_level</td><td><%= @escrub_kop.bc_system_tank_level %></td>
+			</tr>
+			<tr>
+				<td>bc_surface_tension</td><td><%= @escrub_kop.bc_surface_tension %></td>
+			</tr>
+			<tr>
+				<td>bc_ratio_st_vis</td><td><%= @escrub_kop.bc_ratio_st_vis %></td>
+			</tr>
+			<tr>
+				<td>bc_imhoff</td><td><%= @escrub_kop.bc_imhoff %></td>
+			</tr>
+			<tr>
+				<td>bc_centrifuge</td><td><%= @escrub_kop.bc_centrifuge %></td>
+			</tr>
+			<tr>
+				<td>cc_viscosity</td><td><%= @escrub_kop.cc_viscosity %></td>
+			</tr>
+			<tr>
+				<td>cc_system_tank_level</td><td><%= @escrub_kop.cc_system_tank_level %></td>
+			</tr>
+			<tr>
+				<td>cc_surface_tension</td><td><%= @escrub_kop.cc_surface_tension %></td>
+			</tr>
+			<tr>
+				<td>cc_ratio_st_vis</td><td><%= @escrub_kop.cc_ratio_st_vis %></td>
+			</tr>
+			<tr>
+				<td>cc_imhoff</td><td><%= @escrub_kop.cc_imhoff %></td>
+			</tr>
+			<tr>
+				<td>cc_centrifuge</td><td><%= @escrub_kop.cc_centrifuge %></td>
+			</tr>
+			<tr>
+				<td>chemistry_comments</td><td><%= @escrub_kop.chemistry_comments %></td>
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
+	<%= render :partial => 'forms/form_submission_section', :locals => { :submission_path => submission_forms_escrub_kop_path(@escrub_kop), :reparse_path => reparse_forms_escrub_kop_path(@escrub_kop) } %>

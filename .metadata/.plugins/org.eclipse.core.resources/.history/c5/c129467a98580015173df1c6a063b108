@@ -1,0 +1,89 @@
+require 'spec_helper'
+
+describe "data_sources/equipment_units/index" do
+  let!(:ability) do
+    # ability object with no abilities specific abilities
+    ability = Object.new
+    ability.extend(CanCan::Ability)
+    controller.stub(:current_ability) { ability }
+    ability
+  end
+  
+  let(:equipment_units) { [ create(:equipment_unit_sequential), create(:equipment_unit_sequential) ] }
+  
+  before(:each) do
+    assign(:equipment_units, equipment_units)
+  end
+  
+  context "for readers" do
+    before(:each) do
+      ability.can :read, DataSources::EquipmentUnit
+    end
+  
+    it "renders attributes in <td>" do
+      render
+      equipment_units.each do |equipment_unit|
+        assert_select "tr>td", :text => equipment_unit.site, :count => 1
+        assert_select "tr>td", :text => equipment_unit.shop, :count => 1
+        assert_select "tr>td", :text => equipment_unit.equipment_type, :count => 1
+        assert_select "tr>td", :text => equipment_unit.unit_number, :count => 1
+      end
+    end
+    
+    it "does not render the 'New Equipment Unit' button" do
+      render
+      expect(render).not_to match(/New Equipment Unit/)
+    end
+    
+    it "renders the 'Show' button" do
+      render
+      expect(render).to match(/Show/)
+    end
+    
+    it "doesn't render the 'Edit' link" do
+      render
+      expect(render).to_not match(/Edit/)
+    end
+    
+    it "doesn't render the 'Destroy' link" do
+      render
+      expect(render).to_not match(/Destroy/)
+    end
+  end
+  
+  context "for editors" do
+    before(:each) do
+      ability.can :manage, DataSources::EquipmentUnit
+    end
+  
+    it "renders attributes in <td>" do
+      render
+      equipment_units.each do |equipment_unit|
+        assert_select "tr>td", :text => equipment_unit.site, :count => 1
+        assert_select "tr>td", :text => equipment_unit.shop, :count => 1
+        assert_select "tr>td", :text => equipment_unit.equipment_type, :count => 1
+        assert_select "tr>td", :text => equipment_unit.unit_number, :count => 1
+      end
+    end
+    
+    it "does not render the 'New Equipment Unit' button" do
+      render
+      expect(render).not_to match(/New Equipment Unit/)
+    end
+    
+    it "renders the 'Show' button" do
+      render
+      expect(render).to match(/Show/)
+    end
+    
+    it "renders the 'Edit' button" do
+      render
+      expect(render).to match(/Edit/)
+    end
+    
+    it "renders the 'Destroy' button" do
+      render
+      expect(render).to match(/Destroy/)
+    end
+  end
+end

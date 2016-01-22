@@ -1,0 +1,10 @@
+require 'spec_helper'
+
+describe DataSources::EquipmentUnitsController do
+  
+  it_behaves_like "a datasource controller", [:create, :new] do # exclude create and new
+    let(:model) { DataSources::EquipmentUnit }
+    let(:image_fields) { [ :photo ] }
+  end
+  
+end

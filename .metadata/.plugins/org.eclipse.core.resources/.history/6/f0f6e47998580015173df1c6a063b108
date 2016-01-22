@@ -1,0 +1,84 @@
+<%= form_for(@equipment_unit, { html: { class: "data_sources_form form-horizontal" } }) do |f| %>
+  <% if @equipment_unit.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@equipment_unit.errors.count, "error") %> prohibited this data_sources_equipment_unit from being saved:</h2>
+
+      <ul>
+      <% @equipment_unit.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field form-group">
+    <%= f.label :site %>
+    <%= f.text_field :site, name: "equipment_unit[site]", class: "form-control"  %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :shop %>
+    <%= f.text_field :shop, name: "equipment_unit[shop]", class: "form-control"  %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :equipment_type %>
+    <%= f.text_field :equipment_type, name: "equipment_unit[equipment_type]", class: "form-control"  %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :unit_number %>
+    <%= f.text_field :unit_number, name: "equipment_unit[unit_number]", class: "form-control"  %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :barcode %>
+    <%= f.text_field :barcode, name: "equipment_unit[barcode]", class: "form-control"  %>
+  </div>
+  <% if @equipment_unit.persisted? %>
+  <div class="field form-group">
+    <%= f.label :photo %>
+  	<%= image_tag photo_data_sources_equipment_unit_url(@equipment_unit), class: 'form-img' %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :upload_new_photo %>
+    <%= f.file_field :upload_new_photo, name: "equipment_unit[photo]", class: "form-control"  %>
+  </div>
+  <% else %>
+  <div class="field form-group">
+    <%= f.label :photo %>
+    <%= f.file_field :photo, name: "equipment_unit[photo]", class: "form-control"  %>
+  </div>
+  <% end %>
+  <div class="field form-group">
+    <%= f.label :manufacturer %>
+    <%= f.text_field :manufacturer, name: "equipment_unit[manufacturer]", class: "form-control"  %>
+  </div>
+  <div class="field form-group">
+  	<%= f.label :date_into_service %>
+  	<div class="input-group date date-picker">
+      <%= f.text_field :date_into_service, name: "equipment_unit[date_into_service]", class: "form-control" %>
+      <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+    </div>
+  </div>
+  <div class="field form-group">
+    <%= f.label :battery_serial_number %>
+    <%= f.text_field :battery_serial_number, name: "equipment_unit[battery_serial_number]", class: "form-control"  %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :battery_voltage %>
+    <%= f.text_field :battery_voltage, name: "equipment_unit[battery_voltage]", class: "form-control"  %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :inspection_frequency %>
+    <%= f.text_field :inspection_frequency, name: "equipment_unit[inspection_frequency]", class: "form-control"  %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :inspection_code %>
+    <%= f.text_field :inspection_code, name: "equipment_unit[inspection_code]", class: "form-control"  %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :inspection_days %>
+    <%= f.text_field :inspection_days, name: "equipment_unit[inspection_days]", class: "form-control"  %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Submit", class: 'button-submit' %>
+    <%= link_to 'Back', data_sources_equipment_units_path %>
+  </div>
+<% end %>

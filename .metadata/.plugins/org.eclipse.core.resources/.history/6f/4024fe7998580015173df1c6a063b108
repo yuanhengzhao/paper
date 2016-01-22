@@ -1,0 +1,47 @@
+class CreateFormsTaskInspections < ActiveRecord::Migration
+  def change
+    create_table :forms_task_inspections do |t|
+      t.string :reference_number
+      t.datetime :server_receive_date
+      t.datetime :device_submit_date
+      t.string :username
+      t.string :version
+      t.decimal :altitude, precision: 20, scale: 16
+      t.decimal :latitude, precision: 20, scale: 16
+      t.decimal :longitude, precision: 20, scale: 16
+      t.string :source
+      t.string :file_path
+      t.date :inspection_date
+      t.string :client
+      t.string :site
+      t.string :shop
+      t.integer :num_tasks
+      t.string :task1
+      t.string :abnormality1
+      t.text :abnormality_desc1
+      t.attachment :abnormality_picture1
+      t.attachment :picture_before_task1
+      t.attachment :picture_after_task1
+      t.string :quality_evaluation1
+      t.text :comments_task1
+      t.string :task2
+      t.string :abnormality2
+      t.text :abnormality_desc2
+      t.attachment :abnormality_picture2
+      t.attachment :picture_before_task2
+      t.attachment :picture_after_task2
+      t.string :quality_evaluation2
+      t.text :comments_task2
+      t.string :task3
+      t.string :abnormality3
+      t.text :abnormality_desc3
+      t.attachment :abnormality_picture3
+      t.attachment :picture_before_task3
+      t.attachment :picture_after_task3
+      t.string :quality_evaluation3
+      t.text :comments_task3
+
+      t.timestamps null: true
+    end
+  end
+end

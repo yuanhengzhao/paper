@@ -1,0 +1,29 @@
+FactoryGirl.define do
+  factory :equipment_unit, class: DataSources::EquipmentUnit do
+    site 'Site'
+    shop 'Shop'
+    equipment_type 'equipment type'
+    unit_number '1111'
+    sequence(:barcode) { |n| "barcode#{n}" }
+    photo { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'images', 'img.png'), 'image/png') }
+    
+    factory :full_equipment_unit, class: DataSources::EquipmentUnit do
+      manufacturer 'manufacturer'
+      date_into_service '2015-01-01'
+      battery_serial_number '123'
+      battery_voltage 10
+      inspection_frequency '1/D'
+      inspection_code 'inspection code'
+      inspection_days 10
+      photo { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'images', 'img.png'), 'image/png') }
+    end
+  end
+  
+  factory :equipment_unit_sequential, class: DataSources::EquipmentUnit do
+    sequence(:site) { |n| "Site #{n}" }
+    sequence(:shop) { |n| "Shop #{n}" }
+    sequence(:equipment_type) { |n| "Equipment Type #{n}" }
+    sequence(:unit_number) { |n| "1111#{n}" }
+    sequence(:barcode) { |n| "barcode_seq#{n}" }
+  end
+end

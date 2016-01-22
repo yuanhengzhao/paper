@@ -1,0 +1,200 @@
+# Wraps the REST API provided by ProntoForms. See {https://support.prontoforms.com/forums/20574526-ProntoForms-REST-API} for documentation.
+class ProntoForms::Api
+  
+  # Instantiates the object providing the credentials to be used for API calls. See
+  # {https://support.prontoforms.com/entries/21016652-Setup-an-API-Application-on-ProntoForms}
+  # for details on how to configure an API key id and secret
+  #
+  # @param api_key_id [String] API Key ID configured in ProntoForms
+  # @param api_key_secret [String] API Key Secret configured in ProntoForms
+  # @param api_version [int] version of the API being used
+  def initialize(api_key_id, api_key_secret, api_version)
+    @auth = { :username => api_key_id, :password => api_key_secret }
+    @api_version = api_version
+  end
+  
+  # Returns a hash containing the details of the registered ProntoForms users as specified at
+  # {https://support.prontoforms.com/entries/21017397-User-Management#getUsers}
+  #
+  # @return [Hash] hash of user details
+  def get_users()
+    response = get_users_json(0)
+    # Gets the results from the first page
+    all_results = return_or_raise(response)
+    
+    # If there are more than one page, loop to get the results in other pages
+    (1..(all_results['totalNumberOfPages']-1)).each do |i|
+      response = get_users_json(i)
+      results_other_pages = return_or_raise(response)
+      all_results['pageData'] += results_other_pages['pageData']
+    end
+    
+    all_results
+  end
+  
+  
+  # Returns a hash containing the details of the ProntoForms user with the given id as specified at
+  # {https://support.prontoforms.com/entries/21017397-User-Management#getUser}
+  #
+  # @param id [String] primary key of the user to return details for
+  # @return [Hash] hash of user details
+  def get_user_by_id(id)
+    response = RestClient::Request.execute(:method => :get, :url => "https://api.prontoforms.com/api/#{@api_version}/users/#{id}.json", :headers => { :content_type => :json, :accept => :json }, :user => @auth[:username], :password => @auth[:password])
+    return_or_raise(response)
+  end
+  
+  # Returns a hash containing the details of the ProntoForms user with the given username as specified at
+  # {https://support.prontoforms.com/entries/21017397-User-Management#getUser}
+  #
+  # @param username [String] username of the user to returns details for
+  # @return [Hash] hash of user details
+  def get_user_by_username(username)
+    response = RestClient::Request.execute(:method => :get, :url => "https://api.prontoforms.com/api/#{@api_version}/users/username/#{username}.json", :headers => { :content_type => :json, :accept => :json }, :user => @auth[:username], :password => @auth[:password])
+    return_or_raise(response)
+  end
+  
+  # Creates a new user in ProntoForms according to the attributes of the hash provided. The expected attributes are:
+  #
+  # * "username": login name (required)
+  # * "email": email address (required)
+  # * "role": one of "ProntoAdmin", "ProntoUser", "ProntoMobileOnly" (defaults to "ProntoUser")
+  # * "firstName": first name of the user (optional)
+  # * "lastName": last name of the user (optional)
+  # * "locale": language locale, for example, "en_CA" (optional)
+  # * "preferredTimeZone": timezone code, for example, "America/New_York" (optional)
+  # * "billingId": id of the billing account, (optional when there is only 1 billing method on the team)
+  # * "suspended": true/false if the account should be suspended (defaults to false)
+  # * "sendWelcomeEmail": true/false if an email should be sent upon account creation (defaults to true)
+  # * "password": some password -- it will be included in the welcome email (optional, defaults to system-generated password)
+  # * "groupIds": array of group ids this user should be a member of (defaults to the empty set)
+  # 
+  # For more details, go to {https://support.prontoforms.com/entries/21017397-User-Management#createUser}
+  #
+  # @param user [Hash] hash containing the attributes to use when creating the user account
+  # @return [Hash] hash containing the identifier for the new account
+  # @raise ArgumentError if there is a problem with the user attributes
+  def create_user(user)
+    # ensure attributes are valid
+    validate_user_hash(user)
+    
+    # construct fake file upload with user details inside
+    file = StringIO.new(user.to_json)
+    file.class.class_eval { attr_accessor :original_filename, :content_type }
+    file.content_type = "text/json"
+    file.original_filename = "createuser.json"
+    
+    # make the call and return the result
+    response = RestClient::Request.execute(:method => :post, :url => "https://api.prontoforms.com/api/#{@api_version}/users.json", :payload => file, :headers => { :content_type => :json, :accept => :json }, :user => @auth[:username], :password => @auth[:password])
+    return_or_raise(response)
+  end
+  
+  # Updates the existing user in ProntoForms with the given id and updates the attributes to those of the hash provided.
+  # Unspecified attributes will remain as is. To clear an attribute, set the value to the empty string. Attributes are
+  # the same as for {#create_user}, but all are optional.
+  #
+  # For more details, go to {https://support.prontoforms.com/entries/21017397-User-Management#updateUser}
+  # 
+  # @param id [String] primary key of the user to update
+  # @return [Hash] hash containing the identifier for the new account
+  # @raise ArgumentError if there is a problem with the user attributes
+  def update_user(id, changes)
+    # ensure attributes are valid
+    validate_user_hash(changes, false)
+    
+    # construct fake file upload with user details inside
+    file = StringIO.new(changes.to_json)
+    file.class.class_eval { attr_accessor :original_filename, :content_type }
+    file.content_type = "text/json"
+    file.original_filename = "updateuser.json"
+    
+    # make the call and return the result
+    response = RestClient::Request.execute(:method => :put, :url => "https://api.prontoforms.com/api/#{@api_version}/users/#{id}.json", :payload => file, :headers => { :content_type => :json, :accept => :json }, :user => @auth[:username], :password => @auth[:password])
+    return_or_raise(response, false)
+  end
+  
+  # Deletes the user from ProntoForms. It will not delete any records that user may have submitted. See
+  # {https://support.prontoforms.com/entries/21017397-User-Management#deleteUser}
+  #
+  # @param id [String] primary key of the user to delete
+  def delete_user(id)
+    response = RestClient::Request.execute(:method => :delete, :url => "https://api.prontoforms.com/api/#{@api_version}/users/#{id}.json", :headers => { :content_type => :json, :accept => :json }, :user => @auth[:username], :password => @auth[:password])
+    return_or_raise(response, false)
+  end
+  
+  # Updates the password of the given ProntoForms user. See {https://support.prontoforms.com/entries/21017397-User-Management#updatePassword}
+  #
+  # @param id [String] primary key of the user to modify
+  # @param new_password [String] new password
+  def change_password(id, new_password)
+    # construct fake file upload with new password inside
+    file = StringIO.new({ "password" => new_password }.to_json)
+    file.class.class_eval { attr_accessor :original_filename, :content_type }
+    file.content_type = "text/json"
+    file.original_filename = "changepassword.json"
+    
+    # make the call and return the result
+    response = RestClient::Request.execute(:method => :post, :url => "https://api.prontoforms.com/api/#{@api_version}/users/#{id}/password.json", :payload => file, :headers => { :content_type => :json, :accept => :json }, :user => @auth[:username], :password => @auth[:password])
+    return_or_raise(response, false)
+  end
+  
+  private
+  
+  def get_users_json(p)
+    RestClient::Request.execute(:method => :get, :url => "https://api.prontoforms.com/api/#{@api_version}/users.json", :headers => { :content_type => :json, :accept => :json, :params => { :p => p} }, :user => @auth[:username], :password => @auth[:password])
+  end
+  
+  
+  # Helper method to validate the fields of a hash when creating or updating a user record.
+  #
+  # @param user [Hash] hash containing the attributes to use when creating the user account
+  # @param is_new_user [true/false] true if this represents a new user, false otherwise
+  # @raise ArgumentError if there is a problem with the user attributes
+  def validate_user_hash(user, is_new_user = true)
+    # ensure a hash is provided
+    raise ArgumentError, "user must be a Hash of user details" if user.nil? or !user.kind_of?(Hash)
+    
+    # check for required fields
+    if is_new_user
+      ["username", "email"].each do |required_field|
+        raise ArgumentError, "[#{required_field}] is a required field" if user[required_field].blank?
+      end
+    end
+    
+    # validate that an email address was provided
+    unless user["email"].nil?
+      # TODO add in email validation
+    end
+    
+    # validate locale
+    unless user["locale"].nil?
+      # TODO add in locale validation
+    end
+    
+    # validate timezone
+    unless user["preferredTimeZone"].nil?
+      # TODO add in timezone validation
+    end
+    
+    # check if role is valid
+    unless user["role"].nil?
+      raise ArgumentError, "[role] must be one of ['ProntoAdmin', 'ProntoUser', 'ProntoMobileOnly']" unless ["ProntoAdmin", "ProntoUser", "ProntoMobileOnly"].include?(user["role"])
+    end
+  end
+  
+  # Helper method to parse the response into a hash, or raise an error if one occurred.
+  #
+  # @param response [RestClient::Response] response from the REST call
+  # @param parse_response [true/false] true if the response should be converted to a JSON hash, false otherwise (default is true)
+  # @return [Hash] if the response was successful, a hash of the resturned JSON
+  # @raise error is thrown if the response was not successful
+  def return_or_raise(response, parse_response = true)
+    if (response.code/100)*100 == 200
+      if parse_response
+        ActiveSupport::JSON.decode(response.to_s)
+      end
+    else
+      raise response.to_s
+    end
+  end
+  
+end

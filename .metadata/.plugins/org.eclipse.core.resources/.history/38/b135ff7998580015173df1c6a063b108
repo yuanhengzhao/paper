@@ -1,0 +1,12 @@
+class AddTimestampsColumnToFormsThatDontHaveIt < ActiveRecord::Migration
+  def change
+    add_column :forms_area_inspections, :created_at, :datetime, :null => true
+    add_column :forms_area_inspections, :updated_at, :datetime, :null => true
+    
+    add_column :forms_janitorial_checklists, :created_at, :datetime, :null => true
+    add_column :forms_janitorial_checklists, :updated_at, :datetime, :null => true
+    
+    add_column :forms_gemba_observations, :created_at, :datetime, :null => true
+    add_column :forms_gemba_observations, :updated_at, :datetime, :null => true
+  end
+end

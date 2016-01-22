@@ -1,0 +1,36 @@
+# Parser to for Net Promoter Score forms submitted from ProntoForms
+class ProntoForms::NetPromoterScoreParser < AbstractFormParser
+  
+  # name of the form according to ProntoForms
+  NAME = "Net Promoter Score"
+  
+  # Returns the highest version number this parser is capable of parsing.
+  #
+  # @return [numeric] highest version number this parser is capable of parsing
+  def max_version
+    1
+  end
+  
+  # Attempts to convert the hash provided into a database object.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @param model [Forms::NetPromoterScore] object to update, nil if a new object should be created
+  # @return [ActiveRecord] instance of the object
+  # @raise [ParserException] if the hash could not be parsed for whatever reason
+  def parse(form_hash, model = nil)
+    model ||= Forms::NetPromoterScore.new
+
+    ProntoForms::SourceParser.get_common_answer_values(form_hash, model)    
+    model.client          = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 0)[0]
+    model.site            = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 1)[0]
+    model.contact         = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 2)[0]
+    model.title           = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 3)[0]
+    model.department      = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 4)[0]
+    model.shop            = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 5)[0]
+    model.impact_level    = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 6)[0]
+    model.nps             = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 7)[0]
+    model.suggestion      = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 8)[0]
+
+    model
+  end
+end

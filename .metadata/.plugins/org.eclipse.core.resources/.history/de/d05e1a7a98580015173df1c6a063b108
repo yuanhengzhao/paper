@@ -1,0 +1,40 @@
+require 'spec_helper'
+
+describe "XlsxReportProcessing" do
+
+  before do
+    class FakeForm
+      
+    end
+    
+    class FakesController < ApplicationController
+      include XlsxReportProcessing
+    end
+  end
+  
+  after do 
+    Object.send :remove_const, :FakesController 
+    Object.send :remove_const, :FakeForm 
+  end
+  
+  let(:object) { FakesController.new }
+
+  describe 'my_method_to_test' do
+    it "should handle nil form class" do
+      expect{ object.generate_xlsx(nil, "NAME", Date.new) }.to raise_error('Form model class can not be nil.')
+    end
+    
+    it "should handle nil form class" do
+      expect{ object.generate_xlsx(FakeForm, nil, Date.new) }.to raise_error('Form name can not be nil.')
+    end
+    
+    it "should handle nil form class" do
+      expect{ object.generate_xlsx(FakeForm, "NAME", nil) }.to raise_error('Last updated time can not be nil.')
+    end
+    
+    it "valid case" do
+      expect{ object.generate_xlsx(FakeForm, "NAME", Date.new) }.not_to raise_error
+    end
+  end
+
+end

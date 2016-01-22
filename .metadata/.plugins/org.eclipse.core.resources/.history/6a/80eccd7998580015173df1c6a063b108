@@ -1,0 +1,88 @@
+class Forms::CleaningEventsController < ApplicationController
+  
+  FORM_NAME = "cleaning events"
+  
+  include DatatableServerSideProcessing
+  include XlsxReportProcessing
+  
+  before_action :authenticate_user!
+  
+  load_and_authorize_resource :except => [:update_export, :download_export, :submission]
+  
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  
+  add_breadcrumb "forms", :forms_index_path
+  add_breadcrumb "cleaning events", :forms_cleaning_events_path
+  
+  DATATABLES_COLUMNS = [ "id", "username", "device_submit_date" ]
+  
+  def index
+    # @cleaning_events is automatically loaded
+  end
+
+  def show
+    # @cleaning_event is automatically loaded
+    add_breadcrumb "cleaning event #{@cleaning_event.id}", :forms_cleaning_event_path
+  end
+  
+  # Overwrites the model's existing properties with the contents of the original submission document attached.
+  def reparse
+    # @cleaning_event is automatically loaded
+    result = @cleaning_event.reparse
+    # render the show action associated with the result object
+    render action: 'show', location: result
+  end
+  
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html { redirect_to forms_cleaning_events_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS
+        }
+        
+        # call concern function using collection of all records the user has access to
+        @cleaning_events = Forms::CleaningEvent.accessible_by(current_ability)
+        render :json => datatable_data(@cleaning_events, params, options)
+      }
+    end
+  end
+  
+  def update_export
+    authorize! :read, Forms::CleaningEvent
+    
+    begin
+      raise "No data in this form."  if Forms::CleaningEvent.all.count == 0
+      @export = generate_xlsx(Forms::CleaningEvent, FORM_NAME, Forms::CleaningEvent.maximum("updated_at"))
+      respond_to do |format|
+        format.json { render :json => @export, status: :ok  }
+      end
+    rescue => e
+      respond_to do |format|
+        format.json { render text:e.message, status: :not_acceptable }
+      end
+    end  
+  end
+  
+  def download_export
+    authorize! :read, Forms::CleaningEvent
+    @export = Report::FormExport.find_by(form_name: FORM_NAME)
+    redirect_to(@export.attachment.expiring_url(10))
+  end
+
+  def submission
+    authorize! :read, Forms::CleaningEvent
+    @cleaning_event = Forms::CleaningEvent.find(params[:id])
+    authorize! :read, @cleaning_event
+    redirect_to(@cleaning_event.submission.expiring_url(10))
+  end
+
+  private
+  
+  def record_not_found(exception)
+    # redirect back to index if id not found
+    flash[:alert] = exception.message
+    redirect_to forms_cleaning_events_path
+  end
+end

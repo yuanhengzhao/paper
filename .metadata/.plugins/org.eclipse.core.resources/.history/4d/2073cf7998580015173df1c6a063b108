@@ -1,0 +1,174 @@
+class Forms::EscrubKopsController < ApplicationController
+
+  FORM_NAME = "escrub kops"
+
+  include DatatableServerSideProcessing
+  include XlsxReportProcessing
+
+  before_action :authenticate_user!
+
+  load_and_authorize_resource :except => [:bc_picture, :cc_picture, :bc_picture1, :cc_picture1, :bc_picture2, :cc_picture2, :bc_picture3, :cc_picture3, :bc_picture4, :cc_picture4, :bc_picture5, :cc_picture5, :update_export, :download_export, :submission]
+
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
+  add_breadcrumb "forms", :forms_index_path
+  add_breadcrumb FORM_NAME, :forms_escrub_kops_path
+
+  DATATABLES_COLUMNS = [ "id", "username", "date", "crew", "shift", "device_submit_date" ]
+
+  def index
+    # @escrub_kops is automatically loaded
+    @export = Report::FormExport.find_by(form_name: FORM_NAME)
+  end
+
+  def show
+    # @escrub_kop is automatically loaded
+    add_breadcrumb "escrub kop #{@escrub_kop.id}", :forms_escrub_kop_path
+  end
+
+  # Overwrites the model's existing properties with the contents of the original submission document attached.
+  def reparse
+    # @escrub_kop is automatically loaded
+    result = @escrub_kop.reparse
+    # render the show action associated with the result object
+    render action: 'show', location: result
+  end
+
+  def update_export
+    authorize! :read, Forms::EscrubKop
+
+    begin
+      raise "No data in this form."  if Forms::EscrubKop.all.count == 0
+      @export = generate_xlsx(Forms::EscrubKop, FORM_NAME, Forms::EscrubKop.maximum("updated_at"))
+      respond_to do |format|
+        format.json { render :json => @export, status: :ok  }
+      end
+    rescue => e
+      respond_to do |format|
+        format.json { render text:e.message, status: :not_acceptable }
+      end
+    end
+  end
+
+  def download_export
+    authorize! :read, Forms::EscrubKop
+    @export = Report::FormExport.find_by(form_name: FORM_NAME)
+    redirect_to(@export.attachment.expiring_url(10))
+  end
+
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html { redirect_to forms_escrub_kops_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS
+        }
+
+        # call concern function using collection of all records the user has access to
+        @escrub_kops = Forms::EscrubKop.accessible_by(current_ability)
+        render :json => datatable_data(@escrub_kops, params, options)
+      }
+    end
+  end
+
+  def bc_picture
+    authorize! :read, Forms::EscrubKop
+    @escrub_kop = Forms::EscrubKop.find(params[:id])
+    authorize! :read, @escrub_kop
+    redirect_to(@escrub_kop.bc_picture.expiring_url(10))
+  end
+
+  def bc_picture1
+    authorize! :read, Forms::EscrubKop
+    @escrub_kop = Forms::EscrubKop.find(params[:id])
+    authorize! :read, @escrub_kop
+    redirect_to(@escrub_kop.bc_picture1.expiring_url(10))
+  end
+
+  def bc_picture2
+    authorize! :read, Forms::EscrubKop
+    @escrub_kop = Forms::EscrubKop.find(params[:id])
+    authorize! :read, @escrub_kop
+    redirect_to(@escrub_kop.bc_picture2.expiring_url(10))
+  end
+
+  def bc_picture3
+    authorize! :read, Forms::EscrubKop
+    @escrub_kop = Forms::EscrubKop.find(params[:id])
+    authorize! :read, @escrub_kop
+    redirect_to(@escrub_kop.bc_picture3.expiring_url(10))
+  end
+
+  def bc_picture4
+    authorize! :read, Forms::EscrubKop
+    @escrub_kop = Forms::EscrubKop.find(params[:id])
+    authorize! :read, @escrub_kop
+    redirect_to(@escrub_kop.bc_picture4.expiring_url(10))
+  end
+
+  def bc_picture5
+    authorize! :read, Forms::EscrubKop
+    @escrub_kop = Forms::EscrubKop.find(params[:id])
+    authorize! :read, @escrub_kop
+    redirect_to(@escrub_kop.bc_picture5.expiring_url(10))
+  end
+
+  def cc_picture
+    authorize! :read, Forms::EscrubKop
+    @escrub_kop = Forms::EscrubKop.find(params[:id])
+    authorize! :read, @escrub_kop
+    redirect_to(@escrub_kop.cc_picture.expiring_url(10))
+  end
+
+  def cc_picture1
+    authorize! :read, Forms::EscrubKop
+    @escrub_kop = Forms::EscrubKop.find(params[:id])
+    authorize! :read, @escrub_kop
+    redirect_to(@escrub_kop.cc_picture1.expiring_url(10))
+  end
+
+  def cc_picture2
+    authorize! :read, Forms::EscrubKop
+    @escrub_kop = Forms::EscrubKop.find(params[:id])
+    authorize! :read, @escrub_kop
+    redirect_to(@escrub_kop.cc_picture2.expiring_url(10))
+  end
+
+  def cc_picture3
+    authorize! :read, Forms::EscrubKop
+    @escrub_kop = Forms::EscrubKop.find(params[:id])
+    authorize! :read, @escrub_kop
+    redirect_to(@escrub_kop.cc_picture3.expiring_url(10))
+  end
+
+  def cc_picture4
+    authorize! :read, Forms::EscrubKop
+    @escrub_kop = Forms::EscrubKop.find(params[:id])
+    authorize! :read, @escrub_kop
+    redirect_to(@escrub_kop.cc_picture4.expiring_url(10))
+  end
+
+  def cc_picture5
+    authorize! :read, Forms::EscrubKop
+    @escrub_kop = Forms::EscrubKop.find(params[:id])
+    authorize! :read, @escrub_kop
+    redirect_to(@escrub_kop.cc_picture5.expiring_url(10))
+  end
+
+  def submission
+    authorize! :read, Forms::EscrubKop
+    @escrub_kop = Forms::EscrubKop.find(params[:id])
+    authorize! :read, @escrub_kop
+    redirect_to(@escrub_kop.submission.expiring_url(10))
+  end
+
+  private
+
+  def record_not_found(exception)
+    # redirect back to index if id not found
+    flash[:alert] = exception.message
+    redirect_to forms_escrub_kops_path
+  end
+
+end

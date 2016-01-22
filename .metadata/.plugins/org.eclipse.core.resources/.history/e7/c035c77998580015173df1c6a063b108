@@ -1,0 +1,18 @@
+
+.devise-form > div { margin: 10px 0px; }
+.devise-email-field { width: 300px }
+
+#error_explanation h2 { font-size: 16px; }
+#error_explanation { 
+  color: #a94442; 
+  background-color: #f2dede; 
+  background-image: url(/assets/flash/error.png);
+  border: 0px solid;
+  margin: 10px 0px;
+  padding: 20px 10px 20px 50px;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+}
+
+.button-submit { border:0px; background: rgb(1,100,165); color: white; padding: 10px; text-decoration: none; font-size:inherit;}
+.button-submit:hover { background-color: rgb(94, 151, 50); }

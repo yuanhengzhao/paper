@@ -1,0 +1,74 @@
+{
+  "deviceSubmitDate": {
+    "time": "2015-02-23T10:39:38-05:00", 
+    "zone": "America/Toronto"
+  }, 
+  "dispatcher": null, 
+  "form": {
+    "formSpaceIdentifier": "191704001", 
+    "formSpaceName": "Space - Jigs & Dollies Cleaning Forms", 
+    "identifier": "141948040", 
+    "name": "Dolly Cleaning", 
+    "version": 1, 
+    "versionIdentifier": "152432089"
+  }, 
+  "geoStamp": {
+    "address": "Queen Street West, Toronto, ON, CA", 
+    "captureTimestamp": {
+      "provided": {
+        "time": "2015-02-23T10:39:16-05:00", 
+        "zone": "America/Toronto"
+      }, 
+      "shifted": "2015-02-23T10:39:16-05:00"
+    }, 
+    "coordinates": {
+      "altitude": 109.228, 
+      "latitude": 43.6520477694093, 
+      "longitude": -79.38201706653744
+    }, 
+    "errorMessage": null, 
+    "source": "GPS", 
+    "success": true
+  }, 
+  "identifier": "1819478212", 
+  "pages": [
+    {
+      "answers": [
+        {
+          "dataType": "FreeText", 
+          "label": "dolly", 
+          "question": "Dolly", 
+          "values": [
+            "248"
+          ]
+        }, 
+        {
+          "dataType": "Timestamp", 
+          "label": "time-in", 
+          "question": "Time In", 
+          "values": [
+            {
+              "provided": {
+                "time": "2015-02-23T10:39:23-05:00", 
+                "zone": "America/Toronto"
+              }, 
+              "shifted": "2015-02-23T10:39:23-05:00"
+            }
+          ]
+        }
+      ], 
+      "name": "Dolly In"
+    }
+  ], 
+  "referenceNumber": "20150223-1819478212", 
+  "serverReceiveDate": "2015-02-23T10:39:39-05:00", 
+  "shiftedDeviceSubmitDate": "2015-02-23T10:39:38-05:00", 
+  "state": "Complete", 
+  "user": {
+    "displayName": "Sunil Pai (spai@robinsonsolutions.com)", 
+    "identifier": "131553223", 
+    "username": "spai@robinsonsolutions.com"
+  }, 
+  "version": "v1", 
+  "zone": "America/Toronto"
+}

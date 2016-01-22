@@ -1,0 +1,118 @@
+class DataSources::SiteShiftsController < ApplicationController
+
+  include DatatableServerSideProcessing
+  DATATABLES_COLUMNS = [ "id", "site", "shift" ]
+  
+  before_action :authenticate_user!
+
+  load_and_authorize_resource
+
+  before_action :set_data_sources_site_shift, only: [:edit, :update, :destroy]
+
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
+  add_breadcrumb "data sources", :data_sources_index_path
+  add_breadcrumb "site shifts", :data_sources_site_shifts_path
+  
+  # GET /data_sources/site_shifts
+  # GET /data_sources/site_shifts.json
+  def index
+    # @site_shifts is automatically loaded
+  end
+
+  # GET /data_sources/site_shifts/1
+  # GET /data_sources/site_shifts/1.json
+  def show
+    # @site_shift is automatically loaded
+    add_breadcrumb "site shift #{@site_shift.id}", :data_sources_site_shift_path
+  end
+
+  # GET /data_sources/site_shifts/new
+  def new
+    # blank @site_shift is automatically loaded
+  end
+
+  # GET /data_sources/site_shifts/1/edit
+  def edit
+    add_breadcrumb "site shift #{@site_shift.id}", :data_sources_site_shift_path
+  end
+
+  # POST /data_sources/site_shifts
+  # POST /data_sources/site_shifts.json
+  def create
+    @site_shift = DataSources::SiteShift.new(data_sources_site_shift_params)
+
+    respond_to do |format|
+      if @site_shift.save
+        format.html { redirect_to @site_shift, notice: 'Site shift was successfully created.' }
+        format.json { render action: 'show', status: :created, location: @site_shift }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @site_shift.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /data_sources/site_shifts/1
+  # PATCH/PUT /data_sources/site_shifts/1.json
+  def update
+    respond_to do |format|
+      if @site_shift.update(data_sources_site_shift_params)
+        format.html { redirect_to @site_shift, notice: 'Site shift was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @site_shift.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /data_sources/site_shifts/1
+  # DELETE /data_sources/site_shifts/1.json
+  def destroy
+    @site_shift.destroy
+    respond_to do |format|
+      format.html { redirect_to data_sources_site_shifts_url }
+      format.json { head :no_content }
+    end
+  end
+    
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html { redirect_to data_sources_site_shifts_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS
+        }
+        
+        # call concern function using collection of all records the user has access to
+        @site_shifts = DataSources::SiteShift.accessible_by(current_ability)
+        render :json => datatable_data(@site_shifts, params, options)
+      }
+    end
+  end
+
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_data_sources_site_shift
+    @site_shift = DataSources::SiteShift.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def data_sources_site_shift_params
+    params.require(:site_shift).permit(:site, :shift)
+  end
+  
+  # callback when no record matches the id provided
+  def record_not_found(exception)
+    respond_to do |format|
+      format.html {
+        flash[:alert] = exception.message
+        redirect_to data_sources_site_shifts_path
+      }
+      format.any { raise ActiveRecord::RecordNotFound }
+    end
+  end
+end

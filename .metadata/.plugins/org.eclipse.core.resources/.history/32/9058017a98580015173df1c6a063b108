@@ -1,0 +1,7 @@
+class AddProcessLineAndAreaToTaskInspection < ActiveRecord::Migration
+  def change
+     add_column :forms_task_inspections, :process, :string
+     add_column :forms_task_inspections, :line, :string
+     add_column :forms_task_inspections, :area, :string
+  end
+end

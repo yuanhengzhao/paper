@@ -1,0 +1,187 @@
+<% title "Snow Audit #{@snow_audit.id}" %>
+
+<div class="container">
+	<table class="table table-striped table-hover admin-responsive-table form-table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Value</th>
+				</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>reference_number</td><td><%= @snow_audit.reference_number %></td>
+			</tr>
+			<tr>
+				<td>server_receive_date</td><td><%= @snow_audit.server_receive_date %></td>
+			</tr>
+			<tr>
+				<td>device_submit_date</td><td><%= @snow_audit.device_submit_date %></td>
+			</tr>
+			<tr>
+				<td>username</td><td><%= @snow_audit.username %></td>
+			</tr>
+			<tr>
+				<td>version</td><td><%= @snow_audit.version %></td>
+			</tr>
+			<tr>
+				<td>altitude</td><td><%= @snow_audit.altitude %></td>
+			</tr>
+			<tr>
+				<td>latitude</td><td><%= @snow_audit.latitude %></td>
+			</tr>
+			<tr>
+				<td>longitude</td><td><%= @snow_audit.longitude %></td>
+			</tr>
+			<tr>
+				<td>source</td><td><%= @snow_audit.source %></td>
+			</tr>
+			<tr>
+				<td>audit_date</td><td><%= @snow_audit.audit_date %></td>
+			</tr>
+			<tr>
+				<td>audit_time</td><td><%= @snow_audit.audit_time %></td>
+			</tr>
+			<tr>
+				<td>contractors_supervis</td><td><%= @snow_audit.contractors_supervis %></td>
+			</tr>
+			<tr>
+				<td>time_snow_called_for</td><td><%= @snow_audit.time_snow_called_for %></td>
+			</tr>
+			<tr>
+				<td>time_snow_started</td><td><%= @snow_audit.time_snow_started %></td>
+			</tr>
+			<tr>
+				<td>time_snow_ended</td><td><%= @snow_audit.time_snow_ended %></td>
+			</tr>
+			<tr>
+				<td>area_to_audit</td><td><%= @snow_audit.area_to_audit %></td>
+			</tr>
+			<tr>
+				<td>gg_supervisor_onsite</td><td><%= @snow_audit.gg_supervisor_onsite %></td>
+			</tr>
+			<tr>
+				<td>comments1</td><td><%= @snow_audit.comments1 %></td>
+			</tr>
+			<tr>
+				<td>time_operators_start</td><td><%= @snow_audit.time_operators_start %></td>
+			</tr>
+			<tr>
+				<td>comments2</td><td><%= @snow_audit.comments2 %></td>
+			</tr>
+			<tr>
+				<td>priority_addressed</td><td><%= @snow_audit.priority_addressed %></td>
+			</tr>
+			<tr>
+				<td>comments3</td><td><%= @snow_audit.comments3 %></td>
+			</tr>
+			<tr>
+				<td>ring_roads</td><td><%= @snow_audit.ring_roads %></td>
+			</tr>
+			<tr>
+				<td>comments4</td><td><%= @snow_audit.comments4 %></td>
+			</tr>
+			<tr>
+				<td>docks_cleared_salted</td><td><%= @snow_audit.docks_cleared_salted %></td>
+			</tr>
+			<tr>
+				<td>comments5</td><td><%= @snow_audit.comments5 %></td>
+			</tr>
+			<tr>
+				<td>parking_lots_salted</td><td><%= @snow_audit.parking_lots_salted %></td>
+			</tr>
+			<tr>
+				<td>comments6</td><td><%= @snow_audit.comments6 %></td>
+			</tr>
+			<tr>
+				<td>rumble_track</td><td><%= @snow_audit.rumble_track %></td>
+			</tr>
+			<tr>
+				<td>comments7</td><td><%= @snow_audit.comments7 %></td>
+			</tr>
+			<tr>
+				<td>awl_chute</td><td><%= @snow_audit.awl_chute %></td>
+			</tr>
+			<tr>
+				<td>comments8</td><td><%= @snow_audit.comments8 %></td>
+			</tr>
+			<tr>
+				<td>quality_auditslopes</td><td><%= @snow_audit.quality_auditslopes %></td>
+			</tr>
+			<tr>
+				<td>comments9</td><td><%= @snow_audit.comments9 %></td>
+			</tr>
+			<tr>
+				<td>emergency_addressed</td><td><%= @snow_audit.emergency_addressed %></td>
+			</tr>
+			<tr>
+				<td>comments10</td><td><%= @snow_audit.comments10 %></td>
+			</tr>
+			<tr>
+				<td>all_equipment</td><td><%= @snow_audit.all_equipment %></td>
+			</tr>
+			<tr>
+				<td>comments11</td><td><%= @snow_audit.comments11 %></td>
+			</tr>
+			<tr>
+				<td>emergency_entrances</td><td><%= @snow_audit.emergency_entrances %></td>
+			</tr>
+			<tr>
+				<td>comments12</td><td><%= @snow_audit.comments12 %></td>
+			</tr>
+			<tr>
+				<td>windrows_removed</td><td><%= @snow_audit.windrows_removed %></td>
+			</tr>
+			<tr>
+				<td>comments13</td><td><%= @snow_audit.comments13 %></td>
+			</tr>
+			<tr>
+				<td>cleanuppile_removal</td><td><%= @snow_audit.cleanuppile_removal %></td>
+			</tr>
+			<tr>
+				<td>comments14</td><td><%= @snow_audit.comments14 %></td>
+			</tr>
+			<tr>
+				<td>image1</td>
+				<td><%= image_tag image1_forms_snow_audit_path(@snow_audit) %></td>
+			</tr>
+			<tr>
+				<td>image2</td>
+				<td><%= image_tag image2_forms_snow_audit_path(@snow_audit) %></td>
+			</tr>
+			<tr>
+				<td>image3</td>
+				<td><%= image_tag image3_forms_snow_audit_path(@snow_audit) %></td>
+			</tr>
+			<tr>
+				<td>image4</td>
+				<td><%= image_tag image4_forms_snow_audit_path(@snow_audit) %></td>
+			</tr>
+			<tr>
+				<td>image5</td>
+				<td><%= image_tag image5_forms_snow_audit_path(@snow_audit) %></td>
+			</tr>
+			<tr>
+				<td>image6</td>
+				<td><%= image_tag image6_forms_snow_audit_path(@snow_audit) %></td>
+			</tr>
+			<tr>
+				<td>image7</td>
+				<td><%= image_tag image7_forms_snow_audit_path(@snow_audit) %></td>
+			</tr>
+			<tr>
+				<td>image8</td>
+				<td><%= image_tag image8_forms_snow_audit_path(@snow_audit) %></td>
+			</tr>
+			<tr>
+				<td>image9</td>
+				<td><%= image_tag image9_forms_snow_audit_path(@snow_audit) %></td>
+			</tr>
+			<tr>
+				<td>image10</td>
+				<td><%= image_tag image10_forms_snow_audit_path(@snow_audit) %></td>
+			</tr>
+		</tbody>
+	</table>
+<%= render :partial => 'forms/form_submission_section', :locals => { :submission_path => submission_forms_snow_audit_path(@snow_audit), :reparse_path => reparse_forms_snow_audit_path(@snow_audit) } %>
+</div>

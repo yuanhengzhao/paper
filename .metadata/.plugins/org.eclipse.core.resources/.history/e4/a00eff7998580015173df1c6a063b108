@@ -1,0 +1,34 @@
+class CreateFormsSafetyObservations < ActiveRecord::Migration
+  def change
+    create_table :forms_safety_observations do |t|
+      t.string :reference_number
+      t.datetime :server_receive_date
+      t.datetime :device_submit_date
+      t.string :username
+      t.string :version
+      t.decimal :altitude, precision: 20, scale: 16
+      t.decimal :latitude, precision: 20, scale: 16
+      t.decimal :longitude, precision: 20, scale: 16
+      t.string :source
+      t.string :file_path
+      t.string :task_observed
+      t.string :site
+      t.string :shop
+      t.string :shift
+      t.string :all_safe
+      t.text :safe_acts_observed
+      t.text :unsafe_acts_observed
+      t.text :pbr
+      t.text :ep
+      t.text :ws
+      t.text :ppe
+      t.text :etws
+      t.text :fs
+      t.attachment :image1
+      t.attachment :image2
+      t.attachment :Signature
+
+      t.timestamps null: true
+    end
+  end
+end

@@ -1,0 +1,18 @@
+<% title "DataSources" %>
+
+<table id="data_sources_datatable" class="display">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Count</th>
+			<th>Last Updated</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th>Name</th>
+			<th>Count</th>
+			<th>Last Updated</th>
+		</tr>
+	</tbody>
+</table>

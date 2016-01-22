@@ -1,0 +1,10 @@
+class CreateFormDataReports < ActiveRecord::Migration
+  def change
+    create_table :report_form_exports do |t|
+      t.string :form_name, unique: true, null: false
+      t.attachment :attachment
+      t.string :status, null: false
+      t.timestamps null: true
+    end
+  end
+end

@@ -1,0 +1,71 @@
+# Migrate to import iform data to database
+#
+# Forms::SocIncidentReport's Model
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms 
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user 
+# - version (string) - current version of the form
+# - altitude (decimal(20,20)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,20)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,20)) - longitude of the user's location when submitted the form
+# - source (string) - name of the provider, for example,"prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+
+# - site (string) - name of site/city - "Cambridge", "Oshawa", etc.
+# - shop (string) - name of area in site - "North Paint", "ED Weld", etc.
+# - column_loc (string) - name of the closest column
+# - employee_name (string) - name of the employee that had the incident
+# - date_of_incident (date) - date the incident occurred
+# - class_of_incident (string) - classification of the incident
+# - type_of_injury (string) - type of injury sustained
+# - description (text) - description of the incident
+# - job_task_name (string) - employee's job
+# - shift_starts (time) - time the employee's shift started
+# - shift_ends (time) - time the employee's shift ended
+# - time_of_incident (time) - time the incident occurred
+# - time_reported (time) - time the incident was reported to the supervisor
+# - supervisor_name (string) - name of the supervisor
+# - safety_rep_contacted (string) - name of the safety rep
+
+class Iforms::SocIncidentReportMigrate < Iforms::AbstractIformMigrate
+
+  def get_record(item_hash,dir)
+    record = Forms::SocIncidentReport.new
+    get_common_answer_values(record,item_hash)
+    
+    record.site = item_hash["site"]
+    record.shop = item_hash["shop"]
+    record.column_loc = item_hash["column_loc"]
+    record.employee_name = item_hash["employee_name"]
+    record.date_of_incident = item_hash["date_of_incident"]
+    record.class_of_incident = item_hash["class_of_incident"]
+    record.type_of_injury = item_hash["type_of_injury"]
+    record.description = item_hash["description"]
+    record.shift_starts = item_hash["shift_starts"]
+    record.shift_ends = item_hash["shift_ends"]
+    record.time_of_incident = item_hash["time_of_incident"]
+    record.time_reported = item_hash["time_reported"]
+    record.safety_rep_contacted = item_hash["safety_rep_contacted"]
+    record.job_task_name = item_hash["job_task_name"]
+    record.supervisor_name = item_hash["supervisor_name"]
+    
+    return record
+  end
+  
+end
+
+
+
+
+
+
+
+
+
+
+
+

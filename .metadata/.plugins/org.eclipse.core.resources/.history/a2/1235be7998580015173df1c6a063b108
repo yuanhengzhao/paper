@@ -1,0 +1,58 @@
+Robinson Form Data
+====================
+
+This application is intended to collect digital form submissions gathered on mobile
+devices into a single repository that can asynchronously parse the received data
+and store it to a data source that can be used by a BI tool or the like.
+
+Requirements
+------------
+
+### Ruby and Rails
+
+This application requires Ruby version **>= 2.0.0** and Rails version **>= 4.0.0**
+
+### Environment Variables
+
+This application expects to find the following environment variables at run time.
+
+For database connections:
+* RDS_DB_NAME
+* RDS_HOSTNAME
+* RDS_PORT
+* RDS_USERNAME
+* RDS_PASSWORD
+
+For authenticating users through their Robinson Google accounts:
+* GOOGLE_CLIENT_ID
+* GOOGLE_CLIENT_SECRET
+
+For polling submission from Simple Queue Service:
+* QUEUE_URL (Port number required)
+* S3_BUCKET_NAME
+
+For mailer, we are using gmail
+* GMAIL_ADDRESS
+* GMAIL_PORT
+* GMAIL_DOMAIN
+* GMAIL_USER_NAME
+* GMAIL_PASSWORD
+* GMAIL_AUTHENTICATION
+* GMAIL_ENABLE_STARTTLS_AUTO
+* ADMIN_EMAIL
+
+### Services
+* SQS service:
+*   Gem Daemons-rails is used for the cron service. To start the service
+*   run the following commands:
+*     rake daemon:sqs[:(start|stop|restart|status)] # start/stop/restart/get status of the job
+*
+*   Example: to use the service:
+*     rake daemon:sqs:start   # start the service. log can be viewed under log dir
+*     rake daemon:sqs:restart # restart the service.
+*     rake daemon:sqs:stop    # stop the service (the instance is still alive)
+
+
+### Tasks
+* A delay job is used to generate form exports. Run rake jobs:work to start the 
+* job server.

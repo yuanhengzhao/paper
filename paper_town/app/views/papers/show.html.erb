@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Page:</strong>
+  <%= @paper.page %>
+</p>
+
+<p>
+  <strong>Rank:</strong>
+  <%= @paper.rank %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @paper.price %>
+</p>
+
+<%= link_to 'Edit', edit_paper_path(@paper) %> |
+<%= link_to 'Back', papers_path %>

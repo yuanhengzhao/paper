@@ -1,0 +1,127 @@
+# Migrate to import iform data to database
+#
+# Forms::PreTaskSafetyPlan's Model
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user
+# - version (string) - current version of the form
+# - altitude (decimal(20,20)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,20)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,20)) - longitude of the user's location when submitted the form
+# - source (string) - name of the provider, for example,"prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+
+# - task (string) - 
+# - site (string) - 
+# - shop (string) - 
+# - task_location (string) - 
+# - q1 (string) - 
+# - q2 (string) - 
+# - q4 (string) - 
+# - list_ppe (text) - 
+# - q5 (string) - 
+# - list_potential_hazar (text) - 
+# - q6 (string) - 
+# - q7 (string) - 
+# - list_tools (text) - 
+# - q8 (string) - 
+# - job_plan (text) - 
+# - job_specific_details (text) - 
+# - tm_names (text) - 
+# - signature (attachment) - 
+# - c1 (string) - 
+# - c2 (string) - 
+# - c3 (string) - 
+# - c4 (string) - 
+# - c5 (string) - 
+# - c6 (string) - 
+# - c7 (string) - 
+# - c8 (string) - 
+# - c9 (string) - 
+# - c10 (string) - 
+# - ptd1 (string) - 
+# - ptd1_text (text) - 
+# - ptd2 (string) - 
+# - ptd2_text (text) - 
+# - ptd3 (string) - 
+# - ptd3_text (text) - 
+# - ptd4 (string) - 
+# - ptd4_text (text) - 
+# - ptd5 (string) - 
+# - ptd5_text (text) - 
+# - comments (text) - 
+class Iforms::PreTaskSafetyPlanMigrate < Iforms::AbstractIformMigrate
+
+  def get_record(item_hash,dir)
+    record = Forms::PreTaskSafetyPlan.new
+    get_common_answer_values(record,item_hash)
+    
+    record.task = item_hash["task"]
+    record.site = item_hash["site"]
+    record.shop = item_hash["shop"]
+    record.task_location = item_hash["task_location"]
+    record.q1 = item_hash["q1"]
+    
+    if item_hash["q2"] == "yes"
+      record.q2  = "I have an SOP for this work"
+    elsif item_hash["q2"] == "no"
+      if item_hash["q3"] == "yes"
+        record.q2  = "I have an SOP for this work, but one should be developed"
+      elsif item_hash["q3"] == "no"
+        record.q2  = "I have an SOP for this work, but one should NOT be developed"
+      end
+    end
+      
+    record.q4 = item_hash["q4"]
+    record.list_ppe = item_hash["list_ppe"]
+    record.q5  = item_hash["q5"]
+    record.list_potential_hazar = item_hash["list_potential_hazards"]
+    record.q6  = item_hash["q6"]
+    record.q7  = item_hash["q7"]
+    record.list_tools  = item_hash["list_tools"]
+    record.q8 = item_hash["q8"]
+    record.job_plan = item_hash["job_plan"]
+    record.job_specific_details = item_hash["ob_specific_details"]
+    record.tm_names = item_hash["tm_names"]
+    record.signature  = create_image_attachment(item_hash,"signature",dir)
+    record.c1  = item_hash["c1"]
+    record.c2  = item_hash["c2"]
+    record.c3  = item_hash["c3"]
+    record.c4  = item_hash["c4"]
+    record.c5  = item_hash["c5"]
+    record.c6 = item_hash["c6"]
+    record.c7  = item_hash["c7"]
+    record.c8 = item_hash["c8"]
+    record.c9 = item_hash["c9"]
+    record.c10 = item_hash["c10"]
+    record.ptd1 = item_hash["ptd1"]
+    record.ptd1_text = item_hash["ptd1_text"]
+    record.ptd2 = item_hash["ptd2"]
+    record.ptd2_text  = item_hash["ptd2_text"]
+    record.ptd3 = item_hash["ptd3"]
+    record.ptd3_text = item_hash["ptd3_text"]
+    record.ptd4 = item_hash["ptd4"]
+    record.ptd4_text = item_hash["ptd4_text"]
+    record.ptd5 = item_hash["ptd5"]
+    record.ptd5_text = item_hash["ptd5_text"]
+    record.comments = item_hash["comments"]
+    return record
+  end
+  
+end
+
+
+
+
+
+
+
+
+
+
+
+

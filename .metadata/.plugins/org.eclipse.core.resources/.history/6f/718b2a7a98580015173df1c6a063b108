@@ -1,0 +1,7 @@
+require_relative '../../spec_helper'
+
+describe Report::FormExport do
+  it "has a valid factory" do
+    expect(build(:form_export)).to be_valid
+  end
+end

@@ -1,0 +1,14 @@
+jQuery ->  
+  # datatable for submissions page
+  datatable = $("#janitorial_checklists_datatable").DataTable
+    "processing": true
+    "serverSide": true
+    "ajax": "/forms/janitorial_checklists/datatable.json"
+    "columns": [
+      { "data": "id" },
+      { "data": "username" },
+      { "data": "device_submit_date", "render": (data, type, full) -> new Date(data) }
+      { "data": "id", "searchable": false, "orderable": false, "render": ( data, type, full ) ->
+        '<a href="/forms/janitorial_checklists/' + data + '" target="_blank">Show</a>'
+      }
+    ]

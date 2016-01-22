@@ -1,0 +1,60 @@
+RSpec::Matchers.define :have_same_base_form_attributes_as do |expected|
+  match do |actual|
+    differences = []
+    
+    if actual.reference_number != expected.reference_number
+      differences << { :field => "reference_number", :expected => expected.reference_number, :actual => actual.reference_number }
+    end
+    if actual.server_receive_date != expected.server_receive_date
+      differences << { :field => "server_receive_date", :expected => expected.server_receive_date, :actual => actual.server_receive_date }
+    end
+    if actual.device_submit_date != expected.device_submit_date
+      differences << { :field => "device_submit_date", :expected => expected.device_submit_date, :actual => actual.device_submit_date }
+    end
+    if actual.username != expected.username
+      differences << { :field => "username", :expected => expected.username, :actual => actual.username }
+    end
+    if actual.version != expected.version
+      differences << { :field => "version", :expected => expected.version, :actual => actual.version }
+    end
+    if actual.altitude != expected.altitude
+      differences << { :field => "altitude", :expected => expected.altitude, :actual => actual.altitude }
+    end
+    
+    # guard against nil before doing mathematical operations
+    latitude_match = true
+    if actual.latitude.nil? ^ expected.latitude.nil?
+      latitude_match = false
+    elsif !actual.latitude.nil? and (actual.latitude - expected.latitude).abs > 0.00001
+      latitude_match = false
+    end
+    if !latitude_match
+      differences << { :field => "latitude", :expected => expected.latitude, :actual => actual.latitude }
+    end
+    
+    # guard against nil before doing mathematical operations
+    longitude_match = true
+    if actual.longitude.nil? ^ expected.longitude.nil?
+      longitude_match = false
+    elsif !actual.longitude.nil? and (actual.longitude - expected.longitude).abs > 0.00001
+      longitude_match = false
+    end
+    if !longitude_match
+      differences << { :field => "longitude", :expected => expected.longitude, :actual => actual.longitude }
+    end
+    
+    if actual.source != expected.source
+      differences << { :field => "source", :expected => expected.source, :actual => actual.source }
+    end
+    
+    unless differences.empty?
+      puts differences
+    end
+    
+    differences.empty?
+  end
+  
+  description do
+    "have same base form attributes as #{expected}"
+  end
+end

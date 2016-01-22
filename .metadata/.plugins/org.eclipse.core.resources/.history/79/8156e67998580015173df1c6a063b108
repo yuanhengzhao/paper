@@ -1,0 +1,4 @@
+json.array!(@site_shifts) do |data_sources_site_shift|
+  json.extract! data_sources_site_shift, :id, :site, :shift
+  json.url data_sources_site_shift_url(data_sources_site_shift, format: :json)
+end

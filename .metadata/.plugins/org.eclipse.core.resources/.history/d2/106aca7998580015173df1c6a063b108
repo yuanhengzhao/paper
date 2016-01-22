@@ -1,0 +1,77 @@
+module DatatableServerSideProcessing
+  extend ActiveSupport::Concern 
+  
+  # Performs the server side processing functions -- paging, filtering,
+  # sorting, etc. -- on the collection for a jQuery datatables view.
+  # Parameter 'safe_columns' is used to prevent column names from being
+  # used to inject SQL.
+  def datatable_data(collection, params, options = {})
+    safe_columns = options[:safe_columns] || []
+    column_filters = options[:column_filters] || {}
+    
+    # count number of initial records
+    recordsTotal = collection.count
+
+    # global filter
+    if params.has_key?(:search) and !params[:search][:value].blank?
+      # protect against SQL injection by intersecting provided columns with known list
+      cleaned_columns = (safe_columns & params[:columns].values.select{ |x| x[:searchable] == "true" }.collect{ |y| y[:data] })
+
+      # as long as one known column still remains
+      unless cleaned_columns.empty?
+        # create OR of LIKE statements
+        filter_query = cleaned_columns.map{ |x| "#{x} LIKE :search" }.join(" OR ")
+        collection = collection.where(filter_query, :search => "%#{params[:search][:value]}%")
+      end
+    end
+
+    # column filter
+    if params.has_key?(:columns) and params[:columns].present?
+      params[:columns].values.each do |col|
+        if safe_columns.include?(col[:data]) and !col[:search][:value].blank?
+          # assignment will default to nil if no key found
+          match_type = column_filters[col[:data]]
+          if match_type == 'match'
+            collection = collection.where({ "#{col[:data]}" => col[:search][:value] })
+          elsif match_type == 'boolean'
+            collection = collection.where({ "#{col[:data]}" => (col[:search][:value].downcase == 'true' || col[:search][:value] == '1') })
+          elsif match_type == 'range'
+            range = col[:search][:value]
+            collection = collection.where("#{col[:data]} >= ?", range[:from]) if range[:from].present?
+            collection = collection.where("#{col[:data]} <= ?", range[:to]) if range[:to].present?
+          else
+            collection = collection.where("#{col[:data]} LIKE ?", "%#{col[:search][:value]}%")
+          end
+        end
+      end
+    end
+
+    # count after all filtering
+    recordsFiltered = collection.count
+
+    # sort
+    if params.has_key?(:order)
+      params[:order].values.each do |col|
+        temp_column = params[:columns][col[:column]][:data]
+        if safe_columns.include?(temp_column)
+          collection = collection.order("#{temp_column} #{col[:dir].upcase}")
+        end
+      end
+    end
+
+    # paginate
+    if params.has_key?(:length)
+      limit = params[:length].to_i
+      collection = collection.limit(limit)
+
+      if params.has_key?(:start)
+        offset = params[:start].to_i
+        collection = collection.offset(offset)
+      end
+    end
+
+    # return collection
+    draw = params[:draw].to_i || 0
+    return { :draw => draw, :recordsTotal => recordsTotal, :recordsFiltered => recordsFiltered, :data => collection }
+  end
+end

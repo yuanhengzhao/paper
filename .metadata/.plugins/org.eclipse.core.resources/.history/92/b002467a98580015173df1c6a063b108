@@ -1,0 +1,17 @@
+require 'spec_helper'
+
+describe "data_sources/dollies/new" do
+  before(:each) do
+    assign(:dolly, build(:dolly))
+  end
+
+  it "renders new data_sources_dolly form" do
+    render
+
+    # Run the generator again with the --webrat flag if you want to use webrat matchers
+    assert_select "form[action=?][method=?]", data_sources_dollies_path, "post" do
+      assert_select "input#data_sources_dolly_identifier[name=?]", "dolly[identifier]"
+      assert_select "input#data_sources_dolly_active[name=?]", "dolly[active]"
+    end
+  end
+end

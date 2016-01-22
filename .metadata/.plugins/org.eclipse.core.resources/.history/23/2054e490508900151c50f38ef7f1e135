@@ -1,0 +1,128 @@
+jQuery ->
+  form = $("form.incident-form")
+    
+  $('[name="incident[incident_class]"]').on 'change', ()->
+      #'[name="incident[incident_class]"]'
+      if $('[name="incident[incident_class]"]').val() != "Non Work Related"
+        flag = true
+        console.log(flag)
+      else
+        flag = false
+        console.log(flag)
+  
+  if form.length > 0
+    
+    if flag   
+      text_validators = 
+        validators: 
+          notEmpty: 
+            message: 'required'
+        
+      date_validators = 
+        validators:
+          notEmpty:
+            message: 'required'
+          date:
+            format: 'YYYY/MM/DD'
+            message: 'invalid'
+  
+    remove_countermeasure = (group)->
+      group.attr('attr-status', 'deleted')
+      group.find('div.form-group').hide()
+      group.hide()
+      group.append('<input name="incident[irreversible_countermeasures_attributes]['+group.attr('attr-index')+'][_destroy]" type="hidden" value="1">')
+      
+  
+    setup_remove_countermeasure = (at_least_one=true)->
+      container = $('.irreversible-countermeasure-list')
+      size = container.find('.irreversible-countermeasure-group[attr-status=active]').size()
+      if at_least_one and size <= 1
+        bootbox.alert('At least one countermeasure is required')
+        return
+        
+      group = $(this).closest('.irreversible-countermeasure-group')
+      remove_countermeasure(group)
+      
+    
+    add_new_irreversible_countermeasure = (id, corrective_action, corrective_action_date, corrective_action_responsible)->
+      
+      container = $('.irreversible-countermeasure-list')
+      new_index = container.find('.irreversible-countermeasure-group').size()
+      name_prefix = 'incident[irreversible_countermeasures_attributes]['+new_index+']'
+      id_prefix = 'incident_irreversible_countermeasures_attributes_'+new_index+'_'
+      fields_group = $('<div>', class: 'irreversible-countermeasure-group').attr('attr-index', new_index).attr('attr-status', 'active')
+        
+      fields_group.append(
+        '
+        <input id="'+id_prefix+'id" name="'+name_prefix+'[id]" type="hidden" value="'+id+'">
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="'+id_prefix+'corrective_action">'+container.data("label-corrective-action")+(new_index+1)+'</label>
+          <div class="col-sm-9 col-md-7">
+            <textarea class="form-control" id="'+id_prefix+'corrective_action" name="'+name_prefix+'[corrective_action]">'+corrective_action+'</textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="'+id_prefix+'corrective_action_date">'+container.data("label-corrective-action-date")+(new_index+1)+'</label>
+          <div class="col-sm-9 col-md-7">
+            <div class="input-group date bootstrap-date-picker">
+              <input class="form-control" id="'+id_prefix+'corrective_action_date" name="'+name_prefix+'[corrective_action_date]" type="text" value="'+corrective_action_date+'">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-date glyphicon-calendar"></span></span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="'+id_prefix+'corrective_action_responsible">'+container.data("label-corrective-action-responsible")+(new_index+1)+'</label>
+          <div class="col-sm-9 col-md-7">
+            <input class="form-control" id="'+id_prefix+'corrective_action_responsible" name="'+name_prefix+'[corrective_action_responsible]" type="text" value="'+corrective_action_responsible+'">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-9 col-md-7">
+            <label class="btn btn-warning remove-countermeasure" > Remove This Countermeasure </label>
+          </div>
+        </div>
+        '
+      )
+      
+      container.append(fields_group)
+      fields_group.find('.remove-countermeasure').on 'click', setup_remove_countermeasure
+      
+      #setup datepicker
+      fields_group.find('.bootstrap-date-picker').datetimepicker(
+        'format': 'YYYY/MM/DD'
+      ).on 'dp.change', (e) ->
+        $('form.incident-form').formValidation('revalidateField', $(this).find('input').attr('name'))
+      
+      #setup form validation
+      $("form.incident-form").formValidation('addField', name_prefix+'[corrective_action]', text_validators)
+      $("form.incident-form").formValidation('addField', name_prefix+'[corrective_action_date]', date_validators)
+      $("form.incident-form").formValidation('addField', name_prefix+'[corrective_action_responsible]', text_validators)
+      
+      true
+      
+    $('.new-countermeasure').on 'click', ()->
+      add_new_irreversible_countermeasure('', '', '', '')
+      
+    $('.remove-countermeasure').on 'click', setup_remove_countermeasure
+    
+    #initialize existing countermeasures
+    data_wrapper = $('input[type=hidden].irreversible-countermeasure-data')
+    if(data_wrapper.length == 0 and $('select#incident_incident_class_id').html() != "Non Work Related")
+      add_new_irreversible_countermeasure('', '', '', '')
+    else
+      data_wrapper.each ()->
+        add_new_irreversible_countermeasure($(this).attr('attr-id'), $(this).attr('attr-desc'), $(this).attr('attr-date'), $(this).attr('attr-responsible'))
+      
+    # when condition is changed
+    $('select#incident_incident_class_id').on 'change', ()->
+      if $(this).find("option:selected").html() == "Non Work Related"
+        # remove all countermeasures
+        $('.irreversible-countermeasure-group').each ()->
+          remove_countermeasure($(this))
+        $('.new-countermeasure').hide()
+      else 
+        if $('.irreversible-countermeasure-group[attr-status=active]').size() == 0
+          # add the first counter measure
+          add_new_irreversible_countermeasure('', '', '', '')
+        $('.new-countermeasure').show()
+          

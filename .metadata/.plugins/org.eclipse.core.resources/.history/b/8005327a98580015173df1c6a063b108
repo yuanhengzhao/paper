@@ -1,0 +1,911 @@
+{
+    "identifier": "1825944429",
+    "version": "v1",
+    "zone": "America/Toronto",
+    "referenceNumber": "20150806150418-1825944429",
+    "state": "Complete",
+    "deviceSubmitDate": {
+        "time": "2015-08-06T11:04:17-04:00",
+        "zone": "America/Toronto"
+    },
+    "shiftedDeviceSubmitDate": "2015-08-06T11:04:17-04:00",
+    "serverReceiveDate": "2015-08-06T11:04:20-04:00",
+    "form": {
+        "identifier": "142082248",
+        "versionIdentifier": "152619613",
+        "name": "JKK Audit",
+        "version": 1,
+        "formSpaceIdentifier": "191571049",
+        "formSpaceName": "Customer - Toyota Forms"
+    },
+    "user": {
+        "identifier": "131590062",
+        "username": "nshakoori@robinsonsolutions.com",
+        "displayName": "Naeimeh Shakoori-Najafi (nshakoori@robinsonsolutions.com)"
+    },
+    "dispatcher": null,
+    "geoStamp": {
+        "success": true,
+        "captureTimestamp": {
+            "provided": {
+                "time": "2015-08-06T11:03:08-04:00",
+                "zone": "America/Toronto"
+            },
+            "shifted": "2015-08-06T11:03:08-04:00"
+        },
+        "errorMessage": null,
+        "source": "GPS",
+        "coordinates": {
+            "latitude": 43.65196582093044,
+            "longitude": -79.38196543058145,
+            "altitude": 113.385
+        },
+        "address": "Queen Street West, Toronto, ON, CA"
+    },
+    "pages": [
+        {
+            "name": "Site/Job Information",
+            "answers": [
+                {
+                    "label": "audit_date",
+                    "dataType": "Timestamp",
+                    "question": "Audit Date",
+                    "values": [
+                        {
+                            "provided": {
+                                "time": "2015-08-06T11:02:59-04:00",
+                                "zone": "America/Toronto"
+                            },
+                            "shifted": "2015-08-06T11:02:59-04:00"
+                        }
+                    ]
+                },
+                {
+                    "label": "site",
+                    "dataType": "FreeText",
+                    "question": "Site",
+                    "values": [
+                        "Woodstock"
+                    ]
+                },
+                {
+                    "label": "site_abbreviation",
+                    "dataType": "FreeText",
+                    "question": "Site Abbreviation",
+                    "values": [
+                        "TOYWOO"
+                    ]
+                },
+                {
+                    "label": "shop",
+                    "dataType": "FreeText",
+                    "question": "Shop",
+                    "values": [
+                        "Press"
+                    ]
+                },
+                {
+                    "label": "scheduling_shop",
+                    "dataType": "FreeText",
+                    "question": "scheduling shop",
+                    "values": [
+                        "Press"
+                    ]
+                },
+                {
+                    "label": "site_shop",
+                    "dataType": "FreeText",
+                    "question": "site shop",
+                    "values": [
+                        "Woodstock~Press"
+                    ]
+                },
+                {
+                    "label": "shift",
+                    "dataType": "FreeText",
+                    "question": "Shift",
+                    "values": [
+                        "Night shift"
+                    ]
+                },
+                {
+                    "label": "job_name",
+                    "dataType": "FreeText",
+                    "question": "Job Name",
+                    "values": [
+                        "BOLSTER PLATE"
+                    ]
+                },
+                {
+                    "label": "job_number",
+                    "dataType": "FreeText",
+                    "question": "Job Number",
+                    "values": [
+                        "TOY-WP-A5"
+                    ]
+                },
+                {
+                    "label": "job_site",
+                    "dataType": "FreeText",
+                    "question": "Job Site",
+                    "values": [
+                        "Woodstock"
+                    ]
+                },
+                {
+                    "label": "job_shop",
+                    "dataType": "FreeText",
+                    "question": "Job Shop",
+                    "values": [
+                        "Press"
+                    ]
+                },
+                {
+                    "label": "job_area",
+                    "dataType": "FreeText",
+                    "question": "Job Area",
+                    "values": [
+                        "TRYOUT PRESS"
+                    ]
+                },
+                {
+                    "label": "job_location",
+                    "dataType": "FreeText",
+                    "question": "Job Location",
+                    "values": [
+                        "Woodstock :: Press :: TRYOUT PRESS"
+                    ]
+                },
+                {
+                    "label": "frequency",
+                    "dataType": "FreeText",
+                    "question": "Frequency",
+                    "values": [
+                        "1/3M"
+                    ]
+                },
+                {
+                    "label": "extract_date",
+                    "dataType": "Integer",
+                    "question": "Extract date of incident",
+                    "values": [
+                        "20150806"
+                    ]
+                },
+                {
+                    "label": "form_id",
+                    "dataType": "FreeText",
+                    "question": "Form ID",
+                    "values": [
+                        "JKK_TOY-WP-A5_20150806"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Standardized Work Checklist",
+            "answers": [
+                {
+                    "label": "hazard_idntfied",
+                    "dataType": "FreeText",
+                    "question": "Are all of the potential hazards properly identified on the SWC/RA?",
+                    "values": [
+                        "X"
+                    ]
+                },
+                {
+                    "label": "hazards_identified_g",
+                    "dataType": "Integer",
+                    "question": "hazards_identified_good",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "hazards_identified_b",
+                    "dataType": "Integer",
+                    "question": "hazards_identified_bad",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "identified_comments",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "Gf"
+                    ]
+                },
+                {
+                    "label": "hazards_aware_g",
+                    "dataType": "Integer",
+                    "question": "hazards_aware_good",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "hazards_aware_b",
+                    "dataType": "Integer",
+                    "question": "hazards_aware_bad",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "aware_comments",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "not required"
+                    ]
+                },
+                {
+                    "label": "ppe_specified",
+                    "dataType": "FreeText",
+                    "question": "Do all PPE specified on SWC/RA meet the requirements?",
+                    "values": [
+                        "O"
+                    ]
+                },
+                {
+                    "label": "ppe_specified_g",
+                    "dataType": "Integer",
+                    "question": "ppe_specified_good",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "ppe_specified_b",
+                    "dataType": "Integer",
+                    "question": "ppe_specified_bad",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "ppe_spcfied_comments",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "not required"
+                    ]
+                },
+                {
+                    "label": "ppe_properly",
+                    "dataType": "FreeText",
+                    "question": "Are all PPE specified on SWC/RA available and being used properly?",
+                    "values": [
+                        "O"
+                    ]
+                },
+                {
+                    "label": "ppe_properly_g",
+                    "dataType": "Integer",
+                    "question": "ppe_properly_good",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "ppe_properly_b",
+                    "dataType": "Integer",
+                    "question": "ppe_properly_bad",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "ppe_proprly_comments",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "not required"
+                    ]
+                },
+                {
+                    "label": "lockout_identified",
+                    "dataType": "FreeText",
+                    "question": "Is the lockout for this particular task identified properly on the SWC/RA?",
+                    "values": [
+                        "O"
+                    ]
+                },
+                {
+                    "label": "lockout_identified_g",
+                    "dataType": "Integer",
+                    "question": "lockout_identified_good",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "lockout_identified_b",
+                    "dataType": "Integer",
+                    "question": "lockout_identified_bad",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "lockout_idn_comments",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "not required"
+                    ]
+                },
+                {
+                    "label": "lockout_performed",
+                    "dataType": "FreeText",
+                    "question": "Is the lockout being performed properly?",
+                    "values": [
+                        "O"
+                    ]
+                },
+                {
+                    "label": "lockout_performed_g",
+                    "dataType": "Integer",
+                    "question": "lockout_performed_good",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "lockout_performed_b",
+                    "dataType": "Integer",
+                    "question": "lockout_performed_bad",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "lockout_per_comments",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "not required"
+                    ]
+                },
+                {
+                    "label": "trained",
+                    "dataType": "FreeText",
+                    "question": "Has the TM been trained to the SWC/RA of this task?",
+                    "values": [
+                        "O"
+                    ]
+                },
+                {
+                    "label": "trained_g",
+                    "dataType": "Integer",
+                    "question": "trained_good",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "trained_b",
+                    "dataType": "Integer",
+                    "question": "trained_bad",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "trained_comments",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "not required"
+                    ]
+                },
+                {
+                    "label": "steps",
+                    "dataType": "FreeText",
+                    "question": "Are the steps for this task in proper sequential order on the SWC/RA?",
+                    "values": [
+                        "O"
+                    ]
+                },
+                {
+                    "label": "steps_g",
+                    "dataType": "Integer",
+                    "question": "steps_good",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "steps_b",
+                    "dataType": "Integer",
+                    "question": "steps_bad",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "steps_comments",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "not required"
+                    ]
+                },
+                {
+                    "label": "sequential",
+                    "dataType": "FreeText",
+                    "question": "Is the TM performing the task in proper sequential order as specified on the SWC/RA?",
+                    "values": [
+                        "O"
+                    ]
+                },
+                {
+                    "label": "sequential_g",
+                    "dataType": "Integer",
+                    "question": "sequential_good",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "sequential_b",
+                    "dataType": "Integer",
+                    "question": "sequential_bad",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "sequential_comments",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "not required"
+                    ]
+                },
+                {
+                    "label": "requirements",
+                    "dataType": "FreeText",
+                    "question": "Does the SWC/RA contain the actual requirements to achieve the desired end results?",
+                    "values": [
+                        "O"
+                    ]
+                },
+                {
+                    "label": "requirements_g",
+                    "dataType": "Integer",
+                    "question": "requirements_good",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "requirements_b",
+                    "dataType": "Integer",
+                    "question": "requirements_bad",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "requirement_comments",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "not required"
+                    ]
+                },
+                {
+                    "label": "approved",
+                    "dataType": "FreeText",
+                    "question": "Is the SWC/RA properly approved?",
+                    "values": [
+                        "O"
+                    ]
+                },
+                {
+                    "label": "approved_g",
+                    "dataType": "Integer",
+                    "question": "approved_good",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "approved_b",
+                    "dataType": "Integer",
+                    "question": "approved_bad",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "approved_comments",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "not required"
+                    ]
+                },
+                {
+                    "label": "5s",
+                    "dataType": "FreeText",
+                    "question": "Is the area kept neat and tidy during the task being performed (5S being followed)?",
+                    "values": [
+                        "O"
+                    ]
+                },
+                {
+                    "label": "5s_g",
+                    "dataType": "Integer",
+                    "question": "5s_good",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "5s_b",
+                    "dataType": "Integer",
+                    "question": "5s_bad",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "5s_comments",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "not required"
+                    ]
+                },
+                {
+                    "label": "stndrd_good_total",
+                    "dataType": "Integer",
+                    "question": "Good Condition Total",
+                    "values": [
+                        "11"
+                    ]
+                },
+                {
+                    "label": "stndrd_no_good_total",
+                    "dataType": "Integer",
+                    "question": "No Good Condition Total",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "work_percentage",
+                    "dataType": "Decimal",
+                    "question": "Standardized Work Percentage (%)",
+                    "values": [
+                        "91.67"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Necessary Conditions Checklist",
+            "answers": [
+                {
+                    "label": "equipment_present",
+                    "dataType": "FreeText",
+                    "question": "Is the equipment required to perform the task present and prepared (as per SWC/RA)?",
+                    "values": [
+                        "O"
+                    ]
+                },
+                {
+                    "label": "equipment_present_g",
+                    "dataType": "Integer",
+                    "question": "equipment_present_good",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "equipment_present_b",
+                    "dataType": "Integer",
+                    "question": "equipment_present_bad",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "eqp_present_comments",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "not required"
+                    ]
+                },
+                {
+                    "label": "equipment_adequate",
+                    "dataType": "FreeText",
+                    "question": "Is equipment being used adequate for the task?",
+                    "values": [
+                        "O"
+                    ]
+                },
+                {
+                    "label": "equipment_adequate_g",
+                    "dataType": "Integer",
+                    "question": "equipment_adequate_good",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "equipment_adequate_b",
+                    "dataType": "Integer",
+                    "question": "equipment_adequate_bad",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "eqp_adequat_comments",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "not required"
+                    ]
+                },
+                {
+                    "label": "equipment_safe",
+                    "dataType": "FreeText",
+                    "question": "Is the equipment being used in safe operating condition, and being used in a safe manner?",
+                    "values": [
+                        "O"
+                    ]
+                },
+                {
+                    "label": "equipment_safe_g",
+                    "dataType": "Integer",
+                    "question": "equipment_safe_good",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "equipment_safe_b",
+                    "dataType": "Integer",
+                    "question": "equipment_safe_bad",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "eqp_safe_comments",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "not required"
+                    ]
+                },
+                {
+                    "label": "equipment_good",
+                    "dataType": "FreeText",
+                    "question": "Is the equipment used in \"good\" overall condition (i.e. scraper not dull, etc.)?",
+                    "values": [
+                        "O"
+                    ]
+                },
+                {
+                    "label": "equipment_good_g",
+                    "dataType": "Integer",
+                    "question": "equipment_good_good",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "equipment_good_b",
+                    "dataType": "Integer",
+                    "question": "equipment_good_bad",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "eqp_good_comments",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "not required"
+                    ]
+                },
+                {
+                    "label": "lighting_good",
+                    "dataType": "FreeText",
+                    "question": "Is the condition of the lighting in the area adequate to perform task safely and with quality?",
+                    "values": [
+                        "O"
+                    ]
+                },
+                {
+                    "label": "lighting_good_g",
+                    "dataType": "Integer",
+                    "question": "lighting_good_good",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "lighting_good_b",
+                    "dataType": "Integer",
+                    "question": "lighting_good_bad",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "lghtng_good_comments",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "not required"
+                    ]
+                },
+                {
+                    "label": "plan",
+                    "dataType": "FreeText",
+                    "question": "Are line conditions met as per plan with TMMC?",
+                    "values": [
+                        "O"
+                    ]
+                },
+                {
+                    "label": "plan_g",
+                    "dataType": "Integer",
+                    "question": "plan_good",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "plan_b",
+                    "dataType": "Integer",
+                    "question": "plan_bad",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "plan_comments",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "not required"
+                    ]
+                },
+                {
+                    "label": "energy",
+                    "dataType": "FreeText",
+                    "question": "Are energy sources (i.e. water, air pressure, etc.) available and adequate to perform task?",
+                    "values": [
+                        "O"
+                    ]
+                },
+                {
+                    "label": "energy_g",
+                    "dataType": "Integer",
+                    "question": "energy_good",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "energy_b",
+                    "dataType": "Integer",
+                    "question": "energy_bad",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "energy_comments",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "not required"
+                    ]
+                },
+                {
+                    "label": "temperature",
+                    "dataType": "FreeText",
+                    "question": "Is the temperature at a safe level in the area where the tasks are being performed?",
+                    "values": [
+                        "O"
+                    ]
+                },
+                {
+                    "label": "temperature_g",
+                    "dataType": "Integer",
+                    "question": "temperature_good",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "temperature_b",
+                    "dataType": "Integer",
+                    "question": "temperature_bad",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "temperature_comments",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "not required"
+                    ]
+                },
+                {
+                    "label": "ncssry_good_total",
+                    "dataType": "Integer",
+                    "question": "Good Condition Total",
+                    "values": [
+                        "8"
+                    ]
+                },
+                {
+                    "label": "ncssry_no_good_total",
+                    "dataType": "Integer",
+                    "question": "No Good Condition Total",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "necessary_percentage",
+                    "dataType": "Decimal",
+                    "question": "Necessary Conditions Percentage (%)",
+                    "values": [
+                        "100"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Summary",
+            "answers": [
+                {
+                    "label": "jkk_ratio",
+                    "dataType": "Decimal",
+                    "question": "JKK Ratio",
+                    "values": [
+                        "0.92"
+                    ]
+                },
+                {
+                    "label": "scheduled_time",
+                    "dataType": "Decimal",
+                    "question": "Scheduled Time to Complete this Task (hours)",
+                    "values": [
+                        "0.2"
+                    ]
+                },
+                {
+                    "label": "studied_time",
+                    "dataType": "Decimal",
+                    "question": "Studied Time to Complete this Task (hours)",
+                    "values": [
+                        "5"
+                    ]
+                },
+                {
+                    "label": "suggestions_notes",
+                    "dataType": "FreeText",
+                    "question": "Kaizen Suggestions/Notes",
+                    "values": []
+                }
+            ]
+        }
+    ]
+}

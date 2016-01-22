@@ -1,0 +1,57 @@
+require 'rails_helper'
+
+RSpec.describe Option, :type => :model do
+  it "has a valid factory" do
+    expect(FactoryGirl.build(:option)).to be_valid
+  end
+ 
+  
+  describe "group attribute" do
+    
+    
+    it "cannot be nil" do
+      expect(FactoryGirl.build(:option, group: nil)).to_not be_valid
+    end
+    
+    it "cannot be blank" do
+      expect(FactoryGirl.build(:option, group: "")).to_not be_valid
+    end
+    
+    it "body part a valid name" do
+      expect(FactoryGirl.build(:option, group:"body_part")).to be_valid
+    end
+    
+    it "body location a valid name" do
+      expect(FactoryGirl.build(:option, group:"body_location")).to be_valid
+    end
+    
+    
+    it "junk is not a valid name" do
+      expect(FactoryGirl.build(:option, group:"junk")).to_not be_valid
+    end
+  end
+  
+  describe "value attribute" do
+    it "cannot be nil" do
+      expect(FactoryGirl.build(:option, value: nil)).to_not be_valid
+    end
+    
+    it "cannot be blank" do
+      expect(FactoryGirl.build(:option, value: "")).to_not be_valid
+    end
+  end
+
+  describe "body_parts scope" do
+    let!(:body_part) { FactoryGirl.create(:option, group: "body_part") }
+    let!(:not_body_part) { FactoryGirl.create(:option,group: "body") }
+    it "includes Options of group 'body_part'" do 
+        expect(Option.body_parts).to eq([body_part]) 
+      end
+  end
+  describe "to_s" do
+    it "returns the value attribute" do
+      option = FactoryGirl.build(:option)
+      expect(option.to_s).to eq(option.value)
+    end
+  end
+end

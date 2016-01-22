@@ -1,0 +1,268 @@
+require "rails_helper"
+require "tempfile"
+
+RSpec.describe IncidentMailer, :type => :mailer do
+  let(:author) { FactoryGirl.create(:user) }
+  let(:incident_class) { "incident_class" }
+  let(:incident_type) { "incident_type" }
+  let(:body_part) { "body_part" }
+  let(:supervisor) { "supervisor_name" }
+  let(:investigation_datetime) { DateTime.new(2015, 11, 1, 22, 17, 12) }
+  let(:incident_datetime) { DateTime.new(2015, 10, 31, 20, 15, 10) }
+  let(:site) { FactoryGirl.create(:site, name: "site_name", time_zone: "Eastern Time (US & Canada)") }
+  let(:building) { FactoryGirl.create(:building, name: "building_name", site: site) }
+  let(:column) { "column_id" }
+  let(:job) { "job_name" }
+  let(:employee) { "employee_name" }
+  let(:report_datetime) { DateTime.new(2015, 10, 31, 21, 16, 11) }
+  let(:closed_date) { DateTime.new(2015, 11, 3, 14, 25) }
+  let(:safety_rep) { FactoryGirl.build(:safety_coordinator, first_name: 'Bruce', last_name: 'Banner') }
+  let(:description) { "descrition_text" }
+  let(:incident) { FactoryGirl.build(:incident,
+      id: 1,
+      author: author,
+      incident_class: incident_class,
+      incident_type: incident_type,
+      supervisor: supervisor,
+      investigation_time: investigation_datetime,
+      incident_time: incident_datetime,
+      building: building,
+      column: column,
+      job: job,
+      employee: employee,
+      report_time: report_datetime,
+      closed_date: closed_date,
+      safety_rep: safety_rep,
+      description: description,
+      body_part: body_part,
+      rejection_reason: "This is a mesage for test rejection_reason"
+    )
+  }
+  let(:group_notification_email_html) { File.read(File.join(Rails.root, "spec", "support", "fixtures", "mailers", "incident_mailer", "group_notification_email.html")) }
+  let(:group_notification_email_txt) { File.read(File.join(Rails.root, "spec", "support", "fixtures", "mailers", "incident_mailer", "group_notification_email.txt")) }
+  let(:notification_safety_rep_incident_ready_html) { File.read(File.join(Rails.root, "spec", "support", "fixtures", "mailers", "incident_mailer", "notification_safety_rep_incident_ready.html")) }
+  let(:notification_safety_rep_incident_ready_txt) { File.read(File.join(Rails.root, "spec", "support", "fixtures", "mailers", "incident_mailer", "notification_safety_rep_incident_ready.txt")) }
+  let(:notification_author_incident_not_ready_html) { File.read(File.join(Rails.root, "spec", "support", "fixtures", "mailers", "incident_mailer", "notification_author_incident_not_ready.html")) }
+  let(:notification_author_incident_not_ready_txt) { File.read(File.join(Rails.root, "spec", "support", "fixtures", "mailers", "incident_mailer", "notification_author_incident_not_ready.txt")) }
+  let(:notification_safety_reps_incident_closed_html) { File.read(File.join(Rails.root, "spec", "support", "fixtures", "mailers", "incident_mailer", "notification_safety_reps_incident_closed.html")) }
+  let(:notification_safety_reps_incident_closed_txt) { File.read(File.join(Rails.root, "spec", "support", "fixtures", "mailers", "incident_mailer", "notification_safety_reps_incident_closed.txt")) }
+  let(:notification_investigation_complete_html) { File.read(File.join(Rails.root, "spec", "support", "fixtures", "mailers", "incident_mailer", "notification_investigation_complete.html")) }
+  let(:notification_investigation_complete_txt) { File.read(File.join(Rails.root, "spec", "support", "fixtures", "mailers", "incident_mailer", "notification_investigation_complete.txt")) }
+  let!(:safety_director1) { FactoryGirl.create(:user, role: 3) }
+  let!(:safety_director2) { FactoryGirl.create(:user, role: 3) }
+  
+  
+  describe "group_notification_email" do
+    subject { IncidentMailer.group_notification_email(incident).deliver }
+    
+    it "sends an email" do
+      subject
+      expect(ActionMailer::Base.deliveries).to_not be_empty
+    end
+    
+    it "has the expected 'from'" do
+      expect(subject.from).to eq(['no-reply@robinsonsolutions.com'])
+    end
+    
+    it "has the expected 'to'" do
+      expect(subject.to).to eq([building.email])
+    end
+    
+    it "has the expected 'subject'" do
+      expect(subject.subject).to eq("#{incident_class.to_s} Incident Investigation - #{building.to_s}")
+    end
+    
+    it "has the expected 'reply-to'" do
+      expect(subject.reply_to).to eq([author.email])
+    end
+    
+    it "should have an html part" do
+      html = subject.body.parts.find {|p| p.content_type.match(/text\/html/)}.body.raw_source
+      expect(html).to_not be_nil
+      expect(html).to eq(group_notification_email_html)
+    end
+    
+    it "should have a text part" do
+      text = subject.body.parts.find {|p| p.content_type.match(/text\/plain/)}.body.raw_source
+      expect(text).to_not be_nil
+      expect(text).to eq(group_notification_email_txt)
+    end
+  end
+  
+  describe "notification_safety_rep_incident_ready" do
+    subject { IncidentMailer.notification_safety_rep_incident_ready(incident).deliver() }
+    
+    it "sends an email" do
+      subject
+      expect(ActionMailer::Base.deliveries).to_not be_empty
+    end
+
+    it "has the expected 'from'" do
+      expect(subject.from).to eq(['no-reply@robinsonsolutions.com'])
+    end
+    
+    it "has the expected 'to'" do
+      expect(subject.to).to eq([incident.safety_rep.email])
+    end
+    
+    it "has the expected 'subject'" do
+      expect(subject.subject).to eq("Investigation on Incident ##{incident.id} (#{incident.incident_class.to_s}) has been completed")
+    end
+    
+    it "has the expected 'reply-to'" do
+      expect(subject.reply_to).to eq([author.email])
+    end
+    
+    it "should have an html part" do
+      html = subject.body.parts.find {|p| p.content_type.match(/text\/html/)}.body.raw_source
+      expect(html).to_not be_nil
+      expect(html).to eq(notification_safety_rep_incident_ready_html)
+    end
+    
+    it "should have a text part" do
+      text = subject.body.parts.find {|p| p.content_type.match(/text\/plain/)}.body.raw_source
+      expect(text).to_not be_nil
+      expect(text).to eq(notification_safety_rep_incident_ready_txt)
+    end
+  end
+  
+  describe "notification_author_incident_not_ready" do
+    subject { IncidentMailer.notification_author_incident_not_ready(incident).deliver }
+    
+    it "sends an email" do
+      subject
+      expect(ActionMailer::Base.deliveries).to_not be_empty
+    end
+    
+    it "has the expected 'from'" do
+      expect(subject.from).to eq(['no-reply@robinsonsolutions.com'])
+    end
+    
+    it "has the expected 'to'" do
+      expect(subject.to).to eq([author.email])
+    end
+    
+    it "has the expected 'subject'" do
+      expect(subject.subject).to eq("Investigation on Incident ##{incident.id} (#{incident.incident_class}) has been reverted")
+    end
+    
+    it "has the expected 'reply-to'" do
+      expect(subject.reply_to).to eq([incident.safety_rep.email])
+    end
+    
+    it "should have an html part" do
+      html = subject.body.parts.find {|p| p.content_type.match(/text\/html/)}.body.raw_source
+      expect(html).to_not be_nil
+      expect(html).to eq(notification_author_incident_not_ready_html)
+    end
+    
+    it "should have a text part" do
+      text = subject.body.parts.find {|p| p.content_type.match(/text\/plain/)}.body.raw_source
+      expect(text).to_not be_nil
+      expect(text).to eq(notification_author_incident_not_ready_txt)
+    end
+  end
+  
+  describe "notification_safety_reps_incident_closed" do
+    let(:safety_directors) { [ safety_director1, safety_director2 ] }
+    
+    subject { IncidentMailer.notification_safety_reps_incident_closed(incident).deliver }
+    
+    it "sends one email to all the safety directors" do
+      expect(safety_directors.size).to eq(2)
+      subject
+      expect(ActionMailer::Base.deliveries.count).to eq(1)
+      expect(ActionMailer::Base.deliveries.first.to).to eq(safety_directors.map(&:email))  
+    end
+    
+    it "has the expected 'subject'" do
+      subject
+      expect(ActionMailer::Base.deliveries.first.subject).to eq("Incident ##{incident.id} (#{incident.incident_class}) has been marked as closed")
+    end
+    
+    it "has the expected 'reply-to'" do
+      subject
+      expect(ActionMailer::Base.deliveries.first.reply_to).to eq([incident.safety_rep.email])
+    end
+    
+    it "should have an html part" do
+      subject
+      #puts ActionMailer::Base.deliveries
+      html = ActionMailer::Base.deliveries.first.parts.find {|p| p.content_type.match(/text\/html/)}.body.raw_source
+      expect(html).to_not be_nil
+      expect(html).to eq(notification_safety_reps_incident_closed_html)
+    end
+    
+    it "should have a text part" do
+      subject
+      text = ActionMailer::Base.deliveries.first.parts.find {|p| p.content_type.match(/text\/plain/)}.body.raw_source
+      expect(text).to_not be_nil
+      expect(text).to eq(notification_safety_reps_incident_closed_txt)
+    end
+  end
+  
+  describe "notification_investigation_complete" do
+    subject { IncidentMailer.notification_investigation_complete(incident).deliver }
+    let(:site) { FactoryGirl.build_stubbed(:site, name: "Site") }
+    let(:building) { FactoryGirl.build_stubbed(:building, site: site) }
+    let(:incident) { FactoryGirl.build_stubbed(:incident_full, building: building) }
+    let(:id) { 123 }
+    
+    before(:each) {
+      @incident = incident
+      allow(incident).to receive(:id).and_return(id)
+      allow(incident).to receive(:site).and_return(incident.building.site)
+    }
+    
+    it "sends an email" do
+      subject
+      expect(ActionMailer::Base.deliveries).to_not be_empty
+    end
+    
+    it "has the expected 'from'" do
+      expect(subject.from).to eq(['no-reply@robinsonsolutions.com'])
+    end
+    
+    it "has the expected 'to'" do
+      expect(subject.to).to eq([incident.building.email])
+    end
+    
+    it "has the expected 'subject'" do
+      expect(subject.subject).to eq("#{@incident.incident_class} Incident Investigation - #{@incident.building.name} - COMPLETE")
+    end
+    
+    it "has the expected 'reply-to'" do
+      expect(subject.reply_to).to eq([incident.author.email])
+    end
+    
+    it "should have an html part" do
+      html = subject.body.parts.find {|p| p.content_type.match(/text\/html/)}.body.raw_source
+      expect(html).to_not be_nil
+      expect(html).to eq(notification_investigation_complete_html)
+    end
+    
+    it "should have a text part" do
+      text = subject.body.parts.find {|p| p.content_type.match(/text\/plain/)}.body.raw_source
+      expect(text).to_not be_nil
+      expect(text).to eq(notification_investigation_complete_txt)
+    end
+  end
+  
+  describe "notification_author_change" do
+    subject { IncidentMailer.notification_author_change(incident, 3).deliver }
+
+    let(:incident) { FactoryGirl.build_stubbed(:incident_full) }
+    let(:id) { 73 }
+    let(:title){ "liaaefasdf" }
+    before(:each) do
+      @incident = incident
+      allow(incident).to receive(:id).and_return(id)
+      allow(incident).to receive(:title).and_return("wafsda")
+    end
+    
+    it "sends an email" do
+      subject
+      expect(ActionMailer::Base.deliveries).to_not be_empty
+    end
+  end
+end

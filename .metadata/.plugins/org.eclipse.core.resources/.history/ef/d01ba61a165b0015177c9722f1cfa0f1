@@ -1,0 +1,41 @@
+class ReplacePhotosAttributesFromIncidentsToAttachments < ActiveRecord::Migration
+ AttachmentColumns = [["file_name", :string], ["content_type", :string], ["file_size", :integer]]
+  # make sure this matches your setup, also have a look in the rename and remove methods
+  AttachmentPath = Rails.root.join("public", "system")
+
+  def self.rename_attachment(table, old, new)
+    AttachmentColumns.each do |suffix, type|
+      rename_column table, "#{old}_#{suffix}", "#{new}_#{suffix}"
+    end
+    begin
+      File.rename AttachmentPath.join(table.to_s, old.to_s.pluralize), AttachmentPath.join(table.to_s, new.to_s.pluralize)
+    rescue SystemCallError
+    end
+  end
+
+  def self.remove_attachment(table, name)
+    AttachmentColumns.each do |suffix, type|
+      remove_column table, "#{name}_#{suffix}"
+    end
+    FileUtils.rm_r AttachmentPath.join(table.to_s, name.to_s.pluralize), :force => true, :secure => true
+  end
+  
+  def self.add_attachment(table, name)
+    AttachmentColumns.each do |suffix, type|
+      add_column table, "#{name}_#{suffix}", type
+    end
+  end
+  
+  # example up/down methods
+  def self.up
+    rename_attachment :users, :avatar_image, :profile_image
+    remove_attachment :users, :a_image
+    add_attachment :users, :b_image
+  end
+
+  def self.down
+    rename_attachment :users, :profile_image, :avatar_image
+    add_attachment :users, :a_image
+    remove_attachment :users, :b_image
+  end
+end

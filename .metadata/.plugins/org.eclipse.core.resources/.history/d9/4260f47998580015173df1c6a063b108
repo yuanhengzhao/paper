@@ -1,0 +1,27 @@
+<% title "Unrecognized Submissions" %>
+
+<div class="command-list">
+	<ul>
+		<li>Command:</li>
+		<li><a class="parse-all-button">Parse All</a></li>
+	</ul>
+</div>
+
+<table id="unrecognized_submissions_datatable" class="display<%= (can?(:manage, Forms::UnrecognizedSubmission) ? ' admin' : '') %>">
+		<thead>
+		<tr>
+			<th>ID</th>
+			<th>Source</th>
+			<th>Created</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<th>ID</th>
+			<th>Source</th>
+			<th>Created</th>
+			<th>Actions</th>
+		</tr>
+	</tfoot>
+</table>

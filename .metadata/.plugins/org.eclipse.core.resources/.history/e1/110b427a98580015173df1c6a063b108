@@ -1,0 +1,178 @@
+require_relative '../../spec_helper'
+
+describe ProntoForms::SocHourlyProductionReportParser do
+
+  let(:missing_image) { "/assets/missing.jpg" }
+
+  describe "max_version" do
+    subject { ProntoForms::SocHourlyProductionReportParser.new }
+    it "should not throw an error" do
+      lambda { subject.max_version }.should_not raise_error
+    end
+
+    it "should be equal or greater than version 2" do
+      expect(subject.max_version).to be >= 2
+    end
+  end
+
+  describe "parse" do
+
+  # call the parse method on a parameter defined in the sub-describes
+    subject { ProntoForms::SocHourlyProductionReportParser.new.parse(form_hash) }
+
+    # ensure that form_hash has been properly set for the specs
+    before(:each) do
+      form_hash.should_not be_nil
+    end
+
+    describe "for a hash missing pages" do
+
+      let(:form_hash) {
+        f = Rails.root.join('spec', 'resources', 'forms', 'soc_hourly_production_report', 'v2', 'missing_pages.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+
+      it "should throw a parser error" do
+        lambda { subject }.should raise_error(ParserException, "Could not find expected answer [page: 0][answer: 19]")
+      end
+
+    end
+
+    describe "for a valid hash" do
+
+      let(:form_hash) {
+        f = Rails.root.join('spec', 'resources', 'forms', 'soc_hourly_production_report', 'v2', 'valid.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+
+      let(:expected) {
+        o = Forms::SocHourlyProductionReport.new
+
+        o.reference_number = "20140826142113-1814977698"
+        o.server_receive_date = "2014-08-26T10:21:14-04:00"
+        o.device_submit_date = "2014-08-26T10:21:12-04:00"
+        o.username = "nshakoori@robinsonsolutions.com"
+        o.version = "2"
+        o.altitude = 124.049965
+        o.latitude = 43.65225771318907
+        o.longitude = -79.38201282021774
+        o.source = "prontoforms"
+
+        o.crew = "A Crew"
+        o.supervisor = "Wayne Wyatt"
+        o.supervisor_name = nil
+        o.date = "2014-08-26"
+        o.reported_time = "11"
+        o.ampm = "PM"
+
+        o.press_1_cct = "29"
+        o.press_1_curing_cycle = "1"
+        o.press_1_blanks = "1"
+        o.press_1_treads = "6"
+        o.press_1_2p = nil
+        o.press_1_downtime = nil
+        o.press_1_efficiency = "0.01964285714285714285714285714285714285"
+
+        o.press_2_cct = "20"
+        o.press_2_curing_cycle = "1"
+        o.press_2_blanks = "1"
+        o.press_2_treads = "6"
+        o.press_2_2p = nil
+        o.press_2_downtime = nil
+        o.press_2_efficiency = "0.00625"
+
+        o.press_3_cct = "14"
+        o.press_3_curing_cycle = "1"
+        o.press_3_blanks = "1"
+        o.press_3_treads = "15"
+        o.press_3_2p = nil
+        o.press_3_downtime = nil
+        o.press_3_efficiency = "0.01171875"
+
+        o.press_4_cct = "14"
+        o.press_4_curing_cycle = "14"
+        o.press_4_blanks = "1"
+        o.press_4_treads = "223"
+        o.press_4_2p = nil
+        o.press_4_downtime = nil
+        o.press_4_efficiency = "0.17421875"
+
+        o.total_treads = "250"
+        o.total_blanks = "4"
+        o.projected_total = "113.39583333333333333333333333333333333"
+        o.overall_efficiency = "0.07609297177642501383508577753182069728"
+        o.comments = "Comments"
+
+        return o
+      }
+
+      it "should return a Forms::SocHourlyProductionReport object" do
+        subject.should be_a_kind_of(Forms::SocHourlyProductionReport)
+      end
+
+      it "should be valid" do
+        expect(subject).to  be_valid
+        expect(expected).to be_valid
+      end
+
+      describe "should match expected" do
+
+        before(:each) do
+          subject.save
+          subject.reload
+        end
+
+        it "should have the same base form values" do
+          expect(subject).to have_same_base_form_attributes_as(expected)
+        end
+
+        its("crew") { should eq(expected.crew) }
+        its("supervisor") { should eq(expected.supervisor) }
+        its("supervisor_name") { should eq(expected.supervisor_name) }
+        its("date") { should eq(expected.date) }
+        its("reported_time") { should eq(expected.reported_time) }
+        its("ampm") { should eq(expected.ampm) }
+
+        its("press_1_cct") { should eq(expected.press_1_cct) }
+        its("press_1_curing_cycle") { should eq(expected.press_1_curing_cycle) }
+        its("press_1_blanks") { should eq(expected.press_1_blanks) }
+        its("press_1_treads") { should eq(expected.press_1_treads) }
+        its("press_1_2p") { should eq(expected.press_1_2p) }
+        its("press_1_downtime") { should eq(expected.press_1_downtime) }
+        its("press_1_efficiency") { should be_within(0.01).of(expected.press_1_efficiency) }
+
+        its("press_2_cct") { should eq(expected.press_2_cct) }
+        its("press_2_curing_cycle") { should eq(expected.press_2_curing_cycle) }
+        its("press_2_blanks") { should eq(expected.press_2_blanks) }
+        its("press_2_treads") { should eq(expected.press_2_treads) }
+        its("press_2_2p") { should eq(expected.press_2_2p) }
+        its("press_2_downtime") { should eq(expected.press_2_downtime) }
+        its("press_2_efficiency") { should be_within(0.01).of(expected.press_2_efficiency) }
+
+        its("press_3_cct") { should eq(expected.press_3_cct) }
+        its("press_3_curing_cycle") { should eq(expected.press_3_curing_cycle) }
+        its("press_3_blanks") { should eq(expected.press_3_blanks) }
+        its("press_3_treads") { should eq(expected.press_3_treads) }
+        its("press_3_2p") { should eq(expected.press_3_2p) }
+        its("press_3_downtime") { should eq(expected.press_3_downtime) }
+        its("press_3_efficiency") { should be_within(0.01).of(expected.press_3_efficiency) }
+
+        its("press_4_cct") { should eq(expected.press_4_cct) }
+        its("press_4_curing_cycle") { should eq(expected.press_4_curing_cycle) }
+        its("press_4_blanks") { should eq(expected.press_4_blanks) }
+        its("press_4_treads") { should eq(expected.press_4_treads) }
+        its("press_4_2p") { should eq(expected.press_4_2p) }
+        its("press_4_downtime") { should eq(expected.press_4_downtime) }
+        its("press_4_efficiency") { should be_within(0.01).of(expected.press_4_efficiency) }
+
+        its("total_treads"){ should eq(expected.total_treads) }
+        its("total_blanks"){ should eq(expected.total_blanks) }
+        its("projected_total"){ should be_within(0.01).of(expected.projected_total) }
+        its("overall_efficiency") { should be_within(0.01).of(expected.overall_efficiency) }
+        its("comments"){ should eq(expected.comments) }
+      end
+    end
+
+  end
+
+end

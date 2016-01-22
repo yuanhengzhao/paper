@@ -1,0 +1,528 @@
+<div class="form-group">
+	<%= f.label :worker_been_trained, t('incidents.employee_trained'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :worker_been_trained) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<label for="incident_date_last_trained" class="col-sm-3 control-label"><%= t('incidents.date_last_trained') %></label>
+	<div class="col-sm-9 col-md-7">
+		<div class="input-group date bootstrap-date-picker date_last_trained_field">
+			<input class="form-control" id="incident_date_last_trained" name="incident[date_last_trained]" type="text" value="<%= @incident.date_last_trained.nil? ? "" : @incident.date_last_trained.strftime("%Y/%m/%d") %>">
+			<span class="input-group-addon"><span class="glyphicon glyphicon-date glyphicon-calendar"></span></span>
+		</div>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :work_instruction_ref_num, t('incidents.work_instruction'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_field :work_instruction_ref_num, class: "form-control" %>
+		<span id="work_instruction_ref_num" class="help-block" ><%= f.label :work_instruction_help, t('incidents.work_instruction_help') %></span>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :reason_not_trained, t('incidents.reason_not_trained'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :reason_not_trained, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :was_not_trained_employee_involved,t('incidents.working_with_others'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :was_not_trained_employee_involved) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :not_trained_employee_names,  t('incidents.working_with'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :not_trained_employee_names, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :were_reporter_aware, t('incidents.aware_of_incident'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :were_reporter_aware) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :reason_why_not_aware, t('incidents.reason_not_aware'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :reason_why_not_aware, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :did_anyone_witness, t('incidents.witnesses_present'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :did_anyone_witness) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :witness_names,  t('incidents.witnesses'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :witness_names, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :was_reporter_involved, t('incidents.reported_by_employee'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :was_reporter_involved) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :involved_individual_names_who_reported, t('incidents.reported_by'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :involved_individual_names_who_reported, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :was_mbl_eqp_involved,  t('incidents.mobile_equipment.involved'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :was_mbl_eqp_involved) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :mobile_equipment, t('incidents.mobile_equipment.type'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.collection_select(:mobile_equipment, Option.mobile_equipments, :value, :value, { include_blank: 'Select...' }, { class: "form-control" }) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :other_mbl_eqp, "Other", class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_field :other_mbl_eqp, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :unit_identification_number, t('incidents.mobile_equipment.id_number'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :unit_identification_number, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :does_mbl_eqp_provider_have_license, t('incidents.mobile_equipment.valid_license'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :does_mbl_eqp_provider_have_license) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :reason_mbl_eqp_provider_no_license, t('incidents.mobile_equipment.why_not_valid'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :reason_mbl_eqp_provider_no_license, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :num_months_mbl_opt_exp, t('incidents.mobile_equipment.experience'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_field :num_months_mbl_opt_exp, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<label for="incident_date_last_pm_eqp_performed" class="col-sm-3 control-label"><%= t('incidents.mobile_equipment.last_pm_date') %></label>
+	<div class="col-sm-9 col-md-7">
+		<div class="input-group date bootstrap-date-picker data_last_pm_eqp_performed_field">
+			<input class="form-control" id="incident_date_last_pm_eqp_performed" name="incident[date_last_pm_eqp_performed]" type="text" value="<%= @incident.date_last_pm_eqp_performed.nil? ? "" : @incident.date_last_pm_eqp_performed.strftime("%Y/%m/%d") %>">
+			<span class="input-group-addon"><span class="glyphicon glyphicon-date glyphicon-calendar"></span></span>
+		</div>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :was_pre_shift_inspec_completed, t('incidents.mobile_equipment.circle_check_done'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :was_pre_shift_inspec_completed) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :reason_pre_shift_inspec_not_completed, t('incidents.mobile_equipment.circle_check_not_done_reason'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :reason_pre_shift_inspec_not_completed, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :was_eqp_tls_involved, t('incidents.tools.involved'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :was_eqp_tls_involved) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :eqp_tls_involved,  t('incidents.tools.type'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_field :eqp_tls_involved, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :was_eqp_tls_used_properly, t('incidents.tools.used_properly'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :was_eqp_tls_used_properly) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :reason_eqp_tls_not_used_properly, t('incidents.tools.reason_used_improperly'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :reason_eqp_tls_not_used_properly, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :was_eqp_tls_inspec_before,  t('incidents.tools.inspected'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :was_eqp_tls_inspec_before) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :reason_eqp_tls_not_inspec_before, t('incidents.tools.reason_not_inspected'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :reason_eqp_tls_not_inspec_before, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :does_eqp_tls_require_doc_inspec, t('incidents.tools.documentation.required'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :does_eqp_tls_require_doc_inspec) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :was_eqp_tls_inspec_doc, t('incidents.tools.documentation.performed'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :was_eqp_tls_inspec_doc) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :reason_eqp_tls_inspec_not_doc, t('incidents.tools.documentation.reason_not_done'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :reason_eqp_tls_inspec_not_doc, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :is_any_ppe_required, t('incidents.ppe.is_required'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :is_any_ppe_required) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :ppes,  t('incidents.ppe.required'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= option_checkboxes(@incident, "ppes", "ppe") %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :other_ppe,  t('incidents.ppe.other'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_field :other_ppe, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :was_all_ppe_worn_properly, t('incidents.ppe.worn_properly'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :was_all_ppe_worn_properly) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :reason_ppe_not_worn_properly, t('incidents.ppe.reason_worn_improperly'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :reason_ppe_not_worn_properly, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :was_ppe_good_cond, t('incidents.ppe.good_condition'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :was_ppe_good_cond) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :reason_ppe_bad_cond, t('incidents.ppe.reason_bad_condition'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :reason_ppe_bad_cond, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :is_ppe_required_in_work_inst, t('incidents.ppe.in_work_instruction'),class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :is_ppe_required_in_work_inst) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :missing_ppe, t('incidents.ppe.missing_ppe'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :missing_ppe, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :was_chemical_involved, t('incidents.chemical.involved'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :was_chemical_involved) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :name_chemical,  t('incidents.chemical.name'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_field :name_chemical, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :was_chemical_used_properly,  t('incidents.chemical.used_properly'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :was_chemical_used_properly) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :reason_chemical_not_used_properly,  t('incidents.chemical.reason_used_improperly'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :reason_chemical_not_used_properly, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :environmental_factors, t('incidents.environmental.factors'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7" id="enviromental_factors_many_to_many">
+		<%= option_checkboxes(@incident, "environmental_factors", "environmental_factor") %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :other_env_factors,t('incidents.environmental.other'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :other_env_factors, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :explain_more_env_factors, t('incidents.environmental.explanation'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :explain_more_env_factors, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :additional_factors,  t('incidents.factors.contributed'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7" id="additional_factors_many_to_many">
+		<%= option_checkboxes(@incident, "additional_factors", "additional_factor") %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :other_add_factors, t('incidents.factors.other'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :other_add_factors, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :explain_more_add_factors, t('incidents.factors.explanation'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :explain_more_add_factors, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :description_investigation, t('incidents.investigation.description'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :description_investigation, class: "form-control" %>
+	</div>
+</div>
+
+<%= photo_collection(@incident, "investigation_photos", t('incidents.investigation.photos'), f) %>
+
+<div class="form-group">
+	<%= f.label :modified_duties_prescribed_after, t('incidents.modified_duties_prescribed.required'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :modified_duties_prescribed_after) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :modified_duties_prescriber, t('incidents.modified_duties_prescribed.by'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.collection_select(:modified_duties_prescriber, Option.modified_duties_prescribers, :value, :value, { include_blank: 'Select...' }, { class: "form-control" }) %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :other_modified_duties_prescriber,  t('incidents.modified_duties_prescribed.by_other'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_field :other_modified_duties_prescriber, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :days_modified_duties_prescribed, t('incidents.modified_duties_prescribed.days'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_field :days_modified_duties_prescribed, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :immediate_action, t('incidents.immediate_action'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :immediate_action, class: "form-control" %>
+	</div>
+</div>
+
+<div class="irreversible-countermeasure-list" data-label-corrective-action="<%= t('incidents.countermeasures.corrective_action') %>" data-label-corrective-action-date="<%= t('incidents.countermeasures.corrective_action_date') %>" data-label-corrective-action-responsible="<%= t('incidents.countermeasures.corrective_action_responsible') %>">
+	<% @incident.irreversible_countermeasures.each_with_index do |countermeasure, countermeasure_index| %>
+	<input type="hidden" class="irreversible-countermeasure-data" attr-id="<%= countermeasure.id %>" attr-desc="<%= countermeasure.corrective_action %>" attr-date="<%= countermeasure.corrective_action_date.nil? ? "" : countermeasure.corrective_action_date.strftime("%Y/%m/%d") %>" attr-responsible="<%= countermeasure.corrective_action_responsible %>" >
+	<% end %>
+</div>
+<div class="form-group">
+	<div class="col-sm-offset-3 col-sm-9 col-md-7">
+		<label class="btn btn-primary new-countermeasure" > Add Irreversible Countermeasure </label>
+	</div>
+</div>
+
+<div class="form-group">
+    <%= f.label :names_involved_in_investigation, t('incidents.investigators'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :names_involved_in_investigation, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+    <%= f.label :additional_comments, t('incidents.comments'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :additional_comments, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+    <%= f.label :has_customer_property_damaged, t('incidents.property_damage.customer_owned'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :has_customer_property_damaged) %>
+	</div>
+</div>
+
+<div class="form-group">
+    <%= f.label :type_of_damage, t('incidents.property_damage.explain'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :type_of_damage, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+    <%= f.label :customers_contacted, t('incidents.property_damage.customer_contacted'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :customers_contacted, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+    <%= f.label :has_employee_done_modified_work_form, t('incidents.modified_work.form_complete'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :has_employee_done_modified_work_form) %>
+	</div>
+</div>
+
+<div class="form-group">
+    <%= f.label :reason_employee_not_done_modified_work_form, t('incidents.modified_work.reason_form_incomplete'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :reason_employee_not_done_modified_work_form, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+    <%= f.label :modified_work_form_signed, t('incidents.modified_work.form_uploadable'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :modified_work_form_signed) %>
+	</div>
+</div>
+
+<%= photo_collection(@incident, "modified_work_documents", t('incidents.modified_work.form_upload'), f) %>
+
+<div class="form-group">
+	<%= f.label :why_modified_work_form_not_signed,  t('incidents.modified_work.reason_form_not_uploaded'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :why_modified_work_form_not_signed, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+    <%= f.label :has_employee_received_medical_attention, t('incidents.medical_attention.received'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :has_employee_received_medical_attention) %>
+	</div>
+</div>
+
+<div class="form-group">
+    <%= f.label :name_clinic_hospital, t('incidents.medical_attention.hospital'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_field :name_clinic_hospital, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+    <%= f.label :name_nurse_doctor, t('incidents.medical_attention.doctor'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_field :name_nurse_doctor, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+    <%= f.label :medical_treatment, t('incidents.medical_attention.treatment'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :medical_treatment, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+    <%= f.label :can_upload_medical_doc, t('incidents.medical_attention.form_uploadable'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= select_yes_no(@incident, :can_upload_medical_doc) %>
+	</div>
+</div>
+
+<%= photo_collection(@incident, "medical_documents", t('incidents.medical_attention.form_upload'), f) %>
+
+<div class="form-group">
+    <%= f.label :reason_not_upload_medical_doc, t('incidents.medical_attention.reason_form_not_uploaded'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.text_area :reason_not_upload_medical_doc, class: "form-control" %>
+	</div>
+</div>
+
+<div class="form-group">
+	<%= f.label :ready_to_submit_investigation, t('incidents.submit_to_coordinator'), class: "col-sm-3 control-label" %>
+	<div class="col-sm-9 col-md-7">
+		<%= f.check_box :ready_to_submit_investigation, class: "single-checkbox" %>
+	</div>
+</div>
+

@@ -1,0 +1,53 @@
+class ChangeImagesFieldsToImageInSnowAudit < ActiveRecord::Migration
+  def change
+    rename_column :forms_snow_audits, :images1_file_name, :image1_file_name
+    rename_column :forms_snow_audits, :images1_file_size, :image1_file_size
+    rename_column :forms_snow_audits, :images1_content_type, :image1_content_type
+    rename_column :forms_snow_audits, :images1_updated_at, :image1_updated_at 
+    
+    rename_column :forms_snow_audits, :images2_file_name, :image2_file_name
+    rename_column :forms_snow_audits, :images2_file_size, :image2_file_size
+    rename_column :forms_snow_audits, :images2_content_type, :image2_content_type
+    rename_column :forms_snow_audits, :images2_updated_at, :image2_updated_at 
+   
+    rename_column :forms_snow_audits, :images3_file_name, :image3_file_name
+    rename_column :forms_snow_audits, :images3_file_size, :image3_file_size
+    rename_column :forms_snow_audits, :images3_content_type, :image3_content_type
+    rename_column :forms_snow_audits, :images3_updated_at, :image3_updated_at 
+    
+    rename_column :forms_snow_audits, :images4_file_name, :image4_file_name
+    rename_column :forms_snow_audits, :images4_file_size, :image4_file_size
+    rename_column :forms_snow_audits, :images4_content_type, :image4_content_type
+    rename_column :forms_snow_audits, :images4_updated_at, :image4_updated_at 
+    
+    rename_column :forms_snow_audits, :images5_file_name, :image5_file_name
+    rename_column :forms_snow_audits, :images5_file_size, :image5_file_size
+    rename_column :forms_snow_audits, :images5_content_type, :image5_content_type
+    rename_column :forms_snow_audits, :images5_updated_at, :image5_updated_at 
+    
+    rename_column :forms_snow_audits, :images6_file_name, :image6_file_name
+    rename_column :forms_snow_audits, :images6_file_size, :image6_file_size
+    rename_column :forms_snow_audits, :images6_content_type, :image6_content_type
+    rename_column :forms_snow_audits, :images6_updated_at, :image6_updated_at 
+    
+    rename_column :forms_snow_audits, :images7_file_name, :image7_file_name
+    rename_column :forms_snow_audits, :images7_file_size, :image7_file_size
+    rename_column :forms_snow_audits, :images7_content_type, :image7_content_type
+    rename_column :forms_snow_audits, :images7_updated_at, :image7_updated_at 
+   
+    rename_column :forms_snow_audits, :images8_file_name, :image8_file_name
+    rename_column :forms_snow_audits, :images8_file_size, :image8_file_size
+    rename_column :forms_snow_audits, :images8_content_type, :image8_content_type
+    rename_column :forms_snow_audits, :images8_updated_at, :image8_updated_at 
+    
+    rename_column :forms_snow_audits, :images9_file_name, :image9_file_name
+    rename_column :forms_snow_audits, :images9_file_size, :image9_file_size
+    rename_column :forms_snow_audits, :images9_content_type, :image9_content_type
+    rename_column :forms_snow_audits, :images9_updated_at, :image9_updated_at 
+    
+    rename_column :forms_snow_audits, :images10_file_name, :image10_file_name
+    rename_column :forms_snow_audits, :images10_file_size, :image10_file_size
+    rename_column :forms_snow_audits, :images10_content_type, :image10_content_type
+    rename_column :forms_snow_audits, :images10_updated_at, :image10_updated_at 
+  end
+end

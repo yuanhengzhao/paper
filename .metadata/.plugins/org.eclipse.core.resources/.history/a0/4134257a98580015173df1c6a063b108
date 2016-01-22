@@ -1,0 +1,15 @@
+FactoryGirl.define do
+  factory :paint_booth_process_checklist, class: Forms::PaintBoothProcessChecklist do
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions', 'fake.json'), 'text/plain') }
+    
+    factory :paint_booth_process_checklist_valid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'paint_booth_process_checklist', 'valid.json'), 'text/plain') }
+    end
+    
+    factory :paint_booth_process_checklist_invalid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'paint_booth_process_checklist', 'too_many_pictures.json'), 'text/plain') }
+    end
+  end
+end

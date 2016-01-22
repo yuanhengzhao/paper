@@ -1,0 +1,77 @@
+require_relative '../../spec_helper'
+
+describe Forms::PunchlistForm do
+  it "should be included in Forms.list" do
+    expect(Forms.list).to include described_class
+  end
+  
+  it "has a valid factory" do
+    expect(build(:punchlist_form)).to be_valid
+  end
+  
+  it_behaves_like "reparseable"
+  
+  describe "create_punchlist_history" do
+    it "should create a new punchlist history for each punchlist form" do
+      punchlist = create(:punchlist_form, {username: "user_a", status: "Open", responsible: "a", project_area: "area f", supplier_status: "Accepted", bmw_comment: "bmw comment"})
+      
+      punchlist_histories = FormExtensions::PunchlistFormHistory.all
+      
+      expect(punchlist_histories.length).to eq(1)
+      
+      expect(punchlist_histories[0].punchlist_form_id).to eq(punchlist.id)
+      expect(punchlist_histories[0].status).to eq(punchlist.status)
+      expect(punchlist_histories[0].responsible).to eq(punchlist.responsible)
+      expect(punchlist_histories[0].supplier_status).to eq(punchlist.supplier_status)
+      expect(punchlist_histories[0].bmw_comment).to eq(punchlist.bmw_comment)
+      expect(punchlist_histories[0].user_email).to eq(punchlist.username)
+      expect(punchlist_histories[0].comment).to eq('Origin')
+    end
+    
+  end
+  
+  describe "properties methods" do
+    before(:each) do
+      create(:punchlist_form, {username: "user_a", status: "Open",      responsible: "a", project_area: nil,      supplier_status: "Accepted"})
+      create(:punchlist_form, {username: "user_a", status: "Cancelled", responsible: "e", project_area: "area d", supplier_status: "Clarification"})
+      create(:punchlist_form, {username: "user_c", status: "Cancelled", responsible: "c", project_area: "area c", supplier_status: "Assigned"})
+      create(:punchlist_form, {username: "user_c", status: "Open",      responsible: "a", project_area: nil,      supplier_status: "Check"})
+      create(:punchlist_form, {username: "user_b", status: "Inactive",  responsible: nil, project_area: "area a", supplier_status: "Accepted"})
+      create(:punchlist_form, {username: "user_b", status: "Open",      responsible: nil, project_area: "area a", supplier_status: "Check"})
+      create(:punchlist_form, {username: "user_b", status: "Verified",  responsible: nil, project_area: "area a", supplier_status: "Check"})
+      create(:punchlist_form, {username: "user_b", status: "Rejected",  responsible: nil, project_area: "area a", supplier_status: "Check"})
+      create(:punchlist_form, {username: "user_b", status: "Rejected",  responsible: nil, project_area: "area a", supplier_status: "Check"})
+    end
+    
+    describe "distinct_usernames" do
+      it "should return the distinct usernames in alphabet order" do
+        expect(Forms::PunchlistForm.distinct_usernames).to eq(["user_a", "user_b", "user_c"])
+      end
+    end
+    
+    describe "distinct_statuses" do
+      it "should return the distinct statuses in alphabet order" do
+        expect(Forms::PunchlistForm.distinct_statuses).to eq(["Cancelled", "Inactive", "Open", "Rejected", "Verified"])
+      end
+    end
+    
+    describe "distinct_responsibles" do
+      it "should return the distinct responsibles in alphabet order" do
+        expect(Forms::PunchlistForm.distinct_responsibles).to eq([nil, "a", "c", "e"])
+      end
+    end
+    
+    describe "distinct_project_areas" do
+      it "should return the distinct project areas in alphabet order" do
+        expect(Forms::PunchlistForm.distinct_project_areas).to eq([nil, "area a", "area c", "area d"])
+      end
+    end
+    
+    describe "distinct_supplier_status" do
+      it "should return the distinct supplier status's" do
+        expect(Forms::PunchlistForm.distinct_supplier_status).to eq(["Accepted","Assigned","Check","Clarification"])
+      end
+    end
+    
+  end
+end

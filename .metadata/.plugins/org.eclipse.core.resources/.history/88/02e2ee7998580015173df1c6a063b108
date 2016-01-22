@@ -1,0 +1,48 @@
+<% title "Enps #{@enps.id}" %>
+
+<table class="form-table">
+	<tr>
+		<td>reference_number</td><td><%= @enps.reference_number %></td>
+	</tr>
+	<tr>
+		<td>server_receive_date</td><td><%= @enps.server_receive_date %></td>
+	</tr>
+	<tr>
+		<td>device_submit_date</td><td><%= @enps.device_submit_date %></td>
+	</tr>
+	<tr>
+		<td>username</td><td><%= @enps.username %></td>
+	</tr>
+	<tr>
+		<td>version</td><td><%= @enps.version %></td>
+	</tr>
+	<tr>
+		<td>altitude</td><td><%= @enps.altitude %></td>
+	</tr>
+	<tr>
+		<td>latitude</td><td><%= @enps.latitude %></td>
+	</tr>
+	<tr>
+		<td>longitude</td><td><%= @enps.longitude %></td>
+	</tr>
+	<tr>
+		<td>source</td><td><%= @enps.source %></td>
+	</tr>
+	<tr>
+		<td>part_number</td><td><%= @enps.qr_code %></td>
+	</tr>
+	<tr>
+		<td>manufacturer</td><td><%= @enps.site %></td>
+	</tr>
+	<tr>
+		<td>manufacturer_part</td><td><%= @enps.shop %></td>
+	</tr>
+	<tr>
+		<td>area_of_use1</td><td><%= @enps.question1 %></td>
+	</tr>
+	<tr>
+		<td>area_of_use2</td><td><%= @enps.question2 %></td>
+	</tr>
+
+<%= render :partial => 'forms/form_submission_section', :locals => { :submission_path => submission_forms_enps_path(@enps), :reparse_path => reparse_forms_enps_path(@enps) } %>
+</table>

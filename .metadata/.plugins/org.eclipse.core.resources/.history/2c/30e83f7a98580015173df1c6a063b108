@@ -1,0 +1,200 @@
+require_relative '../../spec_helper'
+
+describe ProntoForms::BoothEliminatorChecklistParser do
+
+  let(:missing_images) { "/assets/missing.jpg" }
+
+  it "should have a NAME constant with the expected value" do
+    ProntoForms::BoothEliminatorChecklistParser::NAME.should eq("Booth Eliminator Checklist")
+  end
+
+  describe "max_version" do
+    subject { ProntoForms::BoothEliminatorChecklistParser.new }
+    it "should not throw an error" do
+      lambda { subject.max_version }.should_not raise_error
+    end
+  end
+
+  describe "parse" do
+
+  # call the parse method on a parameter defined in the sub-describes
+    subject {ProntoForms::BoothEliminatorChecklistParser.new.parse(form_hash)}
+
+    # ensure that form_hash has been properly set for the specs
+    before(:each) do
+      form_hash.should_not be_nil
+    end
+
+    describe "for a hash missing pages" do
+
+      let(:form_hash) {
+        f = Rails.root.join('spec', 'resources', 'forms', 'booth_eliminator_checklist', 'missing_pages.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+
+      it "should throw a parser error" do
+        lambda { subject }.should raise_error(ParserException, "Could not find expected answer [page: 0][answer: 5]")
+      end
+
+    end
+
+    describe "for a hash with too many pictures" do
+
+      let(:form_hash) {
+        f = Rails.root.join('spec', 'resources', 'forms', 'booth_eliminator_checklist', 'too_many_pictures.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+
+      it "should throw a parser error" do
+        lambda { subject }.should raise_error(ParserException, "Too many images attached to form")
+      end
+
+    end
+
+    describe "for a valid hash" do
+
+      let(:form_hash) {
+        f = Rails.root.join('spec', 'resources', 'forms', 'booth_eliminator_checklist', 'valid.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+
+      let(:expected) {
+
+        o = Forms::BoothEliminatorChecklist.new
+
+        o.id =  nil
+        o.reference_number = "20140822155303-1814907203"
+        o.server_receive_date = "2014-08-22T15:53:09.000Z"
+        o.device_submit_date = "2014-08-22T15:52:52.000Z"
+        o.username = "mliao@robinsonsolutions.com"
+        o.version = "3"
+        o.altitude =  nil
+        o.latitude = 43.6521063
+        o.longitude = -79.3821105
+        o.source = "prontoforms"
+
+        o.client = "GM"
+        o.site = "Oshawa"
+        o.process = "Topcoat Base"
+        o.line = "A"
+        o.area = "Eliminator"
+        o.ceiling_and_walls_r1 = "Yellow"
+        o.venturi_throat_r1 = "Yellow"
+        o.mist_eliminator_r1 = "Red"
+        o.repairs_needed_r1 = "Yes"
+        o.comments_r1 = "gdhdjj "
+        o.photo_r1_file_name = "sketchpad_2014-08-22_11-51-52-955.jpg"
+        o.photo_r1_content_type = "image/jpeg"
+        o.photo_r1_file_size = 4621
+        o.photo_r1_updated_at = "2014-08-22T17:24:41.550Z"
+        o.ceiling_and_walls_r2 = "Yellow"
+        o.venturi_throat_r2 = "Red"
+        o.mist_eliminator_r2 = "Yellow"
+        o.repairs_needed_r2 = "No"
+        o.comments_r2 = "uhgh"
+        o.photo_r2_file_name = "sketchpad_2014-08-22_11-52-14-679.jpg"
+        o.photo_r2_content_type = "image/jpeg"
+        o.photo_r2_file_size = 4284
+        o.photo_r2_updated_at = "2014-08-22T17:24:41.609Z"
+        o.ceiling_and_walls_c1 = "Yellow"
+        o.venturi_throat_c1 = "Yellow"
+        o.mist_eliminator_c1 = "Red"
+        o.repairs_needed_c1 = "No"
+        o.comments_c1 = "vhj"
+        o.photo_c1_file_name = "sketchpad_2014-08-22_11-52-33-870.jpg"
+        o.photo_c1_content_type = "image/jpeg"
+        o.photo_c1_file_size = 3855
+        o.photo_c1_updated_at = "2014-08-22T17:24:41.729Z"
+        o.ceiling_and_walls_b1 = "Yellow"
+        o.venturi_throat_b1 = "Red"
+        o.mist_eliminator_b1 = "Yellow"
+        o.repairs_needed_b1 = "Yes"
+        o.comments_b1 = "yhkv"
+        o.photo_b1_file_name = "sketchpad_2014-08-22_11-52-48-648.jpg"
+        o.photo_b1_content_type = "image/jpeg"
+        o.photo_b1_file_size = 4350
+        o.photo_b1_updated_at = "2014-08-22T17:24:41.785Z"
+        o.overall_rate = 2
+        return o
+      }
+
+      it "should return a Forms::BoothEliminatorChecklist object" do
+        subject.should be_a_kind_of(Forms::BoothEliminatorChecklist)
+      end
+
+      it "should be valid" do
+        expect(subject).to  be_valid
+        expect(expected).to be_valid
+      end
+
+      describe "should match expected" do
+        
+        before(:each) do
+          subject.save
+          subject.reload
+        end
+        
+        it "should have the same base form values" do
+          expect(subject).to have_same_base_form_attributes_as(expected)
+        end
+
+        it "should have the same values" do
+          subject.client.should eq(expected.client)
+          subject.site.should eq(expected.site)
+          subject.process.should eq(expected.process)
+          subject.line.should eq(expected.line)
+          subject.area.should eq(expected.area)
+          subject.ceiling_and_walls_r1.should eq(expected.ceiling_and_walls_r1)
+          subject.venturi_throat_r1.should eq(expected.venturi_throat_r1)
+          subject.mist_eliminator_r1.should eq(expected.mist_eliminator_r1)
+          subject.repairs_needed_r1.should eq(expected.repairs_needed_r1)
+          subject.comments_r1.should eq(expected.comments_r1)
+
+          subject.photo_r1.should_not be_nil
+          subject.photo_r1.should_not eq(missing_images)
+          subject.photo_r1_content_type.should eq(expected.photo_r1_content_type)
+          subject.photo_r1_file_name.should eq(expected.photo_r1_file_name)
+          subject.photo_r1_file_size.should eq(expected.photo_r1_file_size)
+
+          subject.ceiling_and_walls_r2.should eq(expected.ceiling_and_walls_r2)
+          subject.venturi_throat_r2.should eq(expected.venturi_throat_r2)
+          subject.mist_eliminator_r2.should eq(expected.mist_eliminator_r2)
+          subject.repairs_needed_r2.should eq(expected.repairs_needed_r2)
+          subject.comments_r2.should eq(expected.comments_r2)
+
+          subject.photo_r2.should_not be_nil
+          subject.photo_r2.should_not eq(missing_images)
+          subject.photo_r2_content_type.should eq(expected.photo_r2_content_type)
+          subject.photo_r2_file_name.should eq(expected.photo_r2_file_name)
+          subject.photo_r2_file_size.should eq(expected.photo_r2_file_size)
+
+          subject.ceiling_and_walls_c1.should eq(expected.ceiling_and_walls_c1)
+          subject.venturi_throat_c1.should eq(expected.venturi_throat_c1)
+          subject.mist_eliminator_c1.should eq(expected.mist_eliminator_c1)
+          subject.repairs_needed_c1.should eq(expected.repairs_needed_c1)
+          subject.comments_c1.should eq(expected.comments_c1)
+
+          subject.photo_c1.should_not be_nil
+          subject.photo_c1.should_not eq(missing_images)
+          subject.photo_c1_content_type.should eq(expected.photo_c1_content_type)
+          subject.photo_c1_file_name.should eq(expected.photo_c1_file_name)
+          subject.photo_c1_file_size.should eq(expected.photo_c1_file_size)
+
+          subject.ceiling_and_walls_b1.should eq(expected.ceiling_and_walls_b1)
+          subject.venturi_throat_b1.should eq(expected.venturi_throat_b1)
+          subject.mist_eliminator_b1.should eq(expected.mist_eliminator_b1)
+          subject.repairs_needed_b1.should eq(expected.repairs_needed_b1)
+          subject.comments_b1.should eq(expected.comments_b1)
+
+          subject.photo_b1.should_not be_nil
+          subject.photo_b1.should_not eq(missing_images)
+          subject.photo_b1_content_type.should eq(expected.photo_b1_content_type)
+          subject.photo_b1_file_name.should eq(expected.photo_b1_file_name)
+          subject.photo_b1_file_size.should eq(expected.photo_b1_file_size)
+
+          subject.overall_rate.should eq(expected.overall_rate)
+        end
+      end
+    end
+  end
+end

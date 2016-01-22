@@ -1,0 +1,5 @@
+module FormExtensions
+  def self.table_name_prefix
+    'form_extensions_'
+  end
+end

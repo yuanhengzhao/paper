@@ -1,0 +1,26 @@
+class CreateFormsEnpsReports < ActiveRecord::Migration
+  def change
+    create_table :forms_enps_reports do |t|
+      t.string :reference_number
+      t.datetime :server_receive_date
+      t.datetime :device_submit_date
+      t.string :username
+      t.string :version
+      t.decimal :altitude, precision: 20, scale: 16
+      t.decimal :latitude, precision: 20, scale: 16
+      t.decimal :longitude, precision: 20, scale: 16
+      t.string :source
+      t.attachment :submission
+      
+      t.string  :qr_code
+      t.string  :site
+      t.string  :shop
+      t.integer :question1     
+      t.string  :question2
+      t.string  :employee
+      t.boolean :exclude
+      
+      t.timestamps null: true
+    end
+  end
+end

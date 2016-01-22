@@ -1,0 +1,103 @@
+require_relative '../../spec_helper'
+
+describe ProntoForms::RestroomChecklistParser do
+
+  let(:missing_image) { "/assets/missing.jpg" }
+
+  describe "max_version" do
+    subject { ProntoForms::RestroomChecklistParser.new }
+    it "should not throw an error" do
+      lambda { subject.max_version }.should_not raise_error
+    end
+
+    it "should be equal or greater than version 4" do
+      expect(subject.max_version).to be >= 4
+    end
+  end
+
+  describe "parse" do
+
+    # call the parse method on a parameter defined in the sub-describes
+    subject { ProntoForms::RestroomChecklistParser.new.parse(form_hash) }
+
+    # ensure that form_hash has been properly set for the specs
+    before(:each) do
+      form_hash.should_not be_nil
+    end
+
+    describe "for a valid hash" do
+
+      let!(:expected) { create(:restroom_checklist_v4) }
+      let!(:form_hash) { ActiveSupport::JSON.decode(Paperclip.io_adapters.for(expected.submission).read) }
+
+      subject { ProntoForms::RestroomChecklistParser.new.parse(form_hash) }
+
+      it "should return a Forms::RestroomChecklist object" do
+        subject.should be_a_kind_of(Forms::RestroomChecklist)
+      end
+
+      it "should be valid" do
+        expect(subject).to  be_valid
+        expect(expected).to be_valid
+      end
+
+      describe "should match expected" do
+
+        before(:each) do
+          subject.save
+          subject.reload
+        end
+
+        it "should have the same base form values" do
+          expect(subject).to have_same_base_form_attributes_as(expected)
+        end
+
+        its("client") { should eq(expected.client) }
+        its("site") { should eq(expected.site) }
+        its("shop") { should eq(expected.shop) }
+        its("location") { should eq(expected.location) }
+        its("floor") { should eq(expected.floor) }
+        its("type_mwu") { should eq(expected.type_mwu) }
+        its("reference") { should eq(expected.reference) }
+        its("plant_id") { should eq(expected.plant_id) }
+
+        its("fi") { should eq(expected.fi) }
+        its("cv") { should eq(expected.cv) }
+        its("wc") { should eq(expected.wc) }
+        its("pw") { should eq(expected.pw) }
+        its("disp") { should eq(expected.disp) }
+        its("floor_baseboard") { should eq(expected.floor_baseboard) }
+        its("mirror") { should eq(expected.mirror) }
+        its("sink") { should eq(expected.sink) }
+        its("locker") { should eq(expected.locker) }
+        its("light") { should eq(expected.light) }
+        its("ut") { should eq(expected.ut) }
+        its("fg") { should eq(expected.fg) }
+        its("sh") { should eq(expected.sh) }
+        its("sw") { should eq(expected.sw) }
+        its("safety") { should eq(expected.safety) }
+        its("eq") { should eq(expected.eq) }
+        its("fives") { should eq(expected.fives) }
+        its("checksheet") { should eq(expected.checksheet) }
+        its("overall_rate") { should eq(expected.overall_rate) }
+
+        its("are_repairs_required") { should eq(expected.are_repairs_required) }
+        its("list_repairs") { should eq(expected.list_repairs) }
+
+        its("comments") { should eq(expected.comments) }
+
+        its("photo1") { should_not be_nil }
+        its("photo1") { should_not eq(missing_image) }
+        its("photo1_content_type") { should eq(expected.photo1_content_type) }
+        its("photo1_file_name") { should eq(expected.photo1_file_name) }
+        its("photo1_file_size") { should eq(expected.photo1_file_size) }
+
+        its("photo2") { should_not be_nil }
+        its("photo2") { should_not eq(missing_image) }
+        its("photo2_content_type") { should eq(expected.photo2_content_type) }
+        its("photo2_file_name") { should eq(expected.photo2_file_name) }
+        its("photo2_file_size") { should eq(expected.photo2_file_size) }
+      end
+    end
+  end
+end

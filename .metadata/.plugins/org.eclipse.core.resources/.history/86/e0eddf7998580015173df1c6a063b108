@@ -1,0 +1,67 @@
+# Parser to for Jig Cleaning forms submitted from ProntoForms
+class ProntoForms::JigCleaningParser < AbstractFormParser
+ 
+  # name of the form according to ProntoForms
+  NAME = "Jig Cleaning"
+  
+  # Returns the highest version number this parser is capable of parsing.
+  #
+  # @return [numeric] highest version number this parser is capable of parsing
+  def max_version
+    1
+  end
+  
+  # Attempts to convert the hash provided into a database object.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @param model [Forms::JigCleaning] object to update, nil if a new object should be created
+  # @return [ActiveRecord] instance of the object
+  # @raise [ParserException] if the hash could not be parsed for whatever reason
+  def parse(form_hash, model = nil)
+    # create a new model object if one was not provided
+    model ||= Forms::JigCleaning.new
+    
+    # assign common values
+    ProntoForms::SourceParser.get_common_answer_values(form_hash, model)
+    
+    # page 1
+    model.machine                 = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 0)[0]
+    model.time_in                 = ProntoForms::SourceParser.get_answer_date_time(form_hash, 0, 1)
+    model.cycle                   = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 2)[0]
+    
+    # page 2
+    model.count_rear_door         = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 1)[0]
+    model.notes_rear_door         = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 2)[0]
+    
+    # page 3
+    model.count_front_door        = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 1)[0]
+    model.notes_front_door        = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 2)[0]
+    
+    # page 4
+    model.count_kickstand_left    = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 1)[0]
+    model.count_kickstand_right    = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 2)[0]
+    model.notes_kickstand         = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 3)[0]
+    
+    # page 5
+    model.count_hood_lifter       = ProntoForms::SourceParser.get_answer_values(form_hash, 4, 1)[0]
+    model.notes_hood_lifter       = ProntoForms::SourceParser.get_answer_values(form_hash, 4, 2)[0]
+    
+    # page 6
+    model.count_weld              = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 1)[0]
+    model.notes_weld              = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 2)[0]
+    
+    # page 7
+    model.count_luggage_hook      = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 1)[0]
+    model.notes_luggage_hook      = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 2)[0]
+    
+    # page 8
+    model.count_fuel_lid          = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 1)[0]
+    model.notes_fuel_lid          = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 2)[0]
+    
+    # page 9
+    model.extra_time              = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 0)[0]
+    model.time_out                = ProntoForms::SourceParser.get_answer_date_time(form_hash, 8, 1) 
+    
+    return model
+  end
+end

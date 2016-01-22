@@ -1,0 +1,183 @@
+  <div class="form-group">
+  	<%= f.label :building_id, t('incidents.building'), class: "col-sm-3 control-label" %>
+    <div class="col-sm-9 col-md-7">
+      <select class="form-control" id="incident_building_id" name="incident[building_id]">
+      	<option value="">Select...</option>
+      	<% Site.all.each do |s| %>
+  		<optgroup label="<%= s.name %>" data-country="<%= s.country %>">
+      	<% s.buildings.each do |b| %>
+      	<option value="<%= b.id %>" <%= 'selected' if b.id == @incident.building_id %>><%= b.name %></option>
+      	<% end %>
+  		</optgroup>
+      	<% end %>
+      </select>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :incident_class_id, t('incidents.incident_class'), class: "col-sm-3 control-label" %>
+    <div class="col-sm-9 col-md-7">
+      <%= f.collection_select(:incident_class_id, IncidentClass.all, :id, :name, { include_blank: 'Select...' }, { class: "form-control" }) %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :incident_category_id, t('incidents.incident_category'), class: "col-sm-3 control-label" %>
+    <div class="col-sm-9 col-md-7">
+      <%= f.collection_select(:incident_category_id, IncidentCategory.all, :id, :name, { include_blank: 'Select...' }, { class: "form-control" }) %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :incident_category_other, t('incidents.incident_category_other'), class: "col-sm-3 control-label" %>
+    <div class="col-sm-9 col-md-7">
+      <%= f.text_area :incident_category_other, class: "form-control" %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :incident_type_id, t('incidents.incident_type'), class: "col-sm-3 control-label" %>
+    <div class="col-sm-9 col-md-7">
+      <%= f.collection_select(:incident_type_id, IncidentType.all, :id, :name, { include_blank: 'Select...' }, { class: "form-control" }) %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :incident_type_other, t('incidents.incident_type_other'), class: "col-sm-3 control-label" %>
+    <div class="col-sm-9 col-md-7">
+      <%= f.text_field :incident_type_other, class: "form-control" %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :body_part_id, t('incidents.body_part'), class: "col-sm-3 control-label" %>
+    <div class="col-sm-9 col-md-7">
+      <%= f.collection_select(:body_part_id, BodyPart.all, :id, :name, { include_blank: 'Select...' }, { class: "form-control" }) %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :body_location_id, t('incidents.body_location'), class: "col-sm-3 control-label" %>
+    <div class="col-sm-9 col-md-7">
+      <%= f.collection_select(:body_location, Option.body_parts, :id, :value, { include_blank: 'Select...' }, { class: "form-control" }) %>
+    </div>
+  </div>
+
+  
+  <div class="form-group">
+    <%= f.label :column, t('incidents.column'), class: "col-sm-3 control-label" %>
+    <div class="col-sm-9 col-md-7">
+      <%= f.text_field :column, class: "form-control" %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :floor_id, t('incidents.floor'), class: "col-sm-3 control-label" %>
+    <div class="col-sm-9 col-md-7">
+      <%= f.collection_select(:floor_id, Floor.all, :id, :name, { include_blank: 'Select...' }, { class: "form-control" }) %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :supervisor,t('incidents.supervisor'), class: "col-sm-3 control-label" %>
+    <div class="col-sm-9 col-md-7">
+      <%= f.text_field :supervisor, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :employee_type_id, t('incidents.employee_type'), class: "col-sm-3 control-label" %>
+    <div class="col-sm-9 col-md-7">
+      <%= f.collection_select(:employee_type_id, EmployeeType.all, :id, :name, { include_blank: 'Select...' }, { class: "form-control" }) %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :employee, t('incidents.employee'), class: "col-sm-3 control-label" %>
+    <div class="col-sm-9 col-md-7">
+      <%= f.text_field :employee, class: "form-control" %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :job, t('incidents.job'), class: "col-sm-3 control-label" %>
+    <div class="col-sm-9 col-md-7">
+      <%= f.text_field :job, class: "form-control" %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.hidden_field :incident_time, value: local_site_time(@incident.site, @incident.incident_time, "%Y/%m/%d %H:%M") %>
+    <label for="incident_time-date-part" class="col-sm-3 control-label"><%= t('incidents.incident_time.date') %></label>
+    <div class="col-sm-9 col-md-7">
+      <div class="input-group date bootstrap-date-picker incident_time_field">
+        <input class="form-control" id="incident_time-date-part" type="text" value="<%= (@incident.incident_time.nil? ? "" : local_site_time(@incident.site, @incident.incident_time, "%Y/%m/%d")) %>">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-date"></span></span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label for="incident_time-time-part" class="col-sm-3 control-label"><%= t('incidents.incident_time.time') %></label>
+    <div class="col-sm-9 col-md-7">
+      <div class="input-group date bootstrap-time-picker incident_time_field">
+        <input class="form-control" id="incident_time-time-part" type="text" value="<%= (@incident.incident_time.nil? ? "" : local_site_time(@incident.site, @incident.incident_time, "%H:%M")) %>">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :safety_rep_id, t('incidents.safety_rep'), class: "col-sm-3 control-label" %>
+    <div class="col-sm-9 col-md-7">
+      <%= f.collection_select(:safety_rep_id, SafetyRep.all, :id, :name, { include_blank: 'Select...' }, { class: "form-control" }) %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.hidden_field :report_time, value: local_site_time(@incident.site, @incident.report_time, "%Y/%m/%d %H:%M")  %>
+    <label for="report_time-date-part" class="col-sm-3 control-label"><%= t('incidents.report_time.date') %></label>
+    <div class="col-sm-9 col-md-7">
+      <div class="input-group date bootstrap-date-picker report_time_field">
+        <input class="form-control" id="report_time-date-part" type="text" value="<%= (@incident.report_time.nil? ? "" : local_site_time(@incident.site, @incident.report_time, "%Y/%m/%d")) %>">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-date"></span></span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label for="report_time-time-part" class="col-sm-3 control-label"><%= t('incidents.report_time.time') %></label>
+    <div class="col-sm-9 col-md-7">
+      <div class="input-group date bootstrap-time-picker report_time_field">
+        <input class="form-control" id="report_time-time-part" type="text" value="<%= (@incident.report_time.nil? ? "" : local_site_time(@incident.site, @incident.report_time, "%H:%M")) %>">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :shift_start, t('incidents.shift_start'), class: "col-sm-3 control-label" %>
+    <div class="col-sm-9 col-md-7">
+      <div class="input-group date bootstrap-time-picker">
+        <%= f.text_field :shift_start, class: "form-control", value: @incident.shift_end.nil? ? "" : @incident.shift_start.strftime("%H:%M") %>
+        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :shift_end, t('incidents.shift_end'), class: "col-sm-3 control-label" %>
+    <div class="col-sm-9 col-md-7">
+      <div class="input-group date bootstrap-time-picker">
+        <%= f.text_field :shift_end, class: "form-control", value: @incident.shift_end.nil? ? "" : @incident.shift_end.strftime("%H:%M") %>
+        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :description, t('incidents.description'), class: "col-sm-3 control-label" %>
+    <div class="col-sm-9 col-md-7">
+      <%= f.text_area :description, class: "form-control" %>
+    </div>
+  </div>

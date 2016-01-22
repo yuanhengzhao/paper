@@ -1,0 +1,146 @@
+# Place all the behaviors and hooks related to the matching controller here.
+# All this logic will automatically be available in application.js.
+# You can use CoffeeScript in this file: http://coffeescript.org/
+jQuery ->
+  # datatable for users page
+  datatable = $("#users_datatable").DataTable
+    "processing": true
+    "serverSide": true
+    "ajax": "/security/users/datatable.json"
+    "columns": [
+      { "data": "email" },
+      { "data": "company" },
+      { "data": "last_sign_in_at", "render": (data, type, full) -> new Date(data)  },
+      { "data": "admin", "searchable": false, "orderable": false, "render": (data, type, full) -> '<span class="user-status-icon ' + (if full.admin then 'icon-tick' else 'icon-cross') + '"></span>' }, 
+      { "data": "authorized", "searchable": false, "orderable": false, "render": (data, type, full) -> '<span class="user-status-icon ' + (if full.authorized then 'icon-tick' else 'icon-cross') + '"></span>' }, 
+      { "data": "id", "searchable": false, "orderable": false, "render": (data, type, full) -> '<a href="/security/users/' + data + '/permissions">Permissions</a>' }
+    ]
+    "createdRow": (row, data, index) ->
+      $(row).attr("data-user-id", data.id)
+  
+  $('#new-user-button').on 'click', () ->
+    bootbox.dialog({title: 'New User', message: $('#new-user-modal').html() }).find("div.modal-dialog").addClass("new-user-modal");
+    $('.new-user-modal #create-new-user').on 'click', () -> 
+      $.ajax(
+        'url': '/security/users.json'
+        'type': 'POST'
+        'dataType': 'text'
+        'data': { email: $('.new-user-modal #new-user-email').val(), company: $('.new-user-modal #new-user-company').val() }
+        'success': (data, status, xhr) ->
+          bootbox.hideAll()
+          bootbox.alert('<h4>Success</h4><p>'+data+'</p>')
+          datatable.ajax.reload()
+        'error': (xhr, status, error) ->
+          bootbox.hideAll() 
+          bootbox.alert('<h4>Error</h4><p>'+xhr.responseText+'</p>')
+        )
+      true
+    true
+  
+  
+
+  # reference table object
+  edit_permissions_datatable_tag = $("#edit_permissions_datatable")
+  
+  # datatable for edit permissions resource page
+  edit_permissions_datatable = edit_permissions_datatable_tag.DataTable
+    "bInfo": false
+    "processing": true
+    "serverSide": false
+    "columns": [
+      { 'orderData': [0, 1] },
+      null,
+      { 'orderDataType': 'dom-permissions-buttonset' }
+    ]
+  
+  # click handlers for permission input buttons
+  $('#edit_permissions_datatable tbody').on 'click', 'button.btn-permission', () ->
+    container = $(this).closest('.edit_permission_form')
+    old_value = container.attr('data-action')
+    new_value = $(this).attr('data-value')
+    hash_data = { 'security_permission': { 'category': container.attr('data-category'), 'subject': container.attr('data-subject'), 'action': new_value } }
+    
+    #reset all the button and mark this button as selected (class primary)
+    $(this).closest('.btn-group').children("button").removeClass("btn-primary").addClass("btn-default")
+    $(this).addClass("btn-primary")
+    
+    $.ajax(
+      'url': 'permissions.json'
+      'type': 'POST'
+      'dataType': 'json'
+      'data': hash_data
+      'success': (data, status, xhr) ->
+        # update action attribute tag
+        container.attr('data-action', new_value)
+        # if an ALL permission
+        if container.attr('data-subject') == "ALL"
+          # reset specific permissions for the category to 'none'
+          buttons_except_from_all = 'button[data-name^="' + container.attr('data-category') + '::"][data-name!="' + container.attr('data-category') + '::ALL"]'
+          $(buttons_except_from_all).removeClass("btn-primary").addClass("btn-default")
+          $(buttons_except_from_all+'[data-value="none"]').removeClass("btn-default").addClass("btn-primary")
+          # redraw the table to filter out the specific permission rows
+          edit_permissions_datatable_tag.attr('data-show-'+container.attr('data-category').toLowerCase(), new_value == 'none')
+          edit_permissions_datatable.draw()
+      'error': (xhr, status, error) ->
+        if window.console
+          console.debug xhr, status, error
+        # could not create the permission -- alert user and reload the page
+        if error == "Unprocessable Entity"
+          msg = "Could not assign permission. Please try again."
+          bootbox.alert('<h4>Error</h4><p>' + msg + '</p>', () -> location.reload(); )
+    )
+  
+  # show/hide view elements based on user
+  toggle_elements = (user) ->
+    authorized_switch = $('#user_authorized')
+    authorized_switch_input = $('.switch-input', authorized_switch)
+    admin_switch = $('#user_admin')
+    admin_switch_input = $('.switch-input', admin_switch)
+    permissions_table_wrapper = $('#edit_permissions_datatable').closest('.dataTables_wrapper')
+    
+    # ensure checkboxes are consistent with user
+    authorized_switch_input.prop('checked', user.authorized)
+    admin_switch_input.prop('checked', user.admin)
+    
+    # authorized switch should be visible if user is authorized, and hidden otherwise
+    if user.authorized
+      admin_switch.show()
+    else
+      admin_switch.hide()
+    
+    # permissions table should be visible for authorized-non-admins, and hidden otherwise
+    if user.admin or !user.authorized
+      permissions_table_wrapper.hide()
+    else
+      permissions_table_wrapper.show()
+  
+  # switch containers
+  $(".user-permission-toggle input.switch-input").on 'change', () ->
+    field = $(this).closest(".user-permission-toggle").prop('id').substr(5)
+    value = $(this).is(":checked")
+    url = 'change_to_' + (if value then '' else 'non_') + field
+    bootbox.alert('<h4>Loading...</h4><div class="dialog-loading"></div>' )
+    $.ajax(
+      'url': url
+      'type': 'POST'
+      'dataType': 'json'
+      'success': (data, status, xhr) ->
+        if data.user == undefined
+          window.location.replace("/")
+          true
+        bootbox.hideAll()
+        toggle_elements(data.user)
+      'error': (xhr, status, error) ->
+        # extract the response text if JSON is returned, otherwise use generic message
+        msg = if /application\/json/.test(xhr.getResponseHeader('Content-Type')) then xhr.responseText else "Unexpected Error"
+        bootbox.alert('<h4>Error</h4><p>' + msg + '</p>', () -> location.reload(); )
+      )
+  
+  # 'select' datatable rows with "ALL" as the class
+  $('td:contains("ALL")').closest('tr').addClass('selected')
+  
+  # update display after all elements have been loaded
+  toggle_elements(
+    'authorized': $('#user_authorized .switch-input').prop('checked')
+    'admin': $('#user_admin .switch-input').prop('checked')
+  )

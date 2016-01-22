@@ -1,0 +1,53 @@
+<% title "Manage Restrooms" %>
+<table id="restrooms-table" class="display">
+	<thead>
+  		<tr>
+  			<th>Customer</th>
+  			<th>Site</th>
+  			<th>Shop</th>
+  			<th>Location</th>
+  			<th>Floor</th>
+  			<th>Type</th>
+  			<th>Reference</th>
+  			<th>Count</th>
+  			<th>Status</th>
+  		</tr>
+	</thead>
+	<tbody>
+		<% @restrooms.each do |row| %>
+		<tr data-restroom-code="<%= row[:code] %>">
+  			<td><%= row[:client] %></td>
+  			<td><%= row[:site] %></td>
+  			<td><%= row[:shop] %></td>
+  			<td><%= row[:location] %></td>
+  			<td><%= row[:floor] %></td>
+  			<td><%= row[:type_mwu] %></td>
+  			<td><%= row[:reference] %></td>
+  			<td><%= row[:count] %></td>
+  			<td class="switch-container">
+  				<label class="switch active-inactive">
+  					<input type="checkbox" class="switch-input"<%= (!row[:ignore] ? "checked=\"checked\"" : "") %>">
+  					<span class="switch-label" data-on="Active" data-off="Inactive"></span>
+  					<span class="switch-handle"></span>
+  				</label>
+  			</td>
+  		</tr>
+		<% end %>
+	</tbody>
+	<tfoot>
+  		<tr>
+  			<th>Customer</th>
+  			<th>Site</th>
+  			<th>Shop</th>
+  			<th>Location</th>
+  			<th>Floor</th>
+  			<th>Type</th>
+  			<th>Reference</th>
+  			<th>Count</th>
+  			<th>Status</th>
+  		</tr>
+   </tfoot>
+</table>
+<script>
+	//$("#restrooms-table").DataTable();
+</script>

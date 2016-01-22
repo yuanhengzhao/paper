@@ -1,0 +1,96 @@
+# Parser to for Jkk Audit forms submitted from ProntoForms
+class ProntoForms::JkkAuditParser < AbstractFormParser
+ 
+  # name of the form according to ProntoForms
+  NAME = "JKK Audit"
+  
+  # Returns the highest version number this parser is capable of parsing.
+  #
+  # @return [numeric] highest version number this parser is capable of parsing
+  def max_version
+    1
+  end
+  
+  # Attempts to convert the hash provided into a database object.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @param model [Forms::JkkAudit] object to update, nil if a new object should be created
+  # @return [ActiveRecord] instance of the object
+  # @raise [ParserException] if the hash could not be parsed for whatever reason
+  def parse(form_hash, model = nil)
+    # create a new model object if one was not provided
+    model ||= Forms::JkkAudit.new
+    
+    # assign common values
+    ProntoForms::SourceParser.get_common_answer_values(form_hash, model)
+    
+    # page 1
+    model.audit_time                          = ProntoForms::SourceParser.get_answer_date_time(form_hash, 0, 0)
+    model.site                                = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 1)[0]
+    model.shop                                = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 3)[0]
+    model.shift                               = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 6)[0]
+    model.job_name                            = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 7)[0]
+    model.job_number                          = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 8)[0]
+    model.location                            = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 12)[0]
+    model.frequency                           = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 13)[0]
+    model.form_identifier                     = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 15)[0]
+    
+    # page 2
+    model.hazards_identified                  = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 0)[0]
+    model.hazards_identified_comments         = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 3)[0]
+    model.hazards_aware                       = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 4)[0]
+    model.hazards_aware_comments              = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 7)[0]
+    model.ppe_specified                       = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 8)[0]
+    model.ppe_specified_comments              = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 11)[0]
+    model.ppe_properly                        = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 12)[0]
+    model.ppe_properly_comments               = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 15)[0]
+    model.lockout_identified                  = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 16)[0]
+    model.lockout_identified_comments         = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 19)[0]
+    model.lockout_performed                   = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 20)[0]
+    model.lockout_performed_comments          = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 23)[0]
+    model.trained                             = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 24)[0]
+    model.trained_comments                    = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 27)[0]
+    model.steps                               = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 28)[0]
+    model.steps_comments                      = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 31)[0]
+    model.sequential                          = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 32)[0]
+    model.sequential_comments                 = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 35)[0]
+    model.requirements                        = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 36)[0]
+    model.requirements_comments               = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 39)[0]
+    model.approved                            = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 40)[0]
+    model.approved_comments                   = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 43)[0]
+    model.five_s                              = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 44)[0]
+    model.five_s_comments                     = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 47)[0]
+    model.standardized_work_good_total        = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 48)[0]
+    model.standardized_work_no_good_total     = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 49)[0]
+    model.standardized_work_percentage        = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 50)[0]
+    
+    # page 3
+    model.equipment_present                   = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 0)[0]
+    model.equipment_present_comments          = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 3)[0]
+    model.equipment_adequate                  = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 4)[0]
+    model.equipment_adequate_comments         = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 7)[0]
+    model.equipment_safe                      = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 8)[0]
+    model.equipment_safe_comments             = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 11)[0]
+    model.equipment_good                      = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 12)[0]
+    model.equipment_good_comments             = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 15)[0]
+    model.lighting                            = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 16)[0]
+    model.lighting_comments                   = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 19)[0]
+    model.plan                                = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 20)[0]
+    model.plan_comments                       = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 23)[0]
+    model.energy                              = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 24)[0]
+    model.energy_comments                     = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 27)[0]
+    model.temperature                         = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 28)[0]
+    model.temperature_comments                = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 31)[0]
+    model.necessary_conditions_good_total     = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 32)[0]
+    model.necessary_conditions_no_good_total  = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 33)[0]
+    model.necessary_conditions_percentage     = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 34)[0]
+    
+    # page 4
+    model.jkk_ratio                           = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 0)[0]
+    model.time_scheduled_hours                = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 1)[0]
+    model.time_studied                        = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 2)[0]
+    model.notes                               = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 3)[0]
+    
+    return model
+  end
+end

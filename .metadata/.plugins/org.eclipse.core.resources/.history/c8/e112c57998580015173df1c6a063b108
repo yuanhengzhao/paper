@@ -1,0 +1,47 @@
+jQuery ->  
+  
+  # datatable for submissions page
+  datatable = $("#unrecognized_submissions_datatable").DataTable
+    "processing": true
+    "serverSide": true
+    "ajax": "/forms/unrecognized_submissions/datatable.json"
+    "columns": [
+      { "data": "id" }
+      { "data": "source" }
+      { "data": "created_at", "render": (data, type, full) -> new Date(data) }
+      { "data": "id", "searchable": false, "orderable": false, "render": ( data, type, full ) ->
+          action = '<a href="/forms/unrecognized_submissions/' + data + '" target="_blank">Show</a> '
+          if $('#unrecognized_submissions_datatable').hasClass("admin")
+            action += '<a class="parse" href="#" data-id="'+data+'"">Parse</a>'
+          action
+      }
+    ]
+  
+  parse = (id, row) ->
+    bootbox.dialog({title: 'Loading...', message: '<div class="dialog-loading"></div>'})
+    $.ajax '/forms/unrecognized_submissions/' + id + '/parse.json',
+      type: 'GET'
+      dataType: 'text'
+      error: (jqXHR, textStatus, errorThrown) ->
+        submission = JSON.parse(jqXHR.responseText);
+        bootbox.hideAll()
+        bootbox.alert('<h4>Parse failed :(</h4><p>'+submission.reason+'</p>')
+      success: (data, textStatus, jqXHR) ->
+        bootbox.hideAll()
+        bootbox.alert('<h4>Parse succeeded :)</h4><p>Parse completed</p>')
+        datatable.draw()
+        
+  $('.parse-all-button').on 'click', () ->
+    bootbox.dialog({title: 'Loading...', message: '<div class="dialog-loading"></div>'})
+    $.ajax '/forms/unrecognized_submissions/parse_all.json',
+      type: 'GET'
+      dataType: 'text'
+      success: (data, textStatus, jqXHR) ->
+        bootbox.hideAll()
+        bootbox.alert('<h4>Parse completed :)</h4>'+data+'</p>')
+        datatable.draw()
+
+  $('#unrecognized_submissions_datatable tbody').on 'click', 'a.parse', () -> 
+    parse($(this).attr("data-id"), $(this).parents('tr'))
+    false
+  

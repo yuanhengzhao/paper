@@ -1,0 +1,14 @@
+jQuery ->  
+  # datatable for submissions page
+  datatable = $("#cleaning_events_datatable").DataTable
+    "processing": true
+    "serverSide": true
+    "ajax": "/forms/cleaning_events/datatable.json"
+    "columns": [
+      { "data": "id" },
+      { "data": "username" },
+      { "data": "device_submit_date", "render": (data, type, full) -> new Date(data) }
+      { "data": "id", "searchable": false, "orderable": false, "render": ( data, type, full ) ->
+        '<a href="/forms/cleaning_events/' + data + '" target="_blank">Show</a>'
+      }
+    ]

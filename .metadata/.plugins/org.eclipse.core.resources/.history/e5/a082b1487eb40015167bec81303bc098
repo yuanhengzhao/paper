@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FormData: <%= yield(:title) || "Untitled" %></title>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag    "//fonts.googleapis.com/css?family=Ubuntu" %>
+  <%= stylesheet_link_tag    "https://cdn.datatables.net/1.10.0/css/jquery.dataTables.css" %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+  <%= favicon_link_tag 'favicon.ico' %>
+</head>
+<body class="splash">
+<nav role="navigation" class="navbar navbar-default navbar-fixed-top">
+	<div class="container">	
+		<div class="navbar-header">
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<%= link_to "#{image_tag('robinson-logo_small.png', class: 'img-responsive hidden-xs', alt: 'Robinson Logo', style: 'display:inline')}<div class=\"hidden-sm\">FormData</div>".html_safe, root_path, class: "navbar-brand" %>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse navbar-right">	
+			<ul class="nav navbar-nav">
+				<% unless user_signed_in? %>
+					<li data-no-turbolink><%= link_to "Home", root_url %></li>
+				<% else %>
+				<% if current_user.admin? or !current_user.permissions.forms.empty? %><li><%= link_to "Forms", forms_index_path %></li><% end %>
+					<% if current_user.admin? or !current_user.permissions.datasources.empty? %><li><%= link_to "DataSources", data_sources_index_path %></li><% end %>
+					<% if current_user.admin? %><li><%= link_to "Admin", admin_index_path %></li><% end %>
+					<li data-no-turbolink><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
+				<% end %>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+<div id="container">
+
+	
+<div id="main">
+<h1><%= yield(:title) || "Untitled" %></h1>
+
+<% if user_signed_in? %>
+<div id="breadcrumbs">
+	<%= render_breadcrumbs %>
+</div>
+<% end %>
+
+<div id="content">
+
+<% unless flash.nil? %>
+<%   flash.each do |k,v| %>
+<div class="flash <%= k %>">
+<%     if v.kind_of?(Array) %>
+<ul>
+<%       v.each do |i| %>
+<li><%= i %></li>
+<%      end %>
+</ul>
+<%     else %>
+<%= v %>
+<%     end %>
+</div>
+<%   end %>
+<% end %>
+
+<%= yield %>
+</div>
+</div>
+
+</body>
+</html>

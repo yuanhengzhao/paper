@@ -1,0 +1,38 @@
+# Net Promoter Score's model
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - form-provider-specific record id
+# - server_receive_date (date/time) - when the form provider received the form
+# - device_submit_date (date/time) - when the user clicked “Submit” on the form
+# - username (string) - email address of the form submitter
+# - version (string) - version of the form per the form provider
+# - altitude (decimal) - GPS location of the user when they submitted the form
+# - latitude (decimal) - GPS location of the user when they submitted the form
+# - longitude (decimal) - GPS location of the user when they submitted the form
+# - source_provider (string) - name of the form provider
+# - client (string) - “GM”, “Toyota”, etc.
+# - site (string) - site identifier
+# - shop (string) - shop identifier
+# - contact (string) - name of the individual asked
+# - title (string) - job title of the contact
+# - email (string) - email address of the individual asked
+# - nps (integer) - number 1 through 10
+# - suggestion (text) - description of one thing that can be improved, blank if nps > 7
+
+class Forms::NetPromoterScore < ActiveRecord::Base
+  include HasSubmission
+  include Reparseable
+  
+  def promoter?
+    self.nps > 8
+  end
+  
+  def passive?
+    self.nps <= 8 and self.nps > 6
+  end
+  
+  def detractor?
+    self.nps <= 6
+  end
+end

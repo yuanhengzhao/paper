@@ -1,0 +1,11 @@
+jQuery ->  
+  # datatable for submissions page
+  datatable = $("#data_sources_datatable").DataTable
+    "processing": true
+    "serverSide": true
+    "ajax": "/data_sources/datatable.json"
+    "columns": [
+      { "data": "name", "className": "column-name", "render": (data, type, full) -> '<a href="./' + full["url"] + '">' + full["name"] + '</a>' },
+      { "data": "count", "className": "column-count" },
+      { "data": "last_update", "className": "column-last-update", "render": (data, type, full) -> (if data == null then '' else new Date(data)) }
+    ]

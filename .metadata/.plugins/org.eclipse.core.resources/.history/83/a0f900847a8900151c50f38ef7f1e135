@@ -1,0 +1,773 @@
+jQuery ->
+  in_array = (val, arr)->
+    return $.inArray(val, arr) > -1
+    
+  incident_time_before_report_time = ((value, validator, field) ->
+    # assume result to be true
+    result = true
+    # ensure all date/time files are not blank -- assume no blanks
+    no_blanks = true
+    $('input', '.incident_time_field, .report_time_field').each( -> no_blanks &= !!$(this).val())
+    if no_blanks
+      # ensure incident date/time is on or before report date/time
+      d1 = new moment($('#incident_incident_time').val(), 'YYYY/MM/DD HH:mm')
+      d2 = new moment($('#incident_report_time').val(), 'YYYY/MM/DD HH:mm')
+      if d1.isValid() and d2.isValid()
+        result = d1.isSame(d2) or d1.isBefore(d2)
+    result
+  )
+  
+  date_is_greater_than_related_date = ((value, validator, field) ->
+    switch field.attr("name")
+      when "incident[modified_work_end]" then start_date = $("#incident_modified_work_start").val() 
+      when "incident[lost_days_end]" then start_date = $("#incident_lost_days_start").val()
+    end_date = value
+    if(end_date == "" or Date.parse(start_date) <= Date.parse(end_date))
+      return true
+      
+    return false 
+         
+  )
+  
+  report_submitted_time_date_should_present_at_same_time = ((value, validator, field) ->
+    # assume result to be true
+    result = true
+    time_val = $('#report_submitted_time-time-part').val()
+    date_val = $('#report_submitted_time-date-part').val()
+    if (time_val != '' and date_val == '') or (time_val == '' and date_val != '') 
+      result = false
+    result
+  )
+  
+  at_least_one_file = (field_prefix, start_index, end_index) ->
+    for i in [start_index..end_index]
+      field_name = field_prefix + i.toString()
+      if $('[name="incident['+field_name+']"]').val() or $('[name="incident['+field_name+']"]').is(":hidden")
+        return true
+    return false
+  
+  setup_revalidate_related_file_fields_on_change = (field_prefix, start_index, end_index) ->
+    for i in [start_index..end_index]
+      field_name = '[name="incident['+ field_prefix + i.toString() + ']"]'
+      $(field_name).on 'change', ()->
+        for j in [start_index..end_index]
+          if j != i
+            other_field_name = 'incident['+ field_prefix + j.toString() + ']'
+            $('form.incident-form').formValidation('revalidateField', other_field_name)
+
+  # helper function to validate group fields. Return true when all fields have values or all fields are blank
+  # group_fields: array of param names of the inputs. Ex: [ 'incident[corrective_action2]', 'incident[corrective_action_date2]', 'incident[corrective_action_responsible2]' ]
+  are_group_fields_valid = (group_fields) ->
+    length = group_fields.length
+    
+    all_not_blank = true
+    all_blank = true
+    
+    for index in [0..length-1]
+      value = $('[name="'+group_fields[index]+'"]').val()
+      all_not_blank = all_not_blank and !!value
+      all_blank = all_blank and !value
+    
+    return all_not_blank or all_blank
+  
+  # Initializer for group fields to make sure when a field in the group is changed, all the other fields get revalidated
+  # group_fields: array of param names of the inputs. Ex: [ 'incident[corrective_action2]', 'incident[corrective_action_date2]', 'incident[corrective_action_responsible2]' ]
+  setup_group_fields_on_change = (group_fields) ->
+    length = group_fields.length
+    
+    revalidate_others = (current) ->
+      for other in [0..length-1]
+        if group_fields[current] != group_fields[other]
+          $('form.incident-form').formValidation('revalidateField', group_fields[other])
+            
+    for current in [0..length-1]
+      field = $('[name="' + group_fields[current] + '"]')
+      
+      # Handle general events change and keyup
+      field.on 'change keyup', ()-> 
+        revalidate_others(current)
+      
+      # Handle datetime picker input change (by checking the input's parent has a bootstrap-date-picker class)
+      wrapper = field.parent()
+      if wrapper.hasClass('bootstrap-date-picker')
+        wrapper.on 'dp.change', ()->
+          revalidate_others(current)
+  
+  reduced_investigation = ()->
+    return $('[name="incident[building_id]"] option:selected').parent().data("reduced_investigation")
+  ready_to_submit = () ->
+    return $('[name="incident[ready_to_submit_investigation]"]').is(':checked') 
+  closed_date_blank = () ->
+    return !$('[name="incident[closed_date]"]').val() 
+        
+  #Incident Form validator
+  $('form.incident-form').formValidation
+    excluded: 
+      [
+        ($field, validator)->
+          # Only validate a field that is in a visible form-group
+          excluded = $field.length > 0 and $field.closest("div.form-group").css('display')  == 'none' 
+          
+          # Validate a field in the investigation tab only if checkbox of 'ready to submit' is checked so users could submit their drafts
+          # Validate a field in the follow up tab only if closed_date has value
+          # Validate a file input field in the investigation and follow up field only if it's visible  
+          excluded = excluded or ($('#investigation[role="tabpanel"]').has($field).length > 0 and !$('[name="incident[ready_to_submit_investigation]"]').is(':checked'))
+          excluded = excluded or ($('#follow_up[role="tabpanel"]').has($field).length > 0 and (!$('[name="incident[ready_to_submit_investigation]"]').is(':checked') or !$('[name="incident[closed_date]"]').val()))
+          #excluded = excluded or !$field.is("input[type='file']:not(:visible)")
+          
+          fields = ['incident[has_employee_done_modified_work_form]', 'incident[reason_employee_not_done_modified_work_form]', 'incident[modified_work_form_signed]',
+                    'incident[why_modified_work_form_not_signed]', 'incident[has_employee_received_medical_attention]', 'incident[name_clinic_hospital]',
+                    'incident[name_nurse_doctor]', 'incident[medical_treatment]', 'incident[can_upload_medical_doc]', 'incident[reason_not_upload_medical_doc]']
+          # validate the fields that are in the 'fields' array if 
+          # site.reduced_investigation is false AND ready_to_submit_investigation is true OR
+          # site.reduced_investigation is true AND closed_date is not blank
+          if(in_array($field.attr("name"), fields))
+            excluded = excluded or ( (reduced_investigation() or !ready_to_submit()) and (closed_date_blank() or !reduced_investigation()) )
+                               
+          if($field.is("input[type='file']:visible"))
+            excluded = false
+          
+          # Exclude counter measures from validation, when the incident is not work related
+          if($("[name='incident[incident_class]']").val() == "Non Work Related" and $field.attr("name").startsWith("incident[irreversible_countermeasures_attributes]")#and $field.is(".irreversible_countermeasure") )
+            console.log("THE CONDITION WORKS")
+            excluded = true
+            console.log("Excluded - '"+excluded+"'")
+            
+          return excluded
+      ]
+    feedbackIcons:
+      valid: 'glyphicon glyphicon-ok'
+      invalid: 'glyphicon glyphicon-remove'
+      validating: 'glyphicon glyphicon-refresh'
+    fields:
+      # Initial Tab
+      'incident[building_id]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[supervisor]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[employee]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[job]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[incident_time-date-part]':
+        selector: '#incident_time-date-part'
+        validators:
+          notEmpty:
+            message: 'required'
+          date:
+            format: 'YYYY/MM/DD'
+            message: 'invalid'
+          callback:
+            message: 'Date of Incident must be on or before Date Reported'
+            callback: incident_time_before_report_time
+      'incident[incident_time-time-part]':
+        selector: '#incident_time-time-part'
+        validators:
+          notEmpty:
+            message: 'required'
+          regexp:
+            regexp: /^([01]\d|2[0-3]):[0-5]\d$/
+            message: 'invalid'
+          callback:
+            message: 'Time Reported must be on or after Time of Incident'
+            callback: incident_time_before_report_time
+      'incident[safety_rep_id]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[report_time-date-part]':
+        selector: '#report_time-date-part'
+        validators:
+          notEmpty:
+            message: 'required'
+          date:
+            format: 'YYYY/MM/DD'
+            message: 'invalid'
+          callback:
+            message: 'Date Reported must be on or after Date of Incident'
+            callback: incident_time_before_report_time
+      'incident[report_time-time-part]':
+        selector: '#report_time-time-part'
+        validators:
+          notEmpty:
+            message: 'required'
+          regexp:
+            regexp: /^([01]\d|2[0-3]):[0-5]\d$/
+            message: 'invalid'
+          callback:
+            message: 'Time Reported must be on or after Time of Incident'
+            callback: incident_time_before_report_time
+      'incident[report_submitted_time-date-part]':
+        selector: '#report_submitted_time-date-part'
+        validators:
+          date:
+            format: 'YYYY/MM/DD'
+            message: 'invalid'
+          callback:
+            message: 'Please enter both submitted time and submitted date'
+            callback: report_submitted_time_date_should_present_at_same_time
+      'incident[report_submitted_time-time-part]':
+        selector: '#report_submitted_time-time-part'
+        validators:
+          regexp:
+            regexp: /^([01]\d|2[0-3]):[0-5]\d$/
+            message: 'invalid'
+          callback:
+            message: 'Please enter both submitted time and submitted date'
+            callback: report_submitted_time_date_should_present_at_same_time
+      'incident[incident_class]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[incident_type]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[body_part]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[body_location]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[shift_start]':
+        validators:
+          notEmpty:
+            message: 'required'
+          regexp:
+            regexp: /^([01]\d|2[0-3]):[0-5]\d$/
+            message: 'invalid'
+      'incident[shift_end]':
+        validators:
+          notEmpty:
+            message: 'required'
+          regexp:
+            regexp: /^([01]\d|2[0-3]):[0-5]\d$/
+            message: 'invalid'
+      'incident[description]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[incident_category]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[incident_category_other]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[incident_type_other]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[floor]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[employee_type]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[column]':
+        validators:
+          notEmpty:
+            message: 'required'
+      
+      # Investigation part
+      'incident[worker_been_trained]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[date_last_trained]':
+        validators:
+          notEmpty:
+            message: 'required'
+          date:
+            format: 'YYYY/MM/DD'
+            message: 'required in \"YYYY/MM/DD\" format'
+          
+      'incident[work_instruction_ref_num]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[reason_not_trained]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[was_not_trained_employee_involved]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[not_trained_employee_names]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[were_reporter_aware]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[reason_why_not_aware]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[did_anyone_witness]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[witness_names]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[was_reporter_involved]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[involved_individual_names_who_reported]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[was_mbl_eqp_involved]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[mobile_equipment]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[other_mbl_eqp]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[unit_identification_number]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[does_mbl_eqp_provider_have_license]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[reason_mbl_eqp_provider_no_license]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[num_months_mbl_opt_exp]':
+        validators:
+          notEmpty:
+            message: 'required'
+          integer:
+            message: 'The value is not an integer'
+          greaterThan:
+            inclusive: true,
+            message: "The number is supposed to be positive",
+            value: 0
+      'incident[date_last_pm_eqp_performed]':
+        validators:
+          notEmpty:
+            message: 'required'
+          date:
+            format: 'YYYY/MM/DD'
+            message: 'required in \"YYYY/MM/DD\" format'
+      'incident[was_pre_shift_inspec_completed]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[reason_pre_shift_inspec_not_completed]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[mobile_equipment_tagged]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[mobile_equipment_tagged_reason]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[was_eqp_tls_involved]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[eqp_tls_involved]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[was_eqp_tls_used_properly]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[reason_eqp_tls_not_used_properly]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[was_eqp_tls_inspec_before]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[reason_eqp_tls_not_inspec_before]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[does_eqp_tls_require_doc_inspec]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[was_eqp_tls_inspec_doc]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[reason_eqp_tls_inspec_not_doc]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[is_any_ppe_required]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[ppes][]':
+        validators:
+          choice:
+            min: 1
+            message: 'required'
+      'incident[other_ppe]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[was_all_ppe_worn_properly]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[reason_ppe_not_worn_properly]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[was_ppe_good_cond]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[reason_ppe_bad_cond]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[is_ppe_required_in_work_inst]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[missing_ppe]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[was_chemical_involved]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[name_chemical]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[was_chemical_used_properly]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[reason_chemical_not_used_properly]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[environmental_factors][]':
+        validators: {}
+      'incident[other_env_factors]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[explain_more_env_factors]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[additional_factors][]':
+        validators: {}
+      'incident[other_add_factors]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[explain_more_add_factors]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[description_investigation]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[modified_duties_prescribed_after]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[modified_duties_prescriber]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[other_modified_duties_prescriber]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[days_modified_duties_prescribed]':
+        validators:
+          notEmpty:
+            message: "required"
+          integer:
+            message: 'The value is not an integer'
+          greaterThan:
+            inclusive: true,
+            message: "The number is supposed to be positive",
+            value: 0
+      'incident[immediate_action]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[names_involved_in_investigation]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[additional_comments]':
+        validators:
+          callback: ->
+            return true
+      'incident[has_customer_property_damaged]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[type_of_damage]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[customers_contacted]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[has_employee_done_modified_work_form]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[reason_employee_not_done_modified_work_form]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[modified_work_form_signed]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[why_modified_work_form_not_signed]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[has_employee_received_medical_attention]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[name_clinic_hospital]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[name_nurse_doctor]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[medical_treatment]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[can_upload_medical_doc]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[reason_not_upload_medical_doc]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[rejection_reason_modal]':
+        validators:
+          callback:
+            message: 'Please, specify the reason'
+            callback: (value, validator, field) ->
+              button = field.closest(".modal-body").next(".modal-footer").find(".btn-primary")
+              if(value == "" or value == null)
+                if(button.attr("disabled") == false or button.attr("disabled") == undefined or button.attr("disabled") == "")
+                  button.attr("disabled", true)
+                return false
+              else
+                if(button.attr("disabled") == "disabled")
+                  button.removeAttr("disabled")
+                return true
+      
+      # Follow up tab
+      'incident[wsib_recordable_doc]':
+        validators:
+          notEmpty:
+            message: 'required'
+      
+      'incident[reason_wsib_form_7_not_submitted]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[has_compensation_claim_submitted]':
+        validators:
+          notEmpty:
+            message: 'required' 
+      'incident[reason_compensation_claim_not_submitted]':
+        validators:
+          notEmpty:
+            message: 'required'   
+      'incident[osha_claim]':
+        validators:
+          notEmpty:
+            message: 'required' 
+      'incident[osha_lost_time]':
+        validators:
+          notEmpty:
+            message: 'required'  
+      'incident[lost_days_start]':
+        validators:
+          notEmpty:
+            message: 'required'
+          date:
+            format: 'YYYY/MM/DD'
+            message: 'required in \"YYYY/MM/DD\" format'
+      'incident[lost_days_end]':
+        validators:
+          date:
+            format: 'YYYY/MM/DD'
+            message: 'required in \"YYYY/MM/DD\" format'
+          callback:
+            callback: date_is_greater_than_related_date
+            message: "The lost days end date is supposed to be greater than the start date"
+      'incident[lost_days]':
+        validators:
+          greaterThan:
+            inclusive: true
+            value: 0.0
+            message: 'Has to be non-negative'
+      'incident[modified_work_start]':
+        validators:
+          notEmpty:
+            message: 'required'
+          date:
+            format: 'YYYY/MM/DD'
+            message: 'required in \"YYYY/MM/DD\" format'
+      'incident[modified_work_end]':
+        validators:
+          date:
+            format: 'YYYY/MM/DD'
+            message: 'required in \"YYYY/MM/DD\" format'
+          callback:
+            callback: date_is_greater_than_related_date
+            message: "The modified work days end date is supposed to be greater than the start date"
+      'incident[modified_work_days]':
+        validators:
+          greaterThan:
+            inclusive: true
+            value: 0.0
+            message: 'Has to be non-negative'
+      'incident[additional_health_safety_comments]':
+        validators:
+          notEmpty:
+            message: 'required' 
+      'incident[additional_health_safety_comments]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[wsib_recordable]':
+        validators:
+          notEmpty:
+            message: 'required'     
+      'incident[wsib_form_7]':
+        validators:
+          notEmpty:
+            message: 'required'       
+      'incident[reason_wsib_form_7_not_submitted]':
+        validators:
+          notEmpty:
+            message: 'required'       
+      'incident[wsib_claim]':
+        validators:
+          callback:
+            callback: ->
+              return true
+      'incident[wsib_lost_time]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[modified_work]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[osha_recordable]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[has_compensation_claim_submitted]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[reason_compensation_claim_not_submitted]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[osha_claim]':
+        validators:
+          callback:
+            callback: ->
+              return true
+      'incident[osha_lost_time]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[additional_health_safety_comments]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[comment]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'incident[closed_date]':
+        validators:
+          notEmpty:
+            message: 'required'
+          date:
+            format: 'YYYY/MM/DD'
+            message: 'required in \"YYYY/MM/DD\" format'
+      'incident[implemented]':
+        validators:
+          callback:
+            callback: ->
+              return true
+      'incident[reason_implemented_not_upload]':
+        validators:
+          notEmpty:
+            message: 'required'
+    
+      # Health & Safety tab
+      'incident[incident_classified_osha_recordable]':
+        validators:
+          callback: ->
+            return true
+          
+      'incident[reason_osha_not_recordable]':
+        validators:
+          notEmpty:
+            message: 'required' 
+  .on 'err.field.fv', (e, data)->
+    data.fv.disableSubmitButtons(false)
+  .on 'err.form.fv', (e, data)->
+    bootbox.alert('Some fields in the form are not valid. Please make sure all the required questions of all the tabs are answered correctly.')
+  .on 'success.field.fv', (e, data)->
+    data.fv.disableSubmitButtons(false)
+    
+  setup_revalidate_related_file_fields_on_change('implemented_support_file', 1, 4)

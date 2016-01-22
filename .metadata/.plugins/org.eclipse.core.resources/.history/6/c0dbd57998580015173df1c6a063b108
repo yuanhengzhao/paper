@@ -1,0 +1,15 @@
+# Customer Site
+# Data source of Robinson sites and the shops within
+#
+# Properties:
+# - id (integer) - primary key
+# - company (string) - name of the Robinson company, ie "Robinson Solutions", "Robinson Innovations", etc.
+# - customer (string) - name of the customer, ie "GM", "Toyota", etc.
+# _ site (string) - name of the site
+# - shop (string) - name of the shop
+# - created_at (datetime) - date and time this record was created
+# - updated_at (datetime) - date and time this record was last updated
+class DataSources::CustomerSite < ActiveRecord::Base
+  validates :company, :customer, :site, :shop, presence: true
+  validates :shop, :uniqueness => { :scope => [:company, :customer, :site] }
+end

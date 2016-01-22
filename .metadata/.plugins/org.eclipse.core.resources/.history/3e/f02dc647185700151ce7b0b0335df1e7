@@ -1,0 +1,9 @@
+FactoryGirl.define do
+  factory :irreversible_countermeasure do
+    corrective_action "corrective action"
+    corrective_action_date "2015-01-01"
+    corrective_action_responsible "responsible"
+    
+    association :incident
+  end
+end

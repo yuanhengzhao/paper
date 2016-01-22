@@ -1,0 +1,2 @@
+.action-pronto-forms { cursor: pointer; background: rgb(1,100,165); color: white; padding: 10px; text-decoration: none; display:inline-block; margin-bottom:5px;}
+.action-pronto-forms:hover { background-color: rgb(94, 151, 50); }

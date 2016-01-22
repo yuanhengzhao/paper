@@ -1,0 +1,110 @@
+class Forms::SafetyObservationsController < ApplicationController
+
+  FORM_NAME = "safety observations"
+  
+  include DatatableServerSideProcessing
+  include XlsxReportProcessing
+
+  before_action :authenticate_user!
+
+  load_and_authorize_resource :except => [:image1, :image2, :signature, :update_export, :download_export, :submission]
+
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
+  add_breadcrumb "forms", :forms_index_path
+  add_breadcrumb "safety observations", :forms_safety_observations_path
+
+  DATATABLES_COLUMNS = [ "id", "username", "device_submit_date" ]
+
+  def index
+    # @safety_observations is automatically loaded
+  end
+
+  def show
+    # @safety_observation is automatically loaded
+    add_breadcrumb "safety observation report #{@safety_observation.id}", :forms_safety_observation_path
+  end
+  
+  # Overwrites the model's existing properties with the contents of the original submission document attached.
+  def reparse
+    # @safety_observation is automatically loaded
+    result = @safety_observation.reparse
+    # render the show action associated with the result object
+    render action: 'show', location: result
+  end
+
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html { redirect_to forms_safety_observations_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS
+        }
+
+        # call concern function using collection of all records the user has access to
+        @safety_observations = Forms::SafetyObservation.accessible_by(current_ability)
+        render :json => datatable_data(@safety_observations, params, options)
+      }
+    end
+  end
+  
+  def update_export
+    authorize! :read, Forms::SafetyObservation
+    
+    begin
+      raise "No data in this form."  if Forms::SafetyObservation.all.count == 0
+      @export = generate_xlsx(Forms::SafetyObservation, FORM_NAME, Forms::SafetyObservation.maximum("updated_at"))
+      respond_to do |format|
+        format.json { render :json => @export, status: :ok  }
+      end
+    rescue => e
+      respond_to do |format|
+        format.json { render text:e.message, status: :not_acceptable }
+      end
+    end  
+  end
+  
+  def download_export
+    authorize! :read, Forms::SafetyObservation
+    @export = Report::FormExport.find_by(form_name: FORM_NAME)
+    redirect_to(@export.attachment.expiring_url(10))
+  end
+  
+  def image1
+    authorize! :read, Forms::SafetyObservation
+    @safety_observation = Forms::SafetyObservation.find(params[:id])
+    authorize! :read, @safety_observation
+    redirect_to(@safety_observation.image1.expiring_url(10))
+  end
+
+  def image2
+    authorize! :read, Forms::SafetyObservation
+    @safety_observation = Forms::SafetyObservation.find(params[:id])
+    authorize! :read, @safety_observation
+    redirect_to(@safety_observation.image2.expiring_url(10))
+  end
+
+  def signature
+    authorize! :read, Forms::SafetyObservation
+    @safety_observation = Forms::SafetyObservation.find(params[:id])
+    authorize! :read, @safety_observation
+    redirect_to(@safety_observation.signature.expiring_url(10))
+  end
+
+  def submission
+    authorize! :read, Forms::SafetyObservation
+    @safety_observation = Forms::SafetyObservation.find(params[:id])
+    authorize! :read, @safety_observation
+    redirect_to(@safety_observation.submission.expiring_url(10))
+  end
+  
+  private
+
+  def record_not_found(exception)
+    # redirect back to index if id not found
+    flash[:alert] = exception.message
+    redirect_to forms_safety_observations_path
+  end
+
+end

@@ -1,0 +1,15 @@
+FactoryGirl.define do
+  factory :spare_parts_report, class: Forms::SparePartsReport do
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions', 'fake.json'), 'text/plain') }
+    
+    factory :spare_parts_report_valid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'spare_parts_report', 'valid.json'), 'text/plain') }
+    end
+    
+    factory :spare_parts_report_invalid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'spare_parts_report', 'too_many_pictures.json'), 'text/plain') }
+    end
+  end
+end

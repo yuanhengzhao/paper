@@ -1,0 +1,4 @@
+class TransferPhotosAttributesFromIncidentsToAttachments < ActiveRecord::Migration
+  def change
+  end
+end

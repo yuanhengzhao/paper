@@ -1,0 +1,176 @@
+require_relative '../../spec_helper'
+
+describe ProntoForms::CleaningEventParser do
+
+  let(:missing_image) { "/assets/missing.jpg" }
+
+  subject { ProntoForms::CleaningEventParser.new }
+
+  it "should have a NAME constant with the expected value" do
+    ProntoForms::CleaningEventParser::NAME.should eq("Cleaning Event")
+  end
+
+  describe "max_version" do
+    subject { ProntoForms::CleaningEventParser.new }
+    it "should not throw an error" do
+      lambda { subject.max_version }.should_not raise_error
+    end
+  end
+
+  describe "parse" do
+
+    # call the parse method on a parameter defined in the sub-describes
+    subject { ProntoForms::CleaningEventParser.new.parse(form_hash) }
+
+    # ensure that form_hash has been properly set for the specs
+    before(:each) do
+      form_hash.should_not be_nil
+    end
+    
+    describe "parsing dolly cleaning event" do
+      describe "for a hash missing pages" do
+  
+        let(:form_hash) {
+          f = Rails.root.join('spec', 'resources', 'forms', 'cleaning_event', 'dollies', 'missing_pages.json')
+          return ActiveSupport::JSON.decode(f.read)
+        }
+  
+        it "should throw a parser error" do
+          lambda { subject }.should raise_error(ParserException, "Could not find expected answer [page: 0][answer: 3]")
+        end
+  
+      end
+  
+      describe "for a valid hash" do
+
+        let(:form_hash) {
+          f = Rails.root.join('spec', 'resources', 'forms', 'cleaning_event', 'dollies', 'valid.json')
+          return ActiveSupport::JSON.decode(f.read)
+        }
+  
+        let(:expected) {
+          o = Forms::CleaningEvent.new
+  
+          o.reference_number = "20150226-1819616731"
+          o.server_receive_date = "2015-02-26T14:28:35-05:00"
+          o.device_submit_date = "2015-02-26T14:28:33-05:00"
+          o.username = "nshakoori@robinsonsolutions.com"
+          o.version = "1"
+          o.altitude = 112.386
+          o.latitude = "43.65204966441592"
+          o.longitude = "-79.38191864300354"
+          o.source = "prontoforms"
+  
+          o.process          = "Dollies"
+          o.event   = "Gcdt"
+          o.datetime         = "2015-02-26T14:28:20-05:00"
+          o.comments         = nil
+         
+          return o
+        }
+  
+        it "should return a Forms::CleaningEvent object" do
+          subject.should be_a_kind_of(Forms::CleaningEvent)
+        end
+        
+        it "should be valid" do
+          expect(subject).to  be_valid
+          expect(expected).to be_valid
+        end
+  
+        describe "should match expected" do
+  
+          before(:each) do
+            subject.save
+            subject.reload
+          end
+  
+          it "should have the same base form values" do
+            expect(subject).to have_same_base_form_attributes_as(expected)
+          end
+  
+          it "should have the same values as expected" do
+            subject.process.should eq(expected.process)
+            subject.event.should eq(expected.event)
+            subject.datetime.should eq(expected.datetime)
+            subject.comments.should eq(expected.comments)
+          end
+        end
+      end
+    end # end of describe dolly cleaning event
+    
+    describe "parsing jig cleaning event" do
+      describe "for a hash missing pages" do
+  
+        let(:form_hash) {
+          f = Rails.root.join('spec', 'resources', 'forms', 'cleaning_event', 'jigs', 'missing_pages.json')
+          return ActiveSupport::JSON.decode(f.read)
+        }
+  
+        it "should throw a parser error" do
+          lambda { subject }.should raise_error(ParserException, "Could not find expected answer [page: 0][answer: 4]")
+        end
+  
+      end
+  
+      describe "for a valid hash" do
+
+        let(:form_hash) {
+          f = Rails.root.join('spec', 'resources', 'forms', 'cleaning_event', 'jigs', 'valid.json')
+          return ActiveSupport::JSON.decode(f.read)
+        }
+  
+        let(:expected) {
+          o = Forms::CleaningEvent.new
+  
+          o.reference_number = "20150226-1819616745"
+          o.server_receive_date = "2015-02-26T19:29:50Z"
+          o.device_submit_date = "2015-02-26T14:29:48-05:00"
+          o.username = "nshakoori@robinsonsolutions.com"
+          o.version = "1"
+          o.altitude = 111.401
+          o.latitude = "43.65192373543585"
+          o.longitude = "-79.3818880352366"
+          o.source = "prontoforms"
+  
+          o.process          = "Jigs"
+          o.event            = "Test"
+          o.datetime         = "2015-02-26T14:29:19-05:00"
+          o.comments         = nil
+         
+          return o
+        }
+  
+        it "should return a Forms::CleaningEvent object" do
+          subject.should be_a_kind_of(Forms::CleaningEvent)
+        end
+        
+        it "should be valid" do
+          expect(subject).to  be_valid
+          expect(expected).to be_valid
+        end
+  
+        describe "should match expected" do
+  
+          before(:each) do
+            subject.save
+            subject.reload
+          end
+  
+          it "should have the same base form values" do
+            expect(subject).to have_same_base_form_attributes_as(expected)
+          end
+  
+          it "should have the same values as expected" do
+            subject.process.should eq(expected.process)
+            subject.event.should eq(expected.event)
+            subject.datetime.should eq(expected.datetime)
+            subject.comments.should eq(expected.comments)
+          end
+        end
+      end
+    end # end of describe jig cleaning event
+    
+  end # end of describe "parse" do
+
+end

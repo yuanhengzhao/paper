@@ -1,0 +1,39 @@
+require "spec_helper"
+
+describe DataSources::DolliesController do
+  describe "routing" do
+
+    it "routes to #index" do
+      get("/data_sources/dollies").should route_to("data_sources/dollies#index")
+    end
+
+    it "routes to #new" do
+      get("/data_sources/dollies/new").should route_to("data_sources/dollies#new")
+    end
+
+    it "routes to #show" do
+      get("/data_sources/dollies/1").should route_to("data_sources/dollies#show", :id => "1")
+    end
+
+    it "routes to #edit" do
+      get("/data_sources/dollies/1/edit").should route_to("data_sources/dollies#edit", :id => "1")
+    end
+
+    it "routes to #create" do
+      post("/data_sources/dollies").should route_to("data_sources/dollies#create")
+    end
+
+    it "routes to #update" do
+      put("/data_sources/dollies/1").should route_to("data_sources/dollies#update", :id => "1")
+    end
+
+    it "routes to #destroy" do
+      delete("/data_sources/dollies/1").should route_to("data_sources/dollies#destroy", :id => "1")
+    end
+    
+    it "routes to #datatable" do
+      get("/data_sources/dollies/datatable").should route_to("data_sources/dollies#datatable")
+    end
+
+  end
+end

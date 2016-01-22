@@ -1,0 +1,112 @@
+class Forms::AreaInspectionsController < ApplicationController
+  
+  FORM_NAME = "area inspections"
+  
+  include DatatableServerSideProcessing
+  include XlsxReportProcessing
+  
+  before_action :authenticate_user!
+  
+  load_and_authorize_resource :except => [:image1, :image2, :image3, :update_export, :download_export, :submission]
+  
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  
+  add_breadcrumb "forms", :forms_index_path
+  add_breadcrumb FORM_NAME, :forms_area_inspections_path
+  
+  DATATABLES_COLUMNS = [ "id", "username", "device_submit_date" ]
+  
+  def index
+    # @area_inspections is automatically loaded
+    @export = Report::FormExport.find_by(form_name: FORM_NAME)
+  end
+
+  def show
+    # @area_inspection is automatically loaded
+    add_breadcrumb "area inspection #{@area_inspection.id}", :forms_area_inspection_path
+  end
+  
+  # Overwrites the model's existing properties with the contents of the original submission document attached.
+  def reparse
+    # @area_inspection is automatically loaded
+    result = @area_inspection.reparse
+    # render the show action associated with the result object
+    render action: 'show', location: result
+  end
+  
+  def update_export
+    authorize! :read, Forms::AreaInspection
+    
+    begin
+      raise "No data in this form."  if Forms::AreaInspection.all.count == 0
+      @export = generate_xlsx(Forms::AreaInspection, FORM_NAME, Forms::AreaInspection.maximum("updated_at"))
+      respond_to do |format|
+        format.json { render :json => @export, status: :ok  }
+      end
+    rescue => e
+      respond_to do |format|
+        format.json { render text:e.message, status: :not_acceptable }
+      end
+    end  
+  end
+  
+  
+  def download_export
+    authorize! :read, Forms::AreaInspection
+    @export = Report::FormExport.find_by(form_name: FORM_NAME)
+    redirect_to(@export.attachment.expiring_url(10))
+  end
+    
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html { redirect_to forms_area_inspections_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS
+        }
+        
+        # call concern function using collection of all records the user has access to
+        @area_inspections = Forms::AreaInspection.accessible_by(current_ability)
+        render :json => datatable_data(@area_inspections, params, options)
+      }
+    end
+  end
+
+  def image1
+    authorize! :read, Forms::AreaInspection
+    @area_inspection = Forms::AreaInspection.find(params[:id])
+    authorize! :read, @area_inspection
+    redirect_to(@area_inspection.image1.expiring_url(10))
+  end
+
+  def image2
+    authorize! :read, Forms::AreaInspection
+    @area_inspection = Forms::AreaInspection.find(params[:id])
+    authorize! :read, @area_inspection
+    redirect_to(@area_inspection.image2.expiring_url(10))
+  end
+
+  def image3
+    authorize! :read, Forms::AreaInspection
+    @area_inspection = Forms::AreaInspection.find(params[:id])
+    authorize! :read, @area_inspection
+    redirect_to(@area_inspection.image3.expiring_url(10))
+  end
+
+  def submission
+    authorize! :read, Forms::AreaInspection
+    @area_inspection = Forms::AreaInspection.find(params[:id])
+    authorize! :read, @area_inspection
+    redirect_to(@area_inspection.submission.expiring_url(10))
+  end
+  
+  private
+  
+  def record_not_found(exception)
+    # redirect back to index if id not found
+    flash[:alert] = exception.message
+    redirect_to forms_area_inspections_path
+  end
+
+end

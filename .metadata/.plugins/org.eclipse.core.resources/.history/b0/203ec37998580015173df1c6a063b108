@@ -1,0 +1,40 @@
+jQuery ->  
+  # datatable for submissions page
+  
+  datatable = $("#enps_reports_datatable").DataTable
+    "processing": true
+    "serverSide": true
+    "ajax": "/forms/enps_reports/datatable.json"
+    "columns": [
+      { "data": "id", "class": "enps-id" },
+      { "data": "username" },
+      { "data": "device_submit_date", "render": (data, type, full) -> new Date(data) }
+      { "data": "exclude" },
+      { "data": "id", "searchable": false, "orderable": false, "render": ( data, type, full ) ->
+        '<a href="/forms/enps_reports/' + data + '" target="_blank">Show</a><br />
+         <a href="#" data-id="' + data + '" class="btn-enps-up">Activate/Deactivate</button>'
+      }
+    ]
+    "drawCallback": ->
+      $("a.btn-enps-up").on "click",  ->
+        button=$(this)
+        bootbox.confirm "Are you sure?", (result) ->
+          if(result)
+            link = "/forms/enps_reports/update_exclude/" + button.closest("tr").find("td.enps-id").text()
+            $.ajax 
+              url: link,
+              type: "POST"
+              data:
+                id: $(this).data("id")
+              success: (data, status, response) ->
+                button.closest("td").prev("td").text(data)
+                return
+              error: (data, status, response) ->
+                console.log("Status: "+status)
+                console.log(response)
+                return
+              dataType: "json"
+          return
+      return
+    
+  	

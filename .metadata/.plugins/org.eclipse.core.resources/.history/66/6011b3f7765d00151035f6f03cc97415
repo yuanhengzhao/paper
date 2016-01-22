@@ -1,0 +1,175 @@
+---
+fr:
+  date:
+    formats:
+      default: "%Y-%m-%d"
+  incident_mailer:
+    group_notification_email:
+      intro: TRME Incident Investigation Report
+    link:
+      href: TRME incident details
+      text: TRME View
+    notification_author_incident_not_ready:
+      intro: TRME Health and Safety Coordinator, %{safety_rep}, has reverted your incident investigation for the following incident back to you because it is incomplete for some reason. Please contact the Health and Safety Coordinator directly for more information.
+    notification_safety_rep_incident_ready:
+      intro: TRME %{supervisor} has completed the investigation of the following incident.
+    notification_safety_reps_incident_closed:
+      intro: TRME Health and Safety Coordinator, %{safety_rep}, has marked the following incident as closed.
+  incidents:
+    additional_comments:
+      comments: TRME Comments from Health and Safety Coordinator
+      yes_no: TRME Does Health and Safety Coordinator have any additional comments?
+    aware_of_incident: TRME Were you aware of the incident at the time it occurred?
+    body_location: TRME Location on Body
+    body_part: TRME Body Part
+    building: TRME Building
+    chemical:
+      involved: TRME Was any chemical involved?
+      name: TRME What is the name of the chemical?
+      reason_used_improperly: TRME Explain why
+      used_properly: TRME Was the chemical being used/dispensed properly?
+    closed_date: TRME Date Closed
+    column: TRME Column
+    comments: TRME Additional comments
+    countermeasure:
+      name: TRME Irreversible countermeasure
+      responsible: TRME Individual responsible for implementing the countermeasure
+      target_date: TRME Target completion date for the countermeasure
+    countermeasures:
+      additional_information: TRME Explain why
+      can_upload: TRME Are you able to upload the objective evidence showing countermeasures implemented?
+      closed_date: TRME Enter date the countermeasures were closed
+      files: TRME Upload a scan or digital photo of the documents demonstrating objective evidence showing countermeasures were implemented
+    date_last_trained: TRME Date the employee was last trained
+    description: TRME Description of Incident
+    employee: TRME Employee Name
+    employee_trained: TRME Has the employee been trained for the job?
+    employee_type: TRME Employee Type
+    environmental:
+      explanation: TRME Explain more
+      factors: TRME Check all environmental factors that may have contributed to the incident
+      other: TRME Other
+    factors:
+      contributed: TRME Check all additional factors that may have contributed to the incident
+      explanation: TRME Explain more
+      other: TRME Other
+    floor: TRME Floor
+    immediate_action: TRME What immediate action was taken?
+    incident_category: TRME Category of Incident
+    incident_category_other: TRME Other Category of Incident
+    incident_class: TRME Class of Incident
+    incident_time:
+      date: TRME Date of Incident
+      name: Time of Incident
+      time: TRME Time of Incident
+    incident_type: TRME Type of Injury
+    incident_type_other: TRME Other Type of Injury
+    investigation:
+      description: TRME Describe your investigation and what was found
+      photos: TRME Photos
+    investigators: TRME Name(s) of the individuals involved in the investigation
+    job: TRME Job
+    lost_time:
+      days: TRME Total number of calendar days of lost time
+      end: TRME Calendar date of the first day the employee returned to work (leave blank if employee is still on lost time)
+      start: TRME Calendar date of the first day lost (not counting date of the initial incident)
+      yes_no: TRME Was there any lost time beyond the date of the incident?
+    medical_attention:
+      doctor: TRME Name of the registered nurse or doctor
+      form_upload: TRME Upload a scan or digital photo of the medical forms/documents
+      form_uploadable: TRME Are you able to upload a copy of medical forms/documents?
+      hospital: TRME Name of the clinic/hospital
+      reason_form_not_uploaded: TRME Explain why
+      received: TRME Has the employee received medical attention?
+      treatment: TRME Medical treatment was received
+    mobile_equipment:
+      circle_check_done: 'TRME '
+      circle_check_not_done_reason: 'TRME '
+      experience: 'TRME '
+      id_number: 'TRME '
+      involved: 'TRME '
+      last_pm_date: 'TRME '
+      other: Other
+      type: 'TRME '
+      valid_license: 'TRME '
+      why_not_valid: 'TRME '
+    modified_duties:
+      days: TRME Total number of calendar days on modified duties
+      end: TRME Calendar date of the first day the employee returned to regular duties (leave blank if employee is still on modified duties)
+      start: TRME Calendar date of the first day on modified duties (not counting date of the initial incident)
+      yes_no: TRME Were there any modified duties prescribed to the employee beyond the date of the incident?
+    modified_duties_prescribed:
+      by: TRME Who prescribed the modified duties?
+      by_other: TRME Other
+      days: TRME How many calendar days of modified duties were prescribed?
+      required: TRME Were any modified duties prescribed beyond the day of the incident to prevent further injury?
+    modified_work:
+      form_complete: TRME Has the employee completed an offer of modified work form?
+      form_upload: TRME Upload a scan or digital photo of the signed document
+      form_uploadable: TRME Are you able to upload the signed modified work form from the employee?
+      reason_form_incomplete: TRME Explain why
+      reason_form_not_uploaded: TRME Explain why
+    osha:
+      claim_number: 'TRME What is the Claim #?'
+      compensation_claim_complete: TRME Has a Workers' Compensation Claim been submitted?
+      incident: TRME Was this incident an OSHA Recordable incident?
+      reason_compensation_claim_incomplete: TRME Explain why
+    ppe:
+      good_condition: TRME Was all PPE in good condition?
+      in_work_instruction: TRME Are all PPE required for the job listed on the work instruction?
+      is_required: TRME Is any PPE required for this task?
+      missing_ppe: TRME List all missing PPE. Ensure updating the work instruction is added to the action register. Also, if the missing PPE is relevant to this incident, include adding PPE to the work instruction as an irreversible countermeasure.
+      other: TRME Other
+      reason_bad_condition: TRME Explain why
+      reason_worn_improperly: TRME Explain why
+      required: TRME Check all PPE required for the task
+      worn_properly: TRME Was all PPE being worn properly?
+    property_damage:
+      customer_contacted: TRME List the names of the customers that have been contacted
+      customer_owned: TRME Has any customer property been damaged?
+      explain: TRME Explain the type of damage
+    reason_not_aware: TRME Explain why
+    reason_not_trained: TRME Explain why
+    recordable:
+      reason: TRME Explain why
+      yes_no: TRME Would this incident be classified as an OSHA Recordable using the USA/ISN OSHA Recordable definition for reporting?
+    report_time:
+      date: TRME Date Reported
+      name: Time Reported
+      time: TRME Time Reported
+    reported_by: TRME Name(s) of the individuals who reported the incident
+    reported_by_employee: TRME Was the employee involved in the incident, the individual who reported it?
+    safety_rep: TRME Safety Rep Contacted
+    shift:
+      end: TRME Shift End Time
+      name: Shift
+      start: TRME Shift Start Time
+    site: TRME Site
+    submit_to_coordinator: TRME Ready to submit to Health and Safety Coordinator?
+    supervisor: TRME Supervisor
+    tools:
+      documentation:
+        performed: TRME Was the inspection documented?
+        reason_not_done: TRME Explain why
+        required: TRME Does it require documented inspection?
+      inspected: TRME Was it inspected before use?
+      involved: TRME Were any equipment/tools involved in the incident?
+      reason_not_inspected: TRME Explain why
+      reason_used_improperly: TRME Explain why
+      type: TRME What equipment or tool?
+      used_properly: TRME Was it being used properly?
+    witnesses: TRME Name(s) of individuals who witnessed the incident. Get a written signed statement. Due to the sensitive nature of the content and the fact that the witness may wish for their statement to be confidential, please send the statement in a separate email directly to the site Safety Coordinator and the Director of Health and Safety.
+    witnesses_present: TRME Did anyone witness the incident?
+    work_instruction: TRME SWC/JES/OIC/TIS Reference Number
+    working_with: TRME Name(s) of the individuals the employee was working with
+    working_with_others: TRME Was the employee involved in the incident working with anyone else?
+    wsib:
+      claim_number: 'TRME What is the Claim #?'
+      form_7_complete: TRME Has a WSIB Form 7 been submitted?
+      incident: TRME Was this incident a WSIB Reportable incident?
+      reason_form_7_incomplete: TRME Explain why
+  'no': TRME No
+  time:
+    formats:
+      default: "%Y-%m-%d %H:%M"
+  'yes': TRME Yes

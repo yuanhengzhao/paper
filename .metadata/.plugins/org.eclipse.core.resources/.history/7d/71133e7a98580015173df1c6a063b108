@@ -1,0 +1,39 @@
+require "spec_helper"
+
+describe DataSources::EquipmentUnitsController do
+  describe "routing" do
+
+    it "routes to #index" do
+      get("/data_sources/equipment_units").should route_to("data_sources/equipment_units#index")
+    end
+
+    it "does not route to #new" do
+      get("/data_sources/equipment_units/new").should_not route_to("data_sources/equipment_units#new")
+    end
+
+    it "routes to #show" do
+      get("/data_sources/equipment_units/1").should route_to("data_sources/equipment_units#show", :id => "1")
+    end
+
+    it "routes to #edit" do
+      get("/data_sources/equipment_units/1/edit").should route_to("data_sources/equipment_units#edit", :id => "1")
+    end
+
+    it "does not route to #create" do
+      post("/data_sources/equipment_units").should_not route_to("data_sources/equipment_units#create")
+    end
+
+    it "routes to #update" do
+      put("/data_sources/equipment_units/1").should route_to("data_sources/equipment_units#update", :id => "1")
+    end
+
+    it "routes to #destroy" do
+      delete("/data_sources/equipment_units/1").should route_to("data_sources/equipment_units#destroy", :id => "1")
+    end
+    
+    it "routes to #datatable" do
+      get("/data_sources/equipment_units/datatable").should route_to("data_sources/equipment_units#datatable")
+    end
+
+  end
+end

@@ -1,0 +1,269 @@
+class IncidentsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_incident, only: [:show, :edit, :update, :destroy]
+  
+  layout "fullwidth", only: [:tracker]
+  
+  include DatatableServerSideProcessing
+  DATATABLES_COLUMNS = [
+    "incident_time", "site.name", "building.name", "supervisor", "shift", "employee",
+    "job", "safety_rep.name", "report_time", "incident_class.name", "incident_type.name",
+    "body_part", "body_location.name", "description", "corrective_action",
+    "corrective_action_date", "wsib_recordable", "wsib_form_7", "wsib_lost_time",
+    "wsib_claim", "osha_recordable", "osha_lost_time", "modified_work_start",
+    "modified_work_end", "modified_work_days", "lost_days_start", "lost_days_end",
+    "lost_days", "comment", "closed_date", "implemented", "report_submitted_time"
+  ]
+  
+  # server-side processing method for jquery datatable
+  def datatable
+    authorize! :read, Incident
+    respond_to do |format|
+      format.html { redirect_to tracker_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS,
+          :column_keys => {
+            "building.name" => "buildings.name",
+            "site.name" => "sites.name",
+            "safety_rep.name" => "safety_reps.name",
+            "incident_class.name" => "incident_classes.name",
+            "incident_type.name" => "incident_types.name",
+            "body_location.name" => "body_locations.name"
+          },
+          :column_filters => {
+            "incident_time" => "range",
+            "sites.name" => "match",
+            "buildings.name" => "match",
+            "incident_classes.name" => "match",
+            "incident_types.name" => "match",
+            "implemented" => "not_match",
+            "report_submitted_time" => "match-nil"
+          }
+        }
+        
+        # call concern function using collection of all records including associated objects
+        datatable_result = datatable_data(Incident.accessible_by(current_ability).includes( :body_location, :incident_class, :incident_type, { building: :site }, :safety_rep), params, options)
+      }
+    end
+  end
+
+  # GET /incidents
+  # GET /incidents.json
+  def index
+    # only return the incidents that belong to the current user
+    authorize! :read, Incident
+    @incidents = current_user.incidents
+  end
+ 
+  # GET /tracker
+  # GET /tracker.json
+  def tracker
+    # don't load anything
+    authorize! :tracker, Incident
+  end
+  
+  # GET /incidents/filter
+  def filter
+    # don't load anything
+    authorize! :tracker, Incident
+  end
+
+  # GET /incidents/1
+  # GET /incidents/1.json
+  def show
+    # @incident is loaded automatically
+    authorize! :read, @incident
+  end
+
+  # GET /incidents/new
+  def new
+    @incident = Incident.new
+    @incident.author = current_user
+    authorize! :create, @incident
+  end
+
+  # GET /incidents/1/edit
+  def edit
+    # @incident is loaded automatically
+    authorize! :update, @incident
+  end
+
+  # POST /incidents
+  # POST /incidents.json
+  def create
+    @incident = Incident.new(incident_params)
+    @incident.author = current_user
+    authorize! :create, @incident
+    
+    respond_to do |format|
+      if @incident.save
+       
+        building_email = @incident.building.email + " " unless @incident.building.nil?
+        author_email = User.find(@incident.author_id).email unless @incident.author_id.nil?
+        success_msg = "Incident was successfully created. The group #{building_email}has been notified and the 4-page Excel file has been 
+                  sent to #{author_email} to be completed within 24 hours."
+        #format.html { redirect_to @incident, notice: 'Incident was successfully created.' }
+        format.html { redirect_to root_url, notice: success_msg }
+        format.json { render action: 'show', status: :created, location: @incident }
+        
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @incident.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /incidents/1
+  # PATCH/PUT /incidents/1.json
+  def update
+    # @incident is loaded automatically
+    authorize! :update, @incident
+    
+    respond_to do |format|
+      if @incident.update(incident_params)
+        format.html { redirect_to @incident, notice: 'Incident was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @incident.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /incidents/1
+  # DELETE /incidents/1.json
+  def destroy
+    authorize! :destroy, @incident
+    
+    @incident.destroy
+    respond_to do |format|
+      format.html { redirect_to tracker_url }
+      format.json { head :no_content }
+    end
+  end
+  
+  
+  # attachments
+  def investigation_photo1
+    authorize! :read, Incident
+    @incident = Incident.find(params[:id])
+    authorize! :read, @incident
+    redirect_to(@incident.investigation_photo1.expiring_url(10))
+  end
+  
+  def investigation_photo2
+    authorize! :read, Incident
+    @incident = Incident.find(params[:id])
+    authorize! :read, @incident
+    redirect_to(@incident.investigation_photo2.expiring_url(10))
+  end
+
+  def photo_modified_work_form_signed1
+    authorize! :read, Incident
+    @incident = Incident.find(params[:id])
+    authorize! :read, @incident
+    redirect_to(@incident.photo_modified_work_form_signed1.expiring_url(10))
+  end
+  
+  def photo_modified_work_form_signed2
+    authorize! :read, Incident
+    @incident = Incident.find(params[:id])
+    authorize! :read, @incident
+    redirect_to(@incident.photo_modified_work_form_signed2.expiring_url(10))
+  end
+  
+  def photo_medical_doc1
+    authorize! :read, Incident
+    @incident = Incident.find(params[:id])
+    authorize! :read, @incident
+    redirect_to(@incident.photo_medical_doc1.expiring_url(10))
+  end
+  
+  def photo_medical_doc2
+    authorize! :read, Incident
+    @incident = Incident.find(params[:id])
+    authorize! :read, @incident
+    redirect_to(@incident.photo_medical_doc2.expiring_url(10))
+  end
+  
+  def photo_medical_doc3
+    authorize! :read, Incident
+    @incident = Incident.find(params[:id])
+    authorize! :read, @incident
+    redirect_to(@incident.photo_medical_doc3.expiring_url(10))
+  end
+  
+  def implemented_support_file1
+    authorize! :read, Incident
+    @incident = Incident.find(params[:id])
+    authorize! :read, @incident
+    redirect_to(@incident.implemented_support_file1.expiring_url(10))
+  end
+  
+  def implemented_support_file2
+    authorize! :read, Incident
+    @incident = Incident.find(params[:id])
+    authorize! :read, @incident
+    redirect_to(@incident.implemented_support_file2.expiring_url(10))
+  end
+  
+  def implemented_support_file3
+    authorize! :read, Incident
+    @incident = Incident.find(params[:id])
+    authorize! :read, @incident
+    redirect_to(@incident.implemented_support_file3.expiring_url(10))
+  end
+  
+  def implemented_support_file4
+    authorize! :read, Incident
+    @incident = Incident.find(params[:id])
+    authorize! :read, @incident
+    redirect_to(@incident.implemented_support_file4.expiring_url(10))
+  end
+  
+  def params_to_permit
+    return [:building_id, :incident_class_id, :incident_category_id, :incident_category_other, :incident_type_id, :incident_type_other, 
+     :body_part_id, :body_location_id, :column, :floor_id, :supervisor, :employee_type_id, :employee, :job, :incident_time, :safety_rep_id, :report_time, 
+     :shift, :shift_start, :shift_end, :description, :report_submitted_time, :incident_category_id, :incident_category_other,
+     :worker_been_trained, :date_last_trained, :work_instruction_ref_num, :reason_not_trained, :was_not_trained_employee_involved, :not_trained_employee_names, 
+     :were_reporter_aware, :reason_why_not_aware, :did_anyone_witness, :witness_names, :was_reporter_involved, :involved_individual_names_who_reported, :was_mbl_eqp_involved, 
+     :mobile_equipment_id, :other_mbl_eqp, :unit_identification_number, :does_mbl_eqp_provider_have_license, :reason_mbl_eqp_provider_no_license, :num_months_mbl_opt_exp, 
+     :date_last_pm_eqp_performed, :was_pre_shift_inspec_completed, :reason_pre_shift_inspec_not_completed, :was_eqp_tls_involved, :eqp_tls_involved, :was_eqp_tls_used_properly, 
+     :reason_eqp_tls_not_used_properly, :was_eqp_tls_inspec_before, :reason_eqp_tls_not_inspec_before, :does_eqp_tls_require_doc_inspec, :was_eqp_tls_inspec_doc, 
+     :reason_eqp_tls_inspec_not_doc, :is_any_ppe_required, :other_ppe, :was_all_ppe_worn_properly, :reason_ppe_not_worn_properly, :was_ppe_good_cond, 
+     :reason_ppe_bad_cond, :is_ppe_required_in_work_inst, :missing_ppe, :was_chemical_involved, :name_chemical, :was_chemical_used_properly, 
+     :reason_chemical_not_used_properly, :enviromental_factors, :other_env_factors, :explain_more_env_factors, :additional_factors, :other_add_factors, :explain_more_add_factors,
+     :description_investigation, :investigation_photo1, :investigation_photo2, :modified_duties_prescribed_after, :modified_duties_prescriber_id, :other_modified_duties_prescriber, 
+     :days_modified_duties_prescribed, :immediate_action,:corrective_action, :corrective_action_date, :corrective_action_responsible,
+     :corrective_action2, :corrective_action_date2, :corrective_action_responsible2, :names_involved_in_investigation, :additional_comments, :has_customer_property_damaged, 
+     :type_of_damage, :customers_contacted, :has_employee_done_modified_work_form, :reason_employee_not_done_modified_work_form, :modified_work_form_signed, 
+     :photo_modified_work_form_signed1, :photo_modified_work_form_signed2, :why_modified_work_form_not_signed, :has_employee_received_medical_attention, :name_clinic_hospital, :name_nurse_doctor, :medical_treatment,
+     :can_upload_medical_doc, :photo_medical_doc1, :photo_medical_doc2, :photo_medical_doc3, :reason_not_upload_medical_doc, :ready_to_submit_investigation, 
+     :wsib_recordable, :wsib_form_7, :reason_wsib_form_7_not_submitted, :wsib_lost_time, :wsib_claim, :osha_claim, :osha_recordable, :osha_lost_time,:incident_classified_osha_recordable, :reason_osha_not_recordable, 
+     :lost_days_start, :lost_days_end, :lost_days, :modified_work, :modified_work_start, :modified_work_end, :modified_work_days, :additional_health_safety_comments, :implemented, 
+     :comment, :closed_date, :implemented_support_file1, :implemented_support_file2, :implemented_support_file3, :implemented_support_file4, :reason_implemented_not_upload, 
+     :has_compensation_claim_submitted, :reason_compensation_claim_not_submitted,{ ppe_ids: [] }, { environmental_factor_ids: [] }, { additional_factor_ids: [] } ]
+  end
+
+  private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_incident
+    @incident = Incident.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def incident_params
+    # modify submitted dates according to building's site's time zone
+    building = Building.find_by_id(params[:incident][:building_id])
+    unless building.nil?
+      tz = ActiveSupport::TimeZone[building.site.time_zone]
+      params[:incident][:incident_time] = tz.parse(params[:incident][:incident_time]) unless params[:incident][:incident_time].blank?
+      params[:incident][:report_time] = tz.parse(params[:incident][:report_time]) unless params[:incident][:report_time].blank?
+      params[:incident][:report_submitted_time] = tz.parse(params[:incident][:report_submitted_time]) unless params[:incident][:report_submitted_time].blank?
+    end
+    
+    params.require(:incident).permit(self.params_to_permit)
+  end
+end
+

@@ -1,0 +1,253 @@
+# Class that returns the form-spefic parser to the ParserService to use to parse a form submitted
+# from ProntoForms.
+class ProntoForms::SourceParser < AbstractSourceParser
+    
+  # Returns an instance of the parser class that should be used
+  # to parse the submission.
+  #
+  # @param form_hash [Hash] has of the form submission
+  # @return [Object] instance of the matching parser, or nil if no match found
+  def get_parser(form_hash)
+    # use form name to determine parser class
+    case get_form_name(form_hash)
+    when ProntoForms::AreaInspectionParser::NAME
+      return ProntoForms::AreaInspectionParser.new
+    when ProntoForms::GembaObservationParser::NAME
+      return ProntoForms::GembaObservationParser.new
+    when ProntoForms::BoothEliminatorChecklistParser::NAME
+      return ProntoForms::BoothEliminatorChecklistParser.new
+    when ProntoForms::JanitorialChecklistParser::NAME
+      return ProntoForms::JanitorialChecklistParser.new
+    when ProntoForms::PaintBoothProcessChecklistParser::NAME
+      return ProntoForms::PaintBoothProcessChecklistParser.new
+    when ProntoForms::PreTaskSafetyPlanParser::NAME
+      return ProntoForms::PreTaskSafetyPlanParser.new
+    when ProntoForms::RestroomChecklistParser::NAME
+      return ProntoForms::RestroomChecklistParser.new
+    when ProntoForms::SafetyObservationParser::NAME
+      return ProntoForms::SafetyObservationParser.new
+    when ProntoForms::ShiftReportParser::NAME
+      return ProntoForms::ShiftReportParser.new
+    when ProntoForms::SnowAuditParser::NAME
+      return ProntoForms::SnowAuditParser.new
+    when ProntoForms::SocHourlyProductionReportParser::NAME
+      return ProntoForms::SocHourlyProductionReportParser.new
+    when ProntoForms::SocIncidentReportParser::NAME
+      return ProntoForms::SocIncidentReportParser.new
+    when ProntoForms::SpecialServiceRequestParser::NAME
+      return ProntoForms::SpecialServiceRequestParser.new
+    when ProntoForms::TaskInspectionParser::NAME
+      return ProntoForms::TaskInspectionParser.new
+    when ProntoForms::SparePartsReportParser::NAME
+      return ProntoForms::SparePartsReportParser.new
+    when ProntoForms::PunchlistFormParser::NAME
+      return ProntoForms::PunchlistFormParser.new
+    when ProntoForms::NetPromoterScoreParser::NAME
+      return ProntoForms::NetPromoterScoreParser.new
+    when ProntoForms::JigCleaningParser::NAME
+      return ProntoForms::JigCleaningParser.new
+    when ProntoForms::DollyCleaningParser::NAME
+      return ProntoForms::DollyCleaningParser.new
+    when "Dolly Cleaning Event"
+      return ProntoForms::CleaningEventParser.new
+    when "Jig Cleaning Event"
+      return ProntoForms::CleaningEventParser.new
+    when ProntoForms::EnpsReportParser::NAME
+      return ProntoForms::EnpsReportParser.new
+    when ProntoForms::EscrubKopParser::NAME
+      return ProntoForms::EscrubKopParser.new
+    when ProntoForms::JkkAuditParser::NAME
+      return ProntoForms::JkkAuditParser.new
+    when ProntoForms::BatteryInspectionParser::NAME
+      return ProntoForms::BatteryInspectionParser.new
+    else
+      # return nil if no match found
+      return nil
+    end
+  end
+  
+  # Returns true if the form version is less than or equal to the maximum
+  # version recognized by the parser. In the case of ProntoForms, versions
+  # are numeric.
+  #
+  # @param form_version [numeric] version of the form
+  # @param max_version [numeric] highest version recognized by the parser
+  # @return [boolean] true if the version is acceptable, false otherwise
+  def is_version_acceptable?(form_version, max_version)
+    # assume false, then call method inside rescue block to catch bad argument values
+    version_acceptable = false
+    begin
+      version_acceptable = form_version <= max_version
+    rescue ArgumentError => e
+      # one of the arguments is not comparable, do nothing since local variable will remain false
+    rescue NoMethodError => e
+      # form_version does not have a less than or equals function, do nothing since local variable will remain false
+    end
+    return version_acceptable
+  end
+  
+  # Return the name of the form denoted by the submission hash
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @return [String] name of the form being submitted
+  def get_form_name(form_hash)
+    form_hash["form"]["name"]
+  end
+  
+  # Retrieve the values of the fields common in all models and a assign them to the model's attributes
+  #
+  # @param form_hash [Hash] hash of image details
+  # @param model [ActiveRecord] an instance of a form model
+  def self.get_common_answer_values(form_hash, model)
+    model.reference_number    = form_hash["referenceNumber"]
+    model.server_receive_date = form_hash["serverReceiveDate"]
+    model.device_submit_date  = form_hash["deviceSubmitDate"]["time"] unless form_hash["deviceSubmitDate"].nil?
+    model.username            = form_hash["user"]["username"] unless form_hash["user"].nil?
+    model.version             = form_hash["form"]["version"] unless form_hash["form"].nil?
+    unless form_hash["geoStamp"].nil?
+      unless form_hash["geoStamp"]["coordinates"].nil? 
+        model.altitude        = form_hash["geoStamp"]["coordinates"]["altitude"] 
+        model.latitude        = form_hash["geoStamp"]["coordinates"]["latitude"]
+        model.longitude       = form_hash["geoStamp"]["coordinates"]["longitude"]
+      end
+    end
+    model.source              = "prontoforms"
+  end
+  
+  # Static function to create a Paperclip attachment object from the standard ProntoForms
+  # embedded image details
+  #
+  # @param img [Hash] hash of image details
+  # @return [Object] paperclip attachment object
+  def self.create_attachment(img)
+    return nil if img.nil?
+    attachment = StringIO.new(Base64.decode64(img["bytes"]))
+    attachment.class.class_eval { attr_accessor :original_filename, :content_type }
+    attachment.content_type = img["contentType"]
+    attachment.original_filename = img["filename"]
+    return attachment
+  end
+  
+  # Static function to retrieve the values assigned to a ProntoForms answer ensuring
+  # the hash key path is valid and throwing errors when the structure is bad.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @param page [Integer] index of the desired page
+  # @param answer [Integer] index of the desired answer
+  # @return [Object] the values array from the hash for the desired page-answer combination
+  # @raise [ParserException] if the hash did not contain the desired page, answer, or values
+  def self.get_answer_values(form_hash, page, answer)
+    # ensure form has pages
+    pages = form_hash["pages"]
+    raise ParserException, "Bad hash structure -- form no pages" if pages.nil?
+    
+    # ensure desired page exists
+    raise ParserException, "Could not find expected page [page: #{page}]" if pages[page].nil?
+    
+    # ensure desired page has answers
+    answers = pages[page]["answers"]
+    raise ParserException, "Bad hash structure -- page [page: #{page}] has no answers"  if answers.nil?
+    
+    # ensure desired answer exists
+    raise ParserException, "Could not find expected answer [page: #{page}][answer: #{answer}]" if answers[answer].nil?
+    
+    # ensure desired answer has values
+    values = answers[answer]["values"]
+    raise ParserException, "Bad hash structure -- answer has no values" if values.nil?
+    return values
+  end
+   
+  # Static function to retrieve the date/time submitted to a ProntoForms answer. Uses "self.get_answer_values" method
+  # to ensure the hash key path is valid and throwing errors when the structure is bad.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @param page [Integer] index of the desired page
+  # @param answer [Integer] index of the desired date/time answer
+  # @return [String] the date/time of the first value in the page answer combination
+  # @raise [ParserException] if the hash did not contain the desired page, answer, or values
+  def self.get_answer_date_time(form_hash, page, answer)
+    tmp = get_answer_values(form_hash, page, answer)
+    unless tmp.nil?
+      unless tmp[0].nil?
+        unless tmp[0]["provided"].nil?
+          tmp[0]["provided"]["time"]
+        end
+      end
+    end
+  end
+  
+  # Static function to retrieve the date/time submitted to a ProntoForms answer. Uses "self.get_answer_values" method
+  # to ensure the hash key path is valid and throwing errors when the structure is bad.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @param page [Integer] index of the desired page
+  # @param answer [Integer] index of the desired date/time answer
+  # @return [String] the date/time of the first value in the page answer combination
+  # @raise [ParserException] if the hash did not contain the desired page, answer, or values
+  def self.get_answer_date_time(form_hash, page, answer)
+    tmp = get_answer_values(form_hash, page, answer)
+    unless tmp.nil?
+      unless tmp[0].nil?
+        unless tmp[0]["provided"].nil?
+          tmp[0]["provided"]["time"]
+        end
+      end
+    end
+  end
+  
+  # Static function to collect the variable number of images assigned to an answer and attach
+  # them to the fixed number of image fields in the model.
+  #
+  # Note, this method assumes that the image attribute names are consistently named. The numeric
+  # part of the name must not have leading zeroes and the attribute name cannot have any text
+  # after the numeric part. For example, "image01" and "image1a" would not work.
+  #
+  # @param object [ActiveRecord] specific object being constructed
+  # @param form_hash [Hash] hash of the form submission
+  # @param page [Integer] index of the desired page
+  # @param answer [Integer] index of the desired answer
+  # @param limit [Integer] maximum number of images that will be accepted
+  # @param prefix [String] the text part of the image field, for example, "image1" would be "image"
+  def self.handle_images(object, form_hash, page, answer, limit, prefix)
+    # get the images out of the hash
+    images = ProntoForms::SourceParser.get_answer_values(form_hash, page, answer)
+    
+    # confirm number of images is within limit
+    raise ParserException, "Too many images attached to form" if images.length > limit
+    
+    # loop through images and attach to object
+    images.each_with_index do |img, i|
+      object.send("#{prefix}#{i+1}=", ProntoForms::SourceParser.create_attachment(img))      
+    end
+  end
+  
+  # Static function to collect the image assigned to an answer and attach 
+  # it to the image field in the model.
+  #
+  # @param object [ActiveRecord] specific object being constructed
+  # @param form_hash [Hash] hash of the form submission
+  # @param page [Integer] index of the desired page
+  # @param answer [Integer] index of the desired answer
+  # @param name [String] full name of the image field
+  def self.handle_image(object, form_hash, page, answer, name)
+    # get the images out of the hash
+    image = ProntoForms::SourceParser.get_answer_values(form_hash, page, answer)
+    
+    # confirm there is only 1 image
+    raise ParserException, "Too many images attached to form" if image.length > 1
+    
+    # attach the image to the object
+    object.send("#{name}=", ProntoForms::SourceParser.create_attachment(image[0]))
+  end
+  
+  # Static function to convert 'Yes' and 'No' value to boolean value
+  # return nil if it's neither 'Yes' or 'No'
+  #
+  # @param object value String of 'Yes' or 'No'. Non case-sensitive.
+  def self.yes_or_no? (value)
+    return nil if value.blank?
+    return true if value.downcase == 'yes'
+    return false if value.downcase == 'no'
+    nil
+  end
+end

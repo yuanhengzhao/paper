@@ -1,0 +1,12 @@
+class ChangeTypeOfAltitudeOfEnps < ActiveRecord::Migration
+  def self.up
+    change_table :forms_enps_reports do |t|
+      t.change :altitude, :decimal, precision: 20, scale: 15
+    end
+  end
+  def self.down
+    change_table :forms_enps_reports do |t|
+      t.change :altitude, :decimal, precision: 20, scale: 16
+    end
+  end
+end

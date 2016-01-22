@@ -1,0 +1,80 @@
+class CreateFormsShiftReports < ActiveRecord::Migration
+  def change
+    create_table :forms_shift_reports do |t|
+      t.string :reference_number
+      t.datetime :server_receive_date
+      t.datetime :device_submit_date
+      t.string :username
+      t.string :version
+      t.decimal :altitude, precision: 20, scale: 16
+      t.decimal :latitude, precision: 20, scale: 16
+      t.decimal :longitude, precision: 20, scale: 16
+      t.string :source
+      t.string :file_path
+      t.string :site
+      t.string :shop
+      t.string :shift
+      t.date :date
+      t.text :employees_scheduled
+      t.text :absent_employees
+      t.text :employees_present
+      t.text :overtime_employees
+      t.integer :cambridge_downtime
+      t.integer :dollys_blasted
+      t.integer :ecoat_carriers_blast
+      t.integer :number_of_deficiency
+      t.string :first_deficiency
+      t.string :second_deficiency
+      t.string :third_deficiency
+      t.integer :number_rs_deficiency
+      t.string :first_rs_def
+      t.string :second_rs_def
+      t.string :third_rs_def
+      t.string :co2_tasks
+      t.string :quick_sweep
+      t.string :booth_deep_clean
+      t.integer :woodstock_downtime
+      t.text :scrap_flat_presses
+      t.string :supervisor
+      t.string :supervisor_name
+      t.text :soc_downtime
+      t.integer :number_of_treads
+      t.attachment :press_1_chart
+      t.attachment :press_2_chart
+      t.attachment :press_3_chart
+      t.attachment :press_4_chart
+      t.integer :scheduled_hours
+      t.integer :work_hours
+      t.text :job_cancellations
+      t.integer :num_special_requests
+      t.string :request_1
+      t.string :requestor_1
+      t.integer :hours_1
+      t.string :request_2
+      t.string :requestor_2
+      t.integer :hours_2
+      t.string :request_3
+      t.string :requestor_3
+      t.integer :hours_3
+      t.string :request_4
+      t.string :requestor_4
+      t.integer :hours_4
+      t.text :jobs_cancellations
+      t.integer :incidents
+      t.string :incident1_type
+      t.string :incident2_type
+      t.string :incident3_type
+      t.attachment :picture_1
+      t.text :picture_description1
+      t.attachment :picture_2
+      t.text :picture_description2
+      t.attachment :picture_3
+      t.text :picture_description3
+      t.attachment :picture_4
+      t.text :picture_description4
+      t.text :shift_notes
+
+      t.timestamps null: true
+    end
+  end
+end

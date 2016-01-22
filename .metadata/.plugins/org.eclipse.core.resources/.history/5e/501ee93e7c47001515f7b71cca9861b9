@@ -1,0 +1,22 @@
+class Option < ActiveRecord::Base
+  validates_presence_of :value 
+  validate :validate_group
+
+  def validate_group
+    unless self.class.valid_groups.include? self.group
+      errors.add(:model_years, "some error")
+    end
+  end
+  
+  def self.option_group_titlized_name(group_value)
+    group_value.humanize.titleize unless group_value.blank?
+  end
+  
+  def to_s
+    self.value
+  end
+  
+  def self.valid_groups
+    ["body_location", "body_parts", "additional_factors"]
+  end
+end

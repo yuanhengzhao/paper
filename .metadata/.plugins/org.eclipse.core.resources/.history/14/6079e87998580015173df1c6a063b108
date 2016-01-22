@@ -1,0 +1,21 @@
+<% title "External Users" %>
+
+<div class="login-group">
+	<div class="login-section">
+		<div class="header">Log in</div>
+		<%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "devise-form"} ) do |f| %>
+		<div class="body">
+			<div>
+				<%= f.label :email %>
+				<%= f.email_field :email, autofocus: true %>
+			</div>
+			<div>
+				<%= f.label :password %>
+				<%= f.password_field :password, autocomplete: "off" %>
+			</div>
+		</div>
+		<div class="action"><%= f.submit "Log in", { class: "button-submit" }%></div>
+		<% end %>
+		<div class="footer"><%= link_to "First time logging in? Forgot your password?", new_user_password_path %></div>
+	</div>
+</div>

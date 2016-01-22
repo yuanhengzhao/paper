@@ -1,0 +1,57 @@
+class CreateFormsSocHourlyProductionReports < ActiveRecord::Migration
+  def change
+    create_table :forms_soc_hourly_production_reports do |t|
+      t.string :reference_number
+      t.datetime :server_receive_date
+      t.datetime :device_submit_date
+      t.string :username
+      t.string :version
+      t.decimal :altitude, precision: 20, scale: 16
+      t.decimal :latitude, precision: 20, scale: 16
+      t.decimal :longitude, precision: 20, scale: 16
+      t.string :source
+      t.string :file_path
+      t.string :crew
+      t.string :supervisor
+      t.string :supervisor_name
+      t.date :date
+      t.integer :reported_time
+      t.string :ampm
+      t.integer :press_1_cct
+      t.integer :press_1_curing_cycle
+      t.decimal :press_1_blanks, precision: 20, scale: 16
+      t.decimal :press_1_treads, precision: 20, scale: 16
+      t.decimal :press_1_2p, precision: 20, scale: 16
+      t.decimal :press_1_downtime, precision: 20, scale: 16
+      t.decimal :press_1_efficiency, precision: 20, scale: 16
+      t.integer :press_2_cct
+      t.integer :press_2_curing_cycle
+      t.decimal :press_2_blanks, precision: 20, scale: 16
+      t.decimal :press_2_treads, precision: 20, scale: 16
+      t.decimal :press_2_2p, precision: 20, scale: 16
+      t.decimal :press_2_downtime, precision: 20, scale: 16
+      t.decimal :press_2_efficiency, precision: 20, scale: 16
+      t.integer :press_3_cct
+      t.integer :press_3_curing_cycle
+      t.decimal :press_3_blanks, precision: 20, scale: 16
+      t.decimal :press_3_treads, precision: 20, scale: 16
+      t.decimal :press_3_2p, precision: 20, scale: 16
+      t.decimal :press_3_downtime, precision: 20, scale: 16
+      t.decimal :press_3_efficiency, precision: 20, scale: 16
+      t.integer :press_4_cct
+      t.integer :press_4_curing_cycle
+      t.decimal :press_4_blanks, precision: 20, scale: 16
+      t.decimal :press_4_treads, precision: 20, scale: 16
+      t.decimal :press_4_2p, precision: 20, scale: 16
+      t.decimal :press_4_downtime, precision: 20, scale: 16
+      t.decimal :press_4_efficiency, precision: 20, scale: 16
+      t.decimal :total_treads, precision: 20, scale: 16
+      t.decimal :total_blanks, precision: 20, scale: 16
+      t.decimal :projected_total, precision: 20, scale: 16
+      t.decimal :overall_efficiency, precision: 20, scale: 16
+      t.text :comments
+
+      t.timestamps null: true
+    end
+  end
+end

@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Forms::PaintBoothProcessChecklist
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!Forms/PaintBoothProcessChecklist.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (P)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Forms.html" title="Forms (module)">Forms</a></span></span>
+     &raquo; 
+    <span class="title">PaintBoothProcessChecklist</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: Forms::PaintBoothProcessChecklist
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">ActiveRecord::Base</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ActiveRecord::Base</li>
+          
+            <li class="next">Forms::PaintBoothProcessChecklist</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">app/models/forms/paint_booth_process_checklist.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <ul><li>
+<p>client (string) - name of customer - “Toyota”, “GM”, etc.</p>
+</li><li>
+<p>site (string) - name of site/city - “Cambridge”, “Oshawa”, etc.</p>
+</li><li>
+<p>shop (string) - name of area in site - “North Paint”, “ED Weld”, etc.</p>
+</li><li>
+<p>process (string) - specific part of the paint process</p>
+</li><li>
+<p>line (string) - line in the plant</p>
+</li><li>
+<p>area (string) - area of the plant</p>
+</li><li>
+<p>ceiling_filter (string) - ceiling/filter media/sprinkler heads - “Green”,
+“Yellow”, “Red”</p>
+</li><li>
+<p>lights_fixtures (string) - lights/fixtures/light curtains/fences/gun
+supports and racks - “Green”, “Yellow”, “Red”</p>
+</li><li>
+<p>walls_windows (string) - walls/windows - “Green”, “Yellow”, “Red”</p>
+</li><li>
+<p>robot_covers (string) - robots/bells and covers/hoppers/MGPs - “Green”,
+“Yellow”, “Red”</p>
+</li><li>
+<p>grates (string) - grates/zip ties/grate cable - “Green”, “Yellow”, “Red”</p>
+</li><li>
+<p>conveyor (string) - conveyor - “Green”, “Yellow”, “Red”</p>
+</li><li>
+<p>structural_steel (string) - structural steel/undergrate piping - “Green”,
+“Yellow”, “Red”</p>
+</li><li>
+<p>flood_pan (string) - flood sheets/floor - “Green”, “Yellow”, “Red”</p>
+</li><li>
+<p>floor_platforms (string) - floor/platforms/water pans - “Green”, “Yellow”,
+“Red”</p>
+</li><li>
+<p>comments (string) - comments</p>
+</li><li>
+<p>image (attachment) - image taken on the line</p>
+</li><li>
+<p>overall_rate (decimal(3,3)) - overall score out of three</p>
+</li></ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+
+  
+
+</div>
+
+    <div id="footer">
+  Generated on Wed Aug 20 16:56:37 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-2.0.0).
+</div>
+
+  </body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+	</head>
+	<body>
+		<p>
+			<%= @short_info %>
+		</p>
+		<% if @changes[:status] %>
+		<p>
+			<b>Status.</b> New: <i><%= @new_record.status %></i>; Old: <i><%= @old_record.status %></i>
+		</p>
+		<% end %>
+
+		<% if @changes[:supplier_status] %>
+		<p>
+			<b>Supplier Status.</b> New: <i><%= @new_record.supplier_status %></i>; Old: <i><%= @old_record.supplier_status %></i>
+		</p>
+		<% end %>
+
+		<% if @changes[:responsible] %>
+		<p>
+			<b>Assign to.</b> New: <i><%= @new_record.responsible %></i>; Old: <i><%= @old_record.responsible %></i>
+		</p>
+		<% end %>
+
+		<% if @changes[:bmw_comment] %>
+		<p>
+			<b>BMW Comment</b>
+			<br>
+			New: <i><%= @new_record.bmw_comment %></i>
+			<br>
+			Old: <i><%= @old_record.bmw_comment %></i>
+			<br>
+		</p>
+		<% end %>
+		
+		<p>
+			<b>Comment for change:</b> <br> 
+			<i><%= @new_record.comment.blank? ? 'No comment': @new_record.comment %></i>
+		</p>
+		
+		<p>
+			Please check the following link for details:
+			<br><a href="<%= forms_punchlist_form_url(id: @old_record.id) %>"><%= forms_punchlist_form_url(id: @old_record.id) %></a>
+		</p>
+	</body>
+</html>

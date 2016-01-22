@@ -1,0 +1,33 @@
+class CreateFormsSocIncidentReports < ActiveRecord::Migration
+  def change
+    create_table :forms_soc_incident_reports do |t|
+      t.string :reference_number
+      t.datetime :server_receive_date
+      t.datetime :device_submit_date
+      t.string :username
+      t.string :version
+      t.decimal :altitude, precision: 20, scale: 16
+      t.decimal :latitude, precision: 20, scale: 16
+      t.decimal :longitude, precision: 20, scale: 16
+      t.string :source
+      t.string :file_path
+      t.string :site
+      t.string :shop
+      t.string :column_loc
+      t.string :employee_name
+      t.date :date_of_incident
+      t.string :class_of_incident
+      t.string :type_of_injury
+      t.text :description
+      t.string :job_task_name
+      t.datetime :shift_starts
+      t.datetime :shift_ends
+      t.datetime :time_of_incident
+      t.datetime :time_reported
+      t.string :supervisor_name
+      t.string :safety_rep_contacted
+
+      t.timestamps null: true
+    end
+  end
+end

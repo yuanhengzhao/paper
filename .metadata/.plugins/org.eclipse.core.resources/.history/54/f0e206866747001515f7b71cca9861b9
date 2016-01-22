@@ -1,0 +1,94 @@
+class Admin::OptionsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_option, only: [:show, :edit, :update, :destroy]
+  before_action :set_option_group_name, only: [:index, :new]
+  
+  # GET /admin/options
+  # GET /admin/options.json
+  def index
+    # TODO verify that params[:group] was passed
+    authorize! :read, Option
+    @options = Option.where(:group => params[:group]).accessible_by(current_ability)
+  end
+
+  # GET /admin/options/body_location/1
+  # GET /admin/options/body_location/1.json
+  def show
+    authorize! :read, @option
+  end
+ 
+  # GET /admin/options/new
+  def new
+    @option = Option.new
+    authorize! :create, @option
+  end
+
+  # GET /admin/options/1/edit
+  def edit
+    authorize! :update, @option
+  end
+
+  # POST /admin/options
+  # POST /options.json
+  def create
+    @option = Option.new(option_params)
+    @option.group = @option_group_value
+    authorize! :create, @option
+    
+    respond_to do |format|
+      if @option.save
+        format.html { redirect_to admin_option_url(@option), notice: 'Option was successfully created.' }
+        format.json { render action: 'show', status: :created, location: @option }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @option.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /admin/options/1
+  # PATCH/PUT /admin/options/1.json
+  def update
+    authorize! :update, @option
+    
+    respond_to do |format|
+      if @option.update(option_params)
+        format.html { redirect_to admin_option_url(@option), notice: 'Option was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @option.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE admin/options/1
+  # DELETE admin/options/1.json
+  def destroy
+    authorize! :destroy, @option
+    
+    @option.destroy
+    respond_to do |format|
+      format.html { redirect_to admin_options_url }
+      format.json { head :no_content }
+    end
+  end
+
+  private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_option
+    @option = Option.find(params[:id])
+    @option_group_value = @option.group
+    @option_group_name = Option.option_group_titlized_name(@option.group)
+  end
+  
+  def set_option_group_name
+    @option_group_value = params[:group]
+    @option_group_name = Option.option_group_titlized_name(params[:group])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def option_params
+    params.require(:option).permit(:value)
+  end
+end

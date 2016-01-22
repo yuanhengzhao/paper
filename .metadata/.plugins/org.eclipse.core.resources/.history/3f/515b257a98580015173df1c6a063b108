@@ -1,0 +1,108 @@
+FactoryGirl.define do
+  factory :restroom_checklist, class: Forms::RestroomChecklist do
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions', 'fake.json'), 'text/plain') }
+    
+    factory :restroom_checklist_with_location do
+      sequence(:reference) { |n| "reference #{n}" }
+      sequence(:type_mwu) { |n| "type_mwu #{n}" }
+      sequence(:floor) { |n| "floor #{n}" }
+      sequence(:location) { |n| "location #{n}" }
+      sequence(:shop) { |n| "shop #{n}" }
+      sequence(:site) { |n| "site #{n}" }
+      sequence(:client) { |n| "client #{n}" }
+    end
+    
+    factory :restroom_checklist_valid do
+      reference_number "20140721174835-1814178019"
+      server_receive_date "2014-07-21T13:48:37-04:00"
+      device_submit_date "2014-07-21T13:48:35-04:00"
+      username "spai@robinsonsolutions.com"
+      version 1
+      altitude 113.166
+      latitude 43.6520561891515
+      longitude -79.3815868771158
+      source "prontoforms"
+      client "GM"
+      site "Oshawa"
+      shop "Trim"
+      location "J-65-Elec"
+      floor "2nd"
+      type_mwu "Mens"
+      reference "Electronics"
+      fi "Green"
+      cv "Green"
+      wc "Green"
+      pw "Green"
+      disp "Green"
+      floor_baseboard "Green"
+      mirror "Green"
+      sink "Green"
+      locker "N/A"
+      light "Green"
+      ut "Green"
+      fg "Green"
+      sh "N/A"
+      sw "N/A"
+      safety "Green"
+      eq "Green"
+      fives "Yellow"
+      overall_rate "2.93"
+      are_repairs_required "No"
+      list_repairs nil
+      comments "Stuff"
+      photo1 { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'restroom_checklist', 'A6257967-2F0E-40AC-8DFE-750912A19A19.jpg'), 'image/jpeg') }
+      photo2 { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'restroom_checklist', '788314D9-01A5-4ACE-A533-700336933882.jpg'), 'image/jpeg') }
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'restroom_checklist', 'valid.json'), 'text/plain') }
+      
+      # 'ignore' is a keyword so must use callback to set
+      before(:build) { |restroom_checklist| restroom_checklist.ignore = false if restroom_checklist.ignore.nil? }
+    
+      factory :restroom_checklist_invalid do
+        submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'restroom_checklist', 'too_many_pictures.json'), 'text/plain') }
+      end
+      
+      factory :restroom_checklist_v4 do
+        submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'restroom_checklist', 'valid_version_4.json'), 'text/plain') }
+        reference_number "20141128212428-1817303320"
+        server_receive_date "2014-11-28T21:24:30Z"
+        device_submit_date "2014-11-28T21:24:29Z"
+        username "spai@robinsonsolutions.com"
+        version "4"
+        altitude 117.01669
+        latitude 43.65221057068468
+        longitude -79.38193866753635
+        source "prontoforms"
+        client "GM"
+        site "Tonawanda"
+        shop "Plant 1"
+        location "A24"
+        floor "shop"
+        type_mwu "Mens"
+        reference nil
+        fi "Green"
+        cv "Green"
+        wc "Green"
+        pw "Green"
+        disp "Green"
+        floor_baseboard "Green"
+        mirror "Green"
+        sink "Green"
+        locker "Green"
+        light "Green"
+        ut "Green"
+        fg "Green"
+        sh "Green"
+        sw "Green"
+        safety "Green"
+        eq "Green"
+        fives "Green"
+        checksheet "No"
+        overall_rate "2.89"
+        are_repairs_required "Yes"
+        list_repairs "Stuff to repair"
+        comments "Stuff"
+        # use images from above
+      end
+    end
+  end
+end

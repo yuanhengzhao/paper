@@ -1,0 +1,70 @@
+# Add configuration values here, as shown below.
+#
+# pusher_app_id: "2954"
+# pusher_key: 7381a978f7dd7f9a1117
+# pusher_secret: abdc3b896a0ffb85d373
+# stripe_api_key: sk_test_2J0l093xOyW72XUYJHE4Dv2r
+# stripe_publishable_key: pk_test_ro9jV5SNwGb1yYlQfzG17LHK
+#
+# production:
+#   stripe_api_key: sk_live_EeHnL644i6zo4Iyq4v1KdV9H
+#   stripe_publishable_key: pk_live_9lcthxpSIHbGwmdO941O1XVU
+
+
+# Environment variables used by the application.
+# Do not commit this file back to the repository if it has production values in it.
+
+# app URL
+URL_PROTOCOL: http
+URL_DOMAIN: localhost
+URL_PORT: "3000"
+
+# ID and secret to use when doing Google OAuth
+GOOGLE_CLIENT_ID: "950710546709-4bku1sgua479sht68crmdfn761achrqe.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET: "AwucA0NhY22CvnqLBfQ6Wu9r"
+
+# Connection settings for Google account to email from
+GMAIL_ADDRESS: smtp.gmail.com
+GMAIL_PORT: "587"
+GMAIL_DOMAIN: "robinsonsolutions.com"
+GMAIL_USER_NAME: "no-reply@robinsonsolutions.com"
+GMAIL_PASSWORD: "@CrkJ3323"
+GMAIL_AUTHENTICATION: "plain"
+GMAIL_ENABLE_STARTTLS_AUTO: "true"
+
+# AWS region
+AWS_REGION: "us-east-1"
+
+test:
+  DB_ADAPTER: "mysql2"
+  DB_HOST: "localhost"
+  DB_PORT: "3306"
+  DB_NAME: "incidents_test"
+  DB_USER: "root"
+  DB_PASS: "sirius"
+
+development:
+  S3_BUCKET_NAME: "robinsonsolutions-test-bucket"
+  
+  DB_ADAPTER: "mysql2"
+  DB_HOST: "localhost"
+  DB_PORT: "3306"
+  DB_NAME: "incidents"
+  DB_USER: "hzhao"
+  DB_PASS: "sirius"
+
+production:
+  SECRET_KEY_BASE: "a83c190f695f5e6af23c0ac97e920c82a4d06bf2bd3b261122bb615b4fbd0fa21c9bd71f86d4217eceb9322c1ca8fca0a7e3bfa68cccc4a0702d54bd62930e21"
+  
+  S3_BUCKET_NAME: ""
+  
+  DB_ADAPTER: "mysql2"
+  DB_HOST: "sculptor.c4dd91liq1gz.us-east-1.rds.amazonaws.com"
+  DB_PORT: "3306"
+  DB_NAME: "incidents"
+  DB_USER: ""
+  DB_PASS: ""
+  
+  URL_PROTOCOL: https
+  URL_DOMAIN: incidents.robinsonsolutions.com
+  URL_PORT: "443"

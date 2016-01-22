@@ -1,0 +1,4 @@
+json.array!(@dollies) do |dolly|
+  json.extract! dolly, :id, :identifier, :active
+  json.url data_sources_dolly_url(dolly, format: :json)
+end

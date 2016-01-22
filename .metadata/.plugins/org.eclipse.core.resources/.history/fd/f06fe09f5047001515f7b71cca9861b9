@@ -1,0 +1,5 @@
+<% title "Editing #{@option_group_name} #{@option.id}" %>
+
+<%= render 'form' %>
+
+

@@ -1,0 +1,48 @@
+Incidents::Application.routes.draw do
+  
+  devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }, :skip => [ :registrations, :passwords ]
+  
+  root "home#index"
+  
+  get "admin/" => "admin#index"
+  namespace :admin do
+    get 'options/:group' => "options#index", as: :options
+    get 'options/:group/show/:id' => "options#show", as: :show_option
+    get 'options/:group/edit/:id' => "options#edit", as: :edit_option
+    patch 'options/:group/update/:id' => "options#update", as: :update_option
+    get 'options/:group/new' => "options#new", as: :new_option
+    post 'options/:group/create' => "options#create", as: :create_option
+    delete 'options/:group/delete/:id' => "options#destroy", as: :delete_option
+    
+    resources :sites
+    resources :buildings
+    resources :users
+    resources :work_periods, only: [:index] do
+      collection do
+        put 'save'
+      end
+    end
+  end
+  
+  resources :incidents, only: [ :index, :new, :show, :create, :edit, :update, :destroy ] do
+    collection do
+      get 'datatable'
+      get 'open_incidents' => :open_incidents_form
+      post 'open_incidents' => :open_incidents_report
+    end
+    
+    member do
+      get 'export'
+      get ':attachment_group/:index', to: 'incidents#attachment', as: :attachment
+      post 'distribute'
+    end
+  end
+  
+  get "tracker" => "incidents#tracker"
+
+  resources :reports, only: [ :index, :show, :destroy ] do
+    member do
+      get :download
+    end
+  end
+end

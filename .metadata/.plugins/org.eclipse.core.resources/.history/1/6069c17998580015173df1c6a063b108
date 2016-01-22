@@ -1,0 +1,10 @@
+jQuery ->  
+  # datatable for site shifts page
+  datatable = $("#equipment_units_datatable").DataTable
+    "processing": true
+    "serverSide": false
+  
+  $(".date-picker").datetimepicker({
+         format: "DD/MM/YYYY"
+  })
+  $(".date-picker").next("spa")

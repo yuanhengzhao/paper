@@ -1,0 +1,32 @@
+require_relative '../../spec_helper'
+
+describe Forms::NetPromoterScore do
+  it "should be included in Forms.list" do
+    expect(Forms.list).to include described_class
+  end
+  
+  it "has a valid factory" do
+    build(:net_promoter_score).should be_valid
+  end
+  
+  it_behaves_like "reparseable"
+  
+  describe "promoter? and passive? and detractor?" do
+    it "should return correctly based on score" do
+      r = build(:net_promoter_score)
+      r.nps = 5
+      expect(( !r.promoter? and !r.passive? and r.detractor? )).to eq(true)
+      r.nps = 6
+      expect(( !r.promoter? and !r.passive? and r.detractor? )).to eq(true)
+      r.nps = 7
+      expect(( !r.promoter? and r.passive? and !r.detractor? )).to eq(true)
+      r.nps = 8
+      expect(( !r.promoter? and r.passive? and !r.detractor? )).to eq(true)
+      r.nps = 9
+      expect(( r.promoter? and !r.passive? and !r.detractor? )).to eq(true)
+      r.nps = 10
+      expect(( r.promoter? and !r.passive? and !r.detractor? )).to eq(true)
+    end
+  end
+  
+end

@@ -1,0 +1,411 @@
+#gem install nokogiri
+
+#Steps to use the script:
+#1.Go to the Pages&Questions tab of a form on Prontoforms dashboard. Use Firebug or Chrome inspect element to see the html source code. copy 
+#  the whole <tbody> element of the form.
+#2.Create a file in app/helpers/form_analyzer/prontoforms/data folder and parse the tbody element to the file
+#3.Open the pronto_forms_analyzer.rb. Change the parameters on the top. 
+#  Example:
+#  form_name = "shift_report"                        # the name of the form
+#  class_name = "Forms::ShiftReport"                  # the class of the form
+#  file_path = "data/shift_report_v5.html"            # the file contains the tbody html
+#  unused_fields = ["End Cam", "End Osh", "End Wood"] # fields that you don't want to add to the database
+#4.run ruby pronto_forms_analyzer.rb on your terminal.
+#5.A file will be generated in app/helpers/form_analyzer/prontoforms/output. The name format is <form_name>_<current_time>.out. It contains the
+#  command to generate the modal.
+#6.run the command on your terminal. It will create an empty model class, an empty spec and the migrate that creates the table in the database. 
+#  It also creates basic ruby codes for model, factory and specs
+#
+
+#Convention to map Prontoforms fields to model fields:
+#For Text or Email. If the control type is Multiselect or Text Area, the model field type is text. Otherwise, it is string.
+#For Barcode, it is string.
+#For Number, it is integer.
+#For Decimal Number, it is decimal{20,20}
+#For Date, it is date
+#For Time, it is datetime
+#For Image, it is attachment. 
+#(If the number of maximum attachments is 1, the field name is the label name. If it is more than 1, it created multiple fields with names 
+#<label>#<i>. 
+#Example: label name: images, field names: images1, images2, etc)
+
+#The ultimate goal is to use script to automatically generate all the model codes, factory codes, controllers, specs, and parsers :)
+
+require 'nokogiri'
+
+def convertToHash(file_path, unused_fields)
+  
+  file = File.open(file_path, "rb")
+  html = file.read
+  
+  doc = Nokogiri::HTML(html)
+  
+  questions = []
+  
+  doc.search('tr').each do |tr|
+    tr_id = tr.attr("id")
+    if(!tr_id.nil? and tr_id.include? "question") #this is a question row
+      a_question = {}
+      
+      tds = tr.search('td')
+      a_question[:question_text] = tds[2].content
+      a_question[:data_type] = tds[3].content
+      a_question[:control_type] = tds[4].content
+      a_question[:label] = tds[5].search("span").last.content
+      
+      if a_question[:data_type] == "Image" and a_question[:control_type] != "Sketch Pad"
+        maximum_attachments = tds[5].css(".definition").search("dd")[1].content
+        maximum_attachments.delete!("\n")
+        maximum_attachments.delete!("\t")
+        a_question[:maximum_attachments] = maximum_attachments.to_i
+      end
+      
+      unless unused_fields.include? a_question[:label]
+        questions << a_question
+      end
+    end
+  end
+  
+  questions
+end
+
+def converQuestionsToDatabaseColumns(questions)
+  columns = []
+  columns << {type:"string", name:"reference_number"}  
+  columns << {type:"datetime", name:"server_receive_date"}  
+  columns << {type:"datetime", name:"device_submit_date"}  
+  columns << {type:"string", name:"username"}  
+  columns << {type:"string", name:"version"}  
+  columns << {type:"decimal", name:"altitude", precision: 20, scale:20}  
+  columns << {type:"decimal", name:"latitude", precision: 20, scale:20}  
+  columns << {type:"decimal", name:"longitude", precision: 20, scale:20}  
+  columns << {type:"string", name:"source"}  
+  columns << {type:"string", name:"file_path"}  
+  
+  questions.each do |q|
+    case q[:data_type]
+    when "Barcode"
+      columns << {type:"text", name:q[:label]}  
+    when "Text"
+      if q[:control_type] == "Text Area" or q[:control_type] == "Multiselect Box" 
+        columns << {type:"text", name:q[:label]}
+      else
+        columns << {type:"string", name:q[:label]}
+      end
+    when "Email   "
+      if q[:control_type] == "Text Area" or q[:control_type] == "Multiselect Box" 
+        columns << {type:"text", name:q[:label]}
+      else
+        columns << {type:"string", name:q[:label]}
+      end
+    when "Number"
+        columns << {type:"integer", name:q[:label]}
+    when "Decimal Number"
+        columns << {type:"decimal", name:q[:label], precision: 10, scale:3}
+    when "Time"
+        columns << {type:"datetime", name:q[:label]}
+    when "Date"
+        columns << {type:"date", name:q[:label]}
+    when "Signature"
+        columns << {type:"attachment", name:q[:label]}
+    when "Image"
+      maximum_attachments = q[:maximum_attachments]
+      if q[:control_type] == "Sketch Pad"
+        columns << {type:"attachment", name:q[:label]}
+      elsif maximum_attachments == 1
+        columns << {type:"attachment", name:q[:label]}
+      else
+        (1..maximum_attachments).step(1) do |i|
+          columns << {type:"attachment", name:q[:label]+i.to_s}
+        end
+      end
+    end
+  end
+  
+  columns
+end
+
+def generate_model_cmd(database_columns, class_name)
+  cmd = "rails generate model #{class_name}"
+  database_columns.each do |col|
+    if col[:type] == "decimal"
+      cmd += " #{col[:name]}:#{col[:type]}{#{col[:precision]}.#{col[:scale]}}"
+    else 
+      cmd += " #{col[:name]}:#{col[:type]}"
+    end
+  end
+  cmd
+end
+
+def gnerate_model_code(database_columns, class_name)
+  
+  doc_properties = ""
+  database_columns.each do |c|
+    doc_properties +="# - #{c[:name]} (#{c[:type]}) - \n"
+  end
+  
+  doc_code = 
+"
+# #{class_name}'s Model
+#
+# Properties:
+#{doc_properties}
+"
+
+
+  attachment_code = ""
+  database_columns.each do |c|
+    if c[:type] == "attachment"
+      attachment_code += 
+"  has_attached_file :#{c[:name]}
+  validates_attachment_content_type :#{c[:name]}, :content_type => /\Aimage/\n\n"
+    end
+  end
+  
+  
+  
+  ruby_code = 
+"
+#{doc_code}
+
+class #{class_name} < ActiveRecord::Base
+#{attachment_code}
+end
+"
+  ruby_code
+
+end
+
+def create_factory_file(form_name)
+  
+end
+
+def gnerate_factory_code(database_columns, class_name, form_name)
+  
+  ruby_code =
+"FactoryGirl.define do
+  factory :#{form_name}, class: #{class_name} do
+  end
+end"
+
+  ruby_code
+
+end
+
+
+def gnerate_spec_code(database_columns, class_name, form_name)
+  
+  ruby_code =
+"require 'spec_helper'
+
+describe #{class_name} do
+  
+  it \"has a valid factory\" do
+    build(:#{form_name}).should be_valid
+  end
+  
+end"
+
+  ruby_code
+
+end
+
+def generate_array_code(database_columns)
+  array = []
+  database_columns.each do |c|
+    array << c[:name]
+  end
+  return array.to_s
+end
+
+def generate_parser_spec_code1(database_columns)
+  code = ""
+  database_columns.each do |c|
+    code += "        its(\"#{c[:name]}\") { should eq(expected.#{c[:name]}) }\n"
+  end
+  return code
+end
+
+def generate_view_code1(database_columns, object_name)
+  code = ""
+  
+  database_columns.each do |c|
+    code += 
+    "            <tr><td>#{c[:name]}</td><td><%= @#{object_name}.#{c[:name]} %></td></tr>\n"
+  end
+  
+  result = 
+"
+<table>
+#{code}
+  </tr>
+  
+</table>
+"
+
+  return result
+end
+
+#pre_task_safety_plan
+form_name = "soc_hourly_production_report"
+class_name = "Forms::SOCHourlyProductionReport"
+file_path = "data/soc_hourly_production_report_v1.html"
+
+#snow_audit
+form_name = "snow_audit"
+class_name = "Forms::SnowAudit"
+file_path = "data/snow_audit_v1.html"
+
+
+
+#task_inspection
+form_name = "task_inspection"
+class_name = "Forms::TaskInspection"
+file_path = "data/task_inspection_v1.html"
+
+
+
+
+#safety_observation
+form_name = "safety_observation"
+class_name = "Forms::SafetyObservation"
+file_path = "data/safety_observation_v7.html"
+
+
+
+#pre_task_safety_plan
+form_name = "pre_task_safety_plan"
+class_name = "Forms::PreTaskSafetyPlan"
+file_path = "data/pre_task_safety_plan_v2.html"
+
+
+
+#special_service_request
+form_name = "special_service_request"
+class_name = "Forms::SpecialServiceRequest"
+file_path = "data/special_service_request_v1.html"
+
+#soc_incident_report
+form_name = "soc_incident_report"
+class_name = "Forms::SOCIncidentReport"
+file_path = "data/soc_incident_report_v2.html"
+
+
+#soc_incident_report
+form_name = "gemba_observation"
+class_name = "Forms::GembaObservation"
+file_path = "data/gemba_observation.html"
+
+#soc_incident_report
+form_name = "restroom_checklist"
+class_name = "Forms::RestroomChecklist"
+file_path = "data/restroom_checklist.html"
+
+#janitorial checklist
+form_name = "janitorial_checklist"
+class_name = "Forms::JanitorialChecklist"
+file_path = "data/janitorial_checklist.html"
+
+
+#shift_report
+form_name = "shift_report"
+class_name = "Forms::ShiftReport"
+file_path = "data/shift_report_v5.html"
+
+#soc_hourly_production_report
+form_name = "soc_hourly_production_report"
+class_name = "Forms::SocHourlyProductionReport"
+file_path = "data/soc_hourly_production_report.html"
+
+
+
+#safety_observation
+form_name = "safety_observation"
+class_name = "Forms::SafetyObservation"
+file_path = "data/safety_observation_v7.html"
+
+
+#pre_task_safety_plan
+form_name = "pre_task_safety_plan"
+class_name = "Forms::PreTaskSafetyPlan"
+file_path = "data/pre_task_safety_plan_v2.html"
+
+
+#booth_eliminator_checklist
+form_name = "booth_eliminator_checklist"
+class_name = "Forms::BoothEliminatorChecklist"
+file_path = "data/booth_eliminator_checklist_v3.html"
+
+#task_inspection
+form_name = "task_inspection"
+class_name = "Forms::TaskInspection"
+file_path = "data/task_inspection.html"
+#snow_audit
+form_name = "snow_audit"
+class_name = "Forms::SnowAudit"
+file_path = "data/snow_audit_v1.html"
+
+unused_fields = ["End Cam", "End Osh", "End Wood", "End SOC", "GOTO", "GOTO 2", "GOTO 3", "GOTO 4", "GOTO 5", "GOTO 6", "to_group_leader_sec", "StSaS", "TTQRYoNteq:", 
+                "label4", "label5", "label6", "plant", "p1ct", "p2ct", "p3ct", "p4ct", "p1lut", "p2lut", "p3lut", "p4lut",
+                "p1m", "p2m", "p3m", "p4m", "cph", "ap1", "ap2", "ap3", "ap4","to_group_leader_sec","CaW-BRZ1-n","CaW-BRZ1-i","VT-BRZ1-n","VT-BRZ1-i",
+                "ME-BRZ1-n","ME-BRZ1-i","CaW-BRZ2-n","CaW-BRZ2-i","VT-BRZ2-n","VT-BRZ2-i","ME-BRZ2-n","ME-BRZ2-i","CaW-CRZ1-n","CaW-CRZ1-i","VT-CRZ1-n",
+                "VT-CRZ1-i","ME-CRZ1-n","ME-CRZ1-i","CaW-BZ1-n","CaW-BZ1-i","VT-BZ1-n","VT-BZ1-i","ME-BZ1-n","ME-BZ1-i"]
+
+
+questions = convertToHash(file_path,unused_fields)
+database_columns = converQuestionsToDatabaseColumns(questions)
+gen_model_cmd = generate_model_cmd(database_columns, class_name)
+model_code = gnerate_model_code(database_columns, class_name)
+factory_code = gnerate_factory_code(database_columns, class_name, form_name)
+spec_code = gnerate_spec_code(database_columns, class_name, form_name)
+array_code = generate_array_code(database_columns)
+spec_code_p1 = generate_parser_spec_code1(database_columns)
+view_code = generate_view_code1(database_columns,form_name)
+
+out_file = File.new("output/#{form_name}.out", "w")
+out_file.puts("Generating Model Command:")
+out_file.puts(gen_model_cmd)
+
+out_file.puts("\n\n\n")
+out_file.puts("Model Code:")
+out_file.puts(model_code)
+
+out_file.puts("\n\n\n")
+out_file.puts("Factory Code:name - #{form_name}_factory.rb")
+out_file.puts(factory_code)
+
+out_file.puts("\n\n\n")
+out_file.puts("Spec Code:")
+out_file.puts(spec_code)
+
+
+out_file.puts("\n\n\n")
+out_file.puts("Array Code:")
+out_file.puts(array_code)
+
+
+out_file.puts("\n\n\n")
+out_file.puts("Spec Code P1:")
+out_file.puts(spec_code_p1)
+
+out_file.puts("\n\n\n")
+out_file.puts("View Code P1:")
+out_file.puts(view_code)
+
+out_file.close
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

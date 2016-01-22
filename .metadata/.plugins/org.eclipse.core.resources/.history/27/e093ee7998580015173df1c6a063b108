@@ -1,0 +1,6 @@
+<% title "Dolly Cleanings" %>
+
+<%= render :partial => 'forms/form_export_section', :locals => {:update_url => update_export_forms_dolly_cleanings_url(format: :json), :download_url => download_export_forms_dolly_cleanings_url} %>
+<table id="dolly_cleanings_datatable" class="display<%= (can?(:manage, Forms::DollyCleaning) ? ' admin' : '') %>">
+	<%= render :partial => 'forms/form_header_footer' %>
+</table>

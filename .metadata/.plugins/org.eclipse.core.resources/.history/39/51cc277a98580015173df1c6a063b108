@@ -1,0 +1,37 @@
+require 'spec_helper'
+
+describe DataSources::CustomerSite do
+  it "has a valid factory" do
+    expect(build(:customer_site)).to be_valid
+  end
+  
+  it "is invalid without a company" do
+    expect(build(:customer_site, company: nil)).to_not be_valid
+  end
+  
+  it "is invalid without a customer" do
+    expect(build(:customer_site, customer: nil)).to_not be_valid
+  end
+  
+  it "is invalid without a site" do
+    expect(build(:customer_site, site: nil)).to_not be_valid
+  end
+  
+  it "is invalid without a shop" do
+    expect(build(:customer_site, shop: nil)).to_not be_valid
+  end
+  
+  it "cannot have the same combination of attributes as another record" do
+    original = create(:customer_site)
+    duplicate = build(:customer_site, company: original.company, customer: original.customer, site: original.site, shop: original.shop)
+    expect(duplicate).to_not be_valid
+  end
+  
+  it "can duplicate some attributes as long as at least one attribute is different" do
+    original = create(:customer_site)
+    expect(build(:customer_site, company: original.company+"1", customer: original.customer, site: original.site, shop: original.shop)).to be_valid
+    expect(build(:customer_site, company: original.company, customer: original.customer+"1", site: original.site, shop: original.shop)).to be_valid
+    expect(build(:customer_site, company: original.company, customer: original.customer, site: original.site+"1", shop: original.shop)).to be_valid
+    expect(build(:customer_site, company: original.company, customer: original.customer, site: original.site, shop: original.shop+"1")).to be_valid
+  end
+end

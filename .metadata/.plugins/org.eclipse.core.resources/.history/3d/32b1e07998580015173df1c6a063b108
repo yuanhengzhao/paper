@@ -1,0 +1,66 @@
+# Parser to for Task Inspection forms submitted from ProntoForms
+class ProntoForms::TaskInspectionParser < AbstractFormParser
+  
+  # name of the form according to ProntoForms
+  NAME = "Task Inspection"
+  
+  # Returns the highest version number this parser is capable of parsing.
+  #
+  # @return [numeric] highest version number this parser is capable of parsing
+  def max_version
+    2
+  end
+  
+  # Attempts to convert the hash provided into a database object.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @param result [Forms::TaskInspection] object to update, nil if a new object should be created
+  # @return [ActiveRecord] instance of the object
+  # @raise [ParserException] if the hash could not be parsed for whatever reason
+  def parse(form_hash, result = nil)
+    result ||= Forms::TaskInspection.new
+    
+    # assign common values
+    ProntoForms::SourceParser.get_common_answer_values(form_hash, result)
+    
+    # page 1
+    result.inspection_date = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 0)[0]
+    result.client          = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 1)[0]
+    result.site            = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 2)[0]
+    result.shop            = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 3)[0]
+    result.num_tasks       = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 4)[0]
+    
+    # because of how multiple tasks are handled as pages, must dynamically loop to ensure proper ordering
+    max_tasks = 3
+    raise ParserException, "Too many tasks submitted" if result.num_tasks > max_tasks
+    raise ParserException, "At least one task is required" if result.num_tasks < 1
+    
+    task_num = 1
+    for i in (max_tasks + 1 - result.num_tasks)..max_tasks
+      get_results(result, form_hash, task_num, i)
+      task_num = task_num + 1
+    end
+    
+    return result
+  end
+  
+  private
+  
+  # Handles setting the page answers to the appropriate task
+  #
+  # @param result [Forms::TaskInspection] object being built
+  # @param form_hash [Hash] hash of the form submission
+  # @param task_num [int] specific task in the object to populate
+  # @param page [int] specific page from the hash to get answers from
+  def get_results(result, form_hash, task_num, page)
+    result.send("task#{task_num}=",                ProntoForms::SourceParser.get_answer_values(form_hash, page, 0)[0])
+    result.send("abnormality#{task_num}=",         ProntoForms::SourceParser.get_answer_values(form_hash, page, 1)[0])
+    result.send("abnormality_desc#{task_num}=",    ProntoForms::SourceParser.get_answer_values(form_hash, page, 2)[0])
+    ProntoForms::SourceParser.handle_image(result, form_hash, page, 3, "abnormality_picture#{task_num}")
+    ProntoForms::SourceParser.handle_image(result, form_hash, page, 5, "picture_before_task#{task_num}")
+    ProntoForms::SourceParser.handle_image(result, form_hash, page, 6, "picture_after_task#{task_num}")
+    result.send("quality_evaluation#{task_num}=",  ProntoForms::SourceParser.get_answer_values(form_hash, page, 7)[0])
+    result.send("comments_task#{task_num}=",       ProntoForms::SourceParser.get_answer_values(form_hash, page, 8)[0])
+  end 
+  
+end 

@@ -1,0 +1,123 @@
+class Forms::SpecialServiceRequestsController < ApplicationController
+  
+  FORM_NAME = "special service requests"
+  
+  include DatatableServerSideProcessing
+  include XlsxReportProcessing
+  
+  before_action :authenticate_user!
+  
+  load_and_authorize_resource :except => [:image1, :image2, :image3, :image4, :image5, :update_export, :download_export, :submission]
+  
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  
+  add_breadcrumb "forms", :forms_index_path
+  add_breadcrumb "special service requests", :forms_special_service_requests_path
+  
+  DATATABLES_COLUMNS = [ "id", "username", "device_submit_date" ]
+  
+  def index
+    # @special_service_requests is automatically loaded
+  end
+
+  def show
+    # @special_service_request is automatically loaded
+    add_breadcrumb "special request service #{@special_service_request.id}", :forms_special_service_request_path
+  end
+  
+  # Overwrites the model's existing properties with the contents of the original submission document attached.
+  def reparse
+    # @special_service_request is automatically loaded
+    result = @special_service_request.reparse
+    # render the show action associated with the result object
+    render action: 'show', location: result
+  end
+  
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html { redirect_to forms_special_service_requests_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS
+        }
+        
+        # call concern function using collection of all records the user has access to
+        @special_service_requests = Forms::SpecialServiceRequest.accessible_by(current_ability)
+        render :json => datatable_data(@special_service_requests, params, options)
+      }
+    end
+  end
+
+  def update_export
+    authorize! :read, Forms::SpecialServiceRequest
+    
+    begin
+      raise "No data in this form."  if Forms::SpecialServiceRequest.all.count == 0
+      @export = generate_xlsx(Forms::SpecialServiceRequest, FORM_NAME, Forms::SpecialServiceRequest.maximum("updated_at"))
+      respond_to do |format|
+        format.json { render :json => @export, status: :ok  }
+      end
+    rescue => e
+      respond_to do |format|
+        format.json { render text:e.message, status: :not_acceptable }
+      end
+    end  
+  end
+  
+  def download_export
+    authorize! :read, Forms::SpecialServiceRequest
+    @export = Report::FormExport.find_by(form_name: FORM_NAME)
+    redirect_to(@export.attachment.expiring_url(10))
+  end
+  
+  def image1
+    authorize! :read, Forms::SpecialServiceRequest
+    @special_service_request = Forms::SpecialServiceRequest.find(params[:id])
+    authorize! :read, @special_service_request
+    redirect_to(@special_service_request.image1.expiring_url(10))
+  end
+
+  def image2
+    authorize! :read, Forms::SpecialServiceRequest
+    @special_service_request = Forms::SpecialServiceRequest.find(params[:id])
+    authorize! :read, @special_service_request
+    redirect_to(@special_service_request.image2.expiring_url(10))
+  end
+  
+  def image3
+    authorize! :read, Forms::SpecialServiceRequest
+    @special_service_request = Forms::SpecialServiceRequest.find(params[:id])
+    authorize! :read, @special_service_request
+    redirect_to(@special_service_request.image3.expiring_url(10))
+  end
+
+  def image4
+    authorize! :read, Forms::SpecialServiceRequest
+    @special_service_request = Forms::SpecialServiceRequest.find(params[:id])
+    authorize! :read, @special_service_request
+    redirect_to(@special_service_request.image4.expiring_url(10))
+  end
+  
+  def image5
+    authorize! :read, Forms::SpecialServiceRequest
+    @special_service_request = Forms::SpecialServiceRequest.find(params[:id])
+    authorize! :read, @special_service_request
+    redirect_to(@special_service_request.image5.expiring_url(10))
+  end
+
+  def submission
+    authorize! :read, Forms::SpecialServiceRequest
+    @special_service_request = Forms::SpecialServiceRequest.find(params[:id])
+    authorize! :read, @special_service_request
+    redirect_to(@special_service_request.submission.expiring_url(10))
+  end
+
+  private
+  
+  def record_not_found(exception)
+    # redirect back to index if id not found
+    flash[:alert] = exception.message
+    redirect_to forms_special_service_requests_path
+  end
+end

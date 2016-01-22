@@ -1,0 +1,118 @@
+class DataSources::DolliesController < ApplicationController
+
+  include DatatableServerSideProcessing
+  DATATABLES_COLUMNS = [ "id", "identifier", "active" ]
+  
+  before_action :authenticate_user!
+
+  load_and_authorize_resource
+
+  before_action :set_data_sources_dolly, only: [:edit, :update, :destroy]
+
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
+  add_breadcrumb "data sources", :data_sources_index_path
+  add_breadcrumb "dollies", :data_sources_dollies_path
+  
+  # GET /data_sources/dollies
+  # GET /data_sources/dollies.json
+  def index
+    # @dollies is automatically loaded
+  end
+
+  # GET /data_sources/dollies/1
+  # GET /data_sources/dollies/1.json
+  def show
+    # @dolly is automatically loaded
+    add_breadcrumb "dolly #{@dolly.id}", :data_sources_dolly_path
+  end
+
+  # GET /data_sources/dollies/new
+  def new
+    # blank @dolly is automatically loaded
+  end
+
+  # GET /data_sources/dollies/1/edit
+  def edit
+    add_breadcrumb "dolly #{@dolly.id}", :data_sources_dolly_path
+  end
+
+  # POST /data_sources/dollies
+  # POST /data_sources/dollies.json
+  def create
+    @dolly = DataSources::Dolly.new(data_sources_dolly_params)
+
+    respond_to do |format|
+      if @dolly.save
+        format.html { redirect_to @dolly, notice: 'Dolly was successfully created.' }
+        format.json { render action: 'show', status: :created, location: @dolly }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @dolly.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /data_sources/dollies/1
+  # PATCH/PUT /data_sources/dollies/1.json
+  def update
+    respond_to do |format|
+      if @dolly.update(data_sources_dolly_params)
+        format.html { redirect_to @dolly, notice: 'Dolly was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @dolly.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /data_sources/dollies/1
+  # DELETE /data_sources/dollies/1.json
+  def destroy
+    @dolly.destroy
+    respond_to do |format|
+      format.html { redirect_to data_sources_dollies_url }
+      format.json { head :no_content }
+    end
+  end
+    
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html { redirect_to data_sources_dollies_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS
+        }
+        
+        # call concern function using collection of all records the user has access to
+        @dollies = DataSources::Dolly.accessible_by(current_ability)
+        render :json => datatable_data(@dollies, params, options)
+      }
+    end
+  end
+
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_data_sources_dolly
+    @dolly = DataSources::Dolly.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def data_sources_dolly_params
+    params.require(:dolly).permit(:identifier, :active)
+  end
+  
+  # callback when no record matches the id provided
+  def record_not_found(exception)
+    respond_to do |format|
+      format.html {
+        flash[:alert] = exception.message
+        redirect_to data_sources_dollies_path
+      }
+      format.any { raise ActiveRecord::RecordNotFound }
+    end
+  end
+end

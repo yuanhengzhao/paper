@@ -1,0 +1,27 @@
+<% title "Dolly #{@dolly.id}"  %>
+
+<div class="data-source-details">
+<table>
+	<tbody>
+		<tr>
+			<td>Identifier:</td>
+			<td><%= @dolly.identifier %></td>
+		</tr>
+		<tr>
+			<td>Active:</td>
+			<td><%= @dolly.active %></td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="2">
+				<ul>
+					<% if can? :edit, @dolly %><li><%= link_to 'Edit', edit_data_sources_dolly_path(@dolly) %></li><% end %>
+					<li><%= link_to 'Back', data_sources_dollies_path %></li>
+				</ul>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+
+</div>

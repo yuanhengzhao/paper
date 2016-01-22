@@ -1,0 +1,1 @@
+json.extract! @jig_cleaning, :id, :created_at, :updated_at

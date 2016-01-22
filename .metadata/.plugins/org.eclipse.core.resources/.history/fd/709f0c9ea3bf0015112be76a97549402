@@ -1,0 +1,81 @@
+<% title "SOC Incident Report #{@soc_incident_report.id}" %>
+
+<div class="container">
+	<table class="table table-striped table-hover admin-responsive-table form-table">
+		<tbody>
+			<tr>
+				<td>reference_number</td><td><%= @soc_incident_report.reference_number %></td>
+			</tr>
+			<tr>
+				<td>server_receive_date</td><td><%= @soc_incident_report.server_receive_date %></td>
+			</tr>
+			<tr>
+				<td>device_submit_date</td><td><%= @soc_incident_report.device_submit_date %></td>
+			</tr>
+			<tr>
+				<td>username</td><td><%= @soc_incident_report.username %></td>
+			</tr>
+			<tr>
+				<td>version</td><td><%= @soc_incident_report.version %></td>
+			</tr>
+			<tr>
+				<td>altitude</td><td><%= @soc_incident_report.altitude %></td>
+			</tr>
+			<tr>
+				<td>latitude</td><td><%= @soc_incident_report.latitude %></td>
+			</tr>
+			<tr>
+				<td>longitude</td><td><%= @soc_incident_report.longitude %></td>
+			</tr>
+			<tr>
+				<td>source</td><td><%= @soc_incident_report.source %></td>
+			</tr>
+			<tr>
+				<td>site</td><td><%= @soc_incident_report.site %></td>
+			</tr>
+			<tr>
+				<td>shop</td><td><%= @soc_incident_report.shop %></td>
+			</tr>
+			<tr>
+				<td>column_loc</td><td><%= @soc_incident_report.column_loc %></td>
+			</tr>
+			<tr>
+				<td>employee_name</td><td><%= @soc_incident_report.employee_name %></td>
+			</tr>
+			<tr>
+				<td>date_of_incident</td><td><%= @soc_incident_report.date_of_incident %></td>
+			</tr>
+			<tr>
+				<td>class_of_incident</td><td><%= @soc_incident_report.class_of_incident %></td>
+			</tr>
+			<tr>
+				<td>type_of_injury</td><td><%= @soc_incident_report.type_of_injury %></td>
+			</tr>
+			<tr>
+				<td>description</td><td><%= @soc_incident_report.description %></td>
+			</tr>
+			<tr>
+				<td>job_task_name</td><td><%= @soc_incident_report.job_task_name %></td>
+			</tr>
+			<tr>
+				<td>shift_starts</td><td><%= @soc_incident_report.shift_starts %></td>
+			</tr>
+			<tr>
+				<td>shift_ends</td><td><%= @soc_incident_report.shift_ends %></td>
+			</tr>
+			<tr>
+				<td>time_of_incident</td><td><%= @soc_incident_report.time_of_incident %></td>
+			</tr>
+			<tr>
+				<td>time_reported</td><td><%= @soc_incident_report.time_reported %></td>
+			</tr>
+			<tr>
+				<td>supervisor_name</td><td><%= @soc_incident_report.supervisor_name %></td>
+			</tr>
+			<tr>
+				<td>safety_rep_contacted</td><td><%= @soc_incident_report.safety_rep_contacted %></td>
+			</tr>
+		</tbody>
+	</table>
+<%= render :partial => 'forms/form_submission_section', :locals => { :submission_path => submission_forms_soc_incident_report_path(@soc_incident_report), :reparse_path => reparse_forms_soc_incident_report_path(@soc_incident_report) } %>
+</div>

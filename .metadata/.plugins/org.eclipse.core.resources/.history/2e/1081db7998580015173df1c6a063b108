@@ -1,0 +1,80 @@
+# @abstract Subclass and override {#get_parser} to implement source-specific parser.
+class AbstractSourceParser
+  
+  # Attempts to convert submission into a hash that can be delegated to an appropriate child
+  # of AbstractFormParser to convert into a database object to be persisted.
+  #
+  # @param submission [String] content of the form submission
+  # @param model [ActiveRecord] object to update, nil if a new object should be created
+  # @return [Object] instance of the created model or nil if it could not be parsed
+  def parse(submission, model = nil)
+    # attempt to convert to hash
+    form_hash = convert(submission)
+    raise ParserException, "Could not construct hash" if form_hash.nil?
+    
+    # find parser based on hash
+    parser = get_parser(form_hash)
+    raise ParserException, "No matching parser found" if parser.nil?
+    raise ParserException, "Bad parser returned" unless parser.kind_of?(AbstractFormParser)
+    
+    # delegate parsing to parser -- parser will raise ParserException if there is a problem
+    result = parser.parse(form_hash, model)
+    
+    # compare version of result against maximum version recognized by parser
+    unless result.nil?
+      raise ParserException, "Unrecognized version number" unless is_version_acceptable?(result.version, parser.max_version)
+    end
+    
+    # check if the result is a valid record
+    unless result.valid?
+      raise ParserException, result.errors.full_messages * ","
+    end
+    
+    # return result
+    return result
+  end
+  
+  # Abstract method that must be overridden in subclasses that should return
+  # an instance of the parser class that should be used to parse the submission.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @return [AbstractFormParser] instance of the matching parser, or nil if no match found
+  # @raise [NotImplementedError] when the method has not been overridden
+  def get_parser(form_hash); raise NotImplementedError end
+  
+  # Abstract method that must be overridden in subclasses that should return true
+  # if the version number of the form is less than or equal to the maximum version
+  # number of the associated parser can recognize, false otherwise.
+  #
+  # @param form_version [Object] version of the form where the format is specific to the source
+  # @param max_version [Object] highest version recognized by the parser
+  # @return [boolean] true if the version is acceptable, false otherwise
+  # @raise [NotImplementedError] when the method has not been overridden
+  def is_version_acceptable?(form_version, max_version); raise NotImplementedError end
+  
+  # Converts the form submission into a Ruby hash.
+  #
+  # @param submission [String] content of the form submission
+  def convert(submission)
+    hsh = nil
+    
+    # attempt to convert from JSON
+    hsh = from_json(submission) if hsh.nil?
+    
+    return hsh
+  end
+  
+  # attempts to convert the string parameter into a hash, returns nil
+  # if the parameter is not a string of JSON.
+  #
+  # @param submission [String] content of the form submission
+  def from_json(submission)
+    begin
+      return ActiveSupport::JSON.decode(submission)
+    rescue ActiveSupport::JSON.parse_error
+      # submission is not JSON -- ignore
+      return nil
+    end
+  end
+  
+end

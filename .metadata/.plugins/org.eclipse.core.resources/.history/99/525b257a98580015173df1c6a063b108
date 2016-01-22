@@ -1,0 +1,15 @@
+FactoryGirl.define do
+  factory :safety_observation, class: Forms::SafetyObservation do
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions', 'fake.json'), 'text/plain') }
+     
+    factory :safety_observation_valid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'safety_observation', 'valid.json'), 'text/plain') }
+    end
+    
+    factory :safety_observation_invalid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'safety_observation', 'too_many_pictures.json'), 'text/plain') }
+    end
+  end
+end

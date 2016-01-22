@@ -1,0 +1,549 @@
+{  
+   "identifier":"1825014783",
+   "version":"v1",
+   "zone":"America/Toronto",
+   "referenceNumber":"20150716150550-1825014783",
+   "state":"Complete",
+   "deviceSubmitDate":{  
+      "time":"2015-07-16T11:05:42-04:00",
+      "zone":"America/Toronto"
+   },
+   "shiftedDeviceSubmitDate":"2015-07-16T11:05:42-04:00",
+   "serverReceiveDate":"2015-07-16T11:05:51-04:00",
+   "form":{  
+      "identifier":"142094039",
+      "versionIdentifier":"152630075",
+      "name":"Battery Inspection",
+      "version":1,
+      "formSpaceIdentifier":"191803005",
+      "formSpaceName":"Space - Battery Maintenance"
+   },
+   "user":{  
+      "identifier":"131590063",
+      "username":"mliao@robinsonsolutions.com",
+      "displayName":"Mengxi Liao (mliao@robinsonsolutions.com)"
+   },
+   "dispatcher":null,
+   "geoStamp":{  
+      "success":true,
+      "captureTimestamp":{  
+         "provided":{  
+            "time":"2015-07-16T11:05:30-04:00",
+            "zone":"America/Toronto"
+         },
+         "shifted":"2015-07-16T11:05:30-04:00"
+      },
+      "errorMessage":null,
+      "source":"Network",
+      "coordinates":{  
+         "latitude":43.6521185,
+         "longitude":-79.3820505,
+         "altitude":0.0
+      },
+      "address":"Queen Street West, Toronto, ON, CA"
+   },
+   "pages":[  
+      {  
+         "name":"Equipment Unit Accessible",
+         "answers":[  
+            {  
+               "label":"unit_accessible",
+               "dataType":"FreeText",
+               "question":"Unit Accessible?",
+               "values":[  
+                  "No"
+               ],
+               "selectOptions":[  
+                  {  
+                     "selected":false,
+                     "other":false,
+                     "value":"Yes"
+                  },
+                  {  
+                     "selected":true,
+                     "other":false,
+                     "value":"No"
+                  }
+               ]
+            }
+         ]
+      },
+      {  
+         "name":"Equipment Unit Information",
+         "answers":[  
+            {  
+               "label":"ia_site",
+               "dataType":"FreeText",
+               "question":"Site",
+               "values":[  
+                  "Toronto"
+               ]
+            },
+            {  
+               "label":"ia_shop",
+               "dataType":"FreeText",
+               "question":"Shop",
+               "values":[  
+                  "Technology"
+               ]
+            },
+            {  
+               "label":"ia_unit_num",
+               "dataType":"FreeText",
+               "question":"Equipment Unit Number",
+               "values":[  
+                  "1234"
+               ]
+            },
+            {  
+               "label":"ia_plugged_in",
+               "dataType":"FreeText",
+               "question":"Plugged In?",
+               "values":[  
+                  "No"
+               ],
+               "selectOptions":[  
+                  {  
+                     "selected":false,
+                     "other":false,
+                     "value":"Yes"
+                  },
+                  {  
+                     "selected":true,
+                     "other":false,
+                     "value":"No"
+                  }
+               ]
+            },
+            {  
+               "label":"GoTo8",
+               "dataType":"FreeText",
+               "question":"GoTo",
+               "values":[  
+                  "GoTo"
+               ],
+               "selectOptions":[  
+                  {  
+                     "selected":true,
+                     "other":false,
+                     "value":"GoTo"
+                  }
+               ]
+            }
+         ]
+      },
+      {  
+         "name":"Bar Code",
+         "answers":[  
+            {  
+               "label":"has_a_bar_code",
+               "dataType":"FreeText",
+               "question":"Has a Bar Code?",
+               "values":[  
+
+               ],
+               "selectOptions":[  
+                  {  
+                     "selected":false,
+                     "other":false,
+                     "value":"Yes"
+                  },
+                  {  
+                     "selected":false,
+                     "other":false,
+                     "value":"No"
+                  }
+               ]
+            }
+         ]
+      },
+      {  
+         "name":"New Equipment Unit",
+         "answers":[  
+            {  
+               "label":"new_site",
+               "dataType":"FreeText",
+               "question":"Site",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"new_shop",
+               "dataType":"FreeText",
+               "question":"Shop",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"new_equipment_type",
+               "dataType":"FreeText",
+               "question":"Type",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"new_unit_num",
+               "dataType":"FreeText",
+               "question":"Equipment Unit Number",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"new_barcode",
+               "dataType":"Barcode",
+               "question":"Equipment Unit Barcode",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"new_photo",
+               "dataType":"Image",
+               "question":"Photo",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"new_manufacturer",
+               "dataType":"FreeText",
+               "question":"Manufacturer",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"new_date_service",
+               "dataType":"Date",
+               "question":"Date Into Service",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"new_serial_num",
+               "dataType":"FreeText",
+               "question":"Battery Serial Number",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"new_battery_voltage",
+               "dataType":"Integer",
+               "question":"Battery Voltage",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"ne_inspec_frequency",
+               "dataType":"FreeText",
+               "question":"Inspection Frequency",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"new_inspec_code",
+               "dataType":"FreeText",
+               "question":"Inspection Code",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"new_inspec_days",
+               "dataType":"FreeText",
+               "question":"Inspection Days",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"GoTo6",
+               "dataType":"FreeText",
+               "question":"GoTo",
+               "values":[  
+
+               ],
+               "selectOptions":[  
+                  {  
+                     "selected":false,
+                     "other":false,
+                     "value":"GoTo"
+                  }
+               ]
+            }
+         ]
+      },
+      {  
+         "name":"Scan Equipment Unit",
+         "answers":[  
+            {  
+               "label":"old_barcode",
+               "dataType":"Barcode",
+               "question":"Equipment Unit Barcode",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"Comfirm Barcode",
+               "dataType":"FreeText",
+               "question":"Confirm Barcode",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"old_site",
+               "dataType":"FreeText",
+               "question":"Site",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"old_shop",
+               "dataType":"FreeText",
+               "question":"Shop",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"old_unit_num",
+               "dataType":"FreeText",
+               "question":"Equipment Unit Number",
+               "values":[  
+
+               ]
+            }
+         ]
+      },
+      {  
+         "name":"Charging Status",
+         "answers":[  
+            {  
+               "label":"old_plugged_in",
+               "dataType":"FreeText",
+               "question":"Plugged In?",
+               "values":[  
+
+               ],
+               "selectOptions":[  
+                  {  
+                     "selected":false,
+                     "other":false,
+                     "value":"Yes"
+                  },
+                  {  
+                     "selected":false,
+                     "other":false,
+                     "value":"No"
+                  }
+               ]
+            }
+         ]
+      },
+      {  
+         "name":"Battery Checklist",
+         "answers":[  
+            {  
+               "label":"battery_hot",
+               "dataType":"FreeText",
+               "question":"Battery Hot? (NOTE: You must unplug the battery if it is hot)",
+               "values":[  
+
+               ],
+               "selectOptions":[  
+                  {  
+                     "selected":false,
+                     "other":false,
+                     "value":"Yes"
+                  },
+                  {  
+                     "selected":false,
+                     "other":false,
+                     "value":"No"
+                  }
+               ]
+            },
+            {  
+               "label":"Battery Hot",
+               "dataType":"FreeText",
+               "question":"Battery Hot?",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"battery_temperature",
+               "dataType":"Integer",
+               "question":"Battery Temperature",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"faults",
+               "dataType":"FreeText",
+               "question":"Faults",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"bad_cables",
+               "dataType":"FreeText",
+               "question":"Bad Cables?",
+               "values":[  
+
+               ],
+               "selectOptions":[  
+                  {  
+                     "selected":false,
+                     "other":false,
+                     "value":"Yes"
+                  },
+                  {  
+                     "selected":false,
+                     "other":false,
+                     "value":"No"
+                  }
+               ]
+            },
+            {  
+               "label":"water_filled",
+               "dataType":"FreeText",
+               "question":"Water Filled?",
+               "values":[  
+
+               ],
+               "selectOptions":[  
+                  {  
+                     "selected":false,
+                     "other":false,
+                     "value":"Yes"
+                  },
+                  {  
+                     "selected":false,
+                     "other":false,
+                     "value":"No"
+                  }
+               ]
+            },
+            {  
+               "label":"blown_valves",
+               "dataType":"FreeText",
+               "question":"Blown Valves?",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"valves_to_change",
+               "dataType":"FreeText",
+               "question":"Valves to Change",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"battery_cleaned",
+               "dataType":"FreeText",
+               "question":"Battery Cleaned?",
+               "values":[  
+
+               ],
+               "selectOptions":[  
+                  {  
+                     "selected":false,
+                     "other":false,
+                     "value":"Yes"
+                  },
+                  {  
+                     "selected":false,
+                     "other":false,
+                     "value":"No"
+                  }
+               ]
+            }
+         ]
+      },
+      {  
+         "name":"Other",
+         "answers":[  
+            {  
+               "label":"comments",
+               "dataType":"FreeText",
+               "question":"Other Issues/Comments",
+               "values":[  
+                  "comments"
+               ]
+            },
+            {  
+               "label":"photo",
+               "dataType":"Image",
+               "question":"Photo",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"site",
+               "dataType":"FreeText",
+               "question":"Site",
+               "values":[  
+                  "Toronto"
+               ]
+            },
+            {  
+               "label":"shop",
+               "dataType":"FreeText",
+               "question":"Shop",
+               "values":[  
+                  "Technology"
+               ]
+            },
+            {  
+               "label":"equipment_unit_num",
+               "dataType":"FreeText",
+               "question":"Equipment Unit Number",
+               "values":[  
+                  "1234"
+               ]
+            },
+            {  
+               "label":"valves",
+               "dataType":"FreeText",
+               "question":"Valves",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"barcode",
+               "dataType":"FreeText",
+               "question":"Barcode",
+               "values":[  
+
+               ]
+            },
+            {  
+               "label":"plugged_in",
+               "dataType":"FreeText",
+               "question":"Plugged in",
+               "values":[  
+                  "NoYes"
+               ]
+            }
+         ]
+      }
+   ]
+}

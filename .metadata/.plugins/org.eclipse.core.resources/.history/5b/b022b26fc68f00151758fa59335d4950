@@ -1,0 +1,16 @@
+firstname lastname has completed the investigation of the following incident which has been reviewed by Health and Safety coordinator, firstname lastname.
+
+Site: Site
+Building: Building
+Employee Name: Employee
+Class of Incident: incident class
+Type of Injury: Incident type
+Date of Incident: 2014/01/01
+Time of Incident: 07:00
+
+Description of Incident:
+Description
+
+Irreversible countermeasure:
+
+View incident details: http://localhost:3000/incidents/123

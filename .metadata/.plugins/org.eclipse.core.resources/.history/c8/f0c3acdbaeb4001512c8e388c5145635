@@ -1,0 +1,51 @@
+<div class="incident-details">
+	<div class="row">
+		<div class="col-sm-6">
+			<h1> <% title(@incident.title) %> </h1>
+		</div>	
+		<div class="col-sm-6 edit-back-btns">
+			<span class="pull-right">
+				<%= link_to 'Export', export_incident_path(@incident, format: :json), remote: true, class: 'btn btn-default asynchronous-report' %>
+				<%= link_to 'Distribute Report', distribute_incident_path(@incident), :method => :post, class: "btn distribute btn-#{@incident.distributed? ? 'success' : 'danger'}" if can? :distribute, @incident and @incident.ready_to_submit_investigation %>
+				<%= link_to 'Edit', edit_incident_path(@incident), class: 'btn btn-default' if can? :update, @incident %>
+				<%= link_to 'Back', url_for(:back), class: 'btn btn-default' %>			
+			</span>
+		</div>
+	</div>
+	
+	<ul class="nav nav-tabs nav-justified" role="tablist">
+		<li role="presentation" class="active">
+			<a href="#initial" aria-controls="initial" role="tab" data-toggle="tab">Initial</a>
+		</li>
+		<li role="presentation">
+			<a href="#investigation" aria-controls="investigation" role="tab" data-toggle="tab">Investigation</a>
+		</li>
+		<li role="presentation">
+			<a href="#follow-up" aria-controls="follow-up" role="tab" data-toggle="tab">Follow Up</a>
+		</li>
+		<li role="presentation">
+			<a href="#health-safety" aria-controls="health-safety" role="tab" data-toggle="tab">Health and Safety</a>
+		</li>
+		<li role="presentation">
+			<a href="#history" aria-controls="history" role="tab" data-toggle="tab">History</a>
+		</li>
+	</ul>
+	
+	<div class="tab-content container">
+		<div role="tabpanel" class="tab-pane active" id="initial">
+			<%= render 'incidents/show/initial' %>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="investigation">
+			<%= render 'incidents/show/investigation' %>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="follow-up">
+			<%= render 'incidents/show/follow_up' %>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="health-safety">
+			<%= render 'incidents/show/health_and_safety' %>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="history">
+			<%= render 'incidents/show/history' %>
+		</div>
+	</div>
+</div>

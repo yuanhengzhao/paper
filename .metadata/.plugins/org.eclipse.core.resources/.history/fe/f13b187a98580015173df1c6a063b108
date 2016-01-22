@@ -1,0 +1,13 @@
+namespace :import_equipment_units_csv do
+  
+  task :import, [:path] => [:environment] do |t, args|
+    puts "start importing equipment units in file - #{args.path}"
+    errors = DataSources::EquipmentUnit.import_from_csv(args.path)
+    puts "Import complete"
+    puts "The following items have errors and can not imported"
+    errors.each do |k,v|
+      puts "Unit Number #{k} => #{v.to_json}"
+    end
+  end
+  
+end

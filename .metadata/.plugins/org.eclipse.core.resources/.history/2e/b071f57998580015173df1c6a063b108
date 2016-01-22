@@ -1,0 +1,24 @@
+<%= @short_info %>
+Changes in #<%= @old_record.id %>
+<% if @changes[:status] %>
+   Status. New: <%= @new_record.status %>; Old: <%= @old_record.status %>
+<% end %>
+<% if @changes[:supplier_status] %>
+   Supplier Status. New: <%= @new_record.supplier_status %>; Old: <%= @old_record.supplier_status %>
+<% end %>
+
+<% if @changes[:responsible] %>
+   Assign to. New: <%= @new_record.responsible %>; Old: <%= @old_record.responsible %>
+<% end %>
+
+<% if @changes[:bmw_comment] %>
+   BMW Comment
+   New: <%= @new_record.bmw_comment %>
+   Old: <%= @old_record.bmw_comment %>
+<% end %>
+
+Comment for change:  
+<%= @new_record.comment.blank? ? 'No comment': @new_record.comment %>
+
+Please check the following link for details:
+<%= forms_punchlist_form_url(id: @old_record.id) %>

@@ -1,0 +1,33 @@
+class TransferPhotosAttributesFromIncidentsToAttachments < ActiveRecord::Migration
+    
+  def up
+    investigation_photo1s = select_all('SELECT id, investigation_photo1_file_name, investigation_photo1_content_type, investigation_photo1_file_size, investigation_photo1_updated_at FROM incidents where investigation_photo1_content_type is not null');
+    
+    investigation_photo1s.each do |investigation_photo1|
+      attachment = Attachment.new
+      attachment.incident_id = investigation_photo1['id']
+      attachment.file_file_name = investigation_photo1['investigation_photo1_file_name']
+      attachment.file_content_type = investigation_photo1['investigation_photo1_content_type']
+      attachment.file_file_size = investigation_photo1['investigation_photo1_file_size']
+      attachment.file_updated_at = investigation_photo1['investigation_photo1_updated_at']
+      attachment.group = Attachment.groups[:investigation_photo]
+      attachment.save
+    end
+     
+    remove_column :incidents, :investigation_photo1_file_name, :investigation_photo1_content_type #, :investigation_photo1_updated_at, :investigation_photo1_file_size
+  end
+  
+  def down
+    add_column :incidents, :investigation_photo1_file_name, :investigation_photo1_content_type  #, :investigation_photo1_updated_at, :investigation_photo1_file_size
+ update <<-SQL
+        UPDATE incidents
+        
+      LEFT JOIN attachments ON group=#{Attachment.groups[:investigation_photo]}
+      set incidents.nvestigation_photo1_file_name = file_file_name, 
+        incidents.investigation_photo1_content_type = file_content_type,
+        incidents.investigation_photo1_file_size = file_file_size,
+        incidents.investigation_photo1_updated_at = file_updated_at
+    SQL
+    Attachment.find_by(group: Attachment.groups[:investigation_photo]).delete
+  end
+end

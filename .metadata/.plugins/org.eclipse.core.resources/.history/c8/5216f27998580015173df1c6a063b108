@@ -1,0 +1,66 @@
+<form id="form-filter-form">
+	<div class="form-title">Filter +</div>
+	<div class="form-fields" style="display:none">
+		<div class="form-filter-group">
+	  		<label for="reference_number">ID</label>
+	  		<input type="text" name="id" id="id">
+		</div>
+		<div class="form-filter-group">
+	  		<label for="reference_number">Reference Number</label>
+	  		<input type="text" name="reference_number" id="reference_number">
+		</div>
+		<div class="form-filter-group">
+	  		<label for="author">Author</label>
+	  		<%= select_tag(:username, options_for_select( Forms::PunchlistForm.distinct_usernames), :include_blank => true) %>
+		</div>
+		<div class="form-filter-group">
+	  		<label for="responsible">Responsible</label>
+	  		<%= select_tag(:responsible, options_for_select( Forms::PunchlistForm.distinct_responsibles), :include_blank => true) %>
+		</div>
+		<div class="form-filter-group">
+	  		<label for="status">Status</label>
+	  		<%= select_tag(:status, options_for_select( Forms::PunchlistForm.all_statuses), :include_blank => true) %>
+		</div>
+		<div class="form-filter-group">
+	  		<label for="supplier_status">Supplier Status</label>
+	  		<%= select_tag(:supplier_status, options_for_select( Forms::PunchlistForm.supplier_status), :include_blank => true) %>
+		</div>
+		<div class="form-filter-group">
+	  		<label for="els_number">ELS Number</label>
+	  		<input type="text" name="els_number" id="els_number">
+		</div>
+		<div class="form-filter-group">
+	  		<label for="project_area">Project Area</label>
+	  		<%= select_tag(:project_area, options_for_select( Forms::PunchlistForm.distinct_project_areas), :include_blank => true) %>
+		</div>
+		<div class="form-filter-group">
+	  		<label for="level">Level</label>
+	  		<input type="text" name="level" id="level">
+		</div>
+		<div class="form-filter-group">
+	  		<label for="column_location">Column Location</label>
+	  		<input type="text" name="column_location" id="column_location">
+		</div>
+		<div class="form-filter-group">
+	  		<label for="device_submit_date_from  ">Device Submit Date After </label>
+	  		<input type="text" name="device_submit_date" id="device_submit_date_from" data-method-type="range" data-key="from">
+		</div>
+		<div class="form-filter-group">
+	  		<label for="device_submit_date_to  ">Device Submit Date Before </label>
+	  		<input type="text" name="device_submit_date" id="device_submit_date_to" data-method-type="range" data-key="to">
+		</div>
+		<div class="form-filter-group">
+	  		<label for="task_description">Task Description</label>
+	  		<input type="text" name="task_description" id="task_description">
+		</div>
+		<div class="form-filter-group">
+	  		<label for="bmw_comment  ">BMW Comment </label>
+	  		<input type="text" name="bmw_comment " id="bmw_comment">
+		</div>
+		<div class="form-filter-group">
+		</div>
+		<div class="form-filter-group">
+			<button class="btn btn-primary" type="reset" >Clear</button><br>
+		</div>
+	</div>
+</form>

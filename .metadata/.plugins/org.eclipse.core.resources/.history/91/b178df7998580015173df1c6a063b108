@@ -1,0 +1,294 @@
+# Parser to for Battery Inspection forms submitted from ProntoForms
+class ProntoForms::BatteryInspectionParser < AbstractFormParser
+ 
+  # name of the form according to ProntoForms
+  NAME = "Battery Inspection"
+  
+  # Returns the highest version number this parser is capable of parsing.
+  #
+  # @return [numeric] highest version number this parser is capable of parsing
+  def max_version
+    4
+  end
+  
+  # Attempts to convert the hash provided into a database object.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @param model [Forms::BatteryInspection] object to update, nil if a new object should be created
+  # @return [ActiveRecord] instance of the object
+  # @raise [ParserException] if the hash could not be parsed for whatever reason
+  def parse(form_hash, model = nil)
+    # create a new model object if one was not provided
+    model ||= Forms::BatteryInspection.new
+    
+    # assign common values
+    ProntoForms::SourceParser.get_common_answer_values(form_hash, model)
+    
+    if model.version == 1
+      return parse_v1(form_hash, model) if model.version == 1
+    elsif model.version == 2
+      return parse_v2(form_hash, model) if model.version == 2
+    else
+      return parse_v4(form_hash, model)
+    end
+  end
+  
+  private 
+  def parse_v1(form_hash, model)
+     # page 1 Equipment Unit Accessible
+    model.unit_accessible = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 0, 0)[0]
+    
+    # page 2 Equipment Unit Information (All fields are read in page 8)
+    
+    # page 3 Bar Code
+    has_a_bar_code = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 2, 0)[0]
+    
+    # page 4 New Equipment Unit
+    unless has_a_bar_code
+      unit_hash = {
+        :site                   => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 0)[0],
+        :shop                   => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 1)[0],
+        :equipment_type         => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 2)[0],
+        :unit_number            => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 3)[0],
+        :barcode                => nil, # actual value assigned later
+        :manufacturer           => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 6)[0],
+        :date_into_service      => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 7)[0],
+        :battery_serial_number  => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 8)[0],
+        :battery_voltage        => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 9)[0],
+        :inspection_frequency   => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 10)[0],
+        :inspection_code        => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 11)[0],
+        :inspection_days        => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 12)[0]
+      }
+      
+      barcode_field = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 4)[0]
+      if barcode_field.present?
+        unit_hash[:barcode] = barcode_field['data']
+      end 
+      
+      unit = DataSources::EquipmentUnit.find_or_initialize_by(unit_number: unit_hash[:unit_number], site: unit_hash[:site])
+      
+      unit.shop                   = unit_hash[:shop] unless unit_hash[:shop].blank?
+      unit.equipment_type         = unit_hash[:equipment_type] unless unit_hash[:equipment_type].blank?
+      unit.unit_number            = unit_hash[:unit_number] unless unit_hash[:unit_number].blank?
+      unit.barcode                = unit_hash[:barcode] unless unit_hash[:barcode].blank?
+      unit.manufacturer           = unit_hash[:manufacturer] unless unit_hash[:manufacturer].blank?
+      unit.date_into_service      = unit_hash[:date_into_service] unless unit_hash[:date_into_service].blank?
+      unit.battery_serial_number  = unit_hash[:battery_serial_number] unless unit_hash[:battery_serial_number].blank?
+      unit.battery_voltage        = unit_hash[:battery_voltage] unless unit_hash[:battery_voltage].blank?
+      unit.inspection_frequency   = unit_hash[:inspection_frequency] unless unit_hash[:inspection_frequency].blank?
+      unit.inspection_code        = unit_hash[:inspection_code] unless unit_hash[:inspection_code].blank?
+      unit.inspection_days        = unit_hash[:inspection_days] unless unit_hash[:inspection_days].blank?
+      
+      ProntoForms::SourceParser.handle_image(unit, form_hash, 3, 5, "photo")
+     
+      unit.save # return false if barcode exists
+    end
+    
+    # page 5 Scan Equipment Unit  (All fields are read in page 8)
+    # page 6 Charging Status      (All fields are read in page 8)
+    
+    # page 7 Battery Checklist
+    model.battery_hot         = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 6, 0)[0]
+    model.battery_temperature = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 2)[0]
+    model.faults              = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 3)[0]
+    model.bad_cables          = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 6, 4)[0]
+    model.water_filled        = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 6, 5)[0]
+    model.blown_valves        = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 6, 6)[0]
+    model.valves_to_change    = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 7)[0]
+    model.battery_cleaned     = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 6, 8)[0]
+    
+    # page 8
+    model.comments = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 0)[0]
+    ProntoForms::SourceParser.handle_image(model, form_hash, 7, 1, "photo")
+    
+    # other common attributes
+    model.site                  = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 2)[0]
+    model.shop                  = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 3)[0]
+    model.equipment_unit_number = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 4)[0]
+    model.equipment_bar_code    = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 6)[0]
+    
+    if model.unit_accessible == false
+      model.plugged_in = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 1, 3)[0]
+    elsif model.unit_accessible == true
+      model.plugged_in = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 5, 0)[0]
+    end
+
+    return model
+  end
+  
+  def parse_v2(form_hash, model)
+     # page 1 Equipment Unit Accessible
+    model.unit_accessible = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 0, 0)[0]
+    
+    # page 2 Equipment Unit Information (All fields are read in page 8)
+    
+    # page 3 Bar Code
+    has_a_bar_code = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 2, 0)[0]
+    
+    # page 4 New Equipment Unit
+    unless has_a_bar_code
+      unit_hash = {
+        :site                   => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 0)[0],
+        :shop                   => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 1)[0],
+        :equipment_type         => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 2)[0],
+        :unit_number            => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 3)[0],
+        :barcode                => nil, # actual value assigned later
+        :manufacturer           => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 6)[0],
+        :date_into_service      => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 7)[0],
+        :battery_serial_number  => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 8)[0],
+        :battery_voltage        => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 9)[0],
+        :inspection_frequency   => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 10)[0],
+        :inspection_code        => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 11)[0],
+        :inspection_days        => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 12)[0]
+      }
+      
+      barcode_field = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 4)[0]
+      if barcode_field.present?
+        unit_hash[:barcode] = barcode_field['data']
+      end 
+      
+      unit = DataSources::EquipmentUnit.find_or_initialize_by(unit_number: unit_hash[:unit_number], site: unit_hash[:site])
+      
+      unit.shop                   = unit_hash[:shop] unless unit_hash[:shop].blank?
+      unit.equipment_type         = unit_hash[:equipment_type] unless unit_hash[:equipment_type].blank?
+      unit.unit_number            = unit_hash[:unit_number] unless unit_hash[:unit_number].blank?
+      unit.barcode                = unit_hash[:barcode] unless unit_hash[:barcode].blank?
+      unit.manufacturer           = unit_hash[:manufacturer] unless unit_hash[:manufacturer].blank?
+      unit.date_into_service      = unit_hash[:date_into_service] unless unit_hash[:date_into_service].blank?
+      unit.battery_serial_number  = unit_hash[:battery_serial_number] unless unit_hash[:battery_serial_number].blank?
+      unit.battery_voltage        = unit_hash[:battery_voltage] unless unit_hash[:battery_voltage].blank?
+      unit.inspection_frequency   = unit_hash[:inspection_frequency] unless unit_hash[:inspection_frequency].blank?
+      unit.inspection_code        = unit_hash[:inspection_code] unless unit_hash[:inspection_code].blank?
+      unit.inspection_days        = unit_hash[:inspection_days] unless unit_hash[:inspection_days].blank?
+      
+      ProntoForms::SourceParser.handle_image(unit, form_hash, 3, 5, "photo")
+     
+      unit.save # return false if barcode exists
+    end
+    
+    # page 5 Scan Equipment Unit  (All fields are read in page 8)
+    # page 6 Charging Status      (All fields are read in page 8)
+    
+    # page 7 Battery Checklist
+    model.battery_hot         = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 6, 0)[0]
+    model.battery_temperature = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 2)[0]
+    model.faults              = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 3)[0]
+    model.bad_cables          = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 6, 4)[0]
+    
+    # page 8 Battery Checklist (cont)
+    model.water_filled        = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 7, 0)[0]
+    model.blown_valves        = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 7, 1)[0]
+    model.valves_to_change    = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 2)[0]
+    model.battery_cleaned     = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 7, 3)[0]
+    
+    # page 9
+    model.comments = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 0)[0]
+    ProntoForms::SourceParser.handle_image(model, form_hash, 8, 1, "photo")
+    
+    # other common attributes
+    model.site                  = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 2)[0]
+    model.shop                  = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 3)[0]
+    model.equipment_unit_number = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 4)[0]
+    model.equipment_bar_code    = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 6)[0]
+    
+    if model.unit_accessible == false
+      model.plugged_in = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 1, 3)[0]
+    elsif model.unit_accessible == true
+      model.plugged_in = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 5, 0)[0]
+    end
+
+    return model
+  end
+  
+  def parse_v4(form_hash, model)
+     # page 1 Equipment Unit Accessible
+    model.unit_accessible = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 0, 0)[0]
+    
+    # page 2 Equipment Unit Information (All fields are read in page 10)
+    
+    # page 3 Bar Code
+    has_a_bar_code = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 2, 0)[0]
+    
+    # page 4 New Equipment Unit
+    unless has_a_bar_code
+      unit_hash = {
+        :site                   => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 0)[0],
+        :shop                   => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 1)[0],
+        :equipment_type         => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 2)[0],
+        :unit_number            => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 3)[0],
+        :barcode                => nil, # actual value assigned later
+        :manufacturer           => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 6)[0],
+        :date_into_service      => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 7)[0],
+        :battery_serial_number  => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 8)[0],
+        :battery_voltage        => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 9)[0],
+        :inspection_frequency   => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 10)[0],
+        :inspection_code        => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 11)[0],
+        :inspection_days        => ProntoForms::SourceParser.get_answer_values(form_hash, 3, 12)[0]
+      }
+      
+      barcode_field = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 4)[0]
+      if barcode_field.present?
+        unit_hash[:barcode] = barcode_field['data']
+      end 
+      
+      unit = DataSources::EquipmentUnit.find_or_initialize_by(unit_number: unit_hash[:unit_number], site: unit_hash[:site])
+      
+      unit.shop                   = unit_hash[:shop] unless unit_hash[:shop].blank?
+      unit.equipment_type         = unit_hash[:equipment_type] unless unit_hash[:equipment_type].blank?
+      unit.unit_number            = unit_hash[:unit_number] unless unit_hash[:unit_number].blank?
+      unit.barcode                = unit_hash[:barcode] unless unit_hash[:barcode].blank?
+      unit.manufacturer           = unit_hash[:manufacturer] unless unit_hash[:manufacturer].blank?
+      unit.date_into_service      = unit_hash[:date_into_service] unless unit_hash[:date_into_service].blank?
+      unit.battery_serial_number  = unit_hash[:battery_serial_number] unless unit_hash[:battery_serial_number].blank?
+      unit.battery_voltage        = unit_hash[:battery_voltage] unless unit_hash[:battery_voltage].blank?
+      unit.inspection_frequency   = unit_hash[:inspection_frequency] unless unit_hash[:inspection_frequency].blank?
+      unit.inspection_code        = unit_hash[:inspection_code] unless unit_hash[:inspection_code].blank?
+      unit.inspection_days        = unit_hash[:inspection_days] unless unit_hash[:inspection_days].blank?
+      
+      ProntoForms::SourceParser.handle_image(unit, form_hash, 3, 5, "photo")
+     
+      unit.save # return false if barcode exists
+    end
+    
+    # page 5 Scan Equipment Unit  (All fields are read in page 10)
+    
+    # page 6 Battery Checklist
+    # model.plugged_in assigned by page 10
+    model.battery_hot         = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 5, 1)[0]
+    model.battery_temperature = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 3)[0]
+    model.faults_exist        = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 5, 4)[0]
+    model.faults              = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 5)[0]
+    if model.faults == "Not Applicable"
+      model.faults = nil
+    end
+    model.bad_cables          = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 5, 6)[0]
+    
+    # page 7 Battery Water
+    model.water_filled        = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 6, 0)[0]
+    model.valve_malfunction   = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 1)[0]
+    
+    # page 8 Valve Malfunctions
+    model.valves_to_change    = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 0)[0]
+    
+    # page 9 Battery Cleaning
+    model.battery_cleaned     = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 8, 0)[0]
+    
+    # Page 10 Other
+    model.comments = ProntoForms::SourceParser.get_answer_values(form_hash, 9, 0)[0]
+    ProntoForms::SourceParser.handle_image(model, form_hash, 9, 1, "photo")
+    
+    model.site                  = ProntoForms::SourceParser.get_answer_values(form_hash, 9, 2)[0]
+    model.shop                  = ProntoForms::SourceParser.get_answer_values(form_hash, 9, 3)[0]
+    model.equipment_unit_number = ProntoForms::SourceParser.get_answer_values(form_hash, 9, 4)[0]
+    model.equipment_bar_code    = ProntoForms::SourceParser.get_answer_values(form_hash, 9, 7)[0]
+    
+    if model.unit_accessible == false
+      model.plugged_in = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 1, 3)[0]
+    elsif model.unit_accessible == true
+      model.plugged_in = ProntoForms::SourceParser.yes_or_no? ProntoForms::SourceParser.get_answer_values(form_hash, 5, 0)[0]
+    end
+
+    return model
+  end
+  
+end

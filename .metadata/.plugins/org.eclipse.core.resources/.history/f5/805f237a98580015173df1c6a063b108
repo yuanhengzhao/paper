@@ -1,0 +1,15 @@
+FactoryGirl.define do
+  factory :customer_site, class: DataSources::CustomerSite do
+    company "Robinson Company"
+    customer "Customer"
+    site "Site"
+    sequence(:shop) { |n| "Shop #{n}" }
+  end
+  
+  factory :customer_site_sequential, class: DataSources::CustomerSite do
+    sequence(:company) { |n| "Company #{n}" }
+    sequence(:customer) { |n| "Customer #{n}" }
+    sequence(:site) { |n| "Site #{n}" }
+    sequence(:shop) { |n| "Shop #{n}" }
+  end
+end

@@ -1,0 +1,124 @@
+# Migrate to import iform data to database
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user
+# - version (string) - current version of the form
+# - altitude (decimal(20,20)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,20)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,20)) - longitude of the user's location when submitted the form
+# - source (string) - name of the provider, for example,"prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+
+# - audit_date (date) - 
+# - audit_time (time) - 
+# - contractors_supervis (string) - 
+# - time_snow_called_for (time) - 
+# - time_snow_started (time) - 
+# - time_snow_ended (time) - 
+# - area_to_audit (string) - 
+# - gg_supervisor_onsite (string) - 
+# - comments1 (text) - 
+# - time_operators_start (string) - 
+# - comments2 (text) - 
+# - priority_addressed (string) - 
+# - comments3 (text) - 
+# - ring_roads (string) - 
+# - comments4 (text) - 
+# - docks_cleared_salted (string) - 
+# - comments5 (text) - 
+# - parking_lots_salted (string) - 
+# - comments6 (text) - 
+# - rumble_track (string) - 
+# - comments7 (text) - 
+# - awl_chute (string) - 
+# - comments8 (text) - 
+# - quality_auditslopes (string) - 
+# - comments9 (text) - 
+# - emergency_addressed (string) - 
+# - comments10 (text) - 
+# - all_equipment (string) - 
+# - comments11 (text) - 
+# - emergency_entrances (string) - 
+# - comments12 (text) - 
+# - windrows_removed (string) - 
+# - comments13 (text) - 
+# - cleanuppile_removal (string) - 
+# - comments14 (text) - 
+# - image1 (attachment) - 
+# - image2 (attachment) - 
+# - image3 (attachment) - 
+# - image4 (attachment) - 
+# - image5 (attachment) - 
+# - image6 (attachment) - 
+# - image7 (attachment) - 
+# - image8 (attachment) - 
+# - image9 (attachment) - 
+# - image10 (attachment) - 
+
+class Iforms::SnowAuditMigrate < Iforms::AbstractIformMigrate
+
+  def get_record(item_hash,dir)
+    record = Forms::SnowAudit.new
+    get_common_answer_values(record,item_hash)
+    
+    record.audit_date = item_hash["audit_date"]
+    record.audit_time = item_hash["audit_time"]
+    record.contractors_supervis = item_hash["contractors_supervisor"]
+    record.time_snow_called_for = item_hash["time_snow_called_for"]
+    record.time_snow_started = item_hash["time_snow_started"]
+    record.time_snow_ended = item_hash["time_snow_ended"]
+    record.area_to_audit = item_hash["area_to_audit"]
+    record.gg_supervisor_onsite = item_hash["gg_supervisor_onsite"]
+    record.comments1 = item_hash["comments1"]
+    record.time_operators_start = item_hash["time_operators_started"]
+    record.comments2 = item_hash["comments2"]
+    record.priority_addressed = item_hash["priority_areas_being_addressed_by_operators"]
+    record.comments3 = item_hash["comments3"]
+    record.ring_roads = item_hash["ring_roads_cleared_and_salted_ongoing"]
+    record.comments4 = item_hash["comments4"]
+    record.docks_cleared_salted = item_hash["docks_cleared_and_salted"]
+    record.comments5 = item_hash["comments5"]
+    record.parking_lots_salted = item_hash["parking_lots_salted"]
+    record.comments6 = item_hash["comments6"]
+    record.rumble_track = item_hash["rumble_track_plowed_and_salted_ongoing"]
+    record.comments7 = item_hash["comments7"]
+    record.awl_chute = item_hash["awl_chute_to_stevenson_road_plowed_and_salted_ongoing"]
+    record.comments8 = item_hash["comments8"]
+    record.quality_auditslopes = item_hash["quality_auditslopes_and_entrances_maintained_and_salted_ongoing"]
+    record.comments9 = item_hash["comments9"]
+    record.emergency_addressed = item_hash["emergency_plowing_or_salting_requests_addressed"]
+    record.comments10 = item_hash["comments10"]
+    record.all_equipment = item_hash["all_equipment_utilized_number_of_pieces_on_site_working"]
+    record.comments11 = item_hash["comments11"]
+    record.emergency_entrances = item_hash["emergency_entrances_cleared"]
+    record.comments12 = item_hash["comments12"]
+    record.windrows_removed = item_hash["windrows_removed_and_building_walls_snow_removed"]
+    record.comments13 = item_hash["comments13"]
+    record.cleanuppile_removal = item_hash["cleanuppile_removal"]
+    record.comments14 = item_hash["comments14"]
+    
+    record.image1 = create_image_attachment(item_hash,"picture_1",dir)
+    record.image2 = create_image_attachment(item_hash,"picture_2",dir)
+    record.image3 = create_image_attachment(item_hash,"picture_3",dir)
+    record.image4 = create_image_attachment(item_hash,"picture_4",dir)
+    
+    return record
+  end
+  
+end
+
+
+
+
+
+
+
+
+
+
+
+

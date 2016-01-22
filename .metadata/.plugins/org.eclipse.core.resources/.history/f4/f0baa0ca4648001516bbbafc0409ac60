@@ -1,0 +1,376 @@
+# encoding: UTF-8
+# This file is auto-generated from the current state of the database. Instead
+# of editing this file, please use the migrations feature of Active Record to
+# incrementally modify your database, and then regenerate this schema definition.
+#
+# Note that this schema.rb definition is the authoritative source for your
+# database schema. If you need to create the application database on another
+# system, you should be using db:schema:load, not running all the migrations
+# from scratch. The latter is a flawed and unsustainable approach (the more migrations
+# you'll amass, the slower it'll run and the greater likelihood for issues).
+#
+# It's strongly recommended that you check this file into your version control system.
+
+ActiveRecord::Schema.define(version: 20150813132016) do
+
+  create_table "additional_factors", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "incidents", force: true do |t|
+    t.integer  "building_id"
+    t.string   "column"
+    t.string   "supervisor"
+    t.string   "shift"
+    t.time     "shift_start"
+    t.time     "shift_end"
+    t.string   "employee"
+    t.string   "job"
+    t.datetime "incident_time"
+    t.integer  "safety_rep_id"
+    t.datetime "report_time"
+    t.integer  "incident_class_id"
+    t.integer  "incident_type_id"
+    t.integer  "body_part_id"
+    t.text     "description"
+    t.text     "corrective_action"
+    t.date     "corrective_action_date"
+    t.string   "wsib_recordable"
+    t.string   "wsib_form_7"
+    t.string   "wsib_lost_time"
+    t.string   "wsib_claim"
+    t.string   "osha_recordable"
+    t.string   "osha_lost_time"
+    t.date     "modified_work_start"
+    t.date     "modified_work_end"
+    t.integer  "modified_work_days"
+    t.date     "lost_days_start"
+    t.date     "lost_days_end"
+    t.integer  "lost_days"
+    t.string   "implemented"
+    t.text     "comment"
+    t.datetime "closed_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "investigation_time"
+    t.string   "author"
+    t.string   "author_email"
+    t.datetime "report_submitted_time"
+    t.string   "site_name"
+    t.string   "building_name"
+    t.integer  "author_id"
+    t.integer  "body_location_id"
+    t.integer  "incident_category_id"
+    t.integer  "floor_id"
+    t.integer  "employee_type_id"
+    t.integer  "mobile_equipment_id"
+    t.integer  "modified_duties_prescriber_id"
+    t.string   "incident_category_other"
+    t.string   "incident_type_other"
+    t.string   "worker_been_trained"
+    t.date     "date_last_trained"
+    t.text     "work_instruction_ref_num"
+    t.text     "reason_not_trained"
+    t.string   "was_not_trained_employee_involved"
+    t.text     "not_trained_employee_names"
+    t.string   "were_reporter_aware"
+    t.string   "reason_why_not_aware"
+    t.string   "did_anyone_witness"
+    t.string   "witness_names"
+    t.string   "was_reporter_involved"
+    t.text     "involved_individual_names_who_reported"
+    t.string   "was_mbl_eqp_involved"
+    t.text     "other_mbl_eqp"
+    t.string   "unit_identification_number"
+    t.string   "does_mbl_eqp_provider_have_license"
+    t.text     "reason_mbl_eqp_provider_no_license"
+    t.integer  "num_months_mbl_opt_exp"
+    t.date     "date_last_pm_eqp_performed"
+    t.string   "was_pre_shift_inspec_completed"
+    t.text     "reason_pre_shift_inspec_not_completed"
+    t.string   "was_eqp_tls_involved"
+    t.text     "eqp_tls_involved"
+    t.string   "was_eqp_tls_used_properly"
+    t.text     "reason_eqp_tls_not_used_properly"
+    t.string   "was_eqp_tls_inspec_before"
+    t.string   "reason_eqp_tls_not_inspec_before"
+    t.string   "does_eqp_tls_require_doc_inspec"
+    t.string   "was_eqp_tls_inspec_doc"
+    t.text     "reason_eqp_tls_inspec_not_doc"
+    t.string   "is_any_ppe_required"
+    t.text     "other_ppe"
+    t.string   "was_all_ppe_worn_properly"
+    t.text     "reason_ppe_not_worn_properly"
+    t.string   "was_ppe_good_cond"
+    t.string   "reason_ppe_bad_cond"
+    t.string   "is_ppe_required_in_work_inst"
+    t.string   "was_chemical_involved"
+    t.text     "name_chemical"
+    t.string   "was_chemical_used_properly"
+    t.text     "reason_chemical_not_used_properly"
+    t.text     "other_env_factors"
+    t.text     "explain_more_env_factors"
+    t.text     "other_add_factors"
+    t.text     "explain_more_add_factors"
+    t.text     "description_investigation"
+    t.string   "investigation_photo1_file_name"
+    t.string   "investigation_photo1_content_type"
+    t.integer  "investigation_photo1_file_size"
+    t.datetime "investigation_photo1_updated_at"
+    t.string   "investigation_photo2_file_name"
+    t.string   "investigation_photo2_content_type"
+    t.integer  "investigation_photo2_file_size"
+    t.datetime "investigation_photo2_updated_at"
+    t.string   "modified_duties_prescribed_after"
+    t.text     "other_modified_duties_prescriber"
+    t.integer  "days_modified_duties_prescribed"
+    t.text     "immediate_action"
+    t.string   "corrective_action2"
+    t.date     "corrective_action_date2"
+    t.string   "corrective_action_responsible"
+    t.string   "corrective_action_responsible2"
+    t.text     "names_involved_in_investigation"
+    t.text     "additional_comments"
+    t.string   "has_customer_property_damaged"
+    t.string   "type_of_damage"
+    t.string   "customers_contacted"
+    t.string   "has_employee_done_modified_work_form"
+    t.text     "reason_employee_not_done_modified_work_form"
+    t.string   "modified_work_form_signed"
+    t.string   "photo_modified_work_form_signed1_file_name"
+    t.string   "photo_modified_work_form_signed1_content_type"
+    t.integer  "photo_modified_work_form_signed1_file_size"
+    t.datetime "photo_modified_work_form_signed1_updated_at"
+    t.string   "photo_modified_work_form_signed2_file_name"
+    t.string   "photo_modified_work_form_signed2_content_type"
+    t.integer  "photo_modified_work_form_signed2_file_size"
+    t.datetime "photo_modified_work_form_signed2_updated_at"
+    t.text     "why_modified_work_form_not_signed"
+    t.string   "has_employee_received_medical_attention"
+    t.string   "name_clinic_hospital"
+    t.string   "name_nurse_doctor"
+    t.text     "medical_treatment"
+    t.string   "can_upload_medical_doc"
+    t.string   "photo_medical_doc1_file_name"
+    t.string   "photo_medical_doc1_content_type"
+    t.integer  "photo_medical_doc1_file_size"
+    t.datetime "photo_medical_doc1_updated_at"
+    t.string   "photo_medical_doc2_file_name"
+    t.string   "photo_medical_doc2_content_type"
+    t.integer  "photo_medical_doc2_file_size"
+    t.datetime "photo_medical_doc2_updated_at"
+    t.string   "photo_medical_doc3_file_name"
+    t.string   "photo_medical_doc3_content_type"
+    t.integer  "photo_medical_doc3_file_size"
+    t.datetime "photo_medical_doc3_updated_at"
+    t.text     "reason_not_upload_medical_doc"
+    t.boolean  "ready_to_submit_investigation"
+    t.text     "reason_wsib_form_7_not_submitted"
+    t.string   "has_compensation_claim_submitted"
+    t.text     "reason_compensation_claim_not_submitted"
+    t.integer  "osha_claim"
+    t.string   "additional_health_safety_comments"
+    t.string   "implemented_support_file1_file_name"
+    t.string   "implemented_support_file1_content_type"
+    t.integer  "implemented_support_file1_file_size"
+    t.datetime "implemented_support_file1_updated_at"
+    t.string   "implemented_support_file2_file_name"
+    t.string   "implemented_support_file2_content_type"
+    t.integer  "implemented_support_file2_file_size"
+    t.datetime "implemented_support_file2_updated_at"
+    t.string   "implemented_support_file3_file_name"
+    t.string   "implemented_support_file3_content_type"
+    t.integer  "implemented_support_file3_file_size"
+    t.datetime "implemented_support_file3_updated_at"
+    t.string   "implemented_support_file4_file_name"
+    t.string   "implemented_support_file4_content_type"
+    t.integer  "implemented_support_file4_file_size"
+    t.datetime "implemented_support_file4_updated_at"
+    t.text     "reason_implemented_not_upload"
+    t.string   "incident_classified_osha_recordable"
+    t.text     "reason_osha_not_recordable"
+    t.string   "modified_work"
+    t.text     "missing_ppe"
+    t.index ["author_id"], :name => "index_incidents_on_author_id"
+    t.index ["body_location_id"], :name => "index_incidents_on_body_location_id"
+    t.index ["body_part_id"], :name => "index_incidents_on_body_part_id"
+    t.index ["building_id"], :name => "index_incidents_on_building_id"
+    t.index ["employee_type_id"], :name => "index_incidents_on_employee_type_id"
+    t.index ["floor_id"], :name => "index_incidents_on_floor_id"
+    t.index ["incident_category_id"], :name => "index_incidents_on_incident_category_id"
+    t.index ["incident_class_id"], :name => "index_incidents_on_incident_class_id"
+    t.index ["incident_type_id"], :name => "index_incidents_on_incident_type_id"
+    t.index ["mobile_equipment_id"], :name => "index_incidents_on_mobile_equipment_id"
+    t.index ["modified_duties_prescriber_id"], :name => "index_incidents_on_modified_duties_prescriber_id"
+    t.index ["safety_rep_id"], :name => "index_incidents_on_safety_rep_id"
+  end
+
+  create_table "additional_factors_incidents", id: false, force: true do |t|
+    t.integer "additional_factor_id"
+    t.integer "incident_id"
+    t.index ["additional_factor_id"], :name => "fk__additional_factors_incidents_additional_factor_id"
+    t.index ["incident_id"], :name => "fk__additional_factors_incidents_incident_id"
+    t.foreign_key ["additional_factor_id"], "additional_factors", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_additional_factors_incidents_additional_factor_id"
+    t.foreign_key ["incident_id"], "incidents", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_additional_factors_incidents_incident_id"
+  end
+
+  create_table "body_locations", force: true do |t|
+    t.string   "name"
+    t.integer  "rank"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "body_parts", force: true do |t|
+    t.string   "name"
+    t.integer  "rank"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "buildings", force: true do |t|
+    t.string   "name"
+    t.integer  "site_id"
+    t.string   "email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["site_id"], :name => "index_buildings_on_site_id"
+  end
+
+  create_table "employee_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "environmental_factors", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "environmental_factors_incidents", id: false, force: true do |t|
+    t.integer "environmental_factor_id"
+    t.integer "incident_id"
+    t.index ["environmental_factor_id"], :name => "fk__environmental_factors_incidents_environmental_factor_id"
+    t.index ["incident_id"], :name => "fk__environmental_factors_incidents_incident_id"
+    t.foreign_key ["environmental_factor_id"], "environmental_factors", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_environmental_factors_incidents_environmental_factor_id"
+    t.foreign_key ["incident_id"], "incidents", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_environmental_factors_incidents_incident_id"
+  end
+
+  create_table "floors", force: true do |t|
+    t.string   "name"
+    t.integer  "rank"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "incident_categories", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "incident_classes", force: true do |t|
+    t.string   "name"
+    t.integer  "rank"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "incident_types", force: true do |t|
+    t.string   "name"
+    t.integer  "rank"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "safety_reps", force: true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "phone"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "sites", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "time_zone",  default: "Eastern Time (US & Canada)"
+    t.string   "country"
+  end
+
+  create_table "users", force: true do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "provider"
+    t.string   "uid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "role",                   default: 0
+    t.index ["email"], :name => "index_users_on_email", :unique => true
+    t.index ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+  end
+
+  create_view "incident_details", "select `id` AS `id`,(case when isnull(`author_id`) then NULL else `users`.`email` end) AS `author_email`,`sites`.`name` AS `site`,`buildings`.`name` AS `building`,`column` AS `column`,`employee` AS `employee`,`job` AS `job`,`shift` AS `shift`,`shift_start` AS `shift_start`,`shift_end` AS `shift_end`,`supervisor` AS `supervisor`,`incident_time` AS `time_of_incident`,`report_time` AS `time_reported`,`safety_reps`.`name` AS `safety_rep`,`safety_reps`.`email` AS `safety_rep_email`,`incident_classes`.`name` AS `incident_class`,`incident_types`.`name` AS `incident_type`,`body_parts`.`name` AS `body_part`,`body_locations`.`name` AS `body_part_location`,`description` AS `description`,`corrective_action` AS `corrective_action`,`corrective_action_date` AS `corrective_action_date`,`wsib_recordable` AS `wsib_recordable`,`wsib_form_7` AS `wsib_form_7`,`wsib_lost_time` AS `wsib_lost_time`,`wsib_claim` AS `wsib_claim_number`,`osha_recordable` AS `osha_recordable`,`osha_lost_time` AS `osha_lost_time`,`modified_work_start` AS `modified_work_start`,`modified_work_end` AS `modified_work_end`,`modified_work_days` AS `modified_work_days`,`lost_days_start` AS `lost_days_start`,`lost_days_end` AS `lost_days_end`,`lost_days` AS `lost_days`,`implemented` AS `implemented`,`comment` AS `comment`,`closed_date` AS `closed_date`,`created_at` AS `created_at`,`investigation_time` AS `investigation_date`,`report_submitted_time` AS `report_submitted_date`,`sites`.`time_zone` AS `time_zone` from ((((((((`incidents` left join `users` on((`author_id` = `users`.`id`))) left join `buildings` on((`building_id` = `buildings`.`id`))) left join `sites` on((`buildings`.`site_id` = `sites`.`id`))) left join `safety_reps` on((`safety_rep_id` = `safety_reps`.`id`))) left join `incident_classes` on((`incident_class_id` = `incident_classes`.`id`))) left join `incident_types` on((`incident_type_id` = `incident_types`.`id`))) left join `body_parts` on((`body_part_id` = `body_parts`.`id`))) left join `body_locations` on((`body_location_id` = `body_locations`.`id`)))", :force => true
+  create_table "work_periods", force: true do |t|
+    t.date    "start_date",                          null: false
+    t.date    "end_date",                            null: false
+    t.decimal "hours",      precision: 10, scale: 3, null: false
+    t.integer "site_id",                             null: false
+    t.index ["site_id"], :name => "fk__work_periods_site_id"
+    t.foreign_key ["site_id"], "sites", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_work_periods_site_id"
+  end
+
+<<<<<<< HEAD
+  create_view "incident_metrics", "select `sites`.`name` AS `site_name`,`work_periods`.`start_date` AS `start_date`,`work_periods`.`end_date` AS `end_date`,`work_periods`.`hours` AS `hours` from (`work_periods` join `sites`) where (`work_periods`.`site_id` = `sites`.`id`)", :force => true
+=======
+  create_view "incident_metrics", "select `sites`.`name` AS `site_name`,`work_periods`.`start_date` AS `start_date`,`work_periods`.`end_date` AS `end_date`,`work_periods`.`hours` AS `hours` from `work_periods` join `sites` where (`work_periods`.`site_id` = `sites`.`id`)", :force => true
+
+>>>>>>> case1247stable
+  create_table "ppes", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "incidents_ppes", id: false, force: true do |t|
+    t.integer "ppe_id"
+    t.integer "incident_id"
+    t.index ["incident_id"], :name => "fk__incidents_ppes_incident_id"
+    t.index ["ppe_id"], :name => "fk__incidents_ppes_ppe_id"
+    t.foreign_key ["incident_id"], "incidents", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_incidents_ppes_incident_id"
+    t.foreign_key ["ppe_id"], "ppes", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_incidents_ppes_ppe_id"
+  end
+
+  create_table "mobile_equipments", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "modified_duties_prescribers", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "options", force: true do |t|
+    t.string   "group"
+    t.string   "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+end

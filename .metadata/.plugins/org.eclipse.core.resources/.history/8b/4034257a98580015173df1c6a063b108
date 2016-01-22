@@ -1,0 +1,16 @@
+FactoryGirl.define do
+  factory :net_promoter_score, class: Forms::NetPromoterScore do
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions', 'fake.json'), 'text/plain') }
+    
+    factory :net_promoter_score_valid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'net_promoter_score', 'valid.json'), 'text/plain') }
+    end
+    
+    factory :net_promoter_score_invalid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'net_promoter_score', 'missing_pages.json'), 'text/plain') }
+    end
+  end
+end
+

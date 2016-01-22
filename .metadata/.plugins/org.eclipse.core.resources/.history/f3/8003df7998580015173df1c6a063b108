@@ -1,0 +1,86 @@
+# Migrate to import iform data to database
+#
+# Forms::TaskInspection's Model
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user
+# - version (string) - current version of the form
+# - altitude (decimal(20,20)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,20)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,20)) - longitude of the user's location when submitted the form
+# - source (string) - name of the provider, for example,"prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+
+# - inspection_date (date) - 
+# - client (string) - 
+# - site (string) - 
+# - shop (string) - 
+# - num_tasks (integer) - 
+# - task1 (string) - 
+# - abnormality1 (string) - 
+# - abnormality_desc1 (text) - 
+# - abnormality_picture1 (attachment) - 
+# - picture_before_task1 (attachment) - 
+# - picture_after_task1 (attachment) - 
+# - quality_evaluation1 (string) - 
+# - comments_task1 (text) - 
+# - task2 (string) - 
+# - abnormality2 (string) - 
+# - abnormality_desc2 (text) - 
+# - abnormality_picture2 (attachment) - 
+# - picture_before_task2 (attachment) - 
+# - picture_after_task2 (attachment) - 
+# - quality_evaluation2 (string) - 
+# - comments_task2 (text) - 
+# - task3 (string) - 
+# - abnormality3 (string) - 
+# - abnormality_desc3 (text) - 
+# - abnormality_picture3 (attachment) - 
+# - picture_before_task3 (attachment) - 
+# - picture_after_task3 (attachment) - 
+# - quality_evaluation3 (string) - 
+# - comments_task3 (text) - 
+
+
+class Iforms::TaskInspectionV1Migrate < Iforms::AbstractIformMigrate
+
+  def get_record(item_hash,dir)
+    record = Forms::TaskInspection.new
+    get_common_answer_values(record,item_hash,"v1")
+    
+    record.abnormality1 = item_hash["abnormality"]
+    record.abnormality_picture1 = create_image_attachment(item_hash,"abnormality_picture_1",dir)
+    record.abnormality_desc1 = item_hash["abnormality_description"]
+    record.comments_task1 = item_hash["comments_optional"]
+    record.picture_before_task1 = create_image_attachment(item_hash,"picture_before_status",dir)
+    record.picture_after_task1 = create_image_attachment(item_hash,"picture_after_status",dir)
+    record.site = item_hash["site_qr"]
+    record.client = item_hash["client"]
+    record.shop = item_hash["plant"]
+    record.process = item_hash["process"]
+    record.line = item_hash["line"]
+    record.area = item_hash["area"]
+    
+    record.num_tasks = 1
+
+    
+    return record
+  end
+  
+end
+
+
+
+
+
+
+
+
+
+
+
+

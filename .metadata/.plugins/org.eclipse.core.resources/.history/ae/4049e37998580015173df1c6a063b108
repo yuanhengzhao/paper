@@ -1,0 +1,4 @@
+json.array!(@customer_sites) do |data_sources_customer_site|
+  json.extract! data_sources_customer_site, :id, :company, :customer, :site, :shop
+  json.url data_sources_customer_site_url(data_sources_customer_site, format: :json)
+end

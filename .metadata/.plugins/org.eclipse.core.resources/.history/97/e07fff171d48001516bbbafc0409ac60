@@ -1,0 +1,18 @@
+require 'rails_helper'
+
+RSpec.describe "admin/options/body_location/edit", :type=> :view do
+  before(:each) do
+    @option = assign(:option, FactoryGirl.create(:option))
+  end
+
+  it "renders the edit option form" do
+    render
+
+    assert_select "form[action=?][method=?]", option_path(@option), "post" do
+
+      assert_select "input#option_group[name=?]", "option[group]"
+
+      assert_select "input#option_value[name=?]", "option[value]"
+    end
+  end
+end

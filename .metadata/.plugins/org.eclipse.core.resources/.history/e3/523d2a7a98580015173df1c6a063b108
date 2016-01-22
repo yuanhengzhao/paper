@@ -1,0 +1,218 @@
+require_relative '../../spec_helper'
+
+describe Forms::RestroomChecklist do
+  it "should be included in Forms.list" do
+    expect(Forms.list).to include described_class
+  end
+  
+  it "has a valid factory" do
+    build(:restroom_checklist).should be_valid
+  end
+  
+  it_behaves_like "reparseable"
+  
+  describe "restroom" do
+
+    let(:record) do
+      restroom_checklist = Forms::RestroomChecklist.new
+      restroom_checklist.reference = "reference"
+      restroom_checklist.type_mwu = "type_mwu"
+      restroom_checklist.floor = "floor"
+      restroom_checklist.location = "location"
+      restroom_checklist.shop = "shop"
+      restroom_checklist.site = "site"
+      restroom_checklist.client = "client"
+      return restroom_checklist
+    end
+
+    let!(:restroom_records1) do
+      restroom_checklist1 = Forms::RestroomChecklist.new
+      restroom_checklist1.reference = "reference1"
+      restroom_checklist1.type_mwu = "type_mwu1"
+      restroom_checklist1.floor = "floor1"
+      restroom_checklist1.location = "location1"
+      restroom_checklist1.save!
+
+      [restroom_checklist1]
+    end
+
+    let!(:restroom_records2) do
+      restroom_checklist2 = Forms::RestroomChecklist.new
+      restroom_checklist2.reference = "reference2"
+      restroom_checklist2.type_mwu = "type_mwu2"
+      restroom_checklist2.floor = "floor22"
+      restroom_checklist2.location = "location22"
+      restroom_checklist2.shop = "shop22"
+      restroom_checklist2.site = "site22"
+      restroom_checklist2.client = "client22"
+      restroom_checklist2.save!
+
+      restroom_checklist21 = Forms::RestroomChecklist.new
+      restroom_checklist21.reference = "reference2"
+      restroom_checklist21.type_mwu = "type_mwu2"
+      restroom_checklist21.floor = "floor22"
+      restroom_checklist21.location = "location22"
+      restroom_checklist21.shop = "shop22"
+      restroom_checklist21.site = "site22"
+      restroom_checklist21.client = "client22"
+      restroom_checklist21.save!
+
+      restroom_checklist22 = Forms::RestroomChecklist.new
+      restroom_checklist22.reference = "reference2"
+      restroom_checklist22.type_mwu = "type_mwu2"
+      restroom_checklist22.floor = "floor22"
+      restroom_checklist22.location = "location22"
+      restroom_checklist22.shop = "shop22"
+      restroom_checklist22.site = "site22"
+      restroom_checklist22.client = "client22"
+      restroom_checklist22.save!
+
+      [restroom_checklist2, restroom_checklist21, restroom_checklist22]
+    end
+
+    let!(:restroom_records3) do
+      restroom_checklist3 = Forms::RestroomChecklist.new
+      restroom_checklist3.reference = "reference3"
+      restroom_checklist3.type_mwu = "type_mwu31"
+      restroom_checklist3.floor = "floor3"
+      restroom_checklist3.location = "location31"
+      restroom_checklist3.shop = "shop3"
+      restroom_checklist3.site = "site31"
+      restroom_checklist3.client = "client3"
+      restroom_checklist3.save!
+
+      restroom_checklist31 = Forms::RestroomChecklist.new
+      restroom_checklist31.reference = "reference3"
+      restroom_checklist31.type_mwu = "type_mwu31"
+      restroom_checklist31.floor = "floor3"
+      restroom_checklist31.location = "location31"
+      restroom_checklist31.shop = "shop3"
+      restroom_checklist31.site = "site31"
+      restroom_checklist31.client = "client3"
+      restroom_checklist31.save!
+
+      [restroom_checklist3, restroom_checklist31]
+    end
+
+    let!(:restroom_records4) do
+      restroom_checklist4 = Forms::RestroomChecklist.new
+      restroom_checklist4.reference = "reference4"
+      restroom_checklist4.type_mwu = "type_mwu31"
+      restroom_checklist4.floor = "floor3"
+      restroom_checklist4.location = "location31"
+      restroom_checklist4.shop = "shop3"
+      restroom_checklist4.site = "site31"
+      restroom_checklist4.client = "client3"
+      restroom_checklist4.save
+
+      [restroom_checklist4]
+    end
+    
+    let!(:restroom_records_nil) do
+      restroom_checklist_nil = Forms::RestroomChecklist.new
+      restroom_checklist_nil.reference = "reference"
+      restroom_checklist_nil.type_mwu = nil
+      restroom_checklist_nil.floor = nil
+      restroom_checklist_nil.location = "location"
+      restroom_checklist_nil.shop = nil
+      restroom_checklist_nil.site = nil
+      restroom_checklist_nil.client = nil
+      restroom_checklist_nil.save
+
+      [restroom_checklist_nil]
+    end
+
+    let!(:restroom_records_empty) do
+      restroom_checklist_empty = Forms::RestroomChecklist.new
+      restroom_checklist_empty.reference = "reference"
+      restroom_checklist_empty.type_mwu = ""
+      restroom_checklist_empty.floor = ""
+      restroom_checklist_empty.location = "location"
+      restroom_checklist_empty.shop = ""
+      restroom_checklist_empty.site = ""
+      restroom_checklist_empty.client = ""
+      restroom_checklist_empty.save
+
+      [restroom_checklist_empty]
+    end
+
+    describe "restroom_code" do
+      it "should gerneate the code match the data of the object" do
+        expect(record.restroom_code).to eq("reference-type_mwu-floor-location-shop-site-client")
+      end
+    end
+
+    describe "self.get_from_restroom_code" do
+      it "should return the correct records given a specific code" do
+        records1 = Forms::RestroomChecklist.get_from_restroom_code("reference3-type_mwu31-floor3-location31-shop3-site31-client3")
+        expect(records1).to eq(restroom_records3)
+
+        records2 = Forms::RestroomChecklist.get_from_restroom_code("reference4-type_mwu31-floor3-location31-shop3-site31-client3")
+        expect(records2).to eq(restroom_records4)
+
+        records3 = Forms::RestroomChecklist.get_from_restroom_code("reference2-type_mwu2-floor22-location22-shop22-site22-client22")
+        expect(records3).to eq(restroom_records2)
+
+        records4 = Forms::RestroomChecklist.get_from_restroom_code("reference1-type_mwu1-floor1-location1---")
+        expect(records4).to eq(restroom_records1)
+        
+        records5 = Forms::RestroomChecklist.get_from_restroom_code("reference---location---")
+        expect(records5).to eq(restroom_records_nil + restroom_records_empty)
+      end
+    end
+
+    describe "self.set_ignore" do
+      it "should correctly change ignore of all matched records" do
+
+        restroom_records3.each do |record|
+          expect(record.ignore).to be_false
+        end
+
+        Forms::RestroomChecklist.set_ignore("reference3-type_mwu31-floor3-location31-shop3-site31-client3", true)
+
+        restroom_records3.each do |record|
+          record.reload
+          expect(record.ignore).to be_true
+        end
+
+        #should not affect other records
+        Forms::RestroomChecklist.all.each do |record|
+          expect(record.ignore).to be_false unless restroom_records3.include? record
+        end
+
+        Forms::RestroomChecklist.set_ignore("reference3-type_mwu31-floor3-location31-shop3-site31-client3", false)
+
+        restroom_records3.each do |record|
+          record.reload
+          expect(record.ignore).to be_false
+        end
+      end
+      
+      it "should categorize records with nil field and empty string to the same restroom" do
+
+        (restroom_records_nil + restroom_records_empty).each do |record|
+          expect(record.ignore).to be_false
+        end
+
+        Forms::RestroomChecklist.set_ignore("reference---location---", true)
+
+        (restroom_records_nil + restroom_records_empty).each do |record|
+          record.reload
+          expect(record.ignore).to be_true
+        end
+
+        #should not affect other records
+        Forms::RestroomChecklist.all.each do |record|
+          expect(record.ignore).to be_false unless (restroom_records_nil + restroom_records_empty).include? record
+        end
+
+        Forms::RestroomChecklist.set_ignore("reference---location---", false)
+
+        (restroom_records_nil + restroom_records_empty).each do |record|
+          record.reload
+          expect(record.ignore).to be_false
+        end
+      end
+    end
+  end
+end

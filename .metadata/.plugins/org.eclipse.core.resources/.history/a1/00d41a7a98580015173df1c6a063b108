@@ -1,0 +1,10 @@
+require 'spec_helper'
+
+describe DataSources::DolliesController do
+  
+  it_behaves_like "a datasource controller" do
+    let(:model) { DataSources::Dolly }
+    let(:image_fields) { [ ] }
+  end
+  
+end

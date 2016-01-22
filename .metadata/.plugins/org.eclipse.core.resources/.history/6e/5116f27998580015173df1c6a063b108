@@ -1,0 +1,1 @@
+json.extract! @pre_task_safety_plan, :id, :created_at, :updated_at

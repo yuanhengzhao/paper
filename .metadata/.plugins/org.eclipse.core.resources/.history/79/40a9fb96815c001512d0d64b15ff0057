@@ -1,0 +1,54 @@
+class DropAttachmentInfoFromIncidents < ActiveRecord::Migration
+ def up
+    {
+      "investigation_photo1" => 0,
+      "investigation_photo2" => 0,
+      "photo_modified_work_form_signed1" => 1,
+      "photo_modified_work_form_signed2" => 1,
+     "photo_medical_doc1" => 2,
+     "photo_medical_doc2" => 2,
+     "photo_medical_doc3" => 2,
+      "implemented_support_file1" => 3,
+      "implemented_support_file2" => 3,
+      "implemented_support_file3" => 3,
+      " implemented_support_file4" => 3
+    }.each do |photo, group|
+      droped_from_incident("#{photo}_file_name".to_sym, "#{photo}_content_type".to_sym, "#{photo}_file_size".to_sym, "#{photo}_updated_at".to_sym, group)
+    end
+  end
+  
+  def down
+    {
+      "investigation_photo1" => 0,
+      "investigation_photo2" => 0,
+      "photo_modified_work_form_signed1" => 1,
+      "photo_modified_work_form_signed2" => 1,
+     "photo_medical_doc1" => 2,
+     "photo_medical_doc2" => 2,
+     "photo_medical_doc3" => 2,
+      "implemented_support_file1" => 3,
+      "implemented_support_file2" => 3,
+      "implemented_support_file3" => 3,
+      " implemented_support_file4" => 3
+    }.each do |photo, group|
+      create_in_incident("#{photo}_file_name".to_sym, "#{photo}_content_type".to_sym, "#{photo}_file_size".to_sym, "#{photo}_updated_at".to_sym, group)
+    end
+  end
+  
+  def droped_from_incident(name, type, size, updated_at, group)
+    puts execute(" ALTER incidents DROP COLUMN #{ name }, #{ type }, #{ size }, #{ updated_at };")
+  end
+  
+  def create_in_incident(name, type, size, updated_at, group)
+    
+    add_column :incidents, :name, :string
+    add_column :incidents, :type, :string
+    add_column :incidents, :size, :integer
+    add_column :incidents, :updated_at, :date
+    #{ type }, #{ size }, #{ updated_at }
+    puts execute(" ALTER incidents ADD COLUMN #{ name },VARCHAR;")
+    puts execute(" ALTER incidents ADD COLUMN #{ type },VARCHAR;")
+    puts execute(" ALTER incidents ADD COLUMN #{ size },INT;")
+    puts execute(" ALTER incidents ADD COLUMN #{ updated_at },DATETIME;")
+  end
+end

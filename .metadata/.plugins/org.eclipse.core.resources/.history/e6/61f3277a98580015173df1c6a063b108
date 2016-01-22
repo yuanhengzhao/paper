@@ -1,0 +1,302 @@
+require 'spec_helper'
+
+describe DataSources::EquipmentUnit do
+  it "has a valid factory" do
+    expect(build(:equipment_unit)).to be_valid
+    expect(build(:full_equipment_unit)).to be_valid
+  end
+  
+  it "is valid without a photo" do
+    expect(build(:equipment_unit, photo: nil)).to be_valid
+  end
+  
+  it "is invalid without a site" do
+    expect(build(:equipment_unit, site: nil)).to_not be_valid
+  end
+  
+  it "is invalid without a shop" do
+    expect(build(:equipment_unit, shop: nil)).to_not be_valid
+  end
+  
+  it "is invalid without a equipment_type" do
+    expect(build(:equipment_unit, equipment_type: nil)).to_not be_valid
+  end
+  
+  it "is invalid without a unit_number" do
+    expect(build(:equipment_unit, unit_number: nil)).to_not be_valid
+  end
+  
+  it "is invalid without a barcode" do
+    expect(build(:equipment_unit, barcode: nil)).to_not be_valid
+  end
+    
+  it "is invalid if barcode exists" do
+    create(:equipment_unit, barcode: '1234')
+    expect(build(:equipment_unit, barcode: '1234')).to_not be_valid
+  end
+  
+  it "is invalid if battery_voltage is not a number" do
+    expect(build(:equipment_unit, battery_voltage: 'NaN')).to_not be_valid
+  end
+  
+  it "is invalid if battery_voltage is less than 0" do
+    expect(build(:equipment_unit, battery_voltage: -1)).to_not be_valid
+  end
+  
+  it "is invalid if battery_voltage is 0" do
+    expect(build(:equipment_unit, battery_voltage: 0)).to_not be_valid
+  end
+  
+    it "is invalid if inspection_days is not a number" do
+    expect(build(:equipment_unit, inspection_days: 'NaN')).to_not be_valid
+  end
+  
+  it "is invalid if inspection_days is less than 0" do
+    expect(build(:equipment_unit, inspection_days: -1)).to_not be_valid
+  end
+  
+  it "is invalid if inspection_days is 0" do
+    expect(build(:equipment_unit, inspection_days: 0)).to_not be_valid
+  end
+  
+  it "is invalid if date_into_service is not a date" do
+    expect(build(:equipment_unit, date_into_service: 'abc')).to_not be_valid
+    expect(build(:equipment_unit, date_into_service: '2014/02/aa')).to_not be_valid
+    expect(build(:equipment_unit, date_into_service: '2014')).to_not be_valid
+    expect(build(:equipment_unit, date_into_service: '12/11')).to_not be_valid
+  end
+  
+  it "is valid if date_into_service is a date" do
+    expect(build(:equipment_unit, date_into_service: '2014/04/01')).to be_valid
+    expect(build(:equipment_unit, date_into_service: '2014-04-01')).to be_valid
+  end
+  
+  it "is valid if date_into_service is blank" do
+    expect(build(:equipment_unit, date_into_service: nil)).to be_valid
+    expect(build(:equipment_unit, date_into_service: '')).to be_valid
+  end
+  
+  describe "self.datasource_columns" do
+    it "has values" do
+      expect(DataSources::EquipmentUnit.datasource_columns.length).to be > 0
+    end
+    
+    it "has the expected values" do
+      expected_attributes = ['site', 'shop', 'barcode', 'unit_number']
+      expect(DataSources::EquipmentUnit.datasource_columns.sort).to eq(expected_attributes.sort)
+    end
+  end
+  
+  describe "export_csv_to_s3 " do
+    it "should be triggered when a new equipment unit is created" do
+      eu = build(:equipment_unit)
+      expect(eu).to receive(:export_csv_to_s3)
+      eu.save
+    end
+    
+    it "should be triggered when a datasource column of an existing equipment unit is updated" do
+      should_trigger_on_change(:site, 'old', 'new')
+      should_trigger_on_change(:shop, 'old', 'new')
+      should_trigger_on_change(:barcode, 'old', 'new')
+      should_trigger_on_change(:unit_number, '1111', '2222')
+    end
+    
+    it "should not be triggered when a non datasource column of an existing equipment unit is updated" do
+      should_not_trigger_on_change(:manufacturer, 'old', 'new')
+      should_not_trigger_on_change(:equipment_type, 'old', 'new')
+      should_not_trigger_on_change(:date_into_service, '2014/01/01', '2015/01/01')
+      should_not_trigger_on_change(:battery_serial_number, 'old', 'new')
+      should_not_trigger_on_change(:battery_voltage, 12, 15)
+      should_not_trigger_on_change(:inspection_frequency, '1/D', '1/W')
+      should_not_trigger_on_change(:inspection_code, 'old', 'new')
+      should_not_trigger_on_change(:inspection_days, 12, 14)
+    end
+    
+    def should_trigger_on_change(atty_sym, old_value, new_value)
+      eu = create(:equipment_unit, atty_sym => old_value)
+      eu[atty_sym] = new_value
+      expect(eu).to receive(:export_csv_to_s3)
+      eu.save
+    end
+    
+    def should_not_trigger_on_change(atty_sym, old_value, new_value)
+      eu = create(:equipment_unit, atty_sym => old_value)
+      eu[atty_sym] = new_value
+      expect(eu).not_to receive(:export_csv_to_s3)
+      eu.save
+    end
+  end
+  
+  describe "self.datasource_csv" do
+    before(:each) do
+      create(:equipment_unit, site: 'site1',       shop: 'shop1', unit_number: '1234', barcode: '1001')
+      create(:equipment_unit, site: 'site2 ,',     shop: 'shop2', unit_number: '5678', barcode: '1002')
+      create(:equipment_unit, site: 'site3 space', shop: 'shop3', unit_number: '9111', barcode: '1003')
+    end
+    
+    it "should generate the correct csv file" do
+      file_path = DataSources::EquipmentUnit.send(:create_datasource_csv)
+      expect(File.read(file_path)).to eq(File.read(Rails.root.join( 'spec', 'resources', 'datasources', 'equipment_unit', 'equipment_units.csv')))
+      File.delete(file_path)
+    end
+  end
+  
+  describe "self.import_from_csv" do
+    describe "test data" do
+    
+      subject { DataSources::EquipmentUnit.import_from_csv(Rails.root.join( 'spec', 'resources', 'datasources', 'equipment_unit', 'equipment_units_import.csv')) }
+      
+      before(:each) do
+        create(:equipment_unit, site: 'site1', shop: 'shop1', unit_number: '1002', barcode: '1002', equipment_type: 'type')
+        expect(DataSources::EquipmentUnit.count).to eq(1)
+        subject
+      end
+      
+      it "should update the existing equipment units" do
+        eu = DataSources::EquipmentUnit.where(unit_number: '1002').first
+        expect( eu.barcode ).to eq('0002')
+        expect( eu.battery_voltage ).to eq(48)
+        expect( eu.site ).to eq('Cambridge')
+        expect( eu.shop ).to eq('North Plastics')
+        expect( eu.equipment_type ).to eq('type')
+        expect( eu.battery_serial_number ).to eq('62080')
+        expect( eu.inspection_frequency ).to eq('C - Biweekly')
+        expect( eu.inspection_code ).to eq('C')
+        expect( eu.inspection_days ).to eq(14)
+      end
+      
+      it "should create non-existing equipment units" do
+        expect(DataSources::EquipmentUnit.count).to eq(21)
+      end
+      
+      it "should handle blank fields correctly" do
+        eu = DataSources::EquipmentUnit.where(unit_number: '1020').first
+        expect( eu.barcode ).to eq('unknown:1020')
+        expect( eu.battery_voltage ).to eq(nil)
+        expect( eu.site ).to eq('Woodstock')
+        expect( eu.shop ).to eq('Mitsui')
+        expect( eu.equipment_type ).to eq('Unknown')
+        expect( eu.battery_serial_number ).to eq(nil)
+        expect( eu.inspection_frequency ).to eq(nil)
+        expect( eu.inspection_code ).to eq(nil)
+        expect( eu.inspection_days ).to eq(nil)
+      end
+  
+      it "should create object with correct values for general rows" do
+        eu = DataSources::EquipmentUnit.where(unit_number: '1013').first
+        expect( eu.barcode ).to eq('0013')
+        expect( eu.battery_voltage ).to eq(24)
+        expect( eu.site ).to eq('Woodstock')
+        expect( eu.shop ).to eq('ED Weld')
+        expect( eu.equipment_type ).to eq('Unknown')
+        expect( eu.battery_serial_number ).to eq('62080')
+        expect( eu.inspection_frequency ).to eq('C - Biweekly')
+        expect( eu.inspection_code ).to eq('C')
+        expect( eu.inspection_days ).to eq(14)
+      end
+      
+      describe 'for Inspection Week' do
+        it 'assign correct values when Inspection Week is A' do
+          eu = DataSources::EquipmentUnit.where(unit_number: '1000').first
+          expect( eu.inspection_frequency ).to eq('A - Weekly')
+          expect( eu.inspection_code ).to eq('A')
+          expect( eu.inspection_days ).to eq(7)
+        end
+        
+        it 'assign correct values when Inspection Week is B' do
+          eu = DataSources::EquipmentUnit.where(unit_number: '1001').first
+          expect( eu.inspection_frequency ).to eq('B - Biweekly')
+          expect( eu.inspection_code ).to eq('B')
+          expect( eu.inspection_days ).to eq(14)
+        end
+        
+        it 'assign correct values when Inspection Week is C' do
+          eu = DataSources::EquipmentUnit.where(unit_number: '1013').first
+          expect( eu.inspection_frequency ).to eq('C - Biweekly')
+          expect( eu.inspection_code ).to eq('C')
+          expect( eu.inspection_days ).to eq(14)
+        end
+        
+        it 'assign correct values when Inspection Week is empty' do
+          eu = DataSources::EquipmentUnit.where(unit_number: '1020').first
+          expect( eu.inspection_frequency ).to eq(nil)
+          expect( eu.inspection_code ).to eq(nil)
+          expect( eu.inspection_days ).to eq(nil)
+        end
+      end
+      
+      describe 'for Cambridge shops' do
+        it "should convert North Assy to North Assembly" do
+          eu = DataSources::EquipmentUnit.where(unit_number: '1000').first
+          expect( eu.shop ).to eq('North Assembly')
+        end
+        
+        it "should convert North Assy to South Assembly" do
+          eu = DataSources::EquipmentUnit.where(unit_number: '1001').first
+          expect( eu.shop ).to eq('South Assembly')
+        end
+        
+        it "should convert Plastics to North Plastics" do
+          eu = DataSources::EquipmentUnit.where(unit_number: '1002').first
+          expect( eu.shop ).to eq('North Plastics')
+        end
+        
+        it "should convert Plastics to North Plastics" do
+          eu = DataSources::EquipmentUnit.where(unit_number: '1003').first
+          expect( eu.shop ).to eq('South Assembly')
+        end
+        
+        it "sets shop as it is for North Paint, Mitsui, North Weld, South Weld, Press, Facilities, South Paint, Fleet Spare" do
+          expect( DataSources::EquipmentUnit.where(unit_number: '1004').first.shop ).to eq('North Paint')
+          expect( DataSources::EquipmentUnit.where(unit_number: '1005').first.shop ).to eq('Mitsui')
+          expect( DataSources::EquipmentUnit.where(unit_number: '1006').first.shop ).to eq('North Weld')
+          expect( DataSources::EquipmentUnit.where(unit_number: '1007').first.shop ).to eq('South Weld')
+          expect( DataSources::EquipmentUnit.where(unit_number: '1008').first.shop ).to eq('Press')
+          expect( DataSources::EquipmentUnit.where(unit_number: '1009').first.shop ).to eq('Facilities')
+          expect( DataSources::EquipmentUnit.where(unit_number: '1010').first.shop ).to eq('South Paint')
+          expect( DataSources::EquipmentUnit.where(unit_number: '1011').first.shop ).to eq('Fleet Spare')
+        end
+      end
+      
+      describe 'for Woodstock shops' do
+        it "should convert Weld to West Weld" do
+          eu = DataSources::EquipmentUnit.where(unit_number: '1012').first
+          expect( eu.shop ).to eq('West Weld')
+        end
+        
+        it "sets shop as it is for ED Weld, Fleet Spare, Press, MCC, Assembly, Paint, Plastics" do
+          expect( DataSources::EquipmentUnit.where(unit_number: '1013').first.shop ).to eq('ED Weld')
+          expect( DataSources::EquipmentUnit.where(unit_number: '1014').first.shop ).to eq('Fleet Spare')
+          expect( DataSources::EquipmentUnit.where(unit_number: '1015').first.shop ).to eq('Press')
+          expect( DataSources::EquipmentUnit.where(unit_number: '1016').first.shop ).to eq('MCC')
+          expect( DataSources::EquipmentUnit.where(unit_number: '1017').first.shop ).to eq('Assembly')
+          expect( DataSources::EquipmentUnit.where(unit_number: '1018').first.shop ).to eq('Paint')
+          expect( DataSources::EquipmentUnit.where(unit_number: '1019').first.shop ).to eq('Plastics')
+        end
+      end
+    end
+    
+    describe 'Try to import real data' do
+      before(:each) do 
+        expect(DataSources::EquipmentUnit.count).to eq(0)
+        end
+      
+      subject { DataSources::EquipmentUnit.import_from_csv(Rails.root.join( 'spec', 'resources', 'datasources', 'equipment_unit', 'equipment_units_import_real.csv'))}
+      
+      it 'should create correct number of equipment unit records' do
+        subject
+        expect(DataSources::EquipmentUnit.count).to eq(348)
+      end
+      
+      it 'returns the errors that could not be imported' do
+        errors = subject
+        expect(errors.length).to eq(4)
+        expect(errors['442'].to_json).to eq('{"shop":["can\'t be blank"]}')
+        expect(errors['748'].to_json).to eq('{"barcode":["has already been taken"]}')
+        expect(errors['751'].to_json).to eq('{"barcode":["has already been taken"]}')
+        expect(errors['764'].to_json).to eq('{"barcode":["has already been taken"]}')
+      end
+    end
+    
+  end
+end

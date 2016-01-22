@@ -1,0 +1,28 @@
+class ChangeImagesFieldsToImageInSpecialServiceRequest < ActiveRecord::Migration
+  def change
+    rename_column :forms_special_service_requests, :images1_file_name, :image1_file_name
+    rename_column :forms_special_service_requests, :images1_file_size, :image1_file_size
+    rename_column :forms_special_service_requests, :images1_content_type, :image1_content_type
+    rename_column :forms_special_service_requests, :images1_updated_at, :image1_updated_at 
+    
+    rename_column :forms_special_service_requests, :images2_file_name, :image2_file_name
+    rename_column :forms_special_service_requests, :images2_file_size, :image2_file_size
+    rename_column :forms_special_service_requests, :images2_content_type, :image2_content_type
+    rename_column :forms_special_service_requests, :images2_updated_at, :image2_updated_at 
+   
+    rename_column :forms_special_service_requests, :images3_file_name, :image3_file_name
+    rename_column :forms_special_service_requests, :images3_file_size, :image3_file_size
+    rename_column :forms_special_service_requests, :images3_content_type, :image3_content_type
+    rename_column :forms_special_service_requests, :images3_updated_at, :image3_updated_at 
+    
+    rename_column :forms_special_service_requests, :images4_file_name, :image4_file_name
+    rename_column :forms_special_service_requests, :images4_file_size, :image4_file_size
+    rename_column :forms_special_service_requests, :images4_content_type, :image4_content_type
+    rename_column :forms_special_service_requests, :images4_updated_at, :image4_updated_at 
+    
+    rename_column :forms_special_service_requests, :images5_file_name, :image5_file_name
+    rename_column :forms_special_service_requests, :images5_file_size, :image5_file_size
+    rename_column :forms_special_service_requests, :images5_content_type, :image5_content_type
+    rename_column :forms_special_service_requests, :images5_updated_at, :image5_updated_at 
+  end
+end

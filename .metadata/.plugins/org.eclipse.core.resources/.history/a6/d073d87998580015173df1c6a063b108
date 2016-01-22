@@ -1,0 +1,41 @@
+# Paint Booth Process Checklist model. On site evaluation of a paint booth in a customer's site.
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms 
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user 
+# - version (string) - current version of the form
+# - altitude (decimal(20,20)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,20)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,20)) - longitude of the user's location when submitted the form
+# - source (string) - name of the provider, for example,"prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+
+# - client (string) - name of customer - "Toyota", "GM", etc.
+# - site (string) - name of site/city - "Cambridge", "Oshawa", etc.
+# - shop (string) - name of area in site - "North Paint", "ED Weld", etc.
+# - process (string) - specific part of the paint process
+# - line (string) - line in the plant
+# - area (string) - area of the plant
+# - ceiling_filter (string) - ceiling/filter media/sprinkler heads - "Green", "Yellow", "Red"
+# - lights_fixtures (string) - lights/fixtures/light curtains/fences/gun supports and racks - "Green", "Yellow", "Red"
+# - walls_windows (string) - walls/windows - "Green", "Yellow", "Red"
+# - robot_covers (string) - robots/bells and covers/hoppers/MGPs - "Green", "Yellow", "Red"
+# - grates (string) - grates/zip ties/grate cable - "Green", "Yellow", "Red"
+# - conveyor (string) - conveyor - "Green", "Yellow", "Red"
+# - structural_steel (string) - structural steel/undergrate piping - "Green", "Yellow", "Red"
+# - flood_pan (string) - flood sheets/floor - "Green", "Yellow", "Red"
+# - floor_platforms (string) - floor/platforms/water pans - "Green", "Yellow", "Red"
+# - comments (string) - comments
+# - image (attachment) - image taken on the line
+# - overall_rate (decimal(3,3)) - overall score out of three
+ 
+class Forms::PaintBoothProcessChecklist < ActiveRecord::Base
+  has_attached_file :image1
+  validates_attachment_content_type :image1, :content_type => /\Aimage/
+  
+  include HasSubmission
+  include Reparseable
+end

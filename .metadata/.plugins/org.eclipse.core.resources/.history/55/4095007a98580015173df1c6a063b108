@@ -1,0 +1,8 @@
+class CorrectTimeTypeFieldsInSocIncidentReport < ActiveRecord::Migration
+  def change
+    change_column :forms_soc_incident_reports, :shift_starts, :time
+    change_column :forms_soc_incident_reports, :shift_ends, :time
+    change_column :forms_soc_incident_reports, :time_of_incident, :time
+    change_column :forms_soc_incident_reports, :time_reported, :time
+  end
+end

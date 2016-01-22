@@ -1,0 +1,106 @@
+
+# Parser to for Shift Report forms submitted from ProntoForms
+class ProntoForms::ShiftReportParser < AbstractFormParser
+  
+  # name of the form according to ProntoForms
+  NAME = "Shift Report"
+  
+  # Returns the highest version number this parser is capable of parsing.
+  #
+  # @return [numeric] highest version number this parser is capable of parsing
+  def max_version
+    7
+  end
+  
+  # Attempts to convert the hash provided into a database object.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @param model [Forms::ShiftReport] object to update, nil if a new object should be created
+  # @return [ActiveRecord] instance of the object
+  # @raise [ParserException] if the hash could not be parsed for whatever reason
+  def parse(form_hash, model = nil)
+    model ||= Forms::ShiftReport.new
+
+    ProntoForms::SourceParser.get_common_answer_values(form_hash, model)
+    
+    model.site                     = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 0)[0]
+    model.shop                     = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 1)[0]
+    model.shift                    = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 2)[0]
+    model.date                     = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 3)[0]
+    model.employees_scheduled      = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 4)[0]
+    model.absent_employees         = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 5)[0]
+    model.employees_present        = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 6)[0]
+    model.overtime_employees       = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 7)[0]
+    
+    model.dollys_blasted           = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 1)[0]
+    model.ecoat_carriers_blast     = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 2)[0]
+    model.number_of_deficiency     = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 3)[0]
+    model.first_deficiency         = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 4)[0]
+    model.second_deficiency        = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 5)[0]
+    model.third_deficiency         = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 6)[0]
+    model.number_rs_deficiency     = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 0)[0]
+    model.first_rs_def             = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 1)[0]
+    model.second_rs_def            = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 2)[0]
+    model.third_rs_def             = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 3)[0]
+    model.co2_tasks                = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 4)[0]
+    model.quick_sweep              = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 5)[0]
+    model.booth_deep_clean         = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 6)[0]
+    
+    model.scrap_flat_presses       = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 1)[0]
+    model.supervisor               = ProntoForms::SourceParser.get_answer_values(form_hash, 4, 0)[0]
+    model.supervisor_name          = ProntoForms::SourceParser.get_answer_values(form_hash, 4, 1)[0]
+    model.number_of_treads         = ProntoForms::SourceParser.get_answer_values(form_hash, 4, 3)[0]
+    
+    ProntoForms::SourceParser.handle_image(model, form_hash, 4, 4, "press_1_chart")
+    ProntoForms::SourceParser.handle_image(model, form_hash, 4, 5, "press_2_chart")
+    ProntoForms::SourceParser.handle_image(model, form_hash, 4, 6, "press_3_chart")
+    ProntoForms::SourceParser.handle_image(model, form_hash, 4, 7, "press_4_chart")
+    
+    woodstock_downtime             = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 0)[0]
+    soc_downtime                   = ProntoForms::SourceParser.get_answer_values(form_hash, 4, 2)[0]
+    cambridge_downtime             = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 0)[0]
+    model.downtime                 = woodstock_downtime unless woodstock_downtime.nil?
+    model.downtime                 = soc_downtime unless soc_downtime.nil?
+    model.downtime                 = cambridge_downtime unless cambridge_downtime.nil?
+    
+    
+    model.scheduled_hours          = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 0)[0]
+    model.work_hours               = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 1)[0]
+    model.job_cancellations        = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 2)[0]
+    model.num_special_requests     = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 3)[0]
+    model.request_1                = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 4)[0]
+    model.requestor_1              = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 5)[0]
+    model.hours_1                  = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 6)[0]
+    model.request_2                = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 7)[0]
+    model.requestor_2              = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 8)[0]
+    model.hours_2                  = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 9)[0]
+    model.request_3                = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 10)[0]
+    model.requestor_3              = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 11)[0]
+    model.hours_3                  = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 12)[0]
+    model.request_4                = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 13)[0]
+    model.requestor_4              = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 14)[0]
+    model.hours_4                  = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 15)[0]
+    model.observations             = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 16)[0]
+    model.incidents                = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 0)[0]
+    model.incident1_type           = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 1)[0]
+    model.incident2_type           = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 2)[0]
+    model.incident3_type           = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 3)[0]
+    
+    ProntoForms::SourceParser.handle_image(model, form_hash, 7, 0, "picture_1")
+    model.picture_description1     = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 1)[0]
+    
+    ProntoForms::SourceParser.handle_image(model, form_hash, 7, 2, "picture_2")
+    model.picture_description2     = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 3)[0]
+    
+    ProntoForms::SourceParser.handle_image(model, form_hash, 7, 4, "picture_3")
+    model.picture_description3     = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 5)[0]
+    
+    ProntoForms::SourceParser.handle_image(model, form_hash, 7, 6, "picture_4")
+    model.picture_description4     = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 7)[0]
+    
+    model.shift_notes              = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 0)[0]
+
+    model
+  end
+  
+end

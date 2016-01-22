@@ -1,0 +1,176 @@
+# basic examples for anonymous users
+shared_examples "access is restricted" do |options = {}|
+  context "HTML" do
+    let(:format) { "html" }
+
+    it "does not succeed" do
+      subject
+      expect(response).not_to be_success
+    end
+
+    it "redirects user to root url" do
+      subject
+      expect(response.status).to eq(302)
+      expect(response).to redirect_to(root_url)
+    end
+
+    it "doesn't render template '#{options[:template]}'" do
+      subject
+      expect(response).to_not render_template(options[:template])
+    end
+  end
+
+  unless (options.has_key?(:skip_json) and options[:skip_json] == true)
+    context "JSON" do
+      let(:format) { "json" }
+
+      it "does not succeed" do
+        subject
+        expect(response).not_to be_success
+      end
+  
+      it "responds with 401" do
+        subject
+        expect(response.status).to eq(401)
+      end
+  
+      it "doesn't render template '#{options[:template]}'" do
+        subject
+        expect(response).to_not render_template(options[:template])
+      end
+    end
+  end
+end
+
+# basic examples for a user who cannot access a page
+shared_examples "access is not allowed" do |options = {}|
+  context "HTML" do
+    let(:format) { "html" }
+
+    it "does not succeed" do
+      subject
+      expect(response).not_to be_success
+    end
+
+    it "redirects user to root url" do
+      subject
+      expect(response.status).to eq(302)
+      expect(response).to redirect_to(root_url)
+    end
+
+    it "doesn't render template '#{options[:template]}'" do
+      subject
+      expect(response).to_not render_template(options[:template])
+    end
+  end
+
+  unless (options.has_key?(:skip_json) and options[:skip_json] == true)
+    context "JSON" do
+      let(:format) { "json" }
+
+      it "does not succeed" do
+        subject
+        expect(response).not_to be_success
+      end
+  
+      it "redirects user to root url" do
+        subject
+        expect(response.status).to eq(302)
+        expect(response).to redirect_to(root_url)
+      end
+  
+      it "doesn't render template '#{options[:template]}'" do
+        subject
+        expect(response).to_not render_template(options[:template])
+      end
+    end
+  end
+end
+
+# basic examples for a user who can access a page
+shared_examples "access is allowed" do |options = {}|
+  context "HTML" do
+    let(:format) { "html" }
+
+    it "succeeds" do
+      subject
+      expect(response).to be_success
+    end
+
+    it "responds with HTTP 200" do
+      subject
+      expect(response.status).to eq(200)
+    end
+
+    it "does not redirect user to root url" do
+      subject
+      expect(response).to_not redirect_to(root_url)
+    end
+
+    it "renders template '#{options[:template]}'" do
+      subject
+      expect(response).to render_template(options[:template])
+    end
+  end
+  
+  unless (options.has_key?(:skip_json) and options[:skip_json] == true)
+    context "JSON" do
+      let(:format) { "json" }
+  
+      it "succeeds" do
+        subject
+        expect(response).to be_success
+      end
+  
+      it "responds with HTTP 200" do
+        subject
+        expect(response.status).to eq(200)
+      end
+
+      it "does not redirect user to root url" do
+        subject
+        expect(response).to_not redirect_to(root_url)
+      end
+  
+      it "renders template '#{options[:template]}'" do
+        subject
+        expect(response).to render_template(options[:template])
+      end
+    end
+  end
+end
+
+# basic examples for a user who can access a page but the item doesn't exist
+shared_examples "access is allowed but doesn't exist" do |options|
+  context "HTML" do
+    let(:format) { "html" }
+
+    it "to fail" do
+      subject
+      expect(response).to_not be_success
+    end
+
+    it "responds with HTTP 302" do
+      subject
+      expect(response.status).to eq(302)
+    end
+
+    it "redirects user to #{options[:redirect]}" do
+      subject
+      expect(response).to redirect_to(options[:redirect])
+    end
+
+    it "renders template '#{options[:template]}'" do
+      subject
+      expect(response).to_not render_template(options[:template])
+    end
+  end
+
+  context "JSON" do
+    let(:format) { "json" }
+
+    it "should result in an ActiveRecord::RecordNotFound" do
+      expect { subject }.to raise_error ActiveRecord::RecordNotFound
+    end
+  end
+end

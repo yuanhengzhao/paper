@@ -1,0 +1,17 @@
+class FormsExtensionsCreateJigCleaningRecord < ActiveRecord::Migration
+  def change
+    create_table :form_extensions_jig_cleaning_records do |t|
+      t.references :jig_cleaning, index: true, foreign_key: false
+      t.string :jig_type
+      t.string :side
+      t.datetime :time_in
+      t.datetime :time_out
+      t.string :machine
+      t.decimal :cycle, :precision => 20, :scale => 16 
+      t.integer :count
+      t.decimal :extra_time, :precision => 20, :scale => 16 
+      t.text :notes
+      t.timestamps null: true
+    end
+  end
+end

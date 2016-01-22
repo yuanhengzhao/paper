@@ -1,0 +1,5 @@
+class AddChecksheetToRestroomChecklists < ActiveRecord::Migration
+  def change
+    add_column :forms_restroom_checklists, :checksheet, :string
+  end
+end

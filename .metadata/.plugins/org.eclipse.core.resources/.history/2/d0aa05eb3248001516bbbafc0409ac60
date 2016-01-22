@@ -1,0 +1,25 @@
+<% title @option_group_name.pluralize %>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Value</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+  	
+    <% @options.each do |option| %>
+      <tr>
+      	<td><%= option.value %></td>
+        <td>
+        	<%= link_to 'Show', admin_show_option_path({ :group => option.group, :id => option.id}) %>
+        	<% if can? :update, option %>| <%= link_to 'Edit', admin_edit_option_path({ :group => option.group, :id => option.id}) %><% end %>
+        	<% if can? :destroy, option %>| <%= link_to 'Destroy', admin_delete_option_path({ :group => option.group, :id => option.id}), method: :delete, data: { confirm: 'Are you sure?' } %><% end %>
+        	</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "New #{@option_group_name}", admin_new_option_path({ :group => params[:group] }), class: "btn btn-primary" if can? :create, Option %>

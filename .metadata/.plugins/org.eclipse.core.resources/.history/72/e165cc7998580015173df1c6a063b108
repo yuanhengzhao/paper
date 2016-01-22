@@ -1,0 +1,42 @@
+class FormExtensions::PunchlistFormHistoriesController < ApplicationController
+  
+  def create
+    if cannot? :read, Forms::PunchlistForm
+      raise CanCan::AccessDenied.new
+    else
+      @punchlist_form_history = FormExtensions::PunchlistFormHistory.new(history_params)
+      @punchlist_form_history.user = current_user
+      @punchlist_form_history.user_email = @punchlist_form_history.user.email
+      
+      @punchlist_form_history.status = @punchlist_form_history.punchlist_form.status if @punchlist_form_history.status.blank?
+      @punchlist_form_history.responsible = @punchlist_form_history.punchlist_form.responsible if @punchlist_form_history.responsible.blank?
+      @punchlist_form_history.bmw_comment = @punchlist_form_history.punchlist_form.bmw_comment if @punchlist_form_history.bmw_comment.blank?
+      @punchlist_form_history.supplier_status = @punchlist_form_history.punchlist_form.supplier_status if @punchlist_form_history.supplier_status.blank?
+
+      old_record = Forms::PunchlistForm.find(history_params["punchlist_form_id"])
+      unless @punchlist_form_history.save
+        render status: 406
+      else 
+        # actually code to send email
+        if old_record.username.match(/[a-zA-Z0-9._%]@(?:[a-zA-Z0-9]+\.)[a-zA-Z]{2,4}/)
+          PunchlistNotificationMailer.punchlist_change_notification(old_record.username, old_record, @punchlist_form_history).deliver
+        else # send the email to admin if the username is not an email
+          PunchlistNotificationMailer.punchlist_change_notification(Rails.application.config.admin_email, old_record, @punchlist_form_history).deliver
+        end
+      end
+    end
+  end
+  
+  private
+  def history_params
+    if can? :manage, Forms::PunchlistForm
+      return params.require(:form_extensions_punchlist_form_history).permit(:status, :responsible, :comment, :punchlist_form_id, :bmw_comment, :supplier_status)
+    elsif can? :read, Forms::PunchlistForm
+      pl = Forms::PunchlistForm.find(params[:form_extensions_punchlist_form_history][:punchlist_form_id])
+      return params.require(:form_extensions_punchlist_form_history).permit(:comment, :punchlist_form_id, :supplier_status) if pl.responsible == current_user.company
+    end
+    
+    raise CanCan::AccessDenied.new
+  end
+
+end

@@ -1,0 +1,128 @@
+class Incident < ActiveRecord::Base
+  audited except: :updated_at
+  
+  belongs_to :building
+  has_one :site, through: :building
+  belongs_to :safety_rep
+  belongs_to :incident_class
+  belongs_to :incident_category
+  belongs_to :incident_type
+  belongs_to :employee_type
+  belongs_to :mobile_equipment
+  belongs_to :modified_duties_prescriber
+  belongs_to :body_part
+  belongs_to :body_location
+  belongs_to :employee_type
+  belongs_to :floor
+  
+  belongs_to :author, class_name: User, foreign_key: :author_id, inverse_of: :incidents
+  has_and_belongs_to_many :additional_factors
+  has_and_belongs_to_many :environmental_factors
+  has_and_belongs_to_many :ppes
+  
+  #has_many :ppe
+  #has_many :enviromental_factors
+  #has_many :additional_factors
+  
+  scope :open,   -> { where(:closed_date => nil) }
+  scope :closed, -> { where('closed_date is not null') }
+  
+  #ready_to_submit and not scopes
+  
+  scope :ready, -> { where(:ready_to_submit_investigation => true) }
+  scope :draft, -> { where('ready_to_submit_investigation is null or ready_to_submit_investigation != true') }
+  
+  #validates_presence_of :building, :supervisor, :shift_start, :shift_end, :employee, :job, :incident_time, :safety_rep, :incident_class, :incident_type, :description
+  # temporary validation
+  validates_presence_of :employee
+  
+  # ensures that the incident date is on or before the reported date
+  validate :incident_time_precedes_report_time
+  
+  has_attached_file :photo_medical_doc1
+  validates_attachment_content_type :photo_medical_doc1, :content_type => /\Aimage/
+  
+  has_attached_file :photo_medical_doc2
+  validates_attachment_content_type :photo_medical_doc2, :content_type => /\Aimage/
+  
+  has_attached_file :photo_medical_doc3
+  validates_attachment_content_type :photo_medical_doc3, :content_type => /\Aimage/
+  
+  has_attached_file :photo_modified_work_form_signed1
+  validates_attachment_content_type :photo_modified_work_form_signed1, :content_type => /\Aimage/
+  
+  has_attached_file :photo_modified_work_form_signed2
+  validates_attachment_content_type :photo_modified_work_form_signed2, :content_type => /\Aimage/
+  
+  has_attached_file :implemented_support_file1
+  validates_attachment_content_type :implemented_support_file1, :content_type => /\Aimage/
+  
+  has_attached_file :implemented_support_file2
+  validates_attachment_content_type :implemented_support_file2, :content_type => /\Aimage/
+  
+  has_attached_file :implemented_support_file3
+  validates_attachment_content_type :implemented_support_file3, :content_type => /\Aimage/
+  
+  has_attached_file :implemented_support_file4
+  validates_attachment_content_type :implemented_support_file4, :content_type => /\Aimage/
+  
+  has_attached_file :investigation_photo1
+  validates_attachment_content_type :investigation_photo1, :content_type => /\Aimage/
+  
+  has_attached_file :investigation_photo2
+  validates_attachment_content_type :investigation_photo2, :content_type => /\Aimage/
+  
+  def incident_time_precedes_report_time
+    unless incident_time.nil? or report_time.nil?
+      if incident_time > report_time
+        errors.add(:incident_time, "is not before date/time reported")
+        errors.add(:report_time, "is not after date/time of incident")
+      end
+    end
+  end
+  
+  # virtual attribute marking this record as an imported record as opposed to a created record
+  def imported?
+    @imported
+  end
+  def imported=(imported)
+    @imported = imported
+  end
+  
+  # send notifications as long as this record has not been imported
+  after_create :send_group_notification, unless: :imported?
+  
+  #after_update/_save methods
+  after_save :send_notification_safety_rep_incident_ready 
+  after_update :send_notification_author_incident_not_ready
+  after_update :send_notification_safety_reps_incident_closed
+  
+  def send_notification_safety_rep_incident_ready
+    check = ((self.id_changed? and self.ready_to_submit_investigation) or (self.ready_to_submit_investigation and !self.ready_to_submit_investigation_was)) 
+    
+    if (check)
+      IncidentMailer.notification_safety_rep_incident_ready(self).deliver()
+    end
+  end
+  
+  def send_notification_author_incident_not_ready
+    if (!self.ready_to_submit_investigation and self.ready_to_submit_investigation_was)
+      IncidentMailer.notification_author_incident_not_ready(self).deliver()
+    end
+  end
+   
+  def send_notification_safety_reps_incident_closed
+    if (self.ready_to_submit_investigation and (self.closed_date != nil and self.closed_date_was == nil))
+      IncidentMailer.notification_safety_reps_incident_closed(self).deliver()
+    end
+  end
+  
+  def send_group_notification
+    IncidentMailer.group_notification_email(self).deliver
+  end
+  
+  def local_site_time(site, time, fmt = "%Y-%m-%d %H:%M %Z")
+    return nil if time.nil?
+    time.in_time_zone(ActiveSupport::TimeZone[site.time_zone]).strftime(fmt)
+  end
+end

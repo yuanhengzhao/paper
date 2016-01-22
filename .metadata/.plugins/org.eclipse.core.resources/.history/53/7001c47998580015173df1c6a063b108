@@ -1,0 +1,14 @@
+jQuery ->  
+  # datatable for submissions page
+  datatable = $("#paint_booth_process_checklists_datatable").DataTable
+    "processing": true
+    "serverSide": true
+    "ajax": "/forms/paint_booth_process_checklists/datatable.json"
+    "columns": [
+      { "data": "id" },
+      { "data": "username" },
+      { "data": "device_submit_date", "render": (data, type, full) -> new Date(data) }
+      { "data": "id", "searchable": false, "orderable": false, "render": ( data, type, full ) ->
+        '<a href="/forms/paint_booth_process_checklists/' + data + '" target="_blank">Show</a>'
+      }
+    ]

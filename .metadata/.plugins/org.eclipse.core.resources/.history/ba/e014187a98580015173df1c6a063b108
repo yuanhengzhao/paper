@@ -1,0 +1,15 @@
+namespace :data do
+  
+  desc "start polling submission from SQS and S3 for once" 
+  task :dump => [:environment] do |t, args|
+    record = Forms::AreaInspection.all[0]
+    i=0
+    30000.times do
+      record_dup = record.dup
+      record_dup.save
+      puts record_dup.errors.to_json
+      puts i+=1
+    end
+  end
+  
+end

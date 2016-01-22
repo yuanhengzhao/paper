@@ -1,0 +1,9 @@
+require 'spec_helper'
+
+describe Forms::JigCleaningsController do
+  it_behaves_like "a form controller" do
+    let(:model) { Forms::JigCleaning }
+    let(:image_fields) { [] }
+    let(:pre_model_name) { "" }
+  end
+end

@@ -1,0 +1,5 @@
+class ChangeJobsCancellationToObservations < ActiveRecord::Migration
+  def change
+    rename_column :forms_shift_reports, :jobs_cancellations, :observations
+  end
+end

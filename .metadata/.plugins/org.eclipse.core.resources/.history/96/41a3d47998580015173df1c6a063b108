@@ -1,0 +1,68 @@
+class PunchlistNotificationMailer < ActionMailer::Base
+  include ActionView::Helpers::TextHelper
+  default from: "no-reply@robinsonsolutions.com", template: "punchlist_history_notification"
+  
+  def punchlist_change_notification(email_to, old_record, new_record)
+  	subject = "[Punchlist] record ID # #{old_record.id}"
+  	changes = { status: false, supplier_status: false, responsible: false, bmw_comment: false}
+    # building changes (if any)
+    changes[:status] = true if new_record.status != old_record.status
+    changes[:supplier_status] = true if new_record.supplier_status != old_record.supplier_status
+    changes[:responsible] = true if new_record.responsible != old_record.responsible
+    changes[:bmw_comment] = true if new_record.bmw_comment != old_record.bmw_comment
+    
+    trueChangesIndex = trueCheck(changes)
+      
+  	if changes[:status]
+  	  subject << " status"
+  	  trueChangesIndex = (trueChangesIndex - 1)
+  	end
+  	
+  	if changes[:supplier_status]
+  	  subject << "," if changes[:status]
+  	  subject << " and" if trueChangesIndex == 1
+  	  subject << " supplier status"
+  	  trueChangesIndex = (trueChangesIndex - 1)
+  	end
+  	
+  	if changes[:responsible]
+  	  subject << "," if changes[:status] || changes[:supplier_status]
+  	  subject << " and" if trueChangesIndex == 1
+  	  subject << " supplier status"
+  	  trueChangesIndex = (trueChangesIndex - 1)
+  	end
+  	
+  	if changes[:task_description]
+  	  subject << "," if changes[:status] || changes[:supplier_status] || changes[:responsible]
+  	  subject << " and" if trueChangesIndex == 1
+  	  subject << " comment"
+  	  trueChangesIndex = (trueChangesIndex - 1)
+  	end
+  	
+  	if changes[:bmw_comment]
+  	  subject << "," if changes[:status] || changes[:supplier_status] || changes[:responsible] || changes[:task_description]
+  	  subject << " and" if trueChangesIndex == 1
+  	  subject << " BMW comment"
+  	  trueChangesIndex = (trueChangesIndex - 1)
+  	end
+  	
+  	subject << " updated"
+  	@old_record = old_record
+  	@new_record = new_record
+  	@changes = changes
+  	@short_info = "Punchlist record ID # #{old_record[:id]} has been updated"
+  	mail(to: email_to, subject: subject)
+  end
+  
+  private
+  def trueCheck(changes_in)
+  	i = 0
+  	i += 1 if changes_in[:status]
+  	i += 1 if changes_in[:supplier_status]
+  	i += 1 if changes_in[:responsible]
+  	i += 1 if changes_in[:task_description]
+  	i += 1 if changes_in[:bmw_comment]
+  	
+  	return i
+  end
+end

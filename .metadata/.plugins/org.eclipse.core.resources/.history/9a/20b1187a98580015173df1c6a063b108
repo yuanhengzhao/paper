@@ -1,0 +1,43 @@
+require 'timers'
+
+namespace :sqs do
+  
+  desc "start polling submission from SQS and S3 for once" 
+  task :poll => [:environment] do |t, args|
+    setting = Rails.application.config.prontoforms_sqs_settings
+    poll(setting)
+  end
+  
+  desc "start the cron job to poll submissions from SQS and S3" 
+  task :start => [:environment] do |t, args|
+    Rails.logger.info "Start sqs cron jobs."
+    
+    setting = Rails.application.config.prontoforms_sqs_settings
+    
+    timers = Timers::Group.new
+    interval = timers.every(setting[:interval].to_i) do
+      poll(setting)
+    end
+    loop { timers.wait }
+  end
+  
+  private 
+  
+  def poll(setting)
+    begin  
+      Rails.logger.info "Start polling from sqs at #{Time.current}."
+      sqs = Consumer::AwsSqsS3.new(setting[:fog_credentials], setting[:queue_url], setting[:bucket_name], setting[:source])
+      
+      count_new_messages_handled = sqs.poll
+      
+      Rails.logger.info "#{count_new_messages_handled} new submissions processed at #{Time.current}."
+    rescue Exception => e
+      Rails.logger.error "Polling message failed. Exception messages:"
+      Rails.logger.error e.message
+      Rails.logger.error e.backtrace.join("\n")
+      
+      # send emails to all admins
+      ErrorNotificationMailer.error_notification_email("[FormData] Polling message failed","Exception messages","#{e.message}\n#{e.backtrace.join("\n")}").deliver
+    end
+  end
+end

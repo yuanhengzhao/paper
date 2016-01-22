@@ -1,0 +1,14 @@
+jQuery ->  
+  # datatable for submissions page
+  datatable = $("#net_promoter_scores_datatable").DataTable
+    "processing": true
+    "serverSide": true
+    "ajax": "/forms/net_promoter_scores/datatable.json"
+    "columns": [
+      { "data": "id" },
+      { "data": "username" },
+      { "data": "device_submit_date", "render": (data, type, full) -> new Date(data) }
+      { "data": "id", "searchable": false, "orderable": false, "render": ( data, type, full ) ->
+        '<a href="/forms/net_promoter_scores/' + data + '" target="_blank">Show</a>'
+      }
+    ]

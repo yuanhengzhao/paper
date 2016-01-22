@@ -1,0 +1,184 @@
+jQuery ->  
+  escapedHtml = (str) -> 
+    if(str == null || str == undefined)
+      return "" 
+    return str.replace(/&/g, '&amp;').replace(/>/g, '&gt;').replace(/</g, '&lt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+    
+  is_filter_form_empty = () -> 
+    inputs = $('#form-filter-form :input');
+    for input in inputs
+      if $(input).val() != "" && $(input).val() != null && $(input).val() != undefined
+        return false
+    true
+  
+  # datatable for submissions page
+  datatable = $("#punchlist_forms_datatable").DataTable
+    "processing": true
+    "serverSide": true
+    "sServerMethod" : "POST"
+    "ajax": { 
+      url: "/forms/punchlist_forms/datatable.json"
+      data: (d) -> 
+       for col in d.columns
+         input = $(".form-filter-group [name="+col.data+"]")
+         if(input.attr("data-method-type") == "range")
+           val_from = $(".form-filter-group [name="+col.data+"][data-key=from]").val()
+           val_to = $(".form-filter-group [name="+col.data+"][data-key=to]").val()
+           col.search.value = {}
+           if val_from != null && val_from != "" && val_from != undefined
+             col.search.value.from = val_from
+           if val_to != null && val_to != "" && val_to != undefined
+             col.search.value.to = val_to
+         else
+           val = input.val()
+           if val != null && val != "" && val != undefined
+             col.search.value = val
+       return
+     }
+    "drawCallback": ( settings ) -> 
+      punchlist_dialog = $("#punchlist-dialog");
+      punchlist_update_dialog = $("#punchlist-update-dialog");
+      $(".btn-punchlist-details").on 'click', () -> 
+        datas = $(this).parent()
+        punchlist_dialog.find("#punchlist-detail-id").html(datas.attr("data-id"))
+        punchlist_dialog.find("#punchlist-detail-reference-number").html(datas.attr("data-reference-number"))
+        punchlist_dialog.find("#punchlist-detail-author").html(datas.attr("data-author"))
+        punchlist_dialog.find("#punchlist-detail-responsible").html(datas.attr("data-responsible"))
+        punchlist_dialog.find("#punchlist-detail-status").html(datas.attr("data-status"))
+        punchlist_dialog.find("#punchlist-detail-supplier-status").html(datas.attr("data-supplier-status"))
+        punchlist_dialog.find("#punchlist-detail-els-number").html(datas.attr("data-els-number"))
+        punchlist_dialog.find("#punchlist-detail-project-area").html(datas.attr("data-project-area"))
+        punchlist_dialog.find("#punchlist-detail-column-location").html(datas.attr("data-column-location"))
+        punchlist_dialog.find("#punchlist-detail-level").html(datas.attr("data-level"))
+        punchlist_dialog.find("#punchlist-detail-device-submit-date").html(datas.attr("data-device-submit-date"))
+        punchlist_dialog.find("#punchlist-detail-bmw-comment").html(datas.attr("data-bmw-comment"))
+        punchlist_dialog.find("#punchlist-detail-task-description").html(datas.attr("data-task-description"))
+        punchlist_dialog.find("#link-full-details").attr("href","/forms/punchlist_forms/"+datas.attr("data-id"))
+        $("#punchlist-modal").modal("show")
+      $(".btn-punchlist-full-details").on 'click', () ->
+        window.open($(this).attr("data-url"))
+      $(".btn-punchlist-update").on 'click', () ->
+        datas = $(this).parent()
+        $("#form_extensions_punchlist_form_history_comment").val("")
+        $("#form_extensions_punchlist_form_history_punchlist_form_id").val(datas.attr("data-id"))
+        $("#form_extensions_punchlist_form_history_status").val(datas.attr("data-status"))
+        $("#form_extensions_punchlist_form_history_supplier_status").val(datas.attr("data-supplier-status"))
+        $("#form_extensions_punchlist_form_history_responsible").val(datas.attr("data-responsible"))
+        $("#form_extensions_punchlist_form_history_bmw_comment").val(datas.attr("data-bmw-comment"))
+        $("#punchlist-update-modal").modal("show")
+      return
+      
+    "columns": [
+      { "data": "id" },
+      { "data": "reference_number", "render": (data, type, full) -> 
+        if data==null
+          return ""
+        else
+          return data.replace("-","-<br>")
+      },
+      { "data": "username", "render": (data, type, full) -> 
+        if data==null
+          return ""
+        else 
+          data.replace("@","<br>@").replace(".",".<br>")
+      },
+      { "data": "responsible", "render": (data, type, full) -> '<span class="cell-responsible" data-id="'+full.id+'" >'+data+'</span>' },
+      { "data": "status", "render": (data, type, full) -> '<span class="cell-status" data-id="'+full.id+'" >'+data+'</span>' },
+      { "data": "supplier_status", "render": (data, type, full) -> '<span class="cell-supplier-status" data-id="'+full.id+'" >'+data+'</span>' },
+      { "data": "els_number", "render": (data, type, full) -> 
+        if data==null
+          return ""
+        else
+          return data.replace("+","+<br>")
+      },
+      { "data": "project_area", "searchable": false, "orderable": false, "render": (data, type, full) -> full.project_area + "<br>" + full.level + "<br>" + full.column_location },
+      { "data": "device_submit_date", "render": (data, type, full) -> new Date(data).toLocaleString() },
+      { "data": "updated_at", "render": (data, type, full) -> new Date(data).toLocaleString() },
+      { "data": "id", "searchable": false, "orderable": false, "render": (data, type, full) -> 
+        html = '<div '+
+          'class="cell-command" ' +
+          'data-id="'+full.id+'" '+
+          'data-reference-number="'+full.reference_number+'" '+
+          'data-author="'+full.username+'" '+
+          'data-responsible="'+full.responsible+'" '+
+          'data-status="'+full.status+'" '+
+          'data-supplier-status="'+full.supplier_status+'" '+
+          'data-els-number="'+full.els_number+'" '+
+          'data-project-area="'+full.project_area+'" '+
+          'data-level="'+full.level+'" '+
+          'data-column-location="'+full.column_location+'" '+
+          'data-device-submit-date="'+full.device_submit_date+'" '+
+          'data-bmw-comment="'+escapedHtml(full.bmw_comment)+'" '+
+          'data-task-description="'+escapedHtml(full.task_description)+'">'
+        html += '<button class="btn-punchlist-details">Details</button>'
+        html += '<button class="btn-punchlist-full-details" data-url="/forms/punchlist_forms/'+full.id+'">Show</button>'
+        html += '<button class="btn-punchlist-update" >Update</button>'
+        html += '</div>'
+        html
+      }
+      { "data": "bmw_comment" },
+      { "data": "task_description" },
+      { "data": "project_area" },
+      { "data": "level" },
+      { "data": "column_location" }
+    ]
+    "columnDefs": [{
+      "targets": [ 11,12,13,14,15 ],
+      "visible": false
+      }
+    ]
+    
+  $(".form-filter-group select, .form-filter-group input").on "change keyup dp.change", ()->
+    datatable.draw()
+    if($(this).val() != "") 
+      $(this).css("background-color","yellow")
+    else
+      $(this).css("background-color","white")
+      
+  $(".form-filter-group button[type=reset]").on "click", ()->
+    $("#form-filter-form")[0].reset()
+    datatable.draw()
+    $(".form-filter-group select, .form-filter-group input").css("background-color", "white")
+    return false
+    
+  $( "#device_submit_date_from" ).datetimepicker({format: 'YYYY-MM-DD', useCurrent: false});
+  $( "#device_submit_date_to" ).datetimepicker({format: 'YYYY-MM-DD', useCurrent: false});
+  
+  if(!is_filter_form_empty())
+    $('.form-fields').show()
+    
+  $("#punchlist-update-form").on 'submit', ()->
+    postData = $(this).serializeArray()
+    formURL = $(this).attr("action")
+    $.ajax
+      url : formURL
+      type: "POST"
+      dataType : "JSON"
+      data : postData
+      success:(data, textStatus, jqXHR) ->
+        $('.cell-responsible, .cell-status').css('background-color','transparent')
+        datas_container = $('.cell-command[data-id="'+data.punchlist_form_id+'"]')
+        if(datas_container.attr('data-responsible') != data.responsible)
+          datas_container.attr('data-responsible', data.responsible)
+          $('.cell-responsible[data-id="'+data.punchlist_form_id+'"]').html(data.responsible)
+          $('.cell-responsible[data-id="'+data.punchlist_form_id+'"]').css('background-color','yellow')
+        
+        if(datas_container.attr('data-status') != data.status)
+          datas_container.attr('data-status', data.status)
+          $('.cell-status[data-id="'+data.punchlist_form_id+'"]').html(data.status)
+          $('.cell-status[data-id="'+data.punchlist_form_id+'"]').css('background-color','yellow')
+          
+        if(datas_container.attr('data-supplier-status') != data.supplier_status)
+          datas_container.attr('data-supplier-status', data.supplier_status)
+          $('.cell-supplier-status[data-id="'+data.punchlist_form_id+'"]').html(data.supplier_status)
+          $('.cell-supplier-status[data-id="'+data.punchlist_form_id+'"]').css('background-color','yellow')
+       
+        if(datas_container.attr('data-bmw-comment') != data.bmw_comment)
+          datas_container.attr('data-bmw-comment', data.bmw_comment)
+          
+        $("#punchlist-update-modal").modal('hide')
+      error: (jqXHR, textStatus, errorThrown) ->
+        bootbox.alert(jQuery.parseJSON(jqXHR.responseText)["errors"].error[0])
+    false
+  
+  return

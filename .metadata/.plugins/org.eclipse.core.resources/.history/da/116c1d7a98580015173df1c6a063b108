@@ -1,0 +1,147 @@
+require 'spec_helper'
+require 'json'
+
+describe FormExtensions::PunchlistFormHistoriesController do
+  describe "POST create json" do
+    before(:each) do
+      ActionMailer::Base.delivery_method = :test
+      ActionMailer::Base.perform_deliveries = true
+      ActionMailer::Base.deliveries = []
+    end
+    
+    after(:each) do
+      ActionMailer::Base.deliveries.clear
+    end
+    
+    let!(:punchlist_form) { create(:punchlist_form, status: "Open", responsible: "Company A", bmw_comment: "dummy comment", username: "author@test.com") }
+    let(:params) do
+      params = {
+        format: 'json',
+        form_extensions_punchlist_form_history: {
+          status: "Closed",
+          responsible: "responsible",
+          punchlist_form_id: punchlist_form.id,
+          comment: "comment",
+          bmw_comment: "bmw_comment"
+        }
+      }
+    end
+    
+    it "does not create a history record if logged in as an anonymous user" do
+      should_not_create_history_record
+    end
+    
+    it "does not create a history record if logged in as an user without permission" do
+      @user = create(:authorized)
+      sign_in @user
+      should_not_create_history_record
+    end
+    
+    it "does not create a history record if status, responsible and bmw_comment are not changed" do
+      @user = create(:admin)
+      sign_in @user
+      params = {
+        format: 'json',
+        form_extensions_punchlist_form_history: {
+          status: punchlist_form.status,
+          responsible: punchlist_form.responsible,
+          punchlist_form_id: punchlist_form.id,
+          bmw_comment: punchlist_form.bmw_comment,
+          comment: "comment"
+        }
+      }
+      
+      expect(FormExtensions::PunchlistFormHistory.all.size).to eq(1) # the original punchlist form history when punchlist is created
+      post :create, params
+      expect(response.status).to eq(406)
+      expect(FormExtensions::PunchlistFormHistory.all.size).to eq(1)
+      expect(Forms::PunchlistForm.last.status).to eq("Open")
+      expect(Forms::PunchlistForm.last.responsible).to eq("Company A")
+      expect(Forms::PunchlistForm.last.bmw_comment).to eq("dummy comment")
+      expect(Forms::PunchlistForm.last.supplier_status).to eq("Assigned")
+    end
+    
+    it "allows read only users to change supplier status of record assigned to their company" do
+      @user = create(:authorized, company: 'Company A')
+      sign_in @user
+      create(:permission, user_id: @user.id, category: "Forms", subject: "PunchlistForm", action: "read")
+      
+      params = {
+        format: 'json',
+        form_extensions_punchlist_form_history: {
+          supplier_status: 'Open',
+          status: 'Close',
+          punchlist_form_id: punchlist_form.id,
+          comment: "comment"
+        }
+      }
+      
+      expect(FormExtensions::PunchlistFormHistory.all.size).to eq(1) # the original punchlist form history when punchlist is created
+      post :create, params
+      expect(response.status).to eq(200)
+      expect(FormExtensions::PunchlistFormHistory.all.size).to eq(2)
+      expect(Forms::PunchlistForm.last.supplier_status).to eq("Open")
+      expect(Forms::PunchlistForm.last.status).to eq("Open") # the user should not change the status
+      expect(Forms::PunchlistForm.last.responsible).to eq("Company A")
+      expect(Forms::PunchlistForm.last.bmw_comment).to eq("dummy comment")
+      expect(Forms::PunchlistForm.last.status).to eq("Open")
+    end
+    
+    it "does not allow read only users to change supplier status of record assigned to other company" do
+      @user = create(:authorized, company: 'Company B')
+      sign_in @user
+      should_not_create_history_record
+    end
+    
+    it "creates a history record if logged in as an user with edit permission" do
+      @user = create(:authorized)
+      sign_in @user
+      create(:permission, user_id: @user.id, category: "Forms", subject: "PunchlistForm", action: "edit")
+      
+      should_create_history_record
+    end
+    
+    it "creates a history record if logged in as an admin" do
+      @user = create(:admin)
+      sign_in @user
+      should_create_history_record
+    end
+    
+    def should_create_history_record
+      expect(FormExtensions::PunchlistFormHistory.all.size).to eq(1) # the original punchlist form history when punchlist is created
+      expect(ActionMailer::Base.deliveries.count).to eq(0)
+
+      post :create, params
+      expect(response.status).to eq(200)    
+      expect(FormExtensions::PunchlistFormHistory.all.size).to eq(2)
+      expect(Forms::PunchlistForm.last.status).to eq("Closed")
+      expect(Forms::PunchlistForm.last.responsible).to eq("responsible")
+      
+      expect(FormExtensions::PunchlistFormHistory.last.user_email).to eq(@user.email)
+      expect(FormExtensions::PunchlistFormHistory.last.user).to eq(@user)
+      
+      expect(FormExtensions::PunchlistFormHistory.last.status).to eq("Closed")
+      expect(FormExtensions::PunchlistFormHistory.last.responsible).to eq("responsible")
+      expect(FormExtensions::PunchlistFormHistory.last.bmw_comment).to eq("bmw_comment")
+      
+      expect(ActionMailer::Base.deliveries.count).to eq(1) # it sends the email
+      expect(ActionMailer::Base.deliveries.first.to).to eq(["author@test.com"])
+    end
+    
+    def should_not_create_history_record
+      expect(FormExtensions::PunchlistFormHistory.all.size).to eq(1) # the original punchlist form history when punchlist is created
+      expect(ActionMailer::Base.deliveries.count).to eq(0)
+      post :create, params
+      
+      expect(response.status).to eq(302)
+      expect(FormExtensions::PunchlistFormHistory.all.size).to eq(1)
+      expect(Forms::PunchlistForm.last.status).to eq("Open")
+      expect(Forms::PunchlistForm.last.responsible).to eq("Company A")
+      expect(Forms::PunchlistForm.last.bmw_comment).to eq("dummy comment")
+      
+      expect(ActionMailer::Base.deliveries.count).to eq(0) # it does not send the email
+      
+    end
+    
+  end
+end

@@ -1,0 +1,19 @@
+require_relative '../spec_helper'
+
+describe AbstractFormParser do
+  describe "parse" do
+    subject { AbstractFormParser.new }
+    
+    describe "with one argument" do
+      it "should raise a standard error" do
+        lambda { subject.parse({}) }.should raise_error(NotImplementedError)
+      end
+    end
+    
+    describe "with two arguments" do
+      it "should raise a standard error" do
+        lambda { subject.parse({}, {}) }.should raise_error(NotImplementedError)
+      end
+    end
+  end
+end

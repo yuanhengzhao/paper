@@ -1,0 +1,8 @@
+class ChangeNetPromoterScore < ActiveRecord::Migration
+  def change
+    remove_column :forms_net_promoter_scores, :source_provider, :string
+    remove_column :forms_net_promoter_scores, :email, :string
+    add_column :forms_net_promoter_scores, :impact_level, :string
+    add_column :forms_net_promoter_scores, :department, :string
+  end
+end

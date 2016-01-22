@@ -1,0 +1,33 @@
+<% title "Robinson FormData" %>
+
+<div class="login-group center-block">
+	<div class="col-sm-6 center-block">
+		<div class="login-section center-block">
+			<div class="header">Robinson Users</div>
+			<div class="body">
+				<div>Log in with your Robinson Google account</div>
+			</div>
+			<div class="action"><%= button_to "Log in", user_omniauth_authorize_path(:google_oauth2), :class => "button-submit" %></div>
+			<div class="footer">&nbsp;</div>
+		</div>
+	</div>
+	<div class="col-sm-6 center-block">	
+		<div class="login-section center-block">
+			<div class="header">External Users</div>
+			<%= form_for(Security::User.new, as: :user, url: user_session_url, html: {class: "devise-form"} ) do |f| %>
+			<div class="body">
+				<div>
+					<%= f.label :email %>
+					<%= f.email_field :email, autofocus: true %>
+				</div>
+				<div>
+					<%= f.label :password %>
+					<%= f.password_field :password, autocomplete: "off" %>
+				</div>
+			</div>
+			<div class="action"><%= f.submit "Log in", { class: "button-submit" }%></div>
+			<% end %>
+			<div class="footer"><%= link_to "First time logging in? Forgot your password?", new_user_password_path %></div>
+		</div>
+	</div>
+</div>

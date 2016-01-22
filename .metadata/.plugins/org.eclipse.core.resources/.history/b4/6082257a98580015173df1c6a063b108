@@ -1,0 +1,15 @@
+FactoryGirl.define do
+  factory :shift_report, class: Forms::ShiftReport do
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions', 'fake.json'), 'text/plain') }
+    
+    factory :shift_report_valid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'shift_report', 'valid.json'), 'text/plain') }
+    end
+    
+    factory :shift_report_invalid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'shift_report', 'too_many_pictures.json'), 'text/plain') }
+    end
+  end
+end

@@ -1,0 +1,11 @@
+class FixDecimalOfCentrifugeFields < ActiveRecord::Migration
+  def up
+    change_column :forms_escrub_kops, :bc_centrifuge, :decimal, precision: 20, scale: 16
+    change_column :forms_escrub_kops, :cc_centrifuge, :decimal, precision: 20, scale: 16
+  end
+  
+  def down
+    change_column :forms_escrub_kops, :bc_centrifuge, :decimal
+    change_column :forms_escrub_kops, :cc_centrifuge, :decimal
+  end
+end

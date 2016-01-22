@@ -1,0 +1,36 @@
+FactoryGirl.define do
+  factory :enps_report, class: Forms::EnpsReport do
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions', 'fake.json'), 'text/plain') }
+    
+    factory :enps_report_valid do
+      source "prontoforms"
+      exclude false
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'enps_report', 'v1', 'valid.json'), 'text/plain') }
+    end
+    
+    factory :enps_report_invalid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'enps_report', 'v1', 'missing_pages.json'), 'text/plain') }
+    end
+    
+    factory :enps_report_valid_v2 do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'enps_report', 'v2', 'valid.json'), 'text/plain') }
+    end
+    
+    factory :enps_report_invalid_v2 do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'enps_report', 'v2', 'missing_pages.json'), 'text/plain') }
+    end
+    
+    factory :enps_report_valid_v3 do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'enps_report', 'v3', 'valid.json'), 'text/plain') }
+    end
+    
+    factory :enps_report_invalid_v3 do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'enps_report', 'v3', 'missing_pages.json'), 'text/plain') }
+    end
+  end
+end

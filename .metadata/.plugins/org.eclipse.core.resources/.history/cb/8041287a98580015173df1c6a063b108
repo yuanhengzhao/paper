@@ -1,0 +1,7 @@
+require_relative '../../spec_helper'
+
+describe FormExtensions::JigCleaningRecord do
+  it "has a valid factory" do
+    expect(build(:jig_cleaning_record)).to be_valid
+  end
+end

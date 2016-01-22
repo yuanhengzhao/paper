@@ -1,0 +1,8 @@
+class CorrectTimeTypeFieldsInSnowAudit < ActiveRecord::Migration
+  def change
+    change_column :forms_snow_audits, :time_snow_called_for, :time
+    change_column :forms_snow_audits, :time_snow_started, :time
+    change_column :forms_snow_audits, :time_snow_ended, :time
+    change_column :forms_snow_audits, :audit_time, :time
+  end
+end

@@ -1,0 +1,6 @@
+class AddEmailAndUserToPunchlistFormHistory < ActiveRecord::Migration
+  def change
+    add_column :form_extensions_punchlist_form_histories, :user_id, :integer, foreign_key: { references: nil }
+    add_column :form_extensions_punchlist_form_histories, :user_email, :string
+  end
+end

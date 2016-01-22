@@ -1,0 +1,45 @@
+require 'rails_helper'
+
+RSpec.describe "admin/options/show", :type=> :view do
+  
+  let(:options) {
+    [
+      FactoryGirl.create(:option, group:"body_location", value: "hair")
+    ]
+    
+  }
+  before(:each) do
+    @option = assign(:option, FactoryGirl.create(:body_location))
+    @option_group_name = Option.option_group_titlized_name("body_location")
+    @ability = Object.new.extend(CanCan::Ability)
+    allow(controller).to receive(:current_ability).and_return(@ability)
+  end
+
+  it "renders attributes in <div>" do
+    render
+    assert_select "div.detail-value", :text => @option_group_name, :count => 1
+  end
+  
+  it "has a link back to index" do
+    render
+    assert_select "a[href=#{admi_options_path}]", :count => 1
+  end
+  
+  describe "for a user with admin permissions" do
+    before(:each) do
+      @ability.can [:update], Option
+    end
+    
+    it "has a link to the edit form" do
+      render
+      assert_select "a[href=#{admin_edit_option_path(@option)}]", :text => "Edit", :count => 1
+    end
+  end
+  
+  describe "for a user without admin permissions" do
+    it "has a link to the edit form" do
+      render
+      assert_select "a[href=#{admin_edit_option_path(@option)}]", :count => 0
+    end
+  end
+end

@@ -1,0 +1,19 @@
+jQuery ->  
+  # datatable for jig cleaning records page
+  datatable = $("#jig_cleaning_records_datatable").DataTable
+    "processing": true
+    "serverSide": true
+    "sServerMethod" : "POST"
+    "ajax": "/form_extensions/jig_cleaning_records/datatable.json"
+    "columns": [
+      { "data": "id" },
+      { "data": "jig_cleaning_id" },
+      { "data": "jig_type" },
+      { "data": "side" },
+      { "data": "time_in", "render": (data, type, full) -> new Date(data) }
+      { "data": "time_out", "render": (data, type, full) -> new Date(data) }
+      { "data": "count" },
+      { "data": "id", "searchable": false, "orderable": false, "render": ( data, type, full ) ->
+        '<a href="/form_extensions/jig_cleaning_records/' + data + '">Show</a>'
+      }
+    ]

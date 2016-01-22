@@ -1,0 +1,12 @@
+class TransferPhotosAttributesFromIncidentsToAttachments < ActiveRecord::Migration
+  def up
+update <<-SQL
+  insert into attachments (incident_id, file_file_name, file_content_type, file_file_size, file_updated_at) 
+  select id, investigation_photo1_file_name, investigation_photo1_content_type, investigation_photo1_file_size, investigation_photo1_updated_at from incidents
+SQL
+  end
+  
+  def down
+    
+  end
+end

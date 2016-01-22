@@ -1,0 +1,5 @@
+<% title "Paint Booth Process Checklists" %>
+<%= render :partial => 'forms/form_export_section', :locals => {:update_url => update_export_forms_paint_booth_process_checklists_url(format: :json), :download_url => download_export_forms_paint_booth_process_checklists_url} %>
+<table id="paint_booth_process_checklists_datatable" class="display<%= (can?(:manage, Forms::PaintBoothProcessChecklist) ? ' admin' : '') %>">
+	<%= render :partial => 'forms/form_header_footer' %>
+</table>

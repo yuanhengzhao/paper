@@ -1,0 +1,19 @@
+<% title "Body Part Details" %>
+<div class="incident-details">
+	<div class="row">
+		<div class="col-sm-3 col-xs-4 detail-label">Name</div>
+		<div class="col-sm-9 col-xs-8 detail-value"><%= @body_part.name %></div>
+	</div>
+	<div class="row">
+		<div class="col-sm-3 col-xs-4 detail-label">Rank</div>
+		<div class="col-sm-9 col-xs-8 detail-value"><%= @body_part.rank %></div>
+	</div>
+</div>
+<div class="incident-actions">
+	<div class="row">
+		<div class="col-sm-9 col-sm-offset-3 col-xs-8 col-xs-offset-4">
+			<%= link_to 'Edit', edit_admin_body_part_path(@body_part), class: 'btn btn-default' if can? :update, @body_part %>
+			<%= link_to 'Back', admin_body_parts_path, class: 'btn btn-default' %>
+		</div>
+	</div>
+</div>

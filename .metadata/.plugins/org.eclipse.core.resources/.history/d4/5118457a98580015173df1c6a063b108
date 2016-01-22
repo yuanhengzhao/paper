@@ -1,0 +1,19 @@
+require 'spec_helper'
+
+describe "data_sources/customer_sites/new" do
+  before(:each) do
+    assign(:customer_site, build(:customer_site))
+  end
+
+  it "renders new data_sources_customer_site form" do
+    render
+
+    # Run the generator again with the --webrat flag if you want to use webrat matchers
+    assert_select "form[action=?][method=?]", data_sources_customer_sites_path, "post" do
+      assert_select "input#data_sources_customer_site_company[name=?]", "customer_site[company]"
+      assert_select "input#data_sources_customer_site_customer[name=?]", "customer_site[customer]"
+      assert_select "input#data_sources_customer_site_site[name=?]", "customer_site[site]"
+      assert_select "input#data_sources_customer_site_shop[name=?]", "customer_site[shop]"
+    end
+  end
+end

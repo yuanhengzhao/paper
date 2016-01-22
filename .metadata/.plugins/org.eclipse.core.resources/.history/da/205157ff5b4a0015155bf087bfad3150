@@ -1,0 +1,28 @@
+<%= form_for([:admin, @body_part], html: { class: "form-horizontal", role: "form" }) do |f| %>
+  <% if @body_part.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@body_part.errors.count, "error") %> prohibited this body part from being saved:</h2>
+
+      <ul>
+      <% @body_part.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <div class="form-group">
+    <%= f.label :name, class: "col-sm-3 control-label" %>
+    <div class="col-sm-9">
+      <%= f.text_field :name, class: "form-control" %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <div class="col-sm-offset-3 col-sm-9">
+      <%= f.submit "Submit", class: "btn btn-primary" %>
+      <%= link_to 'Cancel', admin_body_parts_path, class: "btn btn-default" if @body_part.new_record? %>
+      <%= link_to 'Cancel', admin_body_part_path(@body_part), class: "btn btn-default" unless @body_part.new_record? %>
+    </div>
+  </div>
+<% end %>

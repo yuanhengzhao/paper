@@ -1,0 +1,96 @@
+class Forms::PreTaskSafetyPlansController < ApplicationController
+
+  FORM_NAME = "pre task safety plans"
+  
+  include DatatableServerSideProcessing
+  include XlsxReportProcessing
+
+  before_action :authenticate_user!
+
+  load_and_authorize_resource :except => [:signature, :update_export, :download_export, :submission]
+
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
+  add_breadcrumb "forms", :forms_index_path
+  add_breadcrumb "pre task safety plans", :forms_pre_task_safety_plans_path
+
+  DATATABLES_COLUMNS = [ "id", "username", "device_submit_date" ]
+
+  def index
+    # @pre_task_safety_plans is automatically loaded
+  end
+
+  def show
+    # @pre_task_safety_plan is automatically loaded
+    add_breadcrumb "pre task safety plan #{@pre_task_safety_plan.id}", :forms_pre_task_safety_plan_path
+  end
+  
+  # Overwrites the model's existing properties with the contents of the original submission document attached.
+  def reparse
+    # @pre_task_safety_plan is automatically loaded
+    result = @pre_task_safety_plan.reparse
+    # render the show action associated with the result object
+    render action: 'show', location: result
+  end
+
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html { redirect_to forms_pre_task_safety_plans_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS
+        }
+
+        # call concern function using collection of all records the user has access to
+        @pre_task_safety_plans = Forms::PreTaskSafetyPlan.accessible_by(current_ability)
+        render :json => datatable_data(@pre_task_safety_plans, params, options)
+      }
+    end
+  end
+
+  def update_export
+    authorize! :read, Forms::PreTaskSafetyPlan
+    
+    begin
+      raise "No data in this form."  if Forms::PreTaskSafetyPlan.all.count == 0
+      @export = generate_xlsx(Forms::PreTaskSafetyPlan, FORM_NAME, Forms::PreTaskSafetyPlan.maximum("updated_at"))
+      respond_to do |format|
+        format.json { render :json => @export, status: :ok  }
+      end
+    rescue => e
+      respond_to do |format|
+        format.json { render text:e.message, status: :not_acceptable }
+      end
+    end  
+  end
+
+  def download_export
+    authorize! :read, Forms::PreTaskSafetyPlan
+    @export = Report::FormExport.find_by(form_name: FORM_NAME)
+    redirect_to(@export.attachment.expiring_url(10))
+  end
+  
+  def signature
+    authorize! :read, Forms::PreTaskSafetyPlan
+    @pre_task_safety_plan = Forms::PreTaskSafetyPlan.find(params[:id])
+    authorize! :read, @pre_task_safety_plan
+    redirect_to(@pre_task_safety_plan.signature.expiring_url(10))
+  end
+  
+  def submission
+    authorize! :read, Forms::PreTaskSafetyPlan
+    @pre_task_safety_plan = Forms::PreTaskSafetyPlan.find(params[:id])
+    authorize! :read, @pre_task_safety_plan
+    redirect_to(@pre_task_safety_plan.submission.expiring_url(10))
+  end
+  
+  private
+
+  def record_not_found(exception)
+    # redirect back to index if id not found
+    flash[:alert] = exception.message
+    redirect_to forms_pre_task_safety_plans_path
+  end
+
+end

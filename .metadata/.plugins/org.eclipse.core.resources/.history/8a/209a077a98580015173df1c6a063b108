@@ -1,0 +1,22 @@
+class ChangeFormsEquipmentUnitToDataSourcesEquipmentUnit < ActiveRecord::Migration
+  def change
+    drop_table :forms_new_equipment_units
+    create_table :data_sources_equipment_units do |t|
+      t.string  :site
+      t.string  :shop
+      t.string  :equipment_type
+      t.integer :unit_number     
+      t.string  :barcode
+      t.attachment :photo
+      t.string  :manufacturer 
+      t.date    :date_into_service  
+      t.string  :battery_serial_number  
+      t.integer :battery_voltage  
+      t.string  :inspection_frequency  
+      t.string  :inspection_code 
+      t.integer :inspection_days 
+      
+      t.timestamps
+    end
+  end
+end

@@ -1,0 +1,12 @@
+class AddSplicing2pcGenerationAndPressCuredWasteToSocProdutionReport < ActiveRecord::Migration
+  def change
+    add_column :forms_soc_hourly_production_reports, :splicing_rolls,  :integer
+    add_column :forms_soc_hourly_production_reports, :splicing_pounds, :integer
+    add_column :forms_soc_hourly_production_reports, :buffer1_2pc_gen, :integer
+    add_column :forms_soc_hourly_production_reports, :buffer2_2pc_gen, :integer
+    add_column :forms_soc_hourly_production_reports, :p1_cured_waste,  :integer
+    add_column :forms_soc_hourly_production_reports, :p2_cured_waste,  :integer
+    add_column :forms_soc_hourly_production_reports, :p3_cured_waste,  :integer
+    add_column :forms_soc_hourly_production_reports, :p4_cured_waste,  :integer
+  end
+end

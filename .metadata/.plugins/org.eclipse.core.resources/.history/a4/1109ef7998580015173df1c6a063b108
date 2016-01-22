@@ -1,0 +1,30 @@
+<% title "E-Scrub KOPs" %>
+
+<%= render :partial => 'forms/form_export_section', :locals => {:update_url => update_export_forms_escrub_kops_url(format: :json), :download_url => download_export_forms_escrub_kops_url} %>
+<table id="escrub_kops_datatable" class="display<%= (can?(:manage, Forms::EscrubKop) ? ' admin' : '') %>">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Check List</th>
+			<th>User</th>
+			<th>Date</th>
+			<th>Crew</th>
+			<th>Shift</th>
+			<th>Created</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody></tbody>
+	<tfoot>
+		<tr>
+			<th>ID</th>
+			<th>Check List</th>
+			<th>User</th>
+			<th>Date</th>
+			<th>Crew</th>
+			<th>Shift</th>
+			<th>Created</th>
+			<th></th>
+		</tr>
+	</tfoot>
+</table>

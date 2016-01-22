@@ -1,0 +1,70 @@
+class CreateFormsEscrubKops < ActiveRecord::Migration
+  def change
+    create_table :forms_escrub_kops do |t|
+      t.string :reference_number
+      t.datetime :server_receive_date
+      t.datetime :device_submit_date
+      t.string :username
+      t.string :version
+      t.decimal :altitude, :precision => 20, :scale => 16
+      t.decimal :latitude, :precision => 20, :scale => 16
+      t.decimal :longitude, :precision => 20, :scale => 16
+      t.string :source
+      t.attachment :submission
+      
+      t.date   :date
+      t.time   :time
+      t.string :crew
+      t.string :shift
+      t.string :check_list
+      
+      #  Module Inspection
+      t.string :bc_matrix_dist
+      t.string :bc_matrix_flow
+      t.string :bc_particles_trough
+      t.string :bc_residues
+      t.string :bc_remarks
+      t.attachment :bc_picture
+      t.string :cc_matrix_dist
+      t.string :cc_matrix_flow
+      t.string :cc_particles_trough
+      t.string :cc_residues
+      t.string :cc_remarks
+      t.attachment :cc_picture
+      
+      # Key Operating Parameters
+      t.integer :bc_sludge
+      t.string  :bc_sludge_stick_test
+      t.integer :bc_supply_mtr11
+      t.integer :bc_supply_mtr21
+      t.integer :bc_supply_mtr31
+      t.integer :bc_flow_rate_em0104
+      t.integer :bc_flow_rate_em0508
+      t.integer :cc_sludge
+      t.string  :cc_sludge_stick_test
+      t.integer :cc_supply_mtr11
+      t.integer :cc_supply_mtr21
+      t.integer :cc_supply_mtr31
+      t.integer :cc_flow_rate_em0104
+      t.integer :cc_flow_rate_em0508
+      t.text    :operating_comments
+      
+      # Key Chemistry Parameters
+      t.decimal :bc_viscosity, :precision => 20, :scale => 16
+      t.decimal :bc_system_tank_level, :precision => 20, :scale => 16
+      t.decimal :bc_surface_tension, :precision => 20, :scale => 16
+      t.decimal :bc_ratio_st_vis, :precision => 20, :scale => 16
+      t.integer :bc_imhoff
+      t.integer :bc_centrifuge
+      t.decimal :cc_viscosity, :precision => 20, :scale => 16
+      t.decimal :cc_system_tank_level, :precision => 20, :scale => 16
+      t.decimal :cc_surface_tension, :precision => 20, :scale => 16
+      t.decimal :cc_ratio_st_vis, :precision => 20, :scale => 16
+      t.integer :cc_imhoff
+      t.integer :cc_centrifuge
+      t.text    :chemistry_comments
+      
+      t.timestamps
+    end
+  end
+end

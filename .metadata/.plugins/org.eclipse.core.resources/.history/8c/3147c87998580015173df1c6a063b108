@@ -1,0 +1,29 @@
+.user-status-icon { }
+
+.icon-tick, .icon-cross {
+  display: inline-block;
+  height: 32px;
+  width: 32px;
+  overflow: hidden;
+  text-indent: -999px;
+  background-size: 32px 32px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.icon-tick { background-image: image-url('tick.png'); }
+.icon-cross { background-image: image-url('cross.png'); }
+
+.user-status-inactive {
+    opacity: 0.3;
+    filter: alpha(opacity=30); /* msie */
+}
+
+#edit_permissions_datatable tbody .buttonset { text-align: center; }
+#edit_permissions_datatable .ui-widget, .user-permission-toggle .ui-widget { font-family: inherit; font-size: inherit; }
+
+.user-permission-toggle .permission-label { float: left; }
+.user-permission-toggle .switch-container { float: right; }
+.user-permission-toggle { margin-bottom: 10px; overflow:hidden;}
+
+.new-user-modal { width:350px; }
+.new-user-email { margin-bottom: 15px; width:300px; }

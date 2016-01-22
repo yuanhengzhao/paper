@@ -1,0 +1,18 @@
+namespace 'forms' do
+  
+  desc "create punchlist history records for current punchlist records that don't have one"
+  task :punchlist_history => [:environment] do |t, args|
+    puts "There are #{Forms::PunchlistForm.all.length} punchlist reports"
+    
+    punchlists = Forms::PunchlistForm.all.select { |p| p.punchlist_form_histories.empty?}
+    
+    puts "There are #{punchlists.length} punchlist reports without history"
+    ActiveRecord::Base.transaction do
+      punchlists.each do |punchlist|
+        puts "Creating history for #{punchlist.id}"
+        punchlist.create_punchlist_history
+      end
+    end
+  end
+  
+end

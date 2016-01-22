@@ -1,0 +1,36 @@
+class ChangeSubmissionsFilePathOfAllFormsToAttachment < ActiveRecord::Migration
+  def change
+    remove_column :forms_area_inspections, :file_path
+    remove_column :forms_booth_eliminator_checklists, :file_path
+    remove_column :forms_gemba_observations, :file_path
+    remove_column :forms_janitorial_checklists, :file_path
+    remove_column :forms_paint_booth_process_checklists, :file_path
+    remove_column :forms_pre_task_safety_plans, :file_path
+    remove_column :forms_restroom_checklists, :file_path
+    remove_column :forms_safety_observations, :file_path
+    remove_column :forms_shift_reports, :file_path
+    remove_column :forms_snow_audits, :file_path
+    remove_column :forms_soc_hourly_production_reports, :file_path
+    remove_column :forms_soc_incident_reports, :file_path
+    remove_column :forms_special_service_requests, :file_path
+    remove_column :forms_task_inspections, :file_path
+    remove_column :forms_unrecognized_submissions, :submission
+    
+    add_attachment :forms_area_inspections, :submission
+    add_attachment :forms_booth_eliminator_checklists, :submission
+    add_attachment :forms_gemba_observations, :submission
+    add_attachment :forms_janitorial_checklists, :submission
+    add_attachment :forms_paint_booth_process_checklists, :submission
+    add_attachment :forms_pre_task_safety_plans, :submission
+    add_attachment :forms_restroom_checklists, :submission
+    add_attachment :forms_safety_observations, :submission
+    add_attachment :forms_shift_reports, :submission
+    add_attachment :forms_snow_audits, :submission
+    add_attachment :forms_soc_hourly_production_reports, :submission
+    add_attachment :forms_soc_incident_reports, :submission
+    add_attachment :forms_special_service_requests, :submission
+    add_attachment :forms_task_inspections, :submission
+    add_attachment :forms_unrecognized_submissions, :submission
+
+  end
+end

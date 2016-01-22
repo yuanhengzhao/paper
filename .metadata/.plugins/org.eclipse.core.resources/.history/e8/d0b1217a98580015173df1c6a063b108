@@ -1,0 +1,592 @@
+require 'spec_helper'
+
+describe Forms::RestroomChecklistsController do
+  it_behaves_like "a form controller" do
+    let(:model) { Forms::RestroomChecklist }
+    let(:image_fields) { [ :photo1, :photo2 ] }
+    let(:pre_model_name) { "" }
+  end
+
+  describe "GET 'restrooms'" do
+    
+    describe "for an anonymous user" do
+      
+      it "does not succeed" do
+        get :restrooms
+        expect(response).not_to be_success
+      end
+      
+      it "responds with redirect HTTP 302" do
+        get :restrooms
+        expect(response.status).to eq(302)
+        expect(response).to redirect_to(root_url)
+      end
+      
+      it "does not render restrooms template" do
+        get :restrooms
+        expect(response).to_not render_template("restrooms")
+      end
+      
+      it "does not render the empty collection" do
+        expect(Forms::RestroomChecklist.all).to be_empty
+        
+        get :restrooms
+        
+        result = assigns(:restrooms)
+        expect(result).to be_nil
+      end
+      
+      it "does not render a non-empty collection" do
+        create(:restroom_checklist)
+        expect(Forms::RestroomChecklist.all).to_not be_empty
+        
+        get :restrooms
+        
+        result = assigns(:restrooms)
+        expect(result).to be_nil
+      end
+      
+    end
+    
+    describe "for an unauthorized logged in user" do
+      
+      before(:each) do
+        @user = create(:user)
+        sign_in @user
+      end
+      
+      it "does not succeed" do
+        get :restrooms
+        expect(response).not_to be_success
+      end
+      
+      it "responds with HTTP 302" do
+        get :restrooms
+        expect(response.status).to eq(302)
+      end
+
+      it "does not render restrooms template" do
+      get :restrooms
+        expect(response).to_not render_template("restrooms")
+      end
+
+      it "does not render the empty collection" do
+        expect(Forms::RestroomChecklist.all).to be_empty
+
+        get :restrooms
+
+        result = assigns(:restrooms)
+        expect(result).to be_nil
+      end
+
+      it "does not render a non-empty collection" do
+        create(:restroom_checklist)
+        expect(Forms::RestroomChecklist.all).to_not be_empty
+
+        get :restrooms
+
+        result = assigns(:restrooms)
+        expect(result).to be_nil
+      end
+      
+    end
+    
+    describe "for an authorized logged in user" do
+      
+      before(:each) do
+        @user = create(:authorized)
+        sign_in @user
+      end
+      
+      
+      it "does not succeed" do
+        get :restrooms
+        expect(response).not_to be_success
+      end
+      
+      it "responds with HTTP 302" do
+        get :restrooms
+        expect(response.status).to eq(302)
+      end
+
+      it "does not render restrooms template" do
+      get :restrooms
+        expect(response).to_not render_template("restrooms")
+      end
+
+      it "does not render the empty collection" do
+        expect(Forms::RestroomChecklist.all).to be_empty
+
+        get :restrooms
+
+        result = assigns(:restrooms)
+        expect(result).to be_nil
+      end
+
+      it "does not render a non-empty collection" do
+        create(:restroom_checklist)
+        expect(Forms::RestroomChecklist.all).to_not be_empty
+
+        get :restrooms
+
+        result = assigns(:restrooms)
+        expect(result).to be_nil
+      end
+      
+    end
+    
+    describe "for an admin user" do
+      
+      before(:each) do
+        @user = create(:admin)
+        sign_in @user
+      end
+      
+      it "succeeds" do
+        get :restrooms
+        expect(response).to be_success
+      end
+      
+      it "responds successfully with HTTP 200" do
+        get :restrooms
+        expect(response.status).to eq(200)
+      end
+      
+      it "renders restrooms template" do
+        get :restrooms
+        expect(response).to render_template("restrooms")
+      end
+      
+      it "renders the empty collection" do
+        expect(Forms::RestroomChecklist.all).to be_empty
+        
+        get :restrooms
+        
+        result = assigns(:restrooms)
+        expect(result).to_not be_nil
+        expect(result).to be_empty
+      end
+      
+      it "renders a non-empty collection" do
+        restroom = create(:restroom_checklist_with_location)
+        expect(Forms::RestroomChecklist.all).to_not be_empty
+        
+        get :restrooms
+        
+        result = assigns(:restrooms)
+        expect(result).to_not be_nil
+        expect(result.size).to eq(1)
+      end
+      
+      it "returns expected columns" do
+        restroom = create(:restroom_checklist_with_location)
+        expect(Forms::RestroomChecklist.all).to_not be_empty
+        
+        get :restrooms
+        result = assigns(:restrooms)
+        
+        result_hash = result[0]
+        expect(result_hash[:code]).to eq(restroom.restroom_code)
+        expect(result_hash[:reference]).to eq(restroom.reference)
+        expect(result_hash[:type_mwu]).to eq(restroom.type_mwu)
+        expect(result_hash[:floor]).to eq(restroom.floor)
+        expect(result_hash[:location]).to eq(restroom.location)
+        expect(result_hash[:shop]).to eq(restroom.shop)
+        expect(result_hash[:site]).to eq(restroom.site)
+        expect(result_hash[:client]).to eq(restroom.client)
+        expect(result_hash[:ignore]).to eq(restroom.ignore)
+        expect(result_hash[:count]).to eq(1)
+      end
+      
+      it "returns one row per distinct restroom code" do
+        # create two checklists for a restroom
+        restroom1  = create(:restroom_checklist_with_location)
+        restroom1a = create(:restroom_checklist,
+                          :reference => restroom1.reference,
+                          :type_mwu => restroom1.type_mwu,
+                          :floor => restroom1.floor,
+                          :location => restroom1.location,
+                          :shop => restroom1.shop,
+                          :site => restroom1.site,
+                          :client => restroom1.client)
+        
+        # create two checklists for a different restroom
+        restroom2  = create(:restroom_checklist_with_location)
+        restroom2a = create(:restroom_checklist,
+                          :reference => restroom2.reference,
+                          :type_mwu => restroom2.type_mwu,
+                          :floor => restroom2.floor,
+                          :location => restroom2.location,
+                          :shop => restroom2.shop,
+                          :site => restroom2.site,
+                          :client => restroom2.client)
+
+        expect(Forms::RestroomChecklist.count).to eq(4)
+        
+        get :restrooms
+        
+        # result should only have the details for the two unique restrooms
+        result = assigns(:restrooms)
+        expect(result).to_not be_nil
+        expect(result.size).to eq(2)
+        expect(result[0][:count]).to eq(2)
+        expect(result[1][:count]).to eq(2)
+      end
+      
+    end
+    
+  end
+
+  describe "POST 'activate'" do
+    let!(:restroom1) { create(:restroom_checklist_with_location, :ignore => true) }
+    
+    describe "for an anonymous user" do
+      
+      it "does not succeed" do
+        post :activate_restroom, code: restroom1.restroom_code
+        expect(response).not_to be_success
+      end
+      
+      it "responds with redirect HTTP 302" do
+        post :activate_restroom, code: restroom1.restroom_code
+        expect(response.status).to eq(302)
+        expect(response).to redirect_to(root_url)
+      end
+      
+    end
+    
+    describe "for an unauthorized logged in user" do
+      
+      before(:each) do
+        @user = create(:user)
+        sign_in @user
+      end
+      
+      it "does not succeed" do
+        post :activate_restroom, code: restroom1.restroom_code
+        expect(response).not_to be_success
+      end
+      
+      it "responds with HTTP 302" do
+        post :activate_restroom, code: restroom1.restroom_code
+        expect(response.status).to eq(302)
+      end
+      
+    end
+    
+    describe "for an authorized logged in user" do
+      
+      before(:each) do
+        @user = create(:authorized)
+        sign_in @user
+      end
+      
+      it "does not succeed" do
+        post :activate_restroom, code: restroom1.restroom_code
+        expect(response).not_to be_success
+      end
+      
+      it "responds with HTTP 302" do
+        post :activate_restroom, code: restroom1.restroom_code
+        expect(response.status).to eq(302)
+      end
+      
+    end
+    
+    describe "for an admin user" do
+      
+      let!(:restroom1a) { create(:restroom_checklist,
+                          :reference => restroom1.reference,
+                          :type_mwu => restroom1.type_mwu,
+                          :floor => restroom1.floor,
+                          :location => restroom1.location,
+                          :shop => restroom1.shop,
+                          :site => restroom1.site,
+                          :client => restroom1.client,
+                          :ignore => true) }
+      let!(:restroom2) { create(:restroom_checklist_with_location, :ignore => true) }
+      let!(:restroom2a) { create(:restroom_checklist,
+                          :reference => restroom2.reference,
+                          :type_mwu => restroom2.type_mwu,
+                          :floor => restroom2.floor,
+                          :location => restroom2.location,
+                          :shop => restroom2.shop,
+                          :site => restroom2.site,
+                          :client => restroom2.client,
+                          :ignore => true) }
+      
+      before(:each) do
+        @user = create(:admin)
+        sign_in @user
+      end
+      
+      describe "JSON" do
+        it "succeeds" do
+          post :activate_restroom, { :format => "json", code: restroom1.restroom_code }
+          expect(response).to be_success
+        end
+        
+        it "responds successfully with HTTP 200" do
+          post :activate_restroom, { :format => "json", code: restroom1.restroom_code }
+          expect(response.status).to eq(200)
+        end
+        
+        it "updates the ignore property of restrooms that match and leaves the others alone" do
+          expect(restroom1.ignore).to be_true
+          expect(restroom1a.ignore).to be_true
+          expect(restroom2.ignore).to be_true
+          expect(restroom2a.ignore).to be_true
+          
+          post :activate_restroom, { :format => "json", code: restroom1.restroom_code }
+          [restroom1, restroom1a, restroom2, restroom2a].each { |x| x.reload }
+          
+          expect(restroom1.ignore).to be_false
+          expect(restroom1a.ignore).to be_false
+          expect(restroom2.ignore).to be_true
+          expect(restroom2a.ignore).to be_true
+        end
+        
+        it "doesn't error activiating an already active restroom" do
+          restroom = create(:restroom_checklist_with_location, :ignore => false)
+          expect(restroom.ignore).to be_false
+          
+          lambda { post :activate_restroom, { :format => "json", code: restroom.restroom_code } }.should_not raise_error
+          
+          expect(restroom.ignore).to be_false
+        end
+        
+        it "should identify nil and empty string the same" do
+          record_empty = create(:restroom_checklist, reference: "", type_mwu: "", floor: "floor", location: "", shop: "", site: "", client: "client", ignore: true)
+          record_nil = create(:restroom_checklist, reference: nil, type_mwu: nil, floor: "floor", location: nil, shop: nil, site: nil, client: "client", ignore: true)
+          
+          expect(record_empty.ignore).to be_true
+          expect(record_nil.ignore).to be_true
+          
+          post :activate_restroom, { :format => "json", code: "--floor----client" }
+          
+          record_empty.reload
+          record_nil.reload
+          
+          expect(record_empty.ignore).to be_false
+          expect(record_nil.ignore).to be_false
+        end
+      end
+      
+      describe "HTML" do
+        it "responds with redirect HTTP 302" do
+          post :activate_restroom, { :format => "html", code: restroom1.restroom_code }
+          expect(response.status).to eq(302)
+          expect(response).to redirect_to(restrooms_forms_restroom_checklists_url)
+        end
+        
+        it "updates the ignore property of restrooms that match and leaves the others alone" do
+          expect(restroom1.ignore).to be_true
+          expect(restroom1a.ignore).to be_true
+          expect(restroom2.ignore).to be_true
+          expect(restroom2a.ignore).to be_true
+          
+          post :activate_restroom, { :format => "html", code: restroom1.restroom_code }
+          [restroom1, restroom1a, restroom2, restroom2a].each { |x| x.reload }
+          
+          expect(restroom1.ignore).to be_false
+          expect(restroom1a.ignore).to be_false
+          expect(restroom2.ignore).to be_true
+          expect(restroom2a.ignore).to be_true
+        end
+        
+        it "should identify nil and empty string the same" do
+          record_empty = create(:restroom_checklist, reference: "", type_mwu: "", floor: "floor", location: "", shop: "", site: "", client: "client", ignore: true)
+          record_nil = create(:restroom_checklist, reference: nil, type_mwu: nil, floor: "floor", location: nil, shop: nil, site: nil, client: "client", ignore: true)
+          
+          expect(record_empty.ignore).to be_true
+          expect(record_nil.ignore).to be_true
+          
+          post :activate_restroom, { :format => "html", code: "--floor----client" }
+          
+          record_empty.reload
+          record_nil.reload
+          
+          expect(record_empty.ignore).to be_false
+          expect(record_nil.ignore).to be_false
+        end
+      end
+    end
+    
+  end
+
+  describe "POST 'inactivate'" do
+    let!(:restroom1) { create(:restroom_checklist_with_location, :ignore => false) }
+    
+    describe "for an anonymous user" do
+      
+      it "does not succeed" do
+        post :inactivate_restroom, code: restroom1.restroom_code
+        expect(response).not_to be_success
+      end
+      
+      it "responds with redirect HTTP 302" do
+        post :inactivate_restroom, code: restroom1.restroom_code
+        expect(response.status).to eq(302)
+        expect(response).to redirect_to(root_url)
+      end
+      
+    end
+    
+    describe "for an unauthorized logged in user" do
+      
+      before(:each) do
+        @user = create(:user)
+        sign_in @user
+      end
+      
+      it "does not succeed" do
+        post :inactivate_restroom, code: restroom1.restroom_code
+        expect(response).not_to be_success
+      end
+      
+      it "responds with HTTP 302" do
+        post :inactivate_restroom, code: restroom1.restroom_code
+        expect(response.status).to eq(302)
+      end
+      
+    end
+    
+    describe "for an authorized logged in user" do
+      
+      before(:each) do
+        @user = create(:authorized)
+        sign_in @user
+      end
+      
+      it "does not succeed" do
+        post :inactivate_restroom, code: restroom1.restroom_code
+        expect(response).not_to be_success
+      end
+      
+      it "responds with HTTP 302" do
+        post :inactivate_restroom, code: restroom1.restroom_code
+        expect(response.status).to eq(302)
+      end
+      
+    end
+    
+    describe "for an admin user" do
+      
+      let!(:restroom1a) { create(:restroom_checklist,
+                          :reference => restroom1.reference,
+                          :type_mwu => restroom1.type_mwu,
+                          :floor => restroom1.floor,
+                          :location => restroom1.location,
+                          :shop => restroom1.shop,
+                          :site => restroom1.site,
+                          :client => restroom1.client,
+                          :ignore => false) }
+      let!(:restroom2) { create(:restroom_checklist_with_location, :ignore => false) }
+      let!(:restroom2a) { create(:restroom_checklist,
+                          :reference => restroom2.reference,
+                          :type_mwu => restroom2.type_mwu,
+                          :floor => restroom2.floor,
+                          :location => restroom2.location,
+                          :shop => restroom2.shop,
+                          :site => restroom2.site,
+                          :client => restroom2.client,
+                          :ignore => false) }
+      
+      before(:each) do
+        @user = create(:admin)
+        sign_in @user
+      end
+      
+      describe "JSON" do
+        it "succeeds" do
+          post :inactivate_restroom, { :format => "json", code: restroom1.restroom_code }
+          expect(response).to be_success
+        end
+        
+        it "responds successfully with HTTP 200" do
+          post :inactivate_restroom, { :format => "json", code: restroom1.restroom_code }
+          expect(response.status).to eq(200)
+        end
+        
+        it "updates the ignore property of restrooms that match and leaves the others alone" do
+          expect(restroom1.ignore).to be_false
+          expect(restroom1a.ignore).to be_false
+          expect(restroom2.ignore).to be_false
+          expect(restroom2a.ignore).to be_false
+          
+          post :inactivate_restroom, { :format => "json", code: restroom1.restroom_code }
+          [restroom1, restroom1a, restroom2, restroom2a].each { |x| x.reload }
+          
+          expect(restroom1.ignore).to be_true
+          expect(restroom1a.ignore).to be_true
+          expect(restroom2.ignore).to be_false
+          expect(restroom2a.ignore).to be_false
+        end
+        
+        it "should identify nil and empty string the same" do
+          record_empty = create(:restroom_checklist, reference: "", type_mwu: "", floor: "floor", location: "", shop: "", site: "", client: "client", ignore: false)
+          record_nil = create(:restroom_checklist, reference: nil, type_mwu: nil, floor: "floor", location: nil, shop: nil, site: nil, client: "client", ignore: false)
+          
+          expect(record_empty.ignore).to be_false
+          expect(record_nil.ignore).to be_false
+          
+          post :inactivate_restroom, { :format => "json", code: "--floor----client" }
+          
+          record_empty.reload
+          record_nil.reload
+          
+          expect(record_empty.ignore).to be_true
+          expect(record_nil.ignore).to be_true
+        end
+      end
+      
+      describe "HTML" do
+        it "responds with redirect HTTP 302" do
+          post :inactivate_restroom, { :format => "html", code: restroom1.restroom_code }
+          expect(response.status).to eq(302)
+          expect(response).to redirect_to(restrooms_forms_restroom_checklists_url)
+        end
+        
+        it "updates the ignore property of restrooms that match and leaves the others alone" do
+          expect(restroom1.ignore).to be_false
+          expect(restroom1a.ignore).to be_false
+          expect(restroom2.ignore).to be_false
+          expect(restroom2a.ignore).to be_false
+          
+          post :inactivate_restroom, { :format => "html", code: restroom1.restroom_code }
+          [restroom1, restroom1a, restroom2, restroom2a].each { |x| x.reload }
+          
+          expect(restroom1.ignore).to be_true
+          expect(restroom1a.ignore).to be_true
+          expect(restroom2.ignore).to be_false
+          expect(restroom2a.ignore).to be_false
+        end
+        
+        it "doesn't error inactiviating an already inactive restroom" do
+          restroom = create(:restroom_checklist_with_location, :ignore => true)
+          expect(restroom.ignore).to be_true
+          
+          lambda { post :inactivate_restroom, { :format => "json", code: restroom.restroom_code } }.should_not raise_error
+          
+          expect(restroom.ignore).to be_true
+        end
+        
+        it "should identify nil and empty string the same" do
+          record_empty = create(:restroom_checklist, reference: "", type_mwu: "", floor: "floor", location: "", shop: "", site: "", client: "client", ignore: false)
+          record_nil = create(:restroom_checklist, reference: nil, type_mwu: nil, floor: "floor", location: nil, shop: nil, site: nil, client: "client", ignore: false)
+          
+          expect(record_empty.ignore).to be_false
+          expect(record_nil.ignore).to be_false
+          
+          post :inactivate_restroom, { :format => "html", code: "--floor----client" }
+          
+          record_empty.reload
+          record_nil.reload
+          
+          expect(record_empty.ignore).to be_true
+          expect(record_nil.ignore).to be_true
+        end
+      end
+    end
+  end
+end

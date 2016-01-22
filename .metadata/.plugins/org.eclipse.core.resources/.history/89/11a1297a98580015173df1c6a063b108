@@ -1,0 +1,23 @@
+require_relative '../../spec_helper'
+
+describe Forms::DollyCleaning do
+  it "should be included in Forms.list" do
+    expect(Forms.list).to include described_class
+  end
+  
+  describe "factories" do
+    it "has a valid default factory" do
+      expect(build(:dolly_cleaning)).to be_valid
+    end
+    
+    it "has a valid version 1 factory" do
+      expect(build(:dolly_cleaning_v1)).to be_valid
+    end
+    
+    it "has a valid version 2 factory" do
+      expect(build(:dolly_cleaning_v2)).to be_valid
+    end
+  end
+  
+  it_behaves_like "reparseable"
+end

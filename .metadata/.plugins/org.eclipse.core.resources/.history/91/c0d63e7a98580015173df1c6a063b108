@@ -1,0 +1,184 @@
+require_relative '../spec_helper'
+
+describe AbstractSourceParser do
+  
+  describe "from_json" do
+    subject { AbstractSourceParser.new }
+    
+    it "should convert a JSON string into a hash" do
+      subject.from_json('{ "apple": "banana" }').should be_a(Hash)
+    end
+    
+    it "should return nil for a non-JSON string" do
+      subject.from_json('not JSON').should be_nil
+    end
+  end
+  
+  describe "convert" do
+    subject { AbstractSourceParser.new }
+    
+    it "should convert a JSON string into a hash" do
+      subject.from_json('{ "apple": "banana" }').should be_a(Hash)
+    end
+    
+    it "should return nil for a basic text string" do
+      subject.from_json('not JSON').should be_nil
+    end
+  end
+  
+  describe "get_parser" do
+    subject { AbstractSourceParser.new }
+    
+    it "should raise a standard error" do
+      lambda { subject.get_parser({}) }.should raise_exception
+    end
+  end
+  
+  describe "is_version_acceptable" do
+    subject { AbstractSourceParser.new }
+    
+    it "should raise a standard error" do
+      lambda { subject.is_version_acceptable(0, 0) }.should raise_exception
+    end
+  end
+  
+  describe "parse" do
+    let!(:hash_recognized) { { "form" => "some form", "version" => 1 } }
+    let!(:hash_unrecognized) { { "form" => "some other form", "version" => 1 } }
+    let!(:hash_bad_parser) { { "form" => "some bad form", "version" => 1 } }
+    
+    let!(:submission_not_hashable) { "not a hash" }
+    let!(:submission_unrecognized) { ActiveSupport::JSON.encode(hash_unrecognized) }
+    let!(:submission_recognized) { ActiveSupport::JSON.encode(hash_recognized) }
+    let!(:submission_bad_parser) { ActiveSupport::JSON.encode(hash_bad_parser) }
+    
+    let!(:submission_real_valid) { Rails.root.join('spec', 'resources', 'submissions', 'valid.json').read}
+    let!(:submission_real_unrecognized) { Rails.root.join('spec', 'resources', 'submissions', 'unrecognized.json').read}
+    let!(:submission_real_broken_image) { Rails.root.join('spec', 'resources', 'submissions', 'broken_image.json').read}
+    
+    let!(:mock_parser) {
+      result = Object.new
+      result.stub(:version) { 1 }
+      result.stub(:valid?) { true }
+      
+      o = Object.new
+      o.stub(:kind_of?).with(AbstractFormParser) { true }
+      o.stub(:parse) { result }
+      o.stub(:max_version) { 1000000 }
+      return o
+    }
+    
+    let!(:bad_parser) {
+      o = Object.new
+      o.stub(:kind_of?).with(AbstractFormParser) { false }
+      o.stub(:parse) { Object.new }
+      o.stub(:max_version) { 1000000 }
+      return o
+    }
+    
+    let!(:source_parser) {
+      f = AbstractSourceParser.new
+      f.stub(:get_parser).with(hash_bad_parser) { bad_parser }
+      f.stub(:get_parser).with(hash_recognized) { mock_parser }
+      f.stub(:get_parser).with(hash_unrecognized) { nil }
+      f.stub(:is_version_acceptable?) do |arg1, arg2|
+        arg1 <= arg2
+      end
+      return f
+    }
+    
+    let!(:real_parser) {
+      service = ParserService.new
+      source_parser = service.get_source_parser("prontoforms")
+      source_parser.stub(:max_version) { 1000000 }
+      return source_parser
+    }
+    
+    describe "real submission" do
+      it "should parse a valid submission successfully" do
+        lambda { real_parser.parse(submission_real_valid) }.should_not raise_error
+      end
+      
+      describe " but is not a recognized form" do
+        it "should raise a ParserException " do
+          lambda { real_parser.parse(submission_real_unrecognized) }.should raise_error(ParserException, "No matching parser found")
+        end
+      end
+      
+      describe " is a recognized form but has a broken image (cause invalid content_type)" do
+        it "should raise a ParserException " do
+          lambda { real_parser.parse(submission_real_broken_image) }.should raise_error(ParserException, 
+            "Picture1 has an extension that does not match its contents,Picture1 is invalid,Picture1 content type is invalid")
+        end
+      end
+    end
+    
+    describe "verify mocks" do
+      describe "mock_parser" do
+        it "should be a kind of AbstractFormParser" do
+          mock_parser.kind_of?(AbstractFormParser).should be_true
+        end
+        it "should parse anything" do
+          mock_parser.parse("text").should be_a(Object)
+        end
+      end
+      
+      describe "bad_parser" do
+        it "should not be a kind of AbstractFormParser" do
+          bad_parser.kind_of?(AbstractFormParser).should be_false
+        end
+        it "should parse anything" do
+          mock_parser.parse("text").should be_a(Object)
+        end
+      end
+      
+      describe "source_parser" do
+        describe "get_parser" do
+          it "should return nil when hash is not recognized" do
+            source_parser.get_parser(hash_unrecognized).should be_nil
+          end
+          it "should return mock parser when asked" do
+            source_parser.get_parser(hash_recognized).should eq(mock_parser)
+          end
+          it "should return the bad parser when asked" do
+            source_parser.get_parser(hash_bad_parser).should eq(bad_parser)
+          end
+          it "should not raise a NoMethodError" do
+            lambda { source_parser.is_version_acceptable?(1, 1) }.should_not raise_error
+          end
+        end
+      end
+    end
+    
+    describe "submission cannot be converted into a Hash" do
+      it "should raise a ParserException" do
+        lambda { source_parser.parse(submission_not_hashable) }.should raise_error(ParserException, "Could not construct hash")
+      end
+    end
+    
+    describe "submission can be converted into a Hash" do
+      describe "but is not a recognized form" do
+        it "should raise a ParserException" do
+          lambda { source_parser.parse(submission_unrecognized) }.should raise_error(ParserException, "No matching parser found")
+        end
+      end
+      
+      describe "but resulted in a bad parser" do
+        it "should raise a ParserException" do
+          lambda { source_parser.parse(submission_bad_parser) }.should raise_error(ParserException, "Bad parser returned")
+        end
+      end
+      
+      describe "is a recognized form" do
+        it "should raise a ParserException" do
+          lambda { source_parser.parse(submission_recognized) }.should_not raise_error
+        end
+        
+        it "should not return nil" do
+          source_parser.parse(submission_recognized).should_not be_nil
+        end
+      end
+    end
+  end
+  
+end

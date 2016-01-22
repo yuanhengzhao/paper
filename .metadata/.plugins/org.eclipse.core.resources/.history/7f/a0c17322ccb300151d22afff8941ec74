@@ -1,0 +1,102 @@
+require 'rails_helper'
+RSpec.describe "layouts/_navigation", :type => :view do
+  
+  let(:user_regular) {
+    FactoryGirl.create(:user)
+  }
+  
+  let(:user_reader) {
+    FactoryGirl.create(:reader)
+  }
+  
+  let(:user_safety_coordinator) {
+    FactoryGirl.create(:safety_coordinator)
+  }
+  
+  let(:user_safety_director) {
+    FactoryGirl.create(:safety_director)
+  }
+  
+  let(:user_admin) {
+    FactoryGirl.create(:admin)
+  }
+  
+  shared_examples "high level user" do
+    let(:user) { user_}
+    it "has button like: new, incidents, Tracker, Reports, Help, Admin and Sign Out" do
+      render
+      assert_select "a[href=#{new_incident_path}]",  :text => "New", :count => 1
+      assert_select "a[href=#{incidents_path}]",  :text => "Incidents 0", :count => 1
+      assert_select "a[href=#{tracker_path}]",  :text => "Tracker", :count => 1
+      assert_select "a[href=#]", :text => "Reports", :count => 1
+      assert_select "ul>li>ul>li", "a[href=#{open_incidents_incidents_path}]", :text => "Open Incidents", :count => 1 
+      assert_select "a[href=https://sites.google.com/a/robinsonsolutions.com/inflow/home/training-centre/incidents]",  :text => "Help", :count => 1
+      assert_select "a[href=#]", :text => "Admin", :count => 1
+      assert_select "a[href=#{admin_users_path}]", :text => "Users", :count => 1
+      assert_select "a[href=#{admin_options_path({ :group => 'employee_type' })}]", :text => "Employee Types", :count => 1
+      assert_select "a[href=#{admin_sites_path}]", :text => "Sites", :count => 1
+      assert_select "a[href=#{admin_buildings_path}]", :text => "Buildings", :count => 1
+      assert_select "a[href=#{admin_options_path({ :group => 'shift' })}]", :text => "Shifts", :count => 1
+      assert_select "a[href=#{admin_options_path({ :group => 'floor' })}]", :text => "Floors", :count => 1
+      assert_select "a[href=#{admin_options_path({ :group => 'body_part' })}]", :text => "Body Parts", :count => 1
+      assert_select "a[href=#{admin_options_path({ :group => 'body_location' })}]", :text => "Body Locations", :count => 1
+      assert_select "a[href=#{admin_options_path({ :group => 'incident_class' })}]", :text => "Incident Classes", :count => 1
+      assert_select "a[href=#{admin_options_path({ :group => 'incident_type' })}]", :text => "Incident Types", :count => 1
+      assert_select "a[href=#{admin_options_path({ :group => 'incident_category' })}]", :text => "Incident Categories", :count => 1
+      assert_select "a[href=#{admin_options_path({ :group => 'environmental_factor' })}]", :text => "Environmental Factors", :count => 1
+      assert_select "a[href=#{admin_options_path({ :group => 'additional_factor' })}]", :text => "Additional Factors", :count => 1
+      assert_select "a[href=#{admin_options_path({ :group => 'ppe' })}]", :text => "PPEs", :count => 1
+      assert_select "a[href=#{admin_options_path({ :group => 'mobile_equipment' })}]", :text => "Mobile Equipments", :count => 1
+      assert_select "a[href=#{admin_options_path({ :group => 'modified_duties_prescriber' })}]", :text => "Modified Duties Prescribers", :count => 1
+      assert_select "a[href=#{admin_work_periods_path}]", :text => "Site Hours", :count => 1
+      assert_select "a[href=#{ destroy_user_session_path}]", :text => "Sign Out", :count => 1
+    end
+  end
+  
+  describe "for an anonymous user" do
+    it "has a sign_in button" do
+      render
+      assert_select "a[href=#{user_omniauth_authorize_path(:google_oauth2)}]", :text => "Sign in", :count => 1
+    end 
+  end
+  
+  describe "for a sign_in user" do
+    before(:each) do
+     sign_in(user)
+    end
+    
+    describe "which is regular user" do
+      let(:user) {user_regular}
+      it "has expected tags" do
+        render
+        assert_select "a[href=#{new_incident_path}]",  :text => "New", :count => 1
+        assert_select "a[href=#{incidents_path}]",  :text => "Incidents #{Incident.all.length}", :count => 1
+        assert_select "a[href=#{tracker_path}]",  :text => "Tracker", :count => 0
+        assert_select "a[href=#]", :text => "Reports", :count => 0
+        assert_select "a[href=https://sites.google.com/a/robinsonsolutions.com/inflow/home/training-centre/incidents]",  :text => "Help", :count => 1
+        assert_select "a[href=#]", :text => "Admin", :count => 0
+        assert_select "a[href=#{ destroy_user_session_path}]",  :text => "Sign Out", :count => 1
+      end
+    end
+    
+    describe "which is reader user" do
+      let(:user_) {user_reader}
+      it_behaves_like "high level user"
+    end
+    
+    describe "which is safety coordinator user" do
+      let(:user_) {user_safety_coordinator}
+      it_behaves_like "high level user"
+    end
+    
+    describe "which is safety director user" do
+      let(:user_) {user_safety_director}
+      it_behaves_like "high level user"
+    end
+    
+    describe "which is admin user" do
+      let(:user_) {user_admin}
+      it_behaves_like "high level user"
+    end
+  end
+end

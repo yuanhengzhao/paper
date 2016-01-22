@@ -1,0 +1,9 @@
+require 'spec_helper'
+
+describe Forms::SafetyObservationsController do
+  it_behaves_like "a form controller" do
+    let(:model) { Forms::SafetyObservation }
+    let(:image_fields) { [ :image1, :image2, :signature ] }
+    let(:pre_model_name) { "" }
+  end
+end

@@ -1,0 +1,28 @@
+FactoryGirl.define do
+  factory :punchlist_form, class: Forms::PunchlistForm do
+    reference_number "reference_number"
+    username "username"
+    status "status"
+    customer "customer"
+    shop "shop"
+    project_area "project_area"
+    level "level"
+    column_location "column_location"
+    els_number "els_number"
+    task_description "task_description"
+    bmw_comment "bmw_comment"
+    responsible "responsible"
+    
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions', 'fake.json'), 'text/plain') }
+
+    factory :punchlist_form_valid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'punchlist_form', 'v4', 'valid.json'), 'text/plain') }
+    end
+
+    factory :punchlist_form_invalid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'punchlist_form', 'v4', 'too_many_pictures.json'), 'text/plain') }
+    end
+  end
+end

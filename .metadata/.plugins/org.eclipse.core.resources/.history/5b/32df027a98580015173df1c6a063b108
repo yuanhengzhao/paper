@@ -1,0 +1,12 @@
+class AddPunchlistHistories < ActiveRecord::Migration
+  def change
+    create_table :form_extensions_punchlist_form_histories do |t|
+      t.integer :punchlist_form_id, foreign_key: { references: nil }
+      t.string :status
+      t.text :comment
+      t.string :responsible
+      
+      t.timestamps null: true
+    end
+  end
+end

@@ -1,0 +1,791 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Top Level Namespace
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!top-level-namespace.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo;
+    
+    
+    <span class="title">Top Level Namespace</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Top Level Namespace
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="ApplicationHelper.html" title="ApplicationHelper (module)">ApplicationHelper</a></span>, <span class='object_link'><a href="DatatableServerSideProcessing.html" title="DatatableServerSideProcessing (module)">DatatableServerSideProcessing</a></span>, <span class='object_link'><a href="Forms.html" title="Forms (module)">Forms</a></span>, <span class='object_link'><a href="HomeHelper.html" title="HomeHelper (module)">HomeHelper</a></span>, <span class='object_link'><a href="Security.html" title="Security (module)">Security</a></span>
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Ability.html" title="Ability (class)">Ability</a></span>, <span class='object_link'><a href="AbstractFormParser.html" title="AbstractFormParser (class)">AbstractFormParser</a></span>, <span class='object_link'><a href="AbstractSourceParser.html" title="AbstractSourceParser (class)">AbstractSourceParser</a></span>, <span class='object_link'><a href="ApplicationController.html" title="ApplicationController (class)">ApplicationController</a></span>, <span class='object_link'><a href="HomeController.html" title="HomeController (class)">HomeController</a></span>, <span class='object_link'><a href="ParserException.html" title="ParserException (class)">ParserException</a></span>, <span class='object_link'><a href="ParserService.html" title="ParserService (class)">ParserService</a></span>
+    
+  
+</p>
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#converQuestionsToDatabaseColumns-instance_method" title="#converQuestionsToDatabaseColumns (instance method)">- (Object) <strong>converQuestionsToDatabaseColumns</strong>(questions) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#convertToHash-instance_method" title="#convertToHash (instance method)">- (Object) <strong>convertToHash</strong>(file_path, unused_fields) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_factory_file-instance_method" title="#create_factory_file (instance method)">- (Object) <strong>create_factory_file</strong>(form_name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#generate_model_cmd-instance_method" title="#generate_model_cmd (instance method)">- (Object) <strong>generate_model_cmd</strong>(database_columns, class_name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#gnerate_factory_code-instance_method" title="#gnerate_factory_code (instance method)">- (Object) <strong>gnerate_factory_code</strong>(database_columns, class_name, form_name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#gnerate_model_code-instance_method" title="#gnerate_model_code (instance method)">- (Object) <strong>gnerate_model_code</strong>(database_columns, class_name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#gnerate_spec_code-instance_method" title="#gnerate_spec_code (instance method)">- (Object) <strong>gnerate_spec_code</strong>(database_columns, class_name, form_name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="converQuestionsToDatabaseColumns-instance_method">
+  
+    - (<tt>Object</tt>) <strong>converQuestionsToDatabaseColumns</strong>(questions) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/form_analyzer/prontoforms/pronto_forms_analyzer.rb', line 72</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_converQuestionsToDatabaseColumns'>converQuestionsToDatabaseColumns</span><span class='lparen'>(</span><span class='id identifier rubyid_questions'>questions</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_columns'>columns</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>string</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>reference_number</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>  
+  <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>datetime</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>server_receive_date</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>  
+  <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>datetime</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>device_submit_date</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>  
+  <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>string</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>username</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>  
+  <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>string</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>version</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>  
+  <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>decimal</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>altitude</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>precision:</span> <span class='int'>20</span><span class='comma'>,</span> <span class='label'>scale:</span><span class='int'>20</span><span class='rbrace'>}</span>  
+  <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>decimal</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>latitude</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>precision:</span> <span class='int'>20</span><span class='comma'>,</span> <span class='label'>scale:</span><span class='int'>20</span><span class='rbrace'>}</span>  
+  <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>decimal</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>longitude</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>precision:</span> <span class='int'>20</span><span class='comma'>,</span> <span class='label'>scale:</span><span class='int'>20</span><span class='rbrace'>}</span>  
+  <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>string</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>source</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>  
+  <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>string</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>file_path</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>  
+  
+  <span class='id identifier rubyid_questions'>questions</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_q'>q</span><span class='op'>|</span>
+    <span class='kw'>case</span> <span class='id identifier rubyid_q'>q</span><span class='lbracket'>[</span><span class='symbol'>:data_type</span><span class='rbracket'>]</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Barcode</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>text</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='id identifier rubyid_q'>q</span><span class='lbracket'>[</span><span class='symbol'>:label</span><span class='rbracket'>]</span><span class='rbrace'>}</span>  
+    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Text</span><span class='tstring_end'>&quot;</span></span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_q'>q</span><span class='lbracket'>[</span><span class='symbol'>:control_type</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Text Area</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>or</span> <span class='id identifier rubyid_q'>q</span><span class='lbracket'>[</span><span class='symbol'>:control_type</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Multiselect Box</span><span class='tstring_end'>&quot;</span></span> 
+        <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>text</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='id identifier rubyid_q'>q</span><span class='lbracket'>[</span><span class='symbol'>:label</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>string</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='id identifier rubyid_q'>q</span><span class='lbracket'>[</span><span class='symbol'>:label</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+      <span class='kw'>end</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Email   </span><span class='tstring_end'>&quot;</span></span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_q'>q</span><span class='lbracket'>[</span><span class='symbol'>:control_type</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Text Area</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>or</span> <span class='id identifier rubyid_q'>q</span><span class='lbracket'>[</span><span class='symbol'>:control_type</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Multiselect Box</span><span class='tstring_end'>&quot;</span></span> 
+        <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>text</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='id identifier rubyid_q'>q</span><span class='lbracket'>[</span><span class='symbol'>:label</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>string</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='id identifier rubyid_q'>q</span><span class='lbracket'>[</span><span class='symbol'>:label</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+      <span class='kw'>end</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Number</span><span class='tstring_end'>&quot;</span></span>
+        <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>integer</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='id identifier rubyid_q'>q</span><span class='lbracket'>[</span><span class='symbol'>:label</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Decimal Number</span><span class='tstring_end'>&quot;</span></span>
+        <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>decimal</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='id identifier rubyid_q'>q</span><span class='lbracket'>[</span><span class='symbol'>:label</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>precision:</span> <span class='int'>10</span><span class='comma'>,</span> <span class='label'>scale:</span><span class='int'>3</span><span class='rbrace'>}</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Time</span><span class='tstring_end'>&quot;</span></span>
+        <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>datetime</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='id identifier rubyid_q'>q</span><span class='lbracket'>[</span><span class='symbol'>:label</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Date</span><span class='tstring_end'>&quot;</span></span>
+        <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>date</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='id identifier rubyid_q'>q</span><span class='lbracket'>[</span><span class='symbol'>:label</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Signature</span><span class='tstring_end'>&quot;</span></span>
+        <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>attachment</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='id identifier rubyid_q'>q</span><span class='lbracket'>[</span><span class='symbol'>:label</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Image</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_maximum_attachments'>maximum_attachments</span> <span class='op'>=</span> <span class='id identifier rubyid_q'>q</span><span class='lbracket'>[</span><span class='symbol'>:maximum_attachments</span><span class='rbracket'>]</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_q'>q</span><span class='lbracket'>[</span><span class='symbol'>:control_type</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Sketch Pad</span><span class='tstring_end'>&quot;</span></span>
+        <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>attachment</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='id identifier rubyid_q'>q</span><span class='lbracket'>[</span><span class='symbol'>:label</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+      <span class='kw'>elsif</span> <span class='id identifier rubyid_maximum_attachments'>maximum_attachments</span> <span class='op'>==</span> <span class='int'>1</span>
+        <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>attachment</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='id identifier rubyid_q'>q</span><span class='lbracket'>[</span><span class='symbol'>:label</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+      <span class='kw'>else</span>
+        <span class='lparen'>(</span><span class='int'>1</span><span class='op'>..</span><span class='id identifier rubyid_maximum_attachments'>maximum_attachments</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_step'>step</span><span class='lparen'>(</span><span class='int'>1</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+          <span class='id identifier rubyid_columns'>columns</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='label'>type:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>attachment</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>name:</span><span class='id identifier rubyid_q'>q</span><span class='lbracket'>[</span><span class='symbol'>:label</span><span class='rbracket'>]</span><span class='op'>+</span><span class='id identifier rubyid_i'>i</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbrace'>}</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  
+  <span class='id identifier rubyid_columns'>columns</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="convertToHash-instance_method">
+  
+    - (<tt>Object</tt>) <strong>convertToHash</strong>(file_path, unused_fields) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/form_analyzer/prontoforms/pronto_forms_analyzer.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_convertToHash'>convertToHash</span><span class='lparen'>(</span><span class='id identifier rubyid_file_path'>file_path</span><span class='comma'>,</span> <span class='id identifier rubyid_unused_fields'>unused_fields</span><span class='rparen'>)</span>
+  
+  <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_file_path'>file_path</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rb</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_html'>html</span> <span class='op'>=</span> <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span>
+  
+  <span class='id identifier rubyid_doc'>doc</span> <span class='op'>=</span> <span class='const'>Nokogiri</span><span class='op'>::</span><span class='const'>HTML</span><span class='lparen'>(</span><span class='id identifier rubyid_html'>html</span><span class='rparen'>)</span>
+  
+  <span class='id identifier rubyid_questions'>questions</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  
+  <span class='id identifier rubyid_doc'>doc</span><span class='period'>.</span><span class='id identifier rubyid_search'>search</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>tr</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_tr'>tr</span><span class='op'>|</span>
+    <span class='id identifier rubyid_tr_id'>tr_id</span> <span class='op'>=</span> <span class='id identifier rubyid_tr'>tr</span><span class='period'>.</span><span class='id identifier rubyid_attr'>attr</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>id</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='kw'>if</span><span class='lparen'>(</span><span class='op'>!</span><span class='id identifier rubyid_tr_id'>tr_id</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>and</span> <span class='id identifier rubyid_tr_id'>tr_id</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>question</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'>#this is a question row
+</span>      <span class='id identifier rubyid_a_question'>a_question</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+      
+      <span class='id identifier rubyid_tds'>tds</span> <span class='op'>=</span> <span class='id identifier rubyid_tr'>tr</span><span class='period'>.</span><span class='id identifier rubyid_search'>search</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>td</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_a_question'>a_question</span><span class='lbracket'>[</span><span class='symbol'>:question_text</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_tds'>tds</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_content'>content</span>
+      <span class='id identifier rubyid_a_question'>a_question</span><span class='lbracket'>[</span><span class='symbol'>:data_type</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_tds'>tds</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_content'>content</span>
+      <span class='id identifier rubyid_a_question'>a_question</span><span class='lbracket'>[</span><span class='symbol'>:control_type</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_tds'>tds</span><span class='lbracket'>[</span><span class='int'>4</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_content'>content</span>
+      <span class='id identifier rubyid_a_question'>a_question</span><span class='lbracket'>[</span><span class='symbol'>:label</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_tds'>tds</span><span class='lbracket'>[</span><span class='int'>5</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_search'>search</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>span</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='period'>.</span><span class='id identifier rubyid_content'>content</span>
+      
+      <span class='kw'>if</span> <span class='id identifier rubyid_a_question'>a_question</span><span class='lbracket'>[</span><span class='symbol'>:data_type</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Image</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>and</span> <span class='id identifier rubyid_a_question'>a_question</span><span class='lbracket'>[</span><span class='symbol'>:control_type</span><span class='rbracket'>]</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Sketch Pad</span><span class='tstring_end'>&quot;</span></span>
+        <span class='id identifier rubyid_maximum_attachments'>maximum_attachments</span> <span class='op'>=</span> <span class='id identifier rubyid_tds'>tds</span><span class='lbracket'>[</span><span class='int'>5</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_css'>css</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.definition</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_search'>search</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>dd</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_content'>content</span>
+        <span class='id identifier rubyid_maximum_attachments'>maximum_attachments</span><span class='period'>.</span><span class='id identifier rubyid_delete!'>delete!</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_maximum_attachments'>maximum_attachments</span><span class='period'>.</span><span class='id identifier rubyid_delete!'>delete!</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\t</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_a_question'>a_question</span><span class='lbracket'>[</span><span class='symbol'>:maximum_attachments</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_maximum_attachments'>maximum_attachments</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+      <span class='kw'>end</span>
+      
+      <span class='kw'>unless</span> <span class='id identifier rubyid_unused_fields'>unused_fields</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_a_question'>a_question</span><span class='lbracket'>[</span><span class='symbol'>:label</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_questions'>questions</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_a_question'>a_question</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  
+  <span class='id identifier rubyid_questions'>questions</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create_factory_file-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_factory_file</strong>(form_name) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+179
+180
+181</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/form_analyzer/prontoforms/pronto_forms_analyzer.rb', line 179</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_create_factory_file'>create_factory_file</span><span class='lparen'>(</span><span class='id identifier rubyid_form_name'>form_name</span><span class='rparen'>)</span>
+  
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="generate_model_cmd-instance_method">
+  
+    - (<tt>Object</tt>) <strong>generate_model_cmd</strong>(database_columns, class_name) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/form_analyzer/prontoforms/pronto_forms_analyzer.rb', line 128</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_generate_model_cmd'>generate_model_cmd</span><span class='lparen'>(</span><span class='id identifier rubyid_database_columns'>database_columns</span><span class='comma'>,</span> <span class='id identifier rubyid_class_name'>class_name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rails generate model </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_class_name'>class_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_database_columns'>database_columns</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_col'>col</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_col'>col</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>decimal</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_col'>col</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_col'>col</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>{</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_col'>col</span><span class='lbracket'>[</span><span class='symbol'>:precision</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_col'>col</span><span class='lbracket'>[</span><span class='symbol'>:scale</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>else</span> 
+      <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_col'>col</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_col'>col</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_cmd'>cmd</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="gnerate_factory_code-instance_method">
+  
+    - (<tt>Object</tt>) <strong>gnerate_factory_code</strong>(database_columns, class_name, form_name) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/form_analyzer/prontoforms/pronto_forms_analyzer.rb', line 183</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_gnerate_factory_code'>gnerate_factory_code</span><span class='lparen'>(</span><span class='id identifier rubyid_database_columns'>database_columns</span><span class='comma'>,</span> <span class='id identifier rubyid_class_name'>class_name</span><span class='comma'>,</span> <span class='id identifier rubyid_form_name'>form_name</span><span class='rparen'>)</span>
+  
+  <span class='id identifier rubyid_ruby_code'>ruby_code</span> <span class='op'>=</span>
+<span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>FactoryGirl.define do
+  factory :</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_form_name'>form_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>, class: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_class_name'>class_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> do
+  end
+end</span><span class='tstring_end'>&quot;</span></span>
+
+  <span class='id identifier rubyid_ruby_code'>ruby_code</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="gnerate_model_code-instance_method">
+  
+    - (<tt>Object</tt>) <strong>gnerate_model_code</strong>(database_columns, class_name) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/form_analyzer/prontoforms/pronto_forms_analyzer.rb', line 140</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_gnerate_model_code'>gnerate_model_code</span><span class='lparen'>(</span><span class='id identifier rubyid_database_columns'>database_columns</span><span class='comma'>,</span> <span class='id identifier rubyid_class_name'>class_name</span><span class='rparen'>)</span>
+  
+  <span class='id identifier rubyid_doc_properties'>doc_properties</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_database_columns'>database_columns</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span>
+    <span class='id identifier rubyid_doc_properties'>doc_properties</span> <span class='op'>+=</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'># - </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_c'>c</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'> (</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_c'>c</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>) - \n</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  
+  <span class='id identifier rubyid_doc_code'>doc_code</span> <span class='op'>=</span> 
+<span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>
+# </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_class_name'>class_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;s Model
+#
+# Properties:
+</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_doc_properties'>doc_properties</span><span class='embexpr_end'>}</span><span class='tstring_content'>
+</span><span class='tstring_end'>&quot;</span></span>
+
+
+  <span class='id identifier rubyid_attachment_code'>attachment_code</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_database_columns'>database_columns</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_c'>c</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>attachment</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_attachment_code'>attachment_code</span> <span class='op'>+=</span> 
+<span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>  has_attached_file :</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_c'>c</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>
+  validates_attachment_content_type :</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_c'>c</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>, :content_type =&gt; /\Aimage/\n\n</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  
+  
+  
+  <span class='id identifier rubyid_ruby_code'>ruby_code</span> <span class='op'>=</span> 
+<span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>
+</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_doc_code'>doc_code</span><span class='embexpr_end'>}</span><span class='tstring_content'>
+
+class </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_class_name'>class_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> &lt; ActiveRecord::Base
+</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_attachment_code'>attachment_code</span><span class='embexpr_end'>}</span><span class='tstring_content'>
+end
+</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_ruby_code'>ruby_code</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="gnerate_spec_code-instance_method">
+  
+    - (<tt>Object</tt>) <strong>gnerate_spec_code</strong>(database_columns, class_name, form_name) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/form_analyzer/prontoforms/pronto_forms_analyzer.rb', line 196</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_gnerate_spec_code'>gnerate_spec_code</span><span class='lparen'>(</span><span class='id identifier rubyid_database_columns'>database_columns</span><span class='comma'>,</span> <span class='id identifier rubyid_class_name'>class_name</span><span class='comma'>,</span> <span class='id identifier rubyid_form_name'>form_name</span><span class='rparen'>)</span>
+  
+  <span class='id identifier rubyid_ruby_code'>ruby_code</span> <span class='op'>=</span>
+<span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>require &#39;spec_helper&#39;
+
+describe </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_class_name'>class_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> do
+  
+  it \&quot;has a valid factory\&quot; do
+    build(:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_form_name'>form_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>).should be_valid
+  end
+  
+end</span><span class='tstring_end'>&quot;</span></span>
+
+  <span class='id identifier rubyid_ruby_code'>ruby_code</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Wed Aug 20 16:56:36 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-2.0.0).
+</div>
+
+  </body>
+</html>

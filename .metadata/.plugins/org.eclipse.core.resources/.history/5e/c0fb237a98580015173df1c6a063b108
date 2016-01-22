@@ -1,0 +1,29 @@
+FactoryGirl.define do
+  factory :battery_inspection, class: Forms::BatteryInspection do
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions', 'fake.json'), 'text/plain') }
+    
+    factory :battery_inspection_prontoforms do
+      source "prontoforms"
+      
+      factory :battery_inspection_valid do
+        submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'battery_inspection', 'v1', 'valid.json'), 'text/plain') }
+      end
+      
+      factory :battery_inspection_invalid do
+        submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'battery_inspection', 'v1', 'too_many_pictures.json'), 'text/plain') }
+      end
+      
+      factory :battery_inspection_v4_normal do
+        submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'battery_inspection', 'v4', 'valid_normal.json'), 'text/plain') }
+      end
+      
+      factory :battery_inspection_v4_inaccessible do
+        submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'battery_inspection', 'v4', 'valid_inaccessible.json'), 'text/plain') }
+      end
+      
+      factory :battery_inspection_v4_new_equipment do
+        submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'battery_inspection', 'v4', 'new_equipment_inspection.json'), 'text/plain') }
+      end
+    end
+  end
+end

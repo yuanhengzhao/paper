@@ -1,0 +1,88 @@
+class Forms::JigCleaningsController < ApplicationController
+  
+  FORM_NAME = "jig cleanings"
+  
+  include DatatableServerSideProcessing
+  include XlsxReportProcessing
+  
+  before_action :authenticate_user!
+  
+  load_and_authorize_resource :except => [:update_export, :download_export, :submission]
+  
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  
+  add_breadcrumb "forms", :forms_index_path
+  add_breadcrumb "jig cleanings", :forms_jig_cleanings_path
+  
+  DATATABLES_COLUMNS = [ "id", "username", "device_submit_date" ]
+  
+  def index
+    # @jig_cleanings is automatically loaded
+  end
+
+  def show
+    # @jig_cleaning is automatically loaded
+    add_breadcrumb "jig cleaning #{@jig_cleaning.id}", :forms_jig_cleaning_path
+  end
+  
+  # Overwrites the model's existing properties with the contents of the original submission document attached.
+  def reparse
+    # @jig_cleaning is automatically loaded
+    result = @jig_cleaning.reparse
+    # render the show action associated with the result object
+    render action: 'show', location: result
+  end
+  
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html { redirect_to forms_jig_cleanings_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS
+        }
+        
+        # call concern function using collection of all records the user has access to
+        @jig_cleanings = Forms::JigCleaning.accessible_by(current_ability)
+        render :json => datatable_data(@jig_cleanings, params, options)
+      }
+    end
+  end
+  
+  def update_export
+    authorize! :read, Forms::JigCleaning
+    
+    begin
+      raise "No data in this form."  if Forms::JigCleaning.all.count == 0
+      @export = generate_xlsx(Forms::JigCleaning, FORM_NAME, Forms::JigCleaning.maximum("updated_at"))
+      respond_to do |format|
+        format.json { render :json => @export, status: :ok  }
+      end
+    rescue => e
+      respond_to do |format|
+        format.json { render text:e.message, status: :not_acceptable }
+      end
+    end  
+  end
+  
+  def download_export
+    authorize! :read, Forms::JigCleaning
+    @export = Report::FormExport.find_by(form_name: FORM_NAME)
+    redirect_to(@export.attachment.expiring_url(10))
+  end
+
+  def submission
+    authorize! :read, Forms::JigCleaning
+    @jig_cleaning = Forms::JigCleaning.find(params[:id])
+    authorize! :read, @jig_cleaning
+    redirect_to(@jig_cleaning.submission.expiring_url(10))
+  end
+
+  private
+  
+  def record_not_found(exception)
+    # redirect back to index if id not found
+    flash[:alert] = exception.message
+    redirect_to forms_jig_cleanings_path
+  end
+end

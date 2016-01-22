@@ -1,0 +1,55 @@
+# Forms::JanitorialChecklist's model
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms 
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user 
+# - version (string) - current version of the form
+# - altitude (decimal(20,20)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,20)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,20)) - longitude of the user's location when submitted the form
+# - source (string) - name of the provider, for example,"prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+
+# - client (string) - client's name, got from the scanned qr code
+# - site (string) - site's name, got from the scanned qr code
+# - shop (string) - shop's name, got from the scanned qr code
+# - location (string) - location, got from the scanned qr code
+# - floor (string) - floor, got from the scanned qr code
+# - type_mwu (string) - type, got from the scanned qr code
+# - reference (string) - reference, got from the scanned qr code
+# - plant_id (string) - plant id, got from the scanned qr code
+# - area_type (string) - type of the area
+# - fi (string) - green/yellow/red/NA rating
+# - floors (string) - green/yellow/red/NA rating
+# - trash (string) -  green/yellow/red/NA rating
+# - windows (string) - green/yellow/red/NA rating
+# - ledges (string) - green/yellow/red/NA rating
+# - vents (string) -  green/yellow/red/NA rating
+# - chairs (string) - green/yellow/red/NA rating
+# - tables (string) - green/yellow/red/NA rating
+# - microwave (string) - green/yellow/red/NA rating
+# - drinking_fount (string) - green/yellow/red/NA rating
+# - sinks (string) - green/yellow/red/NA rating
+# - dispensers (string) - green/yellow/red/NA rating
+# - guard_rails (string) - green/yellow/red/NA rating
+# - are_repairs_required (string) - answer to question "are repairs required"
+# - list_repairs (string) - list of repairs 
+# - comments (text) - comment
+# - image1 (attachment)
+# - image2 (attachment)
+# - sum_total (integer) - the sum of the rating questions answered
+# - overall_rate (float) - average of the ratings
+
+class Forms::JanitorialChecklist < ActiveRecord::Base
+  has_attached_file :image1
+  validates_attachment_content_type :image1, :content_type => /\Aimage/
+
+  has_attached_file :image2
+  validates_attachment_content_type :image2, :content_type => /\Aimage/
+  
+  include HasSubmission
+  include Reparseable
+end

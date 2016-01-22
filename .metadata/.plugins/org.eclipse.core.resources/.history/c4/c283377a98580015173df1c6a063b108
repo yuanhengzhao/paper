@@ -1,0 +1,521 @@
+{
+    "identifier": "1814977698",
+    "version": "v1",
+    "zone": "America/Toronto",
+    "referenceNumber": "20140826142113-1814977698",
+    "state": "Complete",
+    "deviceSubmitDate": {
+        "time": "2014-08-26T10:21:12-04:00",
+        "zone": "America/Toronto"
+    },
+    "shiftedDeviceSubmitDate": "2014-08-26T10:21:12-04:00",
+    "serverReceiveDate": "2014-08-26T10:21:14-04:00",
+    "form": {
+        "identifier": "141786393",
+        "versionIdentifier": "152198875",
+        "name": "Soc Hourly Production Report",
+        "version": 1000000,
+        "formSpaceIdentifier": "191492117",
+        "formSpaceName": "Robinson Solutions Forms"
+    },
+    "user": {
+        "identifier": "131590062",
+        "username": "nshakoori@robinsonsolutions.com",
+        "displayName": "Naeimeh Shakoori-Najafi (nshakoori@robinsonsolutions.com)"
+    },
+    "dispatcher": null,
+    "geoStamp": {
+        "success": true,
+        "captureTimestamp": {
+            "provided": {
+                "time": "2014-08-26T10:18:56-04:00",
+                "zone": "America/Toronto"
+            },
+            "shifted": "2014-08-26T10:18:56-04:00"
+        },
+        "errorMessage": null,
+        "source": "GPS",
+        "coordinates": {
+            "latitude": 43.65225771318907,
+            "longitude": -79.38201282021774,
+            "altitude": 124.049965
+        },
+        "address": "60 Queen Street West, Toronto, ON, CA"
+    },
+    "pages": [
+        {
+            "name": "Basic",
+            "answers": [
+                {
+                    "label": "plant",
+                    "dataType": "FreeText",
+                    "question": "Plant",
+                    "values": [
+                        "Social Circle"
+                    ]
+                },
+                {
+                    "label": "p1ct",
+                    "dataType": "Integer",
+                    "question": "P1CT",
+                    "values": [
+                        "29"
+                    ]
+                },
+                {
+                    "label": "p2ct",
+                    "dataType": "Integer",
+                    "question": "P2CT",
+                    "values": [
+                        "20"
+                    ]
+                },
+                {
+                    "label": "p3ct",
+                    "dataType": "Integer",
+                    "question": "P3CT",
+                    "values": [
+                        "14"
+                    ]
+                },
+                {
+                    "label": "p4ct",
+                    "dataType": "Integer",
+                    "question": "P4CT",
+                    "values": [
+                        "16"
+                    ]
+                },
+                {
+                    "label": "p1lut",
+                    "dataType": "Decimal",
+                    "question": "P1LUT",
+                    "values": [
+                        "3.8"
+                    ]
+                },
+                {
+                    "label": "p2lut",
+                    "dataType": "Decimal",
+                    "question": "P2LUT",
+                    "values": [
+                        "3.8"
+                    ]
+                },
+                {
+                    "label": "p3lut",
+                    "dataType": "Decimal",
+                    "question": "P3LUT",
+                    "values": [
+                        "4.3"
+                    ]
+                },
+                {
+                    "label": "p4lut",
+                    "dataType": "Decimal",
+                    "question": "P4LUT",
+                    "values": [
+                        "4.3"
+                    ]
+                },
+                {
+                    "label": "p1m",
+                    "dataType": "Integer",
+                    "question": "P1M",
+                    "values": [
+                        "7"
+                    ]
+                },
+                {
+                    "label": "p2m",
+                    "dataType": "Integer",
+                    "question": "P2M",
+                    "values": [
+                        "7"
+                    ]
+                },
+                {
+                    "label": "p3m",
+                    "dataType": "Integer",
+                    "question": "P3M",
+                    "values": [
+                        "16"
+                    ]
+                },
+                {
+                    "label": "p4m",
+                    "dataType": "Integer",
+                    "question": "P4M",
+                    "values": [
+                        "16"
+                    ]
+                },
+                {
+                    "label": "site",
+                    "dataType": "FreeText",
+                    "question": "Site",
+                    "values": [
+                        "Social Circle"
+                    ]
+                },
+                {
+                    "label": "crew",
+                    "dataType": "FreeText",
+                    "question": "Crew",
+                    "values": [
+                        "A Crew"
+                    ]
+                },
+                {
+                    "label": "supervisor",
+                    "dataType": "FreeText",
+                    "question": "Supervisor",
+                    "values": [
+                        "Wayne Wyatt"
+                    ]
+                },
+                {
+                    "label": "supervisor_name",
+                    "dataType": "FreeText",
+                    "question": "Supervisor Name (if not in the list)",
+                    "values": []
+                },
+                {
+                    "label": "date",
+                    "dataType": "Date",
+                    "question": "Date",
+                    "values": [
+                        "2014-08-26"
+                    ]
+                },
+                {
+                    "label": "reported_time",
+                    "dataType": "Integer",
+                    "question": "Reported Time",
+                    "values": [
+                        "11"
+                    ]
+                },
+                {
+                    "label": "ampm",
+                    "dataType": "FreeText",
+                    "question": "AM/PM",
+                    "values": [
+                        "PM"
+                    ]
+                },
+                {
+                    "label": "cph",
+                    "dataType": "Integer",
+                    "question": "Current Production Hours",
+                    "values": [
+                        "24"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Press 1",
+            "answers": [
+                {
+                    "label": "press_1_cct",
+                    "dataType": "Integer",
+                    "question": "Press 1 Curing Cycle Time",
+                    "values": [
+                        "29"
+                    ]
+                },
+                {
+                    "label": "ap1",
+                    "dataType": "Integer",
+                    "question": "ap1",
+                    "values": [
+                        "33"
+                    ]
+                },
+                {
+                    "label": "press_1_curing_cycle",
+                    "dataType": "Integer",
+                    "question": "Press 1 Curing Cycles",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "press_1_blanks",
+                    "dataType": "Decimal",
+                    "question": "Press 1 Blanks",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "press_1_treads",
+                    "dataType": "Decimal",
+                    "question": "Press 1 Treads",
+                    "values": [
+                        "6"
+                    ]
+                },
+                {
+                    "label": "press_1_2p",
+                    "dataType": "Decimal",
+                    "question": "Press 1 2-Pieces",
+                    "values": []
+                },
+                {
+                    "label": "press_1_downtime",
+                    "dataType": "Decimal",
+                    "question": "Press 1 Downtime (minutes)",
+                    "values": []
+                },
+                {
+                    "label": "press_1_efficiency",
+                    "dataType": "Decimal",
+                    "question": "Press 1 Efficiency",
+                    "values": [
+                        "0.01964285714285714285714285714285714285"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Press 2",
+            "answers": [
+                {
+                    "label": "press_2_cct",
+                    "dataType": "Integer",
+                    "question": "Press 2 Curing Cycle Time",
+                    "values": [
+                        "20"
+                    ]
+                },
+                {
+                    "label": "ap2",
+                    "dataType": "Integer",
+                    "question": "ap2",
+                    "values": [
+                        "24"
+                    ]
+                },
+                {
+                    "label": "press_2_curing_cycle",
+                    "dataType": "Integer",
+                    "question": "Press 2 Curing Cycles",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "press_2_blanks",
+                    "dataType": "Decimal",
+                    "question": "Press 2 Blanks",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "press_2_treads",
+                    "dataType": "Decimal",
+                    "question": "Press 2 Treads",
+                    "values": [
+                        "6"
+                    ]
+                },
+                {
+                    "label": "press_2_2p",
+                    "dataType": "Decimal",
+                    "question": "Press 2 2-Pieces",
+                    "values": []
+                },
+                {
+                    "label": "press_2_downtime",
+                    "dataType": "Decimal",
+                    "question": "Press 2 Downtime (minutes)",
+                    "values": []
+                },
+                {
+                    "label": "press_2_efficiency",
+                    "dataType": "Decimal",
+                    "question": "Press 2 Efficiency",
+                    "values": [
+                        "0.00625"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Press 3",
+            "answers": [
+                {
+                    "label": "press_3_cct",
+                    "dataType": "Integer",
+                    "question": "Press 3 Curing Cycle Time",
+                    "values": [
+                        "14"
+                    ]
+                },
+                {
+                    "label": "ap3",
+                    "dataType": "Integer",
+                    "question": "ap3",
+                    "values": [
+                        "18"
+                    ]
+                },
+                {
+                    "label": "press_3_curing_cycle",
+                    "dataType": "Integer",
+                    "question": "Press 3 Curing Cycles",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "press_3_blanks",
+                    "dataType": "Decimal",
+                    "question": "Press 3 Blanks",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "press_3_treads",
+                    "dataType": "Decimal",
+                    "question": "Press 3 Treads",
+                    "values": [
+                        "15"
+                    ]
+                },
+                {
+                    "label": "press_3_2p",
+                    "dataType": "Decimal",
+                    "question": "Press 3 2-Pieces",
+                    "values": []
+                },
+                {
+                    "label": "press_3_downtime",
+                    "dataType": "Decimal",
+                    "question": "Press 3 Downtime (minutes)",
+                    "values": []
+                },
+                {
+                    "label": "press_3_efficiency",
+                    "dataType": "Decimal",
+                    "question": "Press 3 Efficiency",
+                    "values": [
+                        "0.01171875"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Press 4",
+            "answers": [
+                {
+                    "label": "press_4_cct",
+                    "dataType": "Integer",
+                    "question": "Press 4 Curing Cycle Time",
+                    "values": [
+                        "14"
+                    ]
+                },
+                {
+                    "label": "ap4",
+                    "dataType": "Integer",
+                    "question": "ap4",
+                    "values": [
+                        "18"
+                    ]
+                },
+                {
+                    "label": "press_4_curing_cycle",
+                    "dataType": "Integer",
+                    "question": "Press 4 Curing Cycles",
+                    "values": [
+                        "14"
+                    ]
+                },
+                {
+                    "label": "press_4_blanks",
+                    "dataType": "Decimal",
+                    "question": "Press 4 Blanks",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "press_4_treads",
+                    "dataType": "Decimal",
+                    "question": "Press 4 Treads",
+                    "values": [
+                        "223"
+                    ]
+                },
+                {
+                    "label": "press_4_2p",
+                    "dataType": "Decimal",
+                    "question": "Press 4 2-Pieces",
+                    "values": []
+                },
+                {
+                    "label": "press_4_downtime",
+                    "dataType": "Decimal",
+                    "question": "Press 4 Downtime (minutes)",
+                    "values": []
+                },
+                {
+                    "label": "press_4_efficiency",
+                    "dataType": "Decimal",
+                    "question": "Press 4 Efficiency",
+                    "values": [
+                        "0.17421875"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Summary",
+            "answers": [
+                {
+                    "label": "total_treads",
+                    "dataType": "Decimal",
+                    "question": "Total Treads at this Time",
+                    "values": [
+                        "250"
+                    ]
+                },
+                {
+                    "label": "total_blanks",
+                    "dataType": "Decimal",
+                    "question": "Total Blanks at this Time",
+                    "values": [
+                        "4"
+                    ]
+                },
+                {
+                    "label": "projected_total",
+                    "dataType": "Decimal",
+                    "question": "Projected Total for The Shift",
+                    "values": [
+                        "113.39583333333333333333333333333333333"
+                    ]
+                },
+                {
+                    "label": "overall_efficiency",
+                    "dataType": "Decimal",
+                    "question": "Overall Efficiency",
+                    "values": [
+                        "0.07609297177642501383508577753182069728"
+                    ]
+                },
+                {
+                    "label": "comments",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": "Comments"
+                }
+            ]
+        }
+    ]
+}

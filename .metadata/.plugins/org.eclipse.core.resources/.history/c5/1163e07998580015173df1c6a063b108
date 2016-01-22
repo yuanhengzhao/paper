@@ -1,0 +1,66 @@
+
+# Parser to for Snow Audit forms submitted from ProntoForms
+class ProntoForms::SnowAuditParser < AbstractFormParser
+  
+  # name of the form according to ProntoForms
+  NAME = "Snow Audit"
+  
+  # Returns the highest version number this parser is capable of parsing.
+  #
+  # @return [numeric] highest version number this parser is capable of parsing
+  def max_version
+    2
+  end
+  
+  # Attempts to convert the hash provided into a database object.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @param model [Forms::SnowAudit] object to update, nil if a new object should be created
+  # @return [ActiveRecord] instance of the object
+  # @raise [ParserException] if the hash could not be parsed for whatever reason
+  def parse(form_hash, model = nil)
+    model ||= Forms::SnowAudit.new
+
+    ProntoForms::SourceParser.get_common_answer_values(form_hash, model)
+    
+    model.audit_date              = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 0)[0]
+    model.audit_time              = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 1)[0]["provided"]["time"]
+    model.contractors_supervis    = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 2)[0]
+    model.time_snow_called_for    = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 3)[0]["provided"]["time"]
+    model.time_snow_started       = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 4)[0]["provided"]["time"]
+    model.time_snow_ended         = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 5)[0]["provided"]["time"]
+    model.area_to_audit           = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 6)[0]
+    model.gg_supervisor_onsite    = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 8)[0]
+    model.comments1               = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 9)[0]
+    model.time_operators_start    = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 10)[0]
+    model.comments2               = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 11)[0]
+    model.priority_addressed      = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 12)[0]
+    model.comments3               = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 13)[0]
+    model.ring_roads              = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 14)[0]
+    model.comments4               = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 15)[0]
+    model.docks_cleared_salted    = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 16)[0]
+    model.comments5               = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 17)[0]
+    model.parking_lots_salted     = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 18)[0]
+    model.comments6               = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 19)[0]
+    model.rumble_track            = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 20)[0]
+    model.comments7               = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 21)[0]
+    model.awl_chute               = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 22)[0]
+    model.comments8               = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 23)[0]
+    model.quality_auditslopes     = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 24)[0]
+    model.comments9               = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 25)[0]
+    model.emergency_addressed     = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 26)[0]
+    model.comments10              = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 27)[0]
+    model.all_equipment           = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 28)[0]
+    model.comments11              = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 29)[0]
+    model.emergency_entrances     = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 31)[0]
+    model.comments12              = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 32)[0]
+    model.windrows_removed        = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 33)[0]
+    model.comments13              = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 34)[0]
+    model.cleanuppile_removal     = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 35)[0]
+    model.comments14              = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 36)[0]
+    
+    ProntoForms::SourceParser.handle_images(model, form_hash, 0, 37, 10, "image")
+
+    model
+  end
+end

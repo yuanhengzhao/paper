@@ -1,0 +1,561 @@
+{
+  "deviceSubmitDate": {
+    "time": "2015-08-21T11:24:56-04:00", 
+    "zone": "America/Toronto"
+  }, 
+  "dispatcher": null, 
+  "form": {
+    "formSpaceIdentifier": "191803005", 
+    "formSpaceName": "Space - Battery Maintenance", 
+    "identifier": "142094039", 
+    "name": "Battery Inspection", 
+    "version": 4, 
+    "versionIdentifier": "152709942"
+  }, 
+  "geoStamp": {
+    "address": "Queen Street West, Toronto, ON, CA", 
+    "captureTimestamp": {
+      "provided": {
+        "time": "2015-08-21T11:24:51-04:00", 
+        "zone": "America/Toronto"
+      }, 
+      "shifted": "2015-08-21T11:24:51-04:00"
+    }, 
+    "coordinates": {
+      "altitude": 110.208, 
+      "latitude": 43.65213250874297, 
+      "longitude": -79.382130836195
+    }, 
+    "errorMessage": null, 
+    "source": "GPS", 
+    "success": true
+  }, 
+  "identifier": "1826672943", 
+  "pages": [
+    {
+      "answers": [
+        {
+          "dataType": "FreeText", 
+          "label": "unit_accessible", 
+          "question": "Unit Accessible?", 
+          "selectOptions": [
+            {
+              "other": false, 
+              "selected": true, 
+              "value": "Yes"
+            }, 
+            {
+              "other": false, 
+              "selected": false, 
+              "value": "No"
+            }
+          ], 
+          "values": [
+            "Yes"
+          ]
+        }
+      ], 
+      "name": "Equipment Unit Accessible"
+    }, 
+    {
+      "answers": [
+        {
+          "dataType": "FreeText", 
+          "label": "ia_site", 
+          "question": "Site", 
+          "values": []
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "ia_shop", 
+          "question": "Shop", 
+          "values": []
+        }, 
+        {
+          "dataType": "Integer", 
+          "label": "ia_unit_num", 
+          "question": "Equipment Unit Number", 
+          "values": []
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "ia_plugged_in", 
+          "question": "Plugged In?", 
+          "selectOptions": [
+            {
+              "other": false, 
+              "selected": false, 
+              "value": "Yes"
+            }, 
+            {
+              "other": false, 
+              "selected": false, 
+              "value": "No"
+            }
+          ], 
+          "values": []
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "GoTo8", 
+          "question": "GoTo", 
+          "selectOptions": [
+            {
+              "other": false, 
+              "selected": false, 
+              "value": "GoTo"
+            }
+          ], 
+          "values": []
+        }
+      ], 
+      "name": "Equipment Unit Information"
+    }, 
+    {
+      "answers": [
+        {
+          "dataType": "FreeText", 
+          "label": "has_a_bar_code", 
+          "question": "Has a Bar Code?", 
+          "selectOptions": [
+            {
+              "other": false, 
+              "selected": true, 
+              "value": "Yes"
+            }, 
+            {
+              "other": false, 
+              "selected": false, 
+              "value": "No"
+            }
+          ], 
+          "values": [
+            "Yes"
+          ]
+        }
+      ], 
+      "name": "Bar Code"
+    }, 
+    {
+      "answers": [
+        {
+          "dataType": "FreeText", 
+          "label": "new_site", 
+          "question": "Site", 
+          "values": []
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "new_shop", 
+          "question": "Shop", 
+          "values": []
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "new_equipment_type", 
+          "question": "Type", 
+          "values": []
+        }, 
+        {
+          "dataType": "Integer", 
+          "label": "new_unit_num", 
+          "question": "Equipment Unit Number", 
+          "values": []
+        }, 
+        {
+          "dataType": "Barcode", 
+          "label": "new_barcode", 
+          "question": "Equipment Unit Barcode", 
+          "values": []
+        }, 
+        {
+          "dataType": "Image", 
+          "label": "new_photo", 
+          "question": "Photo", 
+          "values": []
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "new_manufacturer", 
+          "question": "Manufacturer", 
+          "values": []
+        }, 
+        {
+          "dataType": "Date", 
+          "label": "new_date_service", 
+          "question": "Date Into Service", 
+          "values": []
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "new_serial_num", 
+          "question": "Battery Serial Number", 
+          "values": []
+        }, 
+        {
+          "dataType": "Integer", 
+          "label": "new_battery_voltage", 
+          "question": "Battery Voltage", 
+          "selectOptions": [
+            {
+              "other": false, 
+              "selected": false, 
+              "value": "24"
+            }, 
+            {
+              "other": false, 
+              "selected": false, 
+              "value": "48"
+            }
+          ], 
+          "values": []
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "ne_inspec_frequency", 
+          "question": "Inspection Frequency", 
+          "values": []
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "new_inspec_code", 
+          "question": "Inspection Code", 
+          "values": []
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "new_inspec_days", 
+          "question": "Inspection Days", 
+          "values": []
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "GoTo6", 
+          "question": "GoTo", 
+          "selectOptions": [
+            {
+              "other": false, 
+              "selected": false, 
+              "value": "GoTo"
+            }
+          ], 
+          "values": []
+        }
+      ], 
+      "name": "New Equipment Unit"
+    }, 
+    {
+      "answers": [
+        {
+          "dataType": "Barcode", 
+          "label": "old_barcode", 
+          "question": "Equipment Unit Barcode", 
+          "values": [
+            {
+              "data": "9002", 
+              "type": "Code128"
+            }
+          ]
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "Comfirm Barcode", 
+          "question": "Confirm Barcode", 
+          "values": [
+            "9002"
+          ]
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "old_site", 
+          "question": "Site", 
+          "values": [
+            "Toronto"
+          ]
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "old_shop", 
+          "question": "Shop", 
+          "values": [
+            "Technology"
+          ]
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "old_unit_num", 
+          "question": "Equipment Unit Number", 
+          "values": [
+            "99991"
+          ]
+        }
+      ], 
+      "name": "Scan Equipment Unit"
+    }, 
+    {
+      "answers": [
+        {
+          "dataType": "FreeText", 
+          "label": "old_plugged_in", 
+          "question": "Plugged In?", 
+          "selectOptions": [
+            {
+              "other": false, 
+              "selected": true, 
+              "value": "Yes"
+            }, 
+            {
+              "other": false, 
+              "selected": false, 
+              "value": "No"
+            }
+          ], 
+          "values": [
+            "Yes"
+          ]
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "battery_hot", 
+          "question": "Battery Hot?", 
+          "selectOptions": [
+            {
+              "other": false, 
+              "selected": false, 
+              "value": "Yes"
+            }, 
+            {
+              "other": false, 
+              "selected": true, 
+              "value": "No"
+            }
+          ], 
+          "values": [
+            "No"
+          ]
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "Battery Hot", 
+          "question": "Battery Hot?", 
+          "values": [
+            "No"
+          ]
+        }, 
+        {
+          "dataType": "Integer", 
+          "label": "battery_temperature", 
+          "question": "Battery Temperature", 
+          "values": [
+            "50"
+          ]
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "fault_exists", 
+          "question": "Charger Faults?", 
+          "values": [
+            "Yes"
+          ]
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "faults", 
+          "question": "Charger Faults Comments", 
+          "values": [
+            "Fault 10101"
+          ]
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "bad_cables", 
+          "question": "Bad Cables?", 
+          "selectOptions": [
+            {
+              "other": false, 
+              "selected": false, 
+              "value": "Yes"
+            }, 
+            {
+              "other": false, 
+              "selected": true, 
+              "value": "No"
+            }
+          ], 
+          "values": [
+            "No"
+          ]
+        }, 
+        {
+          "dataType": "Information", 
+          "label": "unplug", 
+          "question": "NOTE: If the battery is HOT, you MUST unplug it before continuing!", 
+          "values": []
+        }
+      ], 
+      "name": "Battery Checklist"
+    }, 
+    {
+      "answers": [
+        {
+          "dataType": "FreeText", 
+          "label": "water_filled", 
+          "question": "Water Filled?", 
+          "selectOptions": [
+            {
+              "other": false, 
+              "selected": true, 
+              "value": "Yes"
+            }, 
+            {
+              "other": false, 
+              "selected": false, 
+              "value": "No"
+            }
+          ], 
+          "values": [
+            "Yes"
+          ]
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "valve_malfunction", 
+          "question": "Valve Malfunction?", 
+          "selectOptions": [
+            {
+              "other": false, 
+              "selected": false, 
+              "value": "Valve Leak"
+            }, 
+            {
+              "other": false, 
+              "selected": true, 
+              "value": "Valve Not Accepting Water"
+            }, 
+            {
+              "other": false, 
+              "selected": false, 
+              "value": "None"
+            }
+          ], 
+          "values": [
+            "Valve Not Accepting Water"
+          ]
+        }
+      ], 
+      "name": "Battery Water"
+    }, 
+    {
+      "answers": [
+        {
+          "dataType": "FreeText", 
+          "label": "valves_to_change", 
+          "question": "Valves to Change", 
+          "values": []
+        }
+      ], 
+      "name": "Valve Malfunctions"
+    }, 
+    {
+      "answers": [
+        {
+          "dataType": "FreeText", 
+          "label": "battery_cleaned", 
+          "question": "Battery Cleaned?", 
+          "selectOptions": [
+            {
+              "other": false, 
+              "selected": false, 
+              "value": "Yes"
+            }, 
+            {
+              "other": false, 
+              "selected": true, 
+              "value": "No"
+            }
+          ], 
+          "values": [
+            "No"
+          ]
+        }
+      ], 
+      "name": "Battery Cleaning"
+    }, 
+    {
+      "answers": [
+        {
+          "dataType": "FreeText", 
+          "label": "comments", 
+          "question": "Other Issues/Comments", 
+          "values": [
+            "No"
+          ]
+        }, 
+        {
+          "dataType": "Image", 
+          "label": "photo", 
+          "question": "Photo", 
+          "values": []
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "site", 
+          "question": "Site", 
+          "values": [
+            "Toronto"
+          ]
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "shop", 
+          "question": "Shop", 
+          "values": [
+            "Technology"
+          ]
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "equipment_unit_num", 
+          "question": "Equipment Unit Number", 
+          "values": [
+            "99991"
+          ]
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "malfunction", 
+          "question": "Malfunction", 
+          "values": [
+            "Valve Not Accepting Water"
+          ]
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "valves", 
+          "question": "Valves", 
+          "values": []
+        }, 
+        {
+          "dataType": "FreeText", 
+          "label": "barcode", 
+          "question": "Barcode", 
+          "values": [
+            "9002"
+          ]
+        }
+      ], 
+      "name": "Other"
+    }
+  ], 
+  "referenceNumber": "20150821152457-1826672943", 
+  "serverReceiveDate": "2015-08-21T11:24:58-04:00", 
+  "shiftedDeviceSubmitDate": "2015-08-21T11:24:56-04:00", 
+  "state": "Complete", 
+  "user": {
+    "displayName": "Sunil Pai (spai@robinsonsolutions.com)", 
+    "identifier": "131553223", 
+    "username": "spai@robinsonsolutions.com"
+  }, 
+  "version": "v1", 
+  "zone": "America/Toronto"
+}

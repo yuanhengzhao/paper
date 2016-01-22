@@ -1,0 +1,46 @@
+class CreateDataSourcesEquipmentUnitsView < ActiveRecord::Migration
+  def up
+    create_view :forms_battery_inspections_last_inspected_view,
+      '
+      SELECT 
+          `f`.`equipment_unit_number` AS `equipment_unit_number`,
+          MAX(`f`.`device_submit_date`) AS `last_inspected`
+      FROM
+          `forms_battery_inspections` `f`
+      GROUP BY `f`.`equipment_unit_number`
+      '
+    
+    create_view :forms_data_sources_equipment_units_view,
+      '
+      SELECT 
+        `eu`.`id` AS `id`,
+        `eu`.`site` AS `site`,
+        `eu`.`shop` AS `shop`,
+        `eu`.`equipment_type` AS `equipment_type`,
+        `eu`.`unit_number` AS `unit_number`,
+        `eu`.`barcode` AS `barcode`,
+        `eu`.`photo_file_name` AS `photo_file_name`,
+        `eu`.`photo_content_type` AS `photo_content_type`,
+        `eu`.`photo_file_size` AS `photo_file_size`,
+        `eu`.`photo_updated_at` AS `photo_updated_at`,
+        `eu`.`manufacturer` AS `manufacturer`,
+        `eu`.`date_into_service` AS `date_into_service`,
+        `eu`.`battery_serial_number` AS `battery_serial_number`,
+        `eu`.`battery_voltage` AS `battery_voltage`,
+        `eu`.`inspection_frequency` AS `inspection_frequency`,
+        `eu`.`inspection_code` AS `inspection_code`,
+        `eu`.`inspection_days` AS `inspection_days`,
+        `eu`.`created_at` AS `created_at`,
+        `eu`.`updated_at` AS `updated_at`,
+        `result`.`last_inspected` AS `last_inspected`
+      FROM
+          (`data_sources_equipment_units` `eu`
+          LEFT JOIN `forms_battery_inspections_last_inspected_view` `result` ON ((`eu`.`unit_number` = `result`.`equipment_unit_number`)))
+      '
+  end
+ 
+  def down
+    drop_view :forms_data_sources_equipment_units_view, :if_exists => true
+    drop_view :forms_battery_inspections_last_inspected_view, :if_exists => true
+  end
+end

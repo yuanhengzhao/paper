@@ -1,0 +1,14 @@
+include ActionDispatch::TestProcess
+FactoryGirl.define do
+  factory :form_export, class: Report::FormExport do
+    form_name "sample"
+    status "available"
+    attachment { fixture_file_upload(Rails.root.join('spec', 'resources', 'report', 'sample.xlsx'), 'application/zip') }
+  end
+  
+  factory :form_export_no_attachment, class: Report::FormExport do
+    form_name "sample"
+    status "available"
+    attachment nil
+  end
+end

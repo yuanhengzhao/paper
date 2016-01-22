@@ -1,0 +1,3 @@
+<% title "Site Shift #{@site_shift.id}"  %>
+
+<%= render 'form' %>

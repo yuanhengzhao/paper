@@ -1,0 +1,29 @@
+<%= form_for(@option, url: (@option.new_record? ? :admin_create_option :  :admin_update_option), html: { class: "form-horizontal", role: "form" }) do |f| %>
+  <% if @option.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@option.errors.count, "error") %> prohibited this option from being saved:</h2>
+
+      <ul>
+      <% @option.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  
+  <div class="form-group">
+    <%= f.label :value, class: "col-sm-3 control-label" %>
+    <div class="col-sm-9">
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <div class="col-sm-offset-3 col-sm-9">
+      <%= f.submit "Submit", class: "btn btn-primary" %>
+      <%= link_to 'Cancel', admin_options_path({:group => @option.group}), class: "btn btn-default" if @option.new_record? %>
+      <%= link_to 'Cancel', admin_options_path({:group => @option.group, :id => @option.id}), class: "btn btn-default" unless @option.new_record? %>
+    </div>
+  </div>
+<% end %>
+

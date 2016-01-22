@@ -1,0 +1,108 @@
+FactoryGirl.define do
+  factory :jkk_audit, class: Forms::JkkAudit do
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions', 'fake.json'), 'text/plain') }
+    
+    factory :jkk_audit_valid do
+      reference_number "20150710204405-1824797274"
+      server_receive_date "2015-07-10T16:44:07-04:00"
+      device_submit_date "2015-07-10T16:44:04-04:00"
+      username "nshakoori@robinsonsolutions.com"
+      version 1
+      altitude 98.7908
+      latitude 43.6482315033684
+      longitude -79.36626153159429
+      audit_time "2015-07-10T16:42:00-04:00"
+      site "Woodstock"
+      shop "Plastics"
+      job_name "PRESS HOUSING TO 6 FT."
+      job_number "TOY-WP-A6"
+      frequency "1/3M"
+      form_identifier "JKK_TOY-WP-A6_20150710"
+      hazards_identified "N/A"
+      hazards_aware "X"
+      ppe_specified "O"
+      ppe_specified_comments "not required"
+      ppe_properly "X"
+      lockout_identified "O"
+      lockout_identified_comments "not required"
+      lockout_performed "X"
+      trained "0"
+      trained_comments "not required"
+      steps "X"
+      sequential "0"
+      sequential_comments "not required"
+      requirements "0"
+      requirements_comments "not required"
+      approved "X"
+      five_s "X"
+      standardized_work_good_total 5
+      standardized_work_no_good_total 6
+      standardized_work_percentage 45.45
+      equipment_present "O"
+      equipment_present_comments "not required"
+      equipment_adequate "X"
+      equipment_safe "N/A"
+      equipment_good "O"
+      equipment_good_comments "not required"
+      lighting "O"
+      lighting_comments "not required"
+      plan "O"
+      plan_comments "not required"
+      energy "O"
+      energy_comments "not required"
+      temperature "O"
+      temperature_comments "not required"
+      necessary_conditions_good_total 6
+      necessary_conditions_no_good_total 1
+      necessary_conditions_percentage 85.71
+      jkk_ratio 0.39
+      time_scheduled_hours 1
+      time_studied 2
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'jkk_audit', 'valid.json'), 'text/plain') }
+    end
+    
+    factory :jkk_audit_invalid do
+      reference_number "20150710204405-1824797274"
+      server_receive_date "2015-07-10T16:44:07-04:00"
+      device_submit_date "2015-07-10T16:44:04-04:00"
+      username "nshakoori@robinsonsolutions.com"
+      version 1
+      altitude 98.7908
+      latitude 43.6482315033684
+      longitude -79.36626153159429
+      audit_time "2015-07-10T16:42:00-04:00"
+      site "Woodstock"
+      shop "Plastics"
+      job_name "PRESS HOUSING TO 6 FT."
+      job_number "TOY-WP-A6"
+      frequency "1/3M"
+      form_identifier "JKK_TOY-WP-A6_20150710"
+      hazards_identified "N/A"
+      hazards_aware "X"
+      ppe_specified "O"
+      ppe_specified_comments "not required"
+      ppe_properly "X"
+      lockout_identified "O"
+      lockout_identified_comments "not required"
+      lockout_performed "X"
+      trained "0"
+      trained_comments "not required"
+      steps "X"
+      sequential "0"
+      sequential_comments "not required"
+      requirements "0"
+      requirements_comments "not required"
+      approved "X"
+      five_s "X"
+      standardized_work_good_total 5
+      standardized_work_no_good_total 6
+      standardized_work_percentage 45.45
+      jkk_ratio 0.39
+      time_scheduled_hours 1
+      time_studied 2
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'jkk_audit', 'not_valid.json'), 'text/plain') }
+    end
+  end
+end

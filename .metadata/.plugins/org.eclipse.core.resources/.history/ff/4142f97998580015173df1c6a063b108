@@ -1,0 +1,29 @@
+test:
+  :host: <%= ENV['LDAP_HOST'] %>
+  :port: <%= ENV['LDAP_PORT'] %>
+  :base: <%= ENV['LDAP_BASE'] %>
+  :encryption:
+  :auth:
+    :method: :simple
+    :username: <%= ENV['LDAP_USERNAME'] %>
+    :password: <%= ENV['LDAP_PASSWORD'] %>
+
+development:
+  :host: <%= ENV['LDAP_HOST'] %>
+  :port: <%= ENV['LDAP_PORT'] %>
+  :base: <%= ENV['LDAP_BASE'] %>
+  :encryption:
+  :auth:
+    :method: :simple
+    :username: <%= ENV['LDAP_USERNAME'] %>
+    :password: <%= ENV['LDAP_PASSWORD'] %>
+
+production:
+  :host: <%= ENV['LDAP_HOST'] %>
+  :port: <%= ENV['LDAP_PORT'] %>
+  :base: <%= ENV['LDAP_BASE'] %>
+  :encryption:
+  :auth:
+    :method: :simple
+    :username: <%= ENV['LDAP_USERNAME'] %>
+    :password: <%= ENV['LDAP_PASSWORD'] %>

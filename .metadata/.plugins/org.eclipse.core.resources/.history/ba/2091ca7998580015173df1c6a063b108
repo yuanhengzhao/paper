@@ -1,0 +1,35 @@
+module XlsxReportProcessing
+  extend ActiveSupport::Concern 
+  
+  # Generate the xlsx of all data of a specified form
+  def generate_xlsx(form, form_name, last_updated_at)
+    raise "Form model class can not be nil." if form.nil?
+    raise "Form name can not be nil." if form_name.nil?
+    raise "Last updated time can not be nil." if last_updated_at.nil?
+    
+    export = Report::FormExport.find_by(form_name: form_name)
+    
+    if export.nil?
+      export = Report::FormExport.new(form_name: form_name)
+      export.status = Report::FormExport::UPDATING
+      export.save
+    end
+    
+    if  export.attachment_updated_at.nil? or (export.attachment_updated_at < last_updated_at and export.status != Report::FormExport::UPDATING)
+      # launch as asynchronous job
+      Delayed::Job.enqueue Report::RenderJob.new(form, export)
+    end
+    
+    export
+  end
+
+  def create_attachment(attachment_io, form_name)
+    if attachment_io.nil?
+      return nil 
+    end
+    attachment_io.class.class_eval { attr_accessor :original_filename, :content_type }
+    attachment_io.content_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    attachment_io.original_filename = "#{form_name}.xlsx"
+    return attachment_io
+  end
+end

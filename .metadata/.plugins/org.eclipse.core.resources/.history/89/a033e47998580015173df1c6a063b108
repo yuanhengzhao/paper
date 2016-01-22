@@ -1,0 +1,37 @@
+<% title "Dollies" %>
+
+<% if can? :create, DataSources::Dolly %>
+<div class="command-list">
+	<ul>
+		<li>Command:</li>
+		<li><%= link_to 'New Dolly', new_data_sources_dolly_path %></li>
+	</ul>
+</div>
+<% end %>
+<table id="dollies_datatable" class="data-source-table display">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Identifier</th>
+      <th>Active</th>
+      <th class="actions">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @dollies.each do |data_sources_dolly| %>
+      <tr>
+        <td><%= data_sources_dolly.id %></td>
+        <td><%= data_sources_dolly.identifier %></td>
+        <td><%= data_sources_dolly.active %></td>
+        <td class="actions">
+        	<ul>
+        		<li><%= link_to 'Show', data_sources_dolly %></li>
+        	    <% if can? :edit, data_sources_dolly %><li><%= link_to 'Edit', edit_data_sources_dolly_path(data_sources_dolly) %></li><% end %>
+        	    <% if can? :destroy, data_sources_dolly %><li><%= link_to 'Destroy', data_sources_dolly, method: :delete, data: { confirm: 'Are you sure?' } %></li><% end %>
+        	</ul>
+		</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

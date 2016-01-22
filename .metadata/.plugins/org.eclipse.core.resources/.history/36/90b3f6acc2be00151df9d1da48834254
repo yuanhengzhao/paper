@@ -1,0 +1,94 @@
+<% title "Battery Inspection #{@battery_inspection.id}" %>
+
+<div class="container">
+	<table class="table table-striped table-hover admin-responsive-table form-table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Value</th>
+				</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>reference_number</td><td><%= @battery_inspection.reference_number %></td>
+			</tr>
+			<tr>
+				<td>server_receive_date</td><td><%= @battery_inspection.server_receive_date %></td>
+			</tr>
+			<tr>
+				<td>device_submit_date</td><td><%= @battery_inspection.device_submit_date %></td>
+			</tr>
+			<tr>
+				<td>username</td><td><%= @battery_inspection.username %></td>
+			</tr>
+			<tr>
+				<td>version</td><td><%= @battery_inspection.version %></td>
+			</tr>
+			<tr>
+				<td>altitude</td><td><%= @battery_inspection.altitude %></td>
+			</tr>
+			<tr>
+				<td>latitude</td><td><%= @battery_inspection.latitude %></td>
+			</tr>
+			<tr>
+				<td>longitude</td><td><%= @battery_inspection.longitude %></td>
+			</tr>
+			<tr>
+				<td>source</td><td><%= @battery_inspection.source %></td>
+			</tr>
+			<tr>
+				<td>id</td><td><%= @battery_inspection.id %></td>
+			</tr>
+			<tr>
+				<td>site</td><td><%= @battery_inspection.site %></td>
+			</tr>
+			<tr>
+				<td>shop</td><td><%= @battery_inspection.shop %></td>
+			</tr>
+			<tr>
+				<td>equipment_bar_code</td><td><%= @battery_inspection.equipment_bar_code %></td>
+			</tr>
+			<tr>
+				<td>equipment_unit_number</td><td><%= @battery_inspection.equipment_unit_number %></td>
+			</tr>
+			<tr>
+				<td>unit_accessible</td><td><%= @battery_inspection.unit_accessible %></td>
+			</tr>
+			<tr>
+				<td>battery_temperature</td><td><%= @battery_inspection.battery_temperature %></td>
+			</tr>
+			<tr>
+				<td>faults_exist</td><td><%= @battery_inspection.faults_exist %></td>
+			</tr>
+			<tr>
+				<td>faults</td><td><%= @battery_inspection.faults %></td>
+			</tr>
+			<tr>
+				<td>bad_cables</td><td><%= @battery_inspection.bad_cables %></td>
+			</tr>
+			<tr>
+				<td>water_filled</td><td><%= @battery_inspection.water_filled %></td>
+			</tr>
+			<tr>
+				<td>blown_valves</td><td><%= @battery_inspection.blown_valves %></td>
+			</tr>
+			<tr>
+				<td>valve_malfunction</td><td><%= @battery_inspection.valve_malfunction %></td>
+			</tr>
+			<tr>
+				<td>valves_to_change</td><td><%= @battery_inspection.valves_to_change %></td>
+			</tr>
+			<tr>
+				<td>battery_cleaned</td><td><%= @battery_inspection.battery_cleaned %></td>
+			</tr>
+			<tr>
+				<td>comments</td><td><%= @battery_inspection.comments %></td>
+			</tr>
+			<tr>
+				<td>photo</td>
+				<td><%= image_tag photo_forms_battery_inspection_path(@battery_inspection) %></td>
+			</tr>
+		</tbody>
+	</table>
+<%= render :partial => 'forms/form_submission_section', :locals => { :submission_path => submission_forms_battery_inspection_path(@battery_inspection), :reparse_path => reparse_forms_battery_inspection_path(@battery_inspection) } %>
+</div>

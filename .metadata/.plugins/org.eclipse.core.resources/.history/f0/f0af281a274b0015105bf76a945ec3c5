@@ -1,0 +1,5 @@
+class AddBodyPartStringToIncident < ActiveRecord::Migration
+  def change
+    add_column :incidents, :body_parts, :string
+  end
+end

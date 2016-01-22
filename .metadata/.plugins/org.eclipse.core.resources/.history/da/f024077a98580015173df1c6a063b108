@@ -1,0 +1,78 @@
+class CreateJkkAuditTable < ActiveRecord::Migration
+  def change
+    create_table :forms_jkk_audits do |t|
+      t.string :reference_number
+      t.datetime :server_receive_date
+      t.datetime :device_submit_date
+      t.string :username
+      t.string :version
+      t.decimal :altitude, :precision => 20, :scale => 16
+      t.decimal :latitude, :precision => 20, :scale => 16
+      t.decimal :longitude, :precision => 20, :scale => 16
+      t.string :source
+      t.attachment :submission
+      
+      t.date :audit_time
+      t.string :site
+      t.string :shop
+      t.string :shift
+      t.string :job_name
+      t.string :job_number
+      t.string :location
+      t.string :frequency
+      t.string :form_identifier
+      t.string :hazards_identified
+      t.text :hazards_identified_comments
+      t.string :hazards_aware
+      t.text :hazards_aware_comments
+      t.string :ppe_specified
+      t.text :ppe_specified_comments
+      t.string :ppe_properly
+      t.text :ppe_properly_comments
+      t.string :lockout_identified
+      t.text :lockout_identified_comments
+      t.string :lockout_performed
+      t.text :lockout_performed_comments
+      t.string :trained
+      t.text :trained_comments
+      t.string :steps
+      t.text :steps_comments
+      t.string :sequential 
+      t.text :sequential_comments
+      t.string :requirements
+      t.text :requirements_comments
+      t.string :approved
+      t.text :approved_comments
+      t.string :five_s
+      t.text :five_s_comments
+      t.integer :standardized_work_good_total
+      t.integer :standardized_work_no_good_total
+      t.decimal :standardized_work_percentage
+      t.string :equipment_present
+      t.text :equipment_present_comments
+      t.string :equipment_adequate
+      t.text :equipment_adequate_comments
+      t.string :equipment_safe
+      t.text :equipment_safe_comments
+      t.string :equipment_good
+      t.text :equipment_good_comments 
+      t.string :lighting
+      t.text :lighting_comments
+      t.string :plan
+      t.text :plan_comments
+      t.string :energy 
+      t.text :energy_comments
+      t.string :temperature
+      t.text :temperature_comments
+      t.integer :necessary_conditions_good_total
+      t.integer :necessary_conditions_no_good_total
+      t.decimal :necessary_conditions_percentage
+      t.decimal :jkk_ratio
+      t.decimal :time_scheduled_hours
+      t.decimal :time_studied
+      t.text :notes
+      
+      t.timestamps
+    end
+  end
+end

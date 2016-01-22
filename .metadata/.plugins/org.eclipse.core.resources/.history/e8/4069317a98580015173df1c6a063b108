@@ -1,0 +1,929 @@
+{
+    "identifier": "1814987309",
+    "version": "v1",
+    "zone": "America/Toronto",
+    "referenceNumber": "20140826182057-1814987309",
+    "state": "Complete",
+    "deviceSubmitDate": {
+        "time": "2014-08-26T14:20:52-04:00",
+        "zone": "America/Toronto"
+    },
+    "shiftedDeviceSubmitDate": "2014-08-26T14:20:52-04:00",
+    "serverReceiveDate": "2014-08-26T14:20:58-04:00",
+    "form": {
+        "identifier": "141785217",
+        "versionIdentifier": "152197491",
+        "name": "Janitorial Checklist",
+        "version": 1,
+        "formSpaceIdentifier": "191492117",
+        "formSpaceName": "Robinson Solutions Forms"
+    },
+    "user": {
+        "identifier": "131590062",
+        "username": "nshakoori@robinsonsolutions.com",
+        "displayName": "Naeimeh Shakoori-Najafi (nshakoori@robinsonsolutions.com)"
+    },
+    "dispatcher": null,
+    "geoStamp": {
+        "success": true,
+        "captureTimestamp": {
+            "provided": {
+                "time": "2014-08-26T14:20:17-04:00",
+                "zone": "America/Toronto"
+            },
+            "shifted": "2014-08-26T14:20:17-04:00"
+        },
+        "errorMessage": null,
+        "source": "GPS",
+        "coordinates": {
+            "latitude": 43.65226220605,
+            "longitude": -79.38205207310813,
+            "altitude": 268.72803
+        },
+        "address": "60 Queen Street West, Toronto, ON, CA"
+    },
+    "pages": [
+        {
+            "name": "QR Code",
+            "answers": [
+                {
+                    "label": "zone_qr_code",
+                    "dataType": "Barcode",
+                    "question": "Zone QR Code",
+                    "values": [
+                        {
+                            "type": "QrCode",
+                            "data": "HKC-01/GM/Oshawa/SMO/Hermer Office/1st/Mens///"
+                        }
+                    ]
+                },
+                {
+                    "label": "confirm",
+                    "dataType": "FreeText",
+                    "question": "Confirm QR Code",
+                    "values": [
+                        "HKC-01/GM/Oshawa/SMO/Hermer Office/1st/Mens///"
+                    ]
+                },
+                {
+                    "label": "qr_client",
+                    "dataType": "FreeText",
+                    "question": "Client",
+                    "values": [
+                        "GM"
+                    ]
+                },
+                {
+                    "label": "qr_site",
+                    "dataType": "FreeText",
+                    "question": "Site",
+                    "values": [
+                        "Oshawa"
+                    ]
+                },
+                {
+                    "label": "qr_shop",
+                    "dataType": "FreeText",
+                    "question": "Shop",
+                    "values": [
+                        "SMO"
+                    ]
+                },
+                {
+                    "label": "qr_location",
+                    "dataType": "FreeText",
+                    "question": "Location",
+                    "values": [
+                        "Hermer Office"
+                    ]
+                },
+                {
+                    "label": "qr_floor",
+                    "dataType": "FreeText",
+                    "question": "Floor",
+                    "values": [
+                        "1st"
+                    ]
+                },
+                {
+                    "label": "qr_type_mwu",
+                    "dataType": "FreeText",
+                    "question": "Type",
+                    "values": [
+                        "Mens"
+                    ]
+                },
+                {
+                    "label": "qr_reference",
+                    "dataType": "FreeText",
+                    "question": "Reference",
+                    "values": []
+                },
+                {
+                    "label": "qr_plant_id",
+                    "dataType": "FreeText",
+                    "question": "Plant ID",
+                    "values": []
+                },
+                {
+                    "label": "area_type",
+                    "dataType": "FreeText",
+                    "question": "Area Type",
+                    "values": [
+                        "Lab / GSC"
+                    ]
+                },
+                {
+                    "label": "Goto",
+                    "dataType": "FreeText",
+                    "question": "Goto",
+                    "values": [
+                        "Lab / GSC"
+                    ],
+                    "selectOptions": [
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "Office"
+                        },
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "Conference / Training Room"
+                        },
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "Halls / Reception"
+                        },
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "Cafeteria / Kitchenette"
+                        },
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "Break Area / Team Room"
+                        },
+                        {
+                            "selected": true,
+                            "other": false,
+                            "value": "Lab / GSC"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Office",
+            "answers": [
+                {
+                    "label": "NReotiib(ymrta).",
+                    "dataType": "Information",
+                    "question": "Now Rate each of the items identified below (your must rate them all).",
+                    "values": []
+                },
+                {
+                    "label": "fi",
+                    "dataType": "FreeText",
+                    "question": "First Impression",
+                    "values": []
+                },
+                {
+                    "label": "floor",
+                    "dataType": "FreeText",
+                    "question": "Floor and baseboard?",
+                    "values": []
+                },
+                {
+                    "label": "trash",
+                    "dataType": "FreeText",
+                    "question": "Trash empty and clean?",
+                    "values": []
+                },
+                {
+                    "label": "ledges",
+                    "dataType": "FreeText",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean?",
+                    "values": []
+                },
+                {
+                    "label": "windows",
+                    "dataType": "FreeText",
+                    "question": "Windows clean?",
+                    "values": []
+                },
+                {
+                    "label": "chairs",
+                    "dataType": "FreeText",
+                    "question": "Chairs clean?",
+                    "values": []
+                },
+                {
+                    "label": "drinking_fount",
+                    "dataType": "FreeText",
+                    "question": "Drinking fountains clean?",
+                    "values": []
+                },
+                {
+                    "label": "tables",
+                    "dataType": "FreeText",
+                    "question": "Tables clean?",
+                    "values": []
+                },
+                {
+                    "label": "GoTo 2",
+                    "dataType": "FreeText",
+                    "question": "GoTo",
+                    "values": [],
+                    "selectOptions": [
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "GOTO"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Conference / Training Room",
+            "answers": [
+                {
+                    "label": "NReotiib(ymrta). 1",
+                    "dataType": "Information",
+                    "question": "Now Rate each of the items identified below (your must rate them all).",
+                    "values": []
+                },
+                {
+                    "label": "fi 1",
+                    "dataType": "FreeText",
+                    "question": "First Impression",
+                    "values": []
+                },
+                {
+                    "label": "floor 1",
+                    "dataType": "FreeText",
+                    "question": "Floor and baseboard?",
+                    "values": []
+                },
+                {
+                    "label": "trash 1",
+                    "dataType": "FreeText",
+                    "question": "Trash empty and clean?",
+                    "values": []
+                },
+                {
+                    "label": "ledges 1",
+                    "dataType": "FreeText",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean?",
+                    "values": []
+                },
+                {
+                    "label": "windows 1",
+                    "dataType": "FreeText",
+                    "question": "Windows clean?",
+                    "values": []
+                },
+                {
+                    "label": "vents_grilles 1",
+                    "dataType": "FreeText",
+                    "question": "Vents and grilles clean?",
+                    "values": []
+                },
+                {
+                    "label": "chairs 1",
+                    "dataType": "FreeText",
+                    "question": "Chairs clean?",
+                    "values": []
+                },
+                {
+                    "label": "drinking_fount 1",
+                    "dataType": "FreeText",
+                    "question": "Drinking fountains clean?",
+                    "values": []
+                },
+                {
+                    "label": "GoTo 3",
+                    "dataType": "FreeText",
+                    "question": "GoTo",
+                    "values": [],
+                    "selectOptions": [
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "GOTO"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Halls / Reception",
+            "answers": [
+                {
+                    "label": "NReotiib(ymrta). 2",
+                    "dataType": "Information",
+                    "question": "Now Rate each of the items identified below (your must rate them all).",
+                    "values": []
+                },
+                {
+                    "label": "fi 2",
+                    "dataType": "FreeText",
+                    "question": "First Impression",
+                    "values": []
+                },
+                {
+                    "label": "floor 2",
+                    "dataType": "FreeText",
+                    "question": "Floor and baseboard?",
+                    "values": []
+                },
+                {
+                    "label": "trash 2",
+                    "dataType": "FreeText",
+                    "question": "Trash empty and clean?",
+                    "values": []
+                },
+                {
+                    "label": "ledges 2",
+                    "dataType": "FreeText",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean?",
+                    "values": []
+                },
+                {
+                    "label": "windows 2",
+                    "dataType": "FreeText",
+                    "question": "Windows clean?",
+                    "values": []
+                },
+                {
+                    "label": "vents_grilles 2",
+                    "dataType": "FreeText",
+                    "question": "Vents and grilles clean?",
+                    "values": []
+                },
+                {
+                    "label": "chairs 2",
+                    "dataType": "FreeText",
+                    "question": "Chairs clean?",
+                    "values": []
+                },
+                {
+                    "label": "drinking_fount 2",
+                    "dataType": "FreeText",
+                    "question": "Drinking fountains clean?",
+                    "values": []
+                },
+                {
+                    "label": "tables 1",
+                    "dataType": "FreeText",
+                    "question": "Tables clean?",
+                    "values": []
+                },
+                {
+                    "label": "microwaves",
+                    "dataType": "FreeText",
+                    "question": "Microwave clean?",
+                    "values": []
+                },
+                {
+                    "label": "sinks",
+                    "dataType": "FreeText",
+                    "question": "Sinks clean?",
+                    "values": []
+                },
+                {
+                    "label": "dispensers",
+                    "dataType": "FreeText",
+                    "question": "All dispensers are full and clean?",
+                    "values": []
+                },
+                {
+                    "label": "GoTo 4",
+                    "dataType": "FreeText",
+                    "question": "GoTo",
+                    "values": [],
+                    "selectOptions": [
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "GOTO"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Cafeteria / Kitchenette",
+            "answers": [
+                {
+                    "label": "NReotiib(ymrta). 3",
+                    "dataType": "Information",
+                    "question": "Now Rate each of the items identified below (your must rate them all).",
+                    "values": []
+                },
+                {
+                    "label": "fi 3",
+                    "dataType": "FreeText",
+                    "question": "First Impression",
+                    "values": []
+                },
+                {
+                    "label": "floor 3",
+                    "dataType": "FreeText",
+                    "question": "Floor and baseboard?",
+                    "values": []
+                },
+                {
+                    "label": "trash 3",
+                    "dataType": "FreeText",
+                    "question": "Trash empty and clean?",
+                    "values": []
+                },
+                {
+                    "label": "ledges 3",
+                    "dataType": "FreeText",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean?",
+                    "values": []
+                },
+                {
+                    "label": "windows 3",
+                    "dataType": "FreeText",
+                    "question": "Windows clean?",
+                    "values": []
+                },
+                {
+                    "label": "vents_grilles 3",
+                    "dataType": "FreeText",
+                    "question": "Vents and grilles clean?",
+                    "values": []
+                },
+                {
+                    "label": "chairs 3",
+                    "dataType": "FreeText",
+                    "question": "Chairs clean?",
+                    "values": []
+                },
+                {
+                    "label": "tables 2",
+                    "dataType": "FreeText",
+                    "question": "Tables clean?",
+                    "values": []
+                },
+                {
+                    "label": "microwaves 1",
+                    "dataType": "FreeText",
+                    "question": "Microwave clean?",
+                    "values": []
+                },
+                {
+                    "label": "dispensers 1",
+                    "dataType": "FreeText",
+                    "question": "All dispensers are full and clean?",
+                    "values": []
+                },
+                {
+                    "label": "GoTo 5",
+                    "dataType": "FreeText",
+                    "question": "GoTo",
+                    "values": [],
+                    "selectOptions": [
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "GOTO"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Break Area / Team Room",
+            "answers": [
+                {
+                    "label": "NReotiib(ymrta). 4",
+                    "dataType": "Information",
+                    "question": "Now Rate each of the items identified below (your must rate them all).",
+                    "values": []
+                },
+                {
+                    "label": "fi 4",
+                    "dataType": "FreeText",
+                    "question": "First Impression",
+                    "values": []
+                },
+                {
+                    "label": "floor 5",
+                    "dataType": "FreeText",
+                    "question": "Floor and baseboard?",
+                    "values": []
+                },
+                {
+                    "label": "trash 4",
+                    "dataType": "FreeText",
+                    "question": "Trash empty and clean?",
+                    "values": []
+                },
+                {
+                    "label": "ledges 4",
+                    "dataType": "FreeText",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean?",
+                    "values": []
+                },
+                {
+                    "label": "windows 4",
+                    "dataType": "FreeText",
+                    "question": "Windows clean?",
+                    "values": []
+                },
+                {
+                    "label": "vents_grilles 4",
+                    "dataType": "FreeText",
+                    "question": "Vents and grilles clean?",
+                    "values": []
+                },
+                {
+                    "label": "sinks 1",
+                    "dataType": "FreeText",
+                    "question": "Sinks clean?",
+                    "values": []
+                },
+                {
+                    "label": "dispensers 2",
+                    "dataType": "FreeText",
+                    "question": "All dispensers are full and clean?",
+                    "values": []
+                },
+                {
+                    "label": "guard_rails",
+                    "dataType": "FreeText",
+                    "question": "Guard Rails clean?",
+                    "values": []
+                },
+                {
+                    "label": "GoTo 6",
+                    "dataType": "FreeText",
+                    "question": "GoTo",
+                    "values": [],
+                    "selectOptions": [
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "GOTO"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Lab / GSC",
+            "answers": [
+                {
+                    "label": "NReotiib(ymrta). 5",
+                    "dataType": "Information",
+                    "question": "Now Rate each of the items identified below (your must rate them all).",
+                    "values": []
+                },
+                {
+                    "label": "fi 5",
+                    "dataType": "FreeText",
+                    "question": "First Impression",
+                    "values": [
+                        "Green"
+                    ]
+                },
+                {
+                    "label": "floor 4",
+                    "dataType": "FreeText",
+                    "question": "Floor and baseboard?",
+                    "values": [
+                        "Green"
+                    ]
+                },
+                {
+                    "label": "trash 5",
+                    "dataType": "FreeText",
+                    "question": "Trash empty and clean?",
+                    "values": [
+                        "Green"
+                    ]
+                },
+                {
+                    "label": "ledges 5",
+                    "dataType": "FreeText",
+                    "question": "Ledges, divider tops and horizontal surfaces are clean?",
+                    "values": [
+                        "Green"
+                    ]
+                },
+                {
+                    "label": "sinks 2",
+                    "dataType": "FreeText",
+                    "question": "Sinks clean?",
+                    "values": [
+                        "Green"
+                    ]
+                },
+                {
+                    "label": "guard_rails 1",
+                    "dataType": "FreeText",
+                    "question": "Guard Rails clean?",
+                    "values": [
+                        "Green"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Are Repairs Required?",
+            "answers": [
+                {
+                    "label": "fi n",
+                    "dataType": "Integer",
+                    "question": "First impression - numeric",
+                    "values": [
+                        "3"
+                    ]
+                },
+                {
+                    "label": "fi i",
+                    "dataType": "Integer",
+                    "question": "First impression - include",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "floor n",
+                    "dataType": "Integer",
+                    "question": "Floor and baseboard - numeric",
+                    "values": [
+                        "3"
+                    ]
+                },
+                {
+                    "label": "floor i",
+                    "dataType": "Integer",
+                    "question": "Floor and baseboard - include",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "trash n",
+                    "dataType": "Integer",
+                    "question": "Trash empty and clean - numeric",
+                    "values": [
+                        "3"
+                    ]
+                },
+                {
+                    "label": "trash i",
+                    "dataType": "Integer",
+                    "question": "Trash empty and clean - include",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "windows n",
+                    "dataType": "Integer",
+                    "question": "Windows clean - numeric",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "windows i",
+                    "dataType": "Integer",
+                    "question": "Windows clean - include",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "ledges n",
+                    "dataType": "Integer",
+                    "question": "Ledges, divider - numeric",
+                    "values": [
+                        "3"
+                    ]
+                },
+                {
+                    "label": "ledges i",
+                    "dataType": "Integer",
+                    "question": "Ledges, divider - include",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "vents n",
+                    "dataType": "Integer",
+                    "question": "Vents - numeric",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "vents i",
+                    "dataType": "Integer",
+                    "question": "Vents - include",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "chairs n",
+                    "dataType": "Integer",
+                    "question": "Chairs - numeric",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "chairs i",
+                    "dataType": "Integer",
+                    "question": "Chairs - include",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "tables n",
+                    "dataType": "Integer",
+                    "question": "Tables - numeric",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "tables i",
+                    "dataType": "Integer",
+                    "question": "Tables - include",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "microwave n",
+                    "dataType": "Integer",
+                    "question": "Microwave - numeric",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "microwave i",
+                    "dataType": "Integer",
+                    "question": "Microwave - include",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "drinking fount n",
+                    "dataType": "Integer",
+                    "question": "Drinking Fountains - numeric",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "drinking fount i",
+                    "dataType": "Integer",
+                    "question": "Drinking Fountains - include",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "sinks n",
+                    "dataType": "Integer",
+                    "question": "Sinks - numeric",
+                    "values": [
+                        "3"
+                    ]
+                },
+                {
+                    "label": "sinks i",
+                    "dataType": "Integer",
+                    "question": "Sinks - include",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "dispensers n",
+                    "dataType": "Integer",
+                    "question": "Dispensers - numeric",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "dispensers i",
+                    "dataType": "Integer",
+                    "question": "Dispensers - include",
+                    "values": [
+                        "0"
+                    ]
+                },
+                {
+                    "label": "guard rails n",
+                    "dataType": "Integer",
+                    "question": "Guard Rails - numeric",
+                    "values": [
+                        "3"
+                    ]
+                },
+                {
+                    "label": "guard rails i",
+                    "dataType": "Integer",
+                    "question": "Guard Rails - include",
+                    "values": [
+                        "1"
+                    ]
+                },
+                {
+                    "label": "are_repairs_required",
+                    "dataType": "FreeText",
+                    "question": "Are repairs required?",
+                    "values": [
+                        "Yes"
+                    ],
+                    "selectOptions": [
+                        {
+                            "selected": true,
+                            "other": false,
+                            "value": "Yes"
+                        },
+                        {
+                            "selected": false,
+                            "other": false,
+                            "value": "No"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Repair List",
+            "answers": [
+                {
+                    "label": "list_repairs",
+                    "dataType": "FreeText",
+                    "question": "List all reapairs required",
+                    "values": [
+                        "List of repairs."
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Comment/Image/Ratings",
+            "answers": [
+                {
+                    "label": "comments",
+                    "dataType": "FreeText",
+                    "question": "General comments",
+                    "values": [
+                        "comment"
+                    ]
+                },
+                {
+                    "label": "images",
+                    "dataType": "Image",
+                    "question": "Images",
+                    "values": []
+                },
+                {
+                    "label": "sum_total",
+                    "dataType": "Integer",
+                    "question": "Sum Total",
+                    "values": [
+                        "18"
+                    ]
+                },
+                {
+                    "label": "Sum Includes",
+                    "dataType": "Integer",
+                    "question": "Sum Includes",
+                    "values": [
+                        "6"
+                    ]
+                },
+                {
+                    "label": "overall_rate",
+                    "dataType": "Decimal",
+                    "question": "Overall rate",
+                    "values": [
+                        "3"
+                    ]
+                }
+            ]
+        }
+    ]
+}

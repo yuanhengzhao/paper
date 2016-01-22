@@ -1,0 +1,49 @@
+class CreateFormsBoothEliminatorChecklists < ActiveRecord::Migration
+  def change
+    create_table :forms_booth_eliminator_checklists do |t|
+      t.string :reference_number
+      t.datetime :server_receive_date
+      t.datetime :device_submit_date
+      t.string :username
+      t.string :version
+      t.decimal :altitude, precision: 20, scale: 16
+      t.decimal :latitude, precision: 20, scale: 16
+      t.decimal :longitude, precision: 20, scale: 16
+      t.string :source
+      t.string :file_path
+
+      t.string :client
+      t.string :site
+      t.string :process
+      t.string :line
+      t.string :area
+      t.string :ceiling_and_walls_r1
+      t.string :venturi_throat_r1
+      t.string :mist_eliminator_r1
+      t.string :repairs_needed_r1
+      t.text :comments_r1
+      t.attachment :photo_r1
+      t.string :ceiling_and_walls_r2
+      t.string :venturi_throat_r2
+      t.string :mist_eliminator_r2
+      t.string :repairs_needed_r2
+      t.text :comments_r2
+      t.attachment :photo_r2
+      t.string :ceiling_and_walls_c1
+      t.string :venturi_throat_c1
+      t.string :mist_eliminator_c1
+      t.string :repairs_needed_c1
+      t.text :comments_c1
+      t.attachment :photo_c1
+      t.string :ceiling_and_walls_b1
+      t.string :venturi_throat_b1
+      t.string :mist_eliminator_b1
+      t.string :repairs_needed_b1
+      t.text :comments_b1
+      t.attachment :photo_b1
+      t.decimal :overall_rate, :precision => 20, :scale => 16
+
+      t.timestamps null: true
+    end
+  end
+end

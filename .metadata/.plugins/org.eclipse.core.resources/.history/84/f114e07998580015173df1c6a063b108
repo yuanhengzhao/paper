@@ -1,0 +1,70 @@
+
+# Parser to for Pre Task Safety Plan forms submitted from ProntoForms
+class ProntoForms::PreTaskSafetyPlanParser < AbstractFormParser
+  
+  # name of the form according to ProntoForms
+  NAME = "Pre Task Safety Plan"
+  
+  # Returns the highest version number this parser is capable of parsing.
+  #
+  # @return [numeric] highest version number this parser is capable of parsing
+  def max_version
+    6
+  end
+  
+  # Attempts to convert the hash provided into a database object.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @param model [Forms::PreTaskSafetyPlan] object to update, nil if a new object should be created
+  # @return [ActiveRecord] instance of the object
+  # @raise [ParserException] if the hash could not be parsed for whatever reason
+  def parse(form_hash, model = nil)
+    model ||= Forms::PreTaskSafetyPlan.new
+
+    ProntoForms::SourceParser.get_common_answer_values(form_hash, model)
+    
+    model.task                 = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 0)[0]
+    model.site                 = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 1)[0]
+    model.shop                 = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 2)[0]
+    model.task_location        = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 3)[0]
+    model.q1                   = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 5)[0]
+    model.q2                   = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 6)[0]
+    model.q4                   = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 7)[0]
+    model.list_ppe             = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 8)[0]
+    model.q5                   = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 9)[0]
+    model.list_potential_hazar = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 10)[0]
+    model.q6                   = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 11)[0]
+    model.q7                   = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 12)[0]
+    model.list_tools           = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 13)[0]
+    model.q8                   = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 14)[0]
+    model.job_plan             = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 15)[0]
+    model.job_specific_details = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 16)[0]
+    model.tm_names             = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 17)[0]
+    
+    ProntoForms::SourceParser.handle_image(model, form_hash, 1, 0, "signature")
+    
+    model.c1                   = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 3)[0]
+    model.c2                   = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 4)[0]
+    model.c3                   = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 5)[0]
+    model.c4                   = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 6)[0]
+    model.c5                   = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 7)[0]
+    model.c6                   = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 8)[0]
+    model.c7                   = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 9)[0]
+    model.c8                   = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 10)[0]
+    model.c9                   = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 11)[0]
+    model.c10                  = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 12)[0]
+    model.ptd1                 = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 13)[0]
+    model.ptd1_text            = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 14)[0]
+    model.ptd2                 = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 15)[0]
+    model.ptd2_text            = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 16)[0]
+    model.ptd3                 = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 17)[0]
+    model.ptd3_text            = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 18)[0]
+    model.ptd4                 = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 19)[0]
+    model.ptd4_text            = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 20)[0]
+    model.ptd5                 = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 21)[0]
+    model.ptd5_text            = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 22)[0]
+    model.comments             = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 23)[0]
+
+    model
+  end
+end

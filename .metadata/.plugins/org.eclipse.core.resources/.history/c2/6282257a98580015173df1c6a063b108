@@ -1,0 +1,15 @@
+FactoryGirl.define do
+  factory :soc_hourly_production_report, class: Forms::SocHourlyProductionReport do
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions', 'fake.json'), 'text/plain') }
+    
+    factory :soc_hourly_production_report_valid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'soc_hourly_production_report', 'v4', 'valid.json'), 'text/plain') }
+    end
+    
+    factory :soc_hourly_production_report_invalid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'soc_hourly_production_report', 'unrecognized_version.json'), 'text/plain') }
+    end
+  end
+end

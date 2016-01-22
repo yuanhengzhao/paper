@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Forms::ShiftReport
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!Forms/ShiftReport.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (S)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Forms.html" title="Forms (module)">Forms</a></span></span>
+     &raquo; 
+    <span class="title">ShiftReport</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: Forms::ShiftReport
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">ActiveRecord::Base</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ActiveRecord::Base</li>
+          
+            <li class="next">Forms::ShiftReport</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">app/models/forms/shift_report.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Forms::ShiftReport&#39;s Model</p>
+
+<p>Properties:</p>
+<ul><li>
+<p>reference_number (string) -</p>
+</li><li>
+<p>server_receive_date (datetime) -</p>
+</li><li>
+<p>device_submit_date (datetime) -</p>
+</li><li>
+<p>username (string) -</p>
+</li><li>
+<p>version (string) -</p>
+</li><li>
+<p>altitude (decimal) -</p>
+</li><li>
+<p>latitude (decimal) -</p>
+</li><li>
+<p>longitude (decimal) -</p>
+</li><li>
+<p>source (string) -</p>
+</li><li>
+<p>file_path (string) -</p>
+</li><li>
+<p>site (string) -</p>
+</li><li>
+<p>shop (string) -</p>
+</li><li>
+<p>shift (string) -</p>
+</li><li>
+<p>date (date) -</p>
+</li><li>
+<p>employees_scheduled (text) -</p>
+</li><li>
+<p>absent_employees (text) -</p>
+</li><li>
+<p>employees_present (text) -</p>
+</li><li>
+<p>overtime_employees (text) -</p>
+</li><li>
+<p>cambridge_downtime (integer) -</p>
+</li><li>
+<p>dollys_blasted (integer) -</p>
+</li><li>
+<p>ecoat_carriers_blast (integer) -</p>
+</li><li>
+<p>number_of_deficiency (integer) -</p>
+</li><li>
+<p>first_deficiency (string) -</p>
+</li><li>
+<p>second_deficiency (string) -</p>
+</li><li>
+<p>third_deficiency (string) -</p>
+</li><li>
+<p>number_rs_deficiency (integer) -</p>
+</li><li>
+<p>first_rs_def (string) -</p>
+</li><li>
+<p>second_rs_def (string) -</p>
+</li><li>
+<p>third_rs_def (string) -</p>
+</li><li>
+<p>co2_tasks (string) -</p>
+</li><li>
+<p>quick_sweep (string) -</p>
+</li><li>
+<p>booth_deep_clean (string) -</p>
+</li><li>
+<p>woodstock_downtime (integer) -</p>
+</li><li>
+<p>scrap_flat_presses (text) -</p>
+</li><li>
+<p>supervisor (string) -</p>
+</li><li>
+<p>supervisor_name (string) -</p>
+</li><li>
+<p>soc_downtime (text) -</p>
+</li><li>
+<p>number_of_treads (integer) -</p>
+</li><li>
+<p>press_1_chart (attachment) -</p>
+</li><li>
+<p>press_2_chart (attachment) -</p>
+</li><li>
+<p>press_3_chart (attachment) -</p>
+</li><li>
+<p>press_4_chart (attachment) -</p>
+</li><li>
+<p>scheduled_hours (integer) -</p>
+</li><li>
+<p>work_hours (integer) -</p>
+</li><li>
+<p>job_cancellations (text) -</p>
+</li><li>
+<p>num_special_requests (integer) -</p>
+</li><li>
+<p>request_1 (string) -</p>
+</li><li>
+<p>requestor_1 (string) -</p>
+</li><li>
+<p>hours_1 (integer) -</p>
+</li><li>
+<p>request_2 (string) -</p>
+</li><li>
+<p>requestor_2 (string) -</p>
+</li><li>
+<p>hours_2 (integer) -</p>
+</li><li>
+<p>request_3 (string) -</p>
+</li><li>
+<p>requestor_3 (string) -</p>
+</li><li>
+<p>hours_3 (integer) -</p>
+</li><li>
+<p>request_4 (string) -</p>
+</li><li>
+<p>requestor_4 (string) -</p>
+</li><li>
+<p>hours_4 (integer) -</p>
+</li><li>
+<p>jobs_cancellations (text) -</p>
+</li><li>
+<p>incidents (integer) -</p>
+</li><li>
+<p>incident1_type (string) -</p>
+</li><li>
+<p>incident2_type (string) -</p>
+</li><li>
+<p>incident3_type (string) -</p>
+</li><li>
+<p>picture_1 (attachment) -</p>
+</li><li>
+<p>picture_description1 (text) -</p>
+</li><li>
+<p>picture_2 (attachment) -</p>
+</li><li>
+<p>picture_description2 (text) -</p>
+</li><li>
+<p>picture_3 (attachment) -</p>
+</li><li>
+<p>picture_description3 (text) -</p>
+</li><li>
+<p>picture_4 (attachment) -</p>
+</li><li>
+<p>picture_description4 (text) -</p>
+</li><li>
+<p>shift_notes (text) -</p>
+</li></ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+
+  
+
+</div>
+
+    <div id="footer">
+  Generated on Wed Aug 20 16:56:36 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-2.0.0).
+</div>
+
+  </body>
+</html>

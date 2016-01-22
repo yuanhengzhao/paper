@@ -1,0 +1,243 @@
+{
+
+   "identifier": "1816953482",
+
+   "version": "v1",
+
+   "zone": "America/New_York",
+
+   "referenceNumber": "20141117-1816953482",
+
+   "state": "Complete",
+
+   "deviceSubmitDate": {
+
+      "time": "2014-11-17T17:39:14-05:00",
+
+      "zone": "America/New_York"
+
+   },
+
+   "shiftedDeviceSubmitDate": "2014-11-17T17:39:14-05:00",
+
+   "serverReceiveDate": "2014-11-17T17:40:47-05:00",
+
+   "form": {
+
+      "identifier": "141838286",
+
+      "versionIdentifier": "152294140",
+
+      "name": "Punchlist form",
+
+      "version": 6,
+
+      "formSpaceIdentifier": "191616057",
+
+      "formSpaceName": "External - BMW Customers"
+
+   },
+
+   "user": {
+
+      "identifier": "131660593",
+
+      "username": "joel.barnwell@bmwmc.com",
+
+      "displayName": "Joel Barnwell (joel.barnwell@bmwmc.com)"
+
+   },
+
+   "dispatcher": null,
+
+   "geoStamp": {
+
+      "success": true,
+
+      "captureTimestamp": {
+
+         "provided": {
+
+            "time": "2014-11-17T17:38:11-05:00",
+
+            "zone": "America/New_York"
+
+         },
+
+         "shifted": "2014-11-17T17:38:11-05:00"
+
+      },
+
+      "errorMessage": null,
+
+      "source": "GPS",
+
+      "coordinates": {
+
+         "latitude": 34.895252,
+
+         "longitude": -82.17419,
+
+         "altitude": 277.931
+
+      },
+
+      "address": "BMW manufacturing access road, Fulton Acres, SC, US"
+
+   },
+
+   "pages": [
+
+      {
+
+         "name": "Form",
+
+         "answers": [
+
+            {
+
+               "label": "customer",
+
+               "dataType": "FreeText",
+
+               "question": "Customer",
+
+               "values": [
+
+                  "BMW"
+
+               ]
+
+            },
+
+            {
+
+               "label": "shop",
+
+               "dataType": "FreeText",
+
+               "question": "Shop",
+
+               "values": [
+
+                  "North Paint"
+
+               ]
+
+            },
+
+            {
+
+               "label": "project_area",
+
+               "dataType": "FreeText",
+
+               "question": "Project Area",
+
+               "values": [
+
+                  "Ecoat"
+
+               ]
+
+            },
+
+            {
+
+               "label": "level",
+
+               "dataType": "FreeText",
+
+               "question": "Level",
+
+               "values": [
+
+                  "0m"
+
+               ]
+
+            },
+
+            {
+
+               "label": "column_location",
+
+               "dataType": "FreeText",
+
+               "question": "Column Location",
+
+               "values": [
+
+                  "42-WW-6"
+
+               ]
+
+            },
+
+            {
+
+               "label": "els_number",
+
+               "dataType": "FreeText",
+
+               "question": "ELS Number",
+
+               "values": [
+
+                  "EC3P31+AC01"
+
+               ]
+
+            },
+
+            {
+
+               "label": "task_description",
+
+               "dataType": "FreeText",
+
+               "question": "Task Description",
+
+               "values": [
+
+                  "Cable management for turbulence sensor needs to be addressed. Weight of cable plus vibration putting undue strain on the cable sensor joint "
+
+               ]
+
+            },
+
+            {
+
+               "label": "bmw_comment",
+
+               "dataType": "FreeText",
+
+               "question": "BMW Comment",
+
+               "values": []
+
+            },
+
+            {
+
+               "label": "responsible",
+
+               "dataType": "FreeText",
+
+               "question": "Responsible",
+
+               "values": [
+
+                  "Eisenmann"
+
+               ]
+
+            }
+
+         ]
+
+      }
+
+   ]
+
+}

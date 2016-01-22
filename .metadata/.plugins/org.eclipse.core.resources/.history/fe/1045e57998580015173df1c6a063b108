@@ -1,0 +1,3 @@
+<% title "Equipment Unit #{@equipment_unit.id}"  %>
+
+<%= render 'form' %>

@@ -1,0 +1,11 @@
+FactoryGirl.define do
+  factory :site_shift, class: DataSources::SiteShift do
+    site "Site"
+    sequence(:shift) { |n| "Shift #{n}" }
+  end
+
+  factory :site_shift_sequential, class: DataSources::SiteShift do
+    sequence(:site) { |n| "Site#{n}" }
+    sequence(:shift) { |n| "Shift #{n}" }
+  end
+end

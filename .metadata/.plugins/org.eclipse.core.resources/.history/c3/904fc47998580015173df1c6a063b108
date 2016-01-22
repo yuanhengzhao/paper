@@ -1,0 +1,14 @@
+jQuery ->  
+  # datatable for submissions page
+  datatable = $("#safety_observations_datatable").DataTable
+    "processing": true
+    "serverSide": true
+    "ajax": "/forms/safety_observations/datatable.json"
+    "columns": [
+      { "data": "id" },
+      { "data": "username" },
+      { "data": "device_submit_date", "render": (data, type, full) -> new Date(data) }
+      { "data": "id", "searchable": false, "orderable": false, "render": ( data, type, full ) ->
+        '<a href="/forms/safety_observations/' + data + '" target="_blank">Show</a>'
+      }
+    ]

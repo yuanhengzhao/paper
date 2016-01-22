@@ -1,0 +1,91 @@
+jQuery ->
+      
+  #DataSources Forms validation
+  #TODO change "boostrapValidator" to "formValidation" as one of the branches has modified gem file and boostrap validator is no longer in user (replaced with formValidation)
+  $('form.data_sources_form').formValidation
+    excluded: 
+      [ ":disabled", ":hidden", ":not(:visible)"
+      ]
+    feedbackIcons:
+      valid: 'glyphicon glyphicon-ok'
+      invalid: 'glyphicon glyphicon-remove'
+      validating: 'glyphicon glyphicon-refresh'
+    fields:
+      # Customer Site
+      'customer_site[company]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'customer_site[customer]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'customer_site[site]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'customer_site[shop]':
+        validators:
+          notEmpty:
+            message: 'required'
+            
+      # Dollies
+      'dolly[identifier]':
+        validators:
+          notEmpty:
+            message: 'required'
+      
+      # Equipment Units
+      'equipment_unit[site]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'equipment_unit[shop]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'equipment_unit[equipment_type]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'equipment_unit[unit_number]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'equipment_unit[barcode]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'equipment_unit[inspection_days]':
+        validators:
+          integer:
+            message: "Supposed to be a number"
+          greaterThan: 
+            value: 0
+            inclusive: true
+            message: "Supposed to be greater or equal to zero"
+      'equipment_unit[battery_voltage]':
+        validators:
+          integer:
+            message: "Supposed to be a number"
+          greaterThan: 
+            value: 0
+            inclusive: true
+            message: "Supposed to be greater or equal to zero"
+      
+      # Site Shifts
+      'site_shift[site]':
+        validators:
+          notEmpty:
+            message: 'required'
+      'site_shift[shift]':
+        validators:
+          notEmpty:
+            message: 'required'      
+      
+  .on 'error.field.bv', (e, data)->
+    data.bv.disableSubmitButtons(false)
+  .on 'error.form.bv', (e, data)->
+    bootbox.alert('Some fields in the form are not valid. Please make sure all the required questions of all the tabs are answered correctly.')
+  .on 'success.field.bv', (e, data)->
+    data.bv.disableSubmitButtons(false)

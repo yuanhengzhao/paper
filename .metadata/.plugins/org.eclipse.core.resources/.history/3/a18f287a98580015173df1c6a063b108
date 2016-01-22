@@ -1,0 +1,58 @@
+require 'spec_helper'
+
+describe Forms::BatteryInspection do
+  it "should be included in Forms.list" do
+    expect(Forms.list).to include described_class
+  end
+  
+  it "has a valid factory" do
+    expect(build(:battery_inspection)).to be_valid
+  end
+  
+  it_behaves_like "reparseable"
+  
+  describe "reparse" do
+    let!(:inspection) {
+      ParserService.new.parse("prontoforms", Rails.root.join('spec', 'resources', 'forms', 'battery_inspection', parser_version, 'new_equipment_inspection.json').read)
+    }
+    
+    before(:each) do
+      # because the Equipment Unit model has a uniqueness constraint on barcode,
+      # reparse does not actually cause a second unit to be created. Change the
+      # barcode value in the database to make this happen
+      expect(DataSources::EquipmentUnit.count).to eq(1)
+      unit = DataSources::EquipmentUnit.last
+      unit.update_attributes(:barcode => "FAKE")
+      unit.reload
+    end
+    
+    after(:each) do
+      # there should still only be one Equipment Unit afterwards
+      expect(DataSources::EquipmentUnit.count).to eq(1)
+    end
+    
+    describe "v1" do
+      let(:parser_version) { "v1" }
+      
+      it "shouldn't create a duplicate equipment unit" do
+        expect{ inspection.reparse }.to change{ DataSources::EquipmentUnit.count }.by(0)
+      end
+    end
+    
+    describe "v2" do
+      let(:parser_version) { "v2" }
+      
+      it "shouldn't create a duplicate equipment unit" do
+        expect{ inspection.reparse }.to change{ DataSources::EquipmentUnit.count }.by(0)
+      end
+    end
+    
+    describe "v4" do
+      let(:parser_version) { "v4" }
+      
+      it "shouldn't create a duplicate equipment unit" do
+        expect{ inspection.reparse }.to change{ DataSources::EquipmentUnit.count }.by(0)
+      end
+    end
+  end
+end

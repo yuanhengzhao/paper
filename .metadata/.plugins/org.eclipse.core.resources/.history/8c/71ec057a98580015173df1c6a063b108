@@ -1,0 +1,14 @@
+class AddMoreImagesToEscrubKop < ActiveRecord::Migration
+  def change
+    add_attachment :forms_escrub_kops, :bc_picture1
+    add_attachment :forms_escrub_kops, :bc_picture2
+    add_attachment :forms_escrub_kops, :bc_picture3
+    add_attachment :forms_escrub_kops, :bc_picture4
+    add_attachment :forms_escrub_kops, :bc_picture5
+    add_attachment :forms_escrub_kops, :cc_picture1
+    add_attachment :forms_escrub_kops, :cc_picture2
+    add_attachment :forms_escrub_kops, :cc_picture3
+    add_attachment :forms_escrub_kops, :cc_picture4
+    add_attachment :forms_escrub_kops, :cc_picture5
+  end
+end

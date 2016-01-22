@@ -1,0 +1,25 @@
+<% title "Body Parts" %>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @body_parts.each do |body_part| %>
+      <tr>
+      	<td><%= body_part.name %></td>
+        <td>
+        	<%= link_to 'Show', admin_body_part_path(body_part) %>
+        	<% if can? :update, body_part %>| <%= link_to 'Edit', edit_admin_body_part_path(body_part) %><% end %>
+        	<% if can? :destroy, body_part %>| <%= link_to 'Destroy', admin_body_part_path(body_part), method: :delete, data: { confirm: 'Are you sure?' } %><% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New Body Part', new_admin_body_part_path, class: "btn btn-primary" if can? :create, BodyPart %>

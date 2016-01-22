@@ -1,0 +1,24 @@
+<% title "Enps" %>
+<%= render :partial => 'forms/form_export_section', :locals => {:update_url => update_export_forms_enps_reports_url(format: :json), :download_url => download_export_forms_enps_reports_url} %>
+<table id="enps_reports_datatable" class="display<%= (can?(:manage, Forms::EnpsReport) ? ' admin' : '') %>">
+	<%=# render :partial => 'forms/form_header_footer' 
+	%>
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Author</th>
+			<th>Created</th>
+			<th>Excluded</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<th>ID</th>
+			<th>Author</th>
+			<th>Created</th>
+			<th>Excluded</th>
+			<th>Actions</th>
+		</tr>
+	</tfoot>
+</table>

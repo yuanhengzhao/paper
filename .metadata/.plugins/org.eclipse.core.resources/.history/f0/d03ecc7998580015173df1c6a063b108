@@ -1,0 +1,99 @@
+class DataSourcesController < ApplicationController
+  add_breadcrumb "data sources", :data_sources_index_path
+  
+  def index
+    # forward on to view if current user can access data sources
+    raise CanCan::AccessDenied unless (!current_user.nil? and current_user.authorized)
+  end
+  
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html {
+        raise CanCan::AccessDenied unless (!current_user.nil? and current_user.authorized)
+        redirect_to data_sources_url
+      }
+      format.json {
+        raise CanCan::AccessDenied unless (!current_user.nil? and current_user.authorized)
+        
+        # safe columns
+        safe_columns = [ "name", "count", "last_update" ]
+        
+        # collection of row data
+        collection = DataSources.list.select { |f| can? :read, f }.map do |f|
+          {
+            :name => f.name.demodulize.underscore.humanize.titleize,
+            :count => f.count,
+            :last_update => f.maximum(:updated_at),
+            :url => f.name.demodulize.underscore.pluralize
+          }
+        end
+        
+        # count before filtering
+        recordsTotal = collection.count
+        
+        # filter records on form name
+        # TODO review this block
+        if params.has_key?(:search)
+          unless params[:search][:value].blank?
+            tmp_search = params[:search][:value].downcase
+            collection = collection.select do |row|
+              row[:name].downcase.include? tmp_search
+            end
+          end
+        end
+
+        # count after all filtering
+        recordsFiltered = collection.count
+
+        # sort
+        if params.has_key?(:order)
+          # ensure selected sort columns exist
+          safe_sorts = params[:order].values.select{ |col| safe_columns.include?(params[:columns][col[:column]][:data]) }
+          unless safe_sorts.empty?
+            collection = collection.sort do |a, b|
+              # because the number of columns is variable, need to loop on columns until a non-equal comparison is found
+              idx = 0
+              res = 0
+              while (res == 0 and idx < safe_sorts.length)
+                # determine property name from column name and compare (protect against null values)
+                col = params[:columns][safe_sorts[idx]["column"]][:data].parameterize.underscore.to_sym
+                if a[col].nil? and b[col].nil?
+                  res = 0
+                elsif a[col].nil?
+                  res = 1 
+                elsif b[col].nil?
+                  res = -1
+                else
+                  res = (a[col] <=> b[col])
+                end
+                
+                # adjust for direction
+                res = res * (safe_sorts[idx]["dir"] == "asc" ? 1 : -1)
+                
+                # move to next sort column
+                idx += 1
+              end
+              res
+            end
+          end
+        end
+        
+        # paginate
+        if params.has_key?(:length)
+          limit = params[:length].to_i
+          offset = (params.has_key?(:start) ? params[:start].to_i : 0)
+          collection = collection[offset, (offset+limit)]
+        end
+        
+        # assemble into json
+        render :json => {
+          :draw => params[:data].to_i || 0,
+          :recordsTotal => recordsTotal,
+          :recordsFiltered => recordsFiltered,
+          :data => collection
+        }
+      }
+    end
+  end
+end

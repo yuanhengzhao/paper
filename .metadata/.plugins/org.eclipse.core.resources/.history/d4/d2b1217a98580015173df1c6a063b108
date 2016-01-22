@@ -1,0 +1,9 @@
+require 'spec_helper'
+
+describe Forms::ShiftReportsController do
+  it_behaves_like "a form controller" do
+    let(:model) { Forms::ShiftReport }
+    let(:image_fields) { [ :press_1_chart, :press_2_chart, :press_3_chart, :press_4_chart, :picture_1, :picture_2, :picture_3, :picture_4 ] }
+    let(:pre_model_name) { "" }
+  end
+end

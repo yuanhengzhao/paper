@@ -1,0 +1,4 @@
+class DropAttachmentInfoFromIncidents < ActiveRecord::Migration
+  def change
+  end
+end

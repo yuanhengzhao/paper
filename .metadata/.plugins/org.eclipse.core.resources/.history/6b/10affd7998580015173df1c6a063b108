@@ -1,0 +1,47 @@
+class CreateFormsJanitorialChecklists < ActiveRecord::Migration
+  def change
+    create_table :forms_janitorial_checklists do |t|
+      t.string :reference_number
+      t.datetime :server_receive_date
+      t.datetime :device_submit_date
+      t.string :username
+      t.string :version
+      t.decimal :altitude, :precision => 20, :scale => 16 
+      t.decimal :latitude, :precision => 20, :scale => 16 
+      t.decimal :longitude, :precision => 20, :scale => 16 
+      t.string :source
+      t.string :file_path
+      
+      t.string :client
+      t.string :site
+      t.string :shop
+      t.string :location
+      t.string :floor
+      t.string :type_mwu
+      t.string :reference
+      t.string :plant_id, foreign_key: false
+      t.string :area_type
+      t.string :fi
+      t.string :floors
+      t.string :trash
+      t.string :windows
+      t.string :ledges
+      t.string :vent
+      t.string :chairs
+      t.string :tables
+      t.string :microwave
+      t.string :drinking_fount
+      t.string :sinks
+      t.string :dispensers
+      t.string :gaurd_rails
+      t.string :are_repairs_required
+      t.string :list_reapairs
+      t.text :comment
+      t.integer :sum_total
+      t.decimal :overall_rate, :precision => 20, :scale => 16
+    end
+    
+    add_attachment :forms_janitorial_checklists, :image1
+    add_attachment :forms_janitorial_checklists, :image2
+  end
+end

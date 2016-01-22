@@ -1,0 +1,3 @@
+<% title "Editing Body Part" %>
+
+<%= render 'form' %>

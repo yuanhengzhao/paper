@@ -1,0 +1,46 @@
+<% title "Jig Cleaning Record #{@jig_cleaning_record.id}" %>
+
+<table class="table table-striped table-hover admin-responsive-table form-table">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Value</th>
+			</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>ID</td><td><%= @jig_cleaning_record.id %></td>
+		</tr>
+	
+		<tr>
+			<td>Form ID</td><td><%= @jig_cleaning_record.jig_cleaning_id %></td>
+		</tr><tr>
+		<tr>
+			<td>Jig Type</td><td><%= @jig_cleaning_record.jig_type %></td>
+		</tr>
+		<tr>
+			<td>Side</td><td><%= @jig_cleaning_record.side %></td>
+		</tr>
+		<tr>
+			<td>Time In</td><td><%= @jig_cleaning_record.time_in %></td>
+		</tr>
+		<tr>
+			<td>Time Out</td><td><%= @jig_cleaning_record.time_out %></td>
+		</tr>
+		<tr>
+			<td>Machine</td><td><%= @jig_cleaning_record.machine %></td>
+		</tr>
+		<tr>
+			<td>Cycle</td><td><%= @jig_cleaning_record.cycle %></td>
+		</tr>
+		<tr>
+			<td>Count</td><td><%= @jig_cleaning_record.count %></td>
+		</tr>
+		<tr>
+			<td>Extra Time</td><td><%= @jig_cleaning_record.extra_time %></td>
+		</tr>
+		<tr>
+			<td>Notes</td><td><%= @jig_cleaning_record.notes %></td>
+		</tr>
+	<tbody>
+</table>

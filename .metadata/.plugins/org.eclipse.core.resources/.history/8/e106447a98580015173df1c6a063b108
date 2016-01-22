@@ -1,0 +1,803 @@
+require_relative '../../spec_helper'
+
+# Shared examples that any controller for a data source object should handle. This includes:
+# - index
+# - show
+# - datatable
+# - new
+# - edit
+# - create
+# - update
+# - destroy
+# for anonymous, unauthorized, authorized without permission, authorized with permission, and admin users.
+#
+# In the appropriate controller, implement as below:
+#
+# it_behaves_like "a datasource controller" do
+#   let(:model) { DataSources::<name of class> }
+# end
+#
+# For controllers that do not have specific resourse actions, pass a param to exclude the action as below:
+#
+# it_behaves_like "a datasource controller", [:new, :create] do # exclude new and create action
+#   ...
+# end
+#
+# Any functionality beyond the general case must be implemented in the controller specific spec file.
+
+shared_examples_for "a datasource controller" do |exclude_actions|
+  before(:each) do
+    # verify provided parameters
+    expect(model).to_not be_nil
+  end
+
+  # determine remaining variables from 'model' context
+  let(:class_name) { model.name.split(/::/).last }
+  let(:module_name) { model.name.split(/::/).first.underscore }
+  let(:model_name) { class_name.underscore }
+  let(:data_source_name) { model_name.tr('_', ' ') }
+  let(:factory_valid) { "#{model_name}".to_sym }
+  
+  # index view
+  describe "GET 'index' #{exclude_actions}", :unless => (exclude_actions.present? and exclude_actions.include?(:index)) do
+    describe "for an anonymous user" do
+      # no signed in user
+      it_behaves_like "an unauthorized index access"
+    end
+
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+      # log in a user who has not been authorized to view application data
+      it_behaves_like "an unauthorized index access"
+    end
+
+    describe "for an authorized logged in user", :with_authorized_user => true do
+      describe "with no permissions" do
+        # ensure user has no permissions
+        before(:each) do
+          expect(@user.permissions.datasources).to be_empty
+        end
+
+        # log in a user who has not been authorized to view this specific data source's data
+        it_behaves_like "an unauthorized index access"
+      end
+
+      describe "with specific permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "DataSources", subject: class_name, user: @user)
+        end
+
+        # log in a user who has been authorized to view application data
+        it_behaves_like "an authorized index access"
+      end
+
+      describe "with ALL permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "DataSources", subject: "ALL", user: @user)
+        end
+
+        # log in a user who has been authorized to view application data
+        it_behaves_like "an authorized index access"
+      end
+    end
+
+    describe "for a logged in admin", :with_admin_user => true do
+    # log in an admin user
+      it_behaves_like "an authorized index access"
+    end
+  end
+
+  # show view
+  describe "GET 'show'",:unless => (exclude_actions.present? and exclude_actions.include?(:show)) do
+    describe "for an anonymous user" do
+    # no signed in user
+      it_behaves_like "an unauthorized show access"
+    end
+
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+    # log in a user who has not been authorized to view application data
+      it_behaves_like "an unauthorized show access"
+    end
+
+    describe "for an authorized logged in user", :with_authorized_user => true do
+      describe "with no permissions" do
+      # ensure user has no permissions
+        before(:each) do
+          expect(@user.permissions.datasources).to be_empty
+        end
+
+        # log in a user who has not been authorized to view this specific data source's data
+        it_behaves_like "an unauthorized show access"
+      end
+
+      describe "with specific permission" do
+      # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "DataSources", subject: class_name, user: @user)
+        end
+
+        # log in a user who has been authorized to view application data
+        it_behaves_like "an authorized show access"
+      end
+
+      describe "with ALL permission" do
+      # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "DataSources", subject: "ALL", user: @user)
+        end
+
+        # log in a user who has been authorized to view application data
+        it_behaves_like "an authorized show access"
+      end
+    end
+
+    describe "for a logged in admin", :with_admin_user => true do
+    # log in an admin user
+      it_behaves_like "an authorized show access"
+    end
+  end
+
+  # datatable view
+  describe "GET 'datatable'",:unless => (exclude_actions.present? and exclude_actions.include?(:datatable)) do
+    describe "for an anonymous user" do
+    # no signed in user
+      it_behaves_like "an unauthorized datatable access"
+    end
+
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+      # log in a user who has not been authorized to view application data
+      it_behaves_like "an unauthorized datatable access"
+    end
+
+    describe "for an authorized logged in user", :with_authorized_user => true do
+      describe "with no permissions" do
+        # ensure user has no permissions
+        before(:each) do
+          expect(@user.permissions.datasources).to be_empty
+        end
+
+        # log in a user who has not been authorized to view this specific data source's data
+        it_behaves_like "an unauthorized datatable access"
+      end
+
+      describe "with specific permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "DataSources", subject: class_name, user: @user)
+        end
+
+        # log in a user who has been authorized to view application data
+        it_behaves_like "an authorized datatable access"
+      end
+
+      describe "with ALL permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "DataSources", subject: "ALL", user: @user)
+        end
+
+        # log in a user who has been authorized to view application data
+        it_behaves_like "an authorized datatable access"
+      end
+    end
+
+    describe "for a logged in admin", :with_admin_user => true do
+      # log in an admin user
+      it_behaves_like "an authorized datatable access"
+    end
+  end
+  
+  # new form
+  describe "GET 'new'",:unless => (exclude_actions.present? and exclude_actions.include?(:new)) do
+    describe "for an anonymous user" do
+      it_behaves_like "an unauthorized new call"
+    end
+    
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+      it_behaves_like "an unauthorized new call"
+    end
+    
+    describe "for an authorized logged in user", :with_authorized_user => true do
+      describe "with no permissions" do
+        # ensure user has no permissions
+        before(:each) do
+          expect(@user.permissions.datasources).to be_empty
+        end
+        
+        it_behaves_like "an unauthorized new call"
+      end
+      
+      describe "with specific permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:permission, category: "DataSources", subject: class_name, user: @user, action: action)
+        end
+        
+        describe "for read" do
+          let(:action) { "read" }
+          
+          it_behaves_like "an unauthorized new call"
+        end
+        
+        describe "for edit" do
+          let(:action) { "edit" }
+          
+          it_behaves_like "an authorized new call"
+        end
+      end
+      
+      describe "with ALL permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "DataSources", subject: "ALL", user: @user, action: action)
+        end
+        
+        describe "for read" do
+          let(:action) { "read" }
+          
+          it_behaves_like "an unauthorized new call"
+        end
+        
+        describe "for edit" do
+          let(:action) { "edit" }
+          
+          it_behaves_like "an authorized new call"
+        end
+      end
+    end
+    
+    describe "for a logged in admin", :with_admin_user => true do
+      it_behaves_like "an authorized new call"
+    end
+  end
+  
+  # edit form
+  describe "GET 'edit'",:unless => (exclude_actions.present? and exclude_actions.include?(:edit)) do
+    describe "for an anonymous user" do
+      it_behaves_like "an unauthorized edit call"
+    end
+    
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+      it_behaves_like "an unauthorized edit call"
+    end
+    
+    describe "for an authorized logged in user", :with_authorized_user => true do
+      describe "with no permissions" do
+        # ensure user has no permissions
+        before(:each) do
+          expect(@user.permissions.datasources).to be_empty
+        end
+        
+        it_behaves_like "an unauthorized edit call"
+      end
+      
+      describe "with specific permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:permission, category: "DataSources", subject: class_name, user: @user, action: action)
+        end
+        
+        describe "for read" do
+          let(:action) { "read" }
+          
+          it_behaves_like "an unauthorized edit call"
+        end
+        
+        describe "for edit" do
+          let(:action) { "edit" }
+          
+          it_behaves_like "an authorized edit call"
+        end
+      end
+      
+      describe "with ALL permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "DataSources", subject: "ALL", user: @user, action: action)
+        end
+        
+        describe "for read" do
+          let(:action) { "read" }
+          
+          it_behaves_like "an unauthorized edit call"
+        end
+        
+        describe "for edit" do
+          let(:action) { "edit" }
+          
+          it_behaves_like "an authorized edit call"
+        end
+      end
+    end
+    
+    describe "for a logged in admin", :with_admin_user => true do
+      it_behaves_like "an authorized edit call"
+    end
+  end
+  
+  # new form submit
+  describe "POST 'create'",:unless => (exclude_actions.present? and exclude_actions.include?(:create)) do
+    describe "for an anonymous user" do
+      it_behaves_like "an unauthorized create call"
+    end
+    
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+      it_behaves_like "an unauthorized create call"
+    end
+    
+    describe "for an authorized logged in user", :with_authorized_user => true do
+      describe "with no permissions" do
+        # ensure user has no permissions
+        before(:each) do
+          expect(@user.permissions.datasources).to be_empty
+        end
+        
+        it_behaves_like "an unauthorized create call"
+      end
+      
+      describe "with specific permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:permission, category: "DataSources", subject: class_name, user: @user, action: action)
+        end
+        
+        describe "for read" do
+          let(:action) { "read" }
+        
+          it_behaves_like "an unauthorized create call"
+        end
+        
+        describe "for edit" do
+          let(:action) { "edit" }
+          
+          it_behaves_like "an authorized create call"
+        end
+      end
+      
+      describe "with ALL permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "DataSources", subject: "ALL", user: @user, action: action)
+        end
+        
+        describe "for read" do
+          let(:action) { "read" }
+        
+          it_behaves_like "an unauthorized create call"
+        end
+        
+        describe "for edit" do
+          let(:action) { "edit" }
+          
+          it_behaves_like "an authorized create call"
+        end
+      end
+    end
+    
+    describe "for a logged in admin", :with_admin_user => true do
+      it_behaves_like "an authorized create call"
+    end
+  end
+  
+  # edit form submit
+  describe "PUT 'update'",:unless => (exclude_actions.present? and exclude_actions.include?(:update)) do
+    describe "for an anonymous user" do
+    end
+    
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+    end
+    
+    describe "for an authorized logged in user", :with_authorized_user => true do
+      describe "with no permissions" do
+        # ensure user has no permissions
+        before(:each) do
+          expect(@user.permissions.datasources).to be_empty
+        end
+      end
+      
+      describe "with specific permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:permission, category: "DataSources", subject: class_name, user: @user, action: action)
+        end
+        
+        describe "for read" do
+          let(:action) { "read" }
+        end
+        
+        describe "for edit" do
+          let(:action) { "edit" }
+        end
+      end
+      
+      describe "with ALL permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "DataSources", subject: "ALL", user: @user, action: action)
+        end
+        
+        describe "for read" do
+          let(:action) { "read" }
+        end
+        
+        describe "for edit" do
+          let(:action) { "edit" }
+        end
+      end
+    end
+    
+    describe "for a logged in admin", :with_admin_user => true do
+    end
+  end
+  
+  # delete
+  describe "DELETE 'destroy'",:unless => (exclude_actions.present? and exclude_actions.include?(:destroy)) do
+    describe "for an anonymous user" do
+      it_behaves_like "an unauthorized destroy call"
+    end
+    
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+      it_behaves_like "an unauthorized destroy call"
+    end
+    
+    describe "for an authorized logged in user", :with_authorized_user => true do
+      describe "with no permissions" do
+        # ensure user has no permissions
+        before(:each) do
+          expect(@user.permissions.datasources).to be_empty
+        end
+        
+        it_behaves_like "an unauthorized destroy call"
+      end
+      
+      describe "with specific permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:permission, category: "DataSources", subject: class_name, user: @user, action: action)
+        end
+        
+        describe "for read" do
+          let(:action) { "read" }
+        
+          it_behaves_like "an unauthorized destroy call"
+        end
+        
+        describe "for edit" do
+          let(:action) { "edit" }
+        
+          it_behaves_like "an authorized destroy call"
+        end
+      end
+      
+      describe "with ALL permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "DataSources", subject: "ALL", user: @user, action: action)
+        end
+        
+        describe "for read" do
+          let(:action) { "read" }
+        
+          it_behaves_like "an unauthorized destroy call"
+        end
+        
+        describe "for edit" do
+          let(:action) { "edit" }
+        
+          it_behaves_like "an authorized destroy call"
+        end
+      end
+    end
+    
+    describe "for a logged in admin", :with_admin_user => true do
+      it_behaves_like "an authorized destroy call"
+    end
+  end
+  
+    # image attributes
+  describe "GET image attributes" do
+    describe "for an anonymous user" do
+    # no signed in user
+      describe "on a non-existant form object" do
+        it_behaves_like "an unauthorized image property access" do
+          let(:record_id) { 100 }
+        end
+      end
+      describe "on an existing form object" do
+        it_behaves_like "an unauthorized image property access" do
+          let(:record_id) { create(factory_valid).id }
+        end
+      end
+    end
+
+    describe "for an authorized user", :with_authorized_user => true do
+      describe "with no permissions" do
+        describe "on a non-existant form object" do
+          it_behaves_like "an unauthorized image property access" do
+            let(:record_id) { 100 }
+          end
+        end
+        describe "on an existing form object" do
+          it_behaves_like "an unauthorized image property access" do
+            let(:record_id) { create(factory_valid).id }
+          end
+        end
+      end
+
+      describe "with specific permission" do
+        let!(:permission) { create(:permission, category: "DataSources", subject: class_name, user: @user) }
+        describe "on a non-existant form object" do
+          it_behaves_like "an authorized image property access on a non-record" do
+            let(:record_id) { 100 }
+          end
+        end
+        describe "on an existing form object" do
+          it_behaves_like "an authorized image property access" do
+            let(:record) { create(factory_valid) }
+          end
+        end
+      end
+
+      describe "with ALL permission" do
+        let!(:permission) { create(:permission, category: "DataSources", subject: "ALL", user: @user) }
+        describe "on a non-existant form object" do
+          it_behaves_like "an authorized image property access on a non-record" do
+            let(:record_id) { 100 }
+          end
+        end
+        describe "on an existing form object" do
+          it_behaves_like "an authorized image property access" do
+            let(:record) { create(factory_valid) }
+          end
+        end
+      end
+    end
+
+    describe "for an admin user", :with_admin_user => true do
+      describe "on a non-existant form object" do
+        it_behaves_like "an authorized image property access on a non-record" do
+          let(:record_id) { 100 }
+        end
+      end
+      describe "on an existing form object" do
+        it_behaves_like "an authorized image property access" do
+          let(:record) { create(factory_valid) }
+        end
+      end
+    end
+  end
+end
+
+shared_examples_for "an unauthorized image property access" do
+  before(:each) do
+    expect(record_id).to_not be_nil
+  end
+
+  it "should fail on each image and redirect to root" do
+    image_fields.each do |image_field|
+      get image_field, id: record_id
+      expect(response).to_not be_success
+      expect(response.status).to eq(302)
+      expect(response).to redirect_to(root_url)
+      if @user.nil?
+        expect(flash[:alert]).to eq("You need to sign in or sign up before continuing.")
+      end
+    end
+  end
+end
+
+shared_examples_for "an authorized image property access" do
+  before(:each) do
+    expect(record).to_not be_nil
+  end
+
+  it "should redirect to image url" do
+    image_fields.each do |image_field|
+      get image_field, id: record.id
+      response.status.should eq(302)
+      response.should redirect_to(record.send(image_field).url)
+    end
+  end
+end
+
+shared_examples_for "an authorized image property access on a non-record" do
+  before(:each) do
+    expect(record_id).to_not be_nil
+  end
+
+  it "should fail and redirect to model's index" do
+    image_fields.each do |image_field|
+      get image_field, id: record_id
+      expect(response).to_not be_success
+      expect(response.status).to eq(302)
+      response.should redirect_to(send("#{module_name}_#{model_name.pluralize}_url"))
+      expect(flash[:alert]).to eq("Couldn't find #{model.name} with 'id'=#{record_id}")
+    end
+  end
+end
+
+shared_examples_for "an unauthorized new call" do
+  it "fails and redirect to root" do
+    get 'new', {}
+    expect(response).to_not be_success
+    expect(response.status).to eq(302)
+    expect(response).to redirect_to(root_url)
+    expect(response).to_not render_template("new")
+  end
+end
+
+shared_examples_for "an authorized new call" do
+  it "assigns a new object" do
+    get 'new', {}
+    expect(assigns(model_name)).to be_a_new(model)
+  end
+  
+  it "succeeds and renders template" do
+    get 'new', {}
+    response.should be_success
+    response.status.should eq(200)
+    response.should render_template("new")
+  end
+end
+
+shared_examples_for "an unauthorized edit call" do
+  let(:record) { create(factory_valid) }
+  
+  it "fails and redirect to root" do
+    get 'edit', { id: record.id }
+    expect(response).to_not be_success
+    expect(response.status).to eq(302)
+    expect(response).to redirect_to(root_url)
+    expect(response).to_not render_template("edit")
+  end
+end
+
+shared_examples_for "an authorized edit call" do
+  let(:record) { create(factory_valid) }
+  
+  it "assigns a edit object" do
+    get 'edit', { id: record.id }
+    expect(assigns(model_name)).to eq(record)
+  end
+  
+  it "succeeds and renders template" do
+    get 'edit', { id: record.id }
+    response.should be_success
+    response.status.should eq(200)
+    response.should render_template("edit")
+  end
+end
+
+shared_examples_for "an unauthorized create call" do
+  let(:record) { build(factory_valid) }
+  
+  it "fails and redirect to root" do
+    post 'create', { class_name: record.attributes }
+    expect(response).to_not be_success
+    expect(response.status).to eq(302)
+    expect(response).to redirect_to(root_url)
+    expect(response).to_not render_template("edit")
+  end
+end
+
+shared_examples_for "an authorized create call" do
+  let(:params) do
+    # build parameters by using the attributes of factory output
+    p = {}
+    p[model_name] = build(factory_valid).attributes.except(:id, :created_at, :updated_at)
+    p
+  end
+    
+  describe "with valid parameters" do
+    
+    it "creates a new object" do
+      expect {
+        post 'create', params
+      }.to change(model, :count).by(1)
+    end
+    
+    it "assigns the new object" do
+      post 'create', params
+      expect(assigns(model_name)).to be_a(model)
+      expect(assigns(model_name)).to be_persisted
+    end
+    
+    it "succeeds and redirects to show" do
+      post 'create', params
+      expect(response).to redirect_to(model.last)
+    end
+  end
+  
+  describe "with invalid parameters" do
+    before(:each) do
+      model.any_instance.stub(:save).and_return(false)
+    end
+    
+    it "assigns the new but unsaved object" do
+      post 'create', params
+      expect(assigns(model_name)).to be_a(model)
+      expect(assigns(model_name)).to_not be_persisted
+    end
+    
+    it "re-renders the 'new' template" do
+      post 'create', params
+      expect(response).to render_template('new')
+    end
+  end
+end
+
+shared_examples_for "an authorized update call" do
+  let(:record) { create(factory_valid) }
+  let(:params) do
+    # build update parameters by appending a '1' to any string components
+    p = {}
+    p[model_name] = {}
+    record.attributes.except(:id, :created_at, :updated_at).each do |k,v|
+      if v.is_a? String
+        p[model_name][k] = "#{v}1"
+      end
+    end
+    p
+  end
+    
+  describe "with valid parameters" do
+    it "assigns the requested object" do
+      post 'update', params
+      expect(assigns(model_name)).to eq(record)
+    end
+    
+    it "succeeds and redirects to show" do
+      post 'update', params
+      expect(response).to redirect_to(record)
+    end
+  end
+  
+  describe "with invalid parameters" do
+    before(:each) do
+      model.any_instance.stub(:save).and_return(false)
+    end
+    
+    it "assigns the requested object" do
+      post 'update', params
+      expect(assigns(model_name)).to eq(record)
+    end
+    
+    it "re-renders the 'edit' template" do
+      post 'update', params
+      expect(response).to render_template('edit')
+    end
+  end
+end
+
+shared_examples_for "an unauthorized destroy call" do
+  let!(:record) { create(factory_valid) }
+  
+  it "doesn't destroy the record" do
+    expect {
+      delete 'destroy', { id: record.id }
+    }.to change(model, :count).by(0)
+  end
+  
+  it "fails and redirect to root" do
+    delete 'destroy', { id: record.id }
+    expect(response).to_not be_success
+    expect(response.status).to eq(302)
+    expect(response).to redirect_to(root_url)
+  end
+end
+
+shared_examples_for "an authorized destroy call" do
+  let!(:record) { create(factory_valid) }
+  
+  it "destroys the record" do
+    expect {
+      delete 'destroy', { id: record.id }
+    }.to change(model, :count).by(-1)
+  end
+  
+  it "succeeds and redirects to index view" do
+    delete 'destroy', { id: record.id }
+    expect(response).to redirect_to(send("#{module_name}_#{model_name.pluralize}_url"))
+  end
+end

@@ -1,0 +1,13 @@
+require_relative '../../spec_helper'
+
+describe Forms::PaintBoothProcessChecklist do
+  it "should be included in Forms.list" do
+    expect(Forms.list).to include described_class
+  end
+  
+  it "has a valid factory" do
+    build(:paint_booth_process_checklist).should be_valid
+  end
+  
+  it_behaves_like "reparseable"
+end

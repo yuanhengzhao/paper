@@ -1,0 +1,21 @@
+class UpdateFormsEscrubKop < ActiveRecord::Migration
+  def up
+    change_column :forms_escrub_kops, :bc_centrifuge, :decimal
+    change_column :forms_escrub_kops, :cc_centrifuge, :decimal
+    
+    add_column :forms_escrub_kops, :bc_sludge_col_hours, :decimal, precision: 20, scale: 16
+    add_column :forms_escrub_kops, :bc_sludge_hr, :decimal, precision: 20, scale: 16
+    add_column :forms_escrub_kops, :cc_sludge_col_hours, :decimal, precision: 20, scale: 16
+    add_column :forms_escrub_kops, :cc_sludge_hr, :decimal, precision: 20, scale: 16
+  end
+  
+  def down
+    remove_column :forms_escrub_kops, :bc_sludge_col_hours
+    remove_column :forms_escrub_kops, :bc_sludge_hr
+    remove_column :forms_escrub_kops, :cc_sludge_col_hours
+    remove_column :forms_escrub_kops, :cc_sludge_hr
+    
+    change_column :forms_escrub_kops, :bc_centrifuge, :integer
+    change_column :forms_escrub_kops, :cc_centrifuge, :integer
+  end
+end

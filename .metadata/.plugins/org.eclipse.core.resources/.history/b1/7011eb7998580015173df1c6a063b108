@@ -1,0 +1,15 @@
+<%
+# Builds the command button list of user actions
+
+# default extra_buttons to empty array
+unless defined? extra_buttons
+  extra_buttons = []
+end 
+%>
+<div class="command-list">
+	<ul>
+		<li>Command:</li>
+		<li><a class="export-button" data-url-update ="<%= update_url %>" data-url-download="<%= download_url %>">Export to Excel</a></li>
+		<% extra_buttons.each do |extra_button| %><li><%= extra_button %></li><% end %>
+	</ul>
+</div>

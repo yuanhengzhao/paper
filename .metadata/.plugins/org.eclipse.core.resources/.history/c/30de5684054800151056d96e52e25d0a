@@ -1,0 +1,6 @@
+FactoryGirl.define do
+  factory :option do
+    group "body_location"
+    value "value"
+  end
+end

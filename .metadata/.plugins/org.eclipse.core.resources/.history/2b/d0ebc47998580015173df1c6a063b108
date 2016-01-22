@@ -1,0 +1,14 @@
+jQuery ->  
+  # datatable for submissions page
+  datatable = $("#spare_parts_reports_datatable").DataTable
+    "processing": true
+    "serverSide": true
+    "ajax": "/forms/spare_parts_reports/datatable.json"
+    "columns": [
+      { "data": "id" },
+      { "data": "username" },
+      { "data": "device_submit_date", "render": (data, type, full) -> new Date(data) }
+      { "data": "id", "searchable": false, "orderable": false, "render": ( data, type, full ) ->
+        '<a href="/forms/spare_parts_reports/' + data + '" target="_blank">Show</a>'
+      }
+    ]

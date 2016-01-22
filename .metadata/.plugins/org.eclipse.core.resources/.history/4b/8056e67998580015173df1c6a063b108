@@ -1,0 +1,37 @@
+<% title "Site Shifts" %>
+
+<% if can? :create, DataSources::SiteShift %>
+<div class="command-list">
+	<ul>
+		<li>Command:</li>
+		<li><%= link_to 'New Site Shift', new_data_sources_site_shift_path %></li>
+	</ul>
+</div>
+<% end %>
+<table id="site_shifts_datatable" class="data-source-table display">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Site</th>
+      <th>Shift</th>
+      <th class="actions">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @site_shifts.each do |data_sources_site_shift| %>
+      <tr>
+      	<td><%= data_sources_site_shift.id %></td>
+        <td><%= data_sources_site_shift.site %></td>
+        <td><%= data_sources_site_shift.shift %></td>
+        <td class="actions">
+        	<ul>
+        		<li><%= link_to 'Show', data_sources_site_shift %></li>
+        	    <% if can? :edit, data_sources_site_shift %><li><%= link_to 'Edit', edit_data_sources_site_shift_path(data_sources_site_shift) %></li><% end %>
+        	    <% if can? :destroy, data_sources_site_shift %><li><%= link_to 'Destroy', data_sources_site_shift, method: :delete, data: { confirm: 'Are you sure?' } %></li><% end %>
+        	</ul>
+		</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,122 @@
+require 'json'
+
+def read_hash_from_jon_data(file_path) 
+  file = File.open(file_path, "rb")
+  json = file.read
+  hash = JSON.parse(json)
+  hash
+end
+
+def get_code(origin_hash,class_name,required_fields,form_name,parser_name)
+  
+  answers_code = ""
+  pages_hash = origin_hash["pages"]
+  pages_hash.each.with_index(0) do |page, i|
+    page["answers"].each.with_index(0) do |answer, j|
+
+      if (["FreeText","Integer", "Date", "Time", "EmailAddress"].include? answer["dataType"])
+        if(required_fields.include? answer["label"])
+          answers_code += "    model.#{answer["label"]} = ProntoForms::SourceParser.get_answer_values(form_hash, #{i}, #{j})*\",\"\n"
+        end
+      elsif (["Image","Signature"].include? answer["dataType"])
+        required_fields.each do |label|
+          if(answer["label"] == label)
+            answers_code += "    tempImg = ProntoForms::SourceParser.get_answer_values(form_hash, #{i}, #{j})[0]\n"
+            answers_code += "    model.#{answer["label"]} = ProntoForms::SourceParser.create_attachment(tempImg) unless tempImg.nil?\n"
+          else
+            (1..10).each do |k|
+              if("#{answer["label"]}#{k}" == label)
+                answers_code += "    tempImg = ProntoForms::SourceParser.get_answer_values(form_hash, #{i}, #{j})[#{k-1}]\n"
+                answers_code += "    model.#{answer["label"]}#{k} = ProntoForms::SourceParser.create_attachment(tempImg) unless tempImg.nil?\n"
+              end
+            end
+          end
+        end
+      end
+    end
+  end  
+  
+  converted_code_from_hash = 
+"
+    ProntoForms::SourceParser.get_common_answer_values(form_hash, model)
+#{answers_code}"
+  
+  code = 
+"
+# Parser to for #{form_name} forms submitted from ProntoForms
+class #{parser_name} < AbstractFormParser
+  
+  # name of the form according to ProntoForms
+  NAME = \"#{form_name}\"
+  
+  # Attempts to convert the hash provided into a database object.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @return [ActiveRecord] instance of the object
+  # @raise [ParserException] if the hash could not be parsed for whatever reason
+  def parse(form_hash)
+    model = #{class_name}.new
+#{converted_code_from_hash}
+    model
+  end
+end
+"
+  
+  return code
+end
+
+#special_request_fields = ["ssr_type","site","shop","location_column","requestor","man_hours","ot","work_cancelled","description","images1","images2","images3","images4","images5"]
+
+#form_name = "Shift Report"
+#class_name = "Forms::ShiftReport"
+#parser_name = "ProntoForms::ShiftReportParser"
+#file_path = "data/shift_report.json"
+#shift_report_fields = ["reference_number", "server_receive_date", "device_submit_date", "username", "version", "altitude", "latitude", "longitude", "source", "file_path", "site", "shop", "shift", "date", "employees_scheduled", "absent_employees", "employees_present", "overtime_employees", "cambridge_downtime", "dollys_blasted", "ecoat_carriers_blast", "number_of_deficiency", "first_deficiency", "second_deficiency", "third_deficiency", "number_rs_deficiency", "first_rs_def", "second_rs_def", "third_rs_def", "co2_tasks", "quick_sweep", "booth_deep_clean", "woodstock_downtime", "scrap_flat_presses", "supervisor", "supervisor_name", "soc_downtime", "number_of_treads", "press_1_chart", "press_2_chart", "press_3_chart", "press_4_chart", "scheduled_hours", "work_hours", "job_cancellations", "num_special_requests", "request_1", "requestor_1", "hours_1", "request_2", "requestor_2", "hours_2", "request_3", "requestor_3", "hours_3", "request_4", "requestor_4", "hours_4", "jobs_cancellations", "incidents", "incident1_type", "incident2_type", "incident3_type", "picture_1", "picture_description1", "picture_2", "picture_description2", "picture_3", "picture_description3", "picture_4", "picture_description4", "shift_notes"]
+
+form_name = "Gemba Observation"
+class_name = "Forms::GembaObservation"
+parser_name = "ProntoForms::GembaObservationParser"
+file_path = "data/gemba_observation.json"
+required_fields = ["reference_number", "server_receive_date", "device_submit_date", "username", "version", "altitude", "latitude", "longitude", "source", "file_path", 
+                   "short_title1", "client", "site", "shop", "description", "send_to_email","images1", "images2", "images3", "images4", "images5", "images6", "images7", 
+                   "images8", "images9", "images10"]
+
+
+form_name = "Safety Observation"
+class_name = "Forms::SafetyObservation"
+parser_name = "ProntoForms::SafetyObservationParser"
+file_path = "data/safety_observation.json"
+required_fields = ["reference_number", "server_receive_date", "device_submit_date", "username", "version", "altitude", "latitude", "longitude", "source", "file_path", "task_observed", "site", "shop", "shift", "all_safe", "safe_acts_observed", "unsafe_acts_observed", "pbr", "ep", "ws", "ppe", "etws", "fs", "images1", "images2", "signature"]
+
+
+form_name = "SOC Incident Report"
+class_name = "Forms::SOCIncidentReport"
+parser_name = "ProntoForms::SOCIncidentReportParser"
+file_path = "data/SOC_incident_report.json"
+required_fields = ["reference_number", "server_receive_date", "device_submit_date", "username", "version", "altitude", "latitude", "longitude", "source", "file_path", "site", "shop", "column_loc", "employee_name", "date_of_incident", "class_of_incident", "type_of_injury", "description", "job_task_name", "shift_starts", "shift_ends", "time_of_incident", "time_reported", "supervisor_name", "safety_rep_contacted"]
+
+form_name = "Pre Task Safety Plan"
+class_name = "Forms::PreTaskSafetyPlan"
+parser_name = "ProntoForms::PreTaskSafetyPlanParser"
+file_path = "data/pre_task_safety_plan.json"
+required_fields = ["reference_number", "server_receive_date", "device_submit_date", "username", "version", "altitude", "latitude", "longitude", "source", "file_path", "task", "site", "shop", "task_location", "q1", "q2", "q4", "list_ppe", "q5", "list_potential_hazar", "q6", "q7", "list_tools", "q8", "job_plan", "job_specific_details", "tm_names", "signature", "c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "ptd1", "ptd1_text", "ptd2", "ptd2_text", "ptd3", "ptd3_text", "ptd4", "ptd4_text", "ptd5", "ptd5_text", "comments"]
+
+
+form_name = "Booth Eliminator Checklist"
+class_name = "Forms::BoothEliminatorChecklist"
+parser_name = "ProntoForms::BoothEliminatorChecklistParser"
+file_path = "data/booth_eliminator_checklist.json"
+required_fields = ["reference_number", "server_receive_date", "device_submit_date", "username", "version", "altitude", "latitude", "longitude", "source", "file_path", "zone_qr_code", "confirm", "qr_client", "qr_site", "qr_process", "qr_line", "qr_area", "ceiling_and_walls_r1", "venturi_throat_r1", "mist_eliminator_r1", "repairs_needed_r1", "comments_r1", "photo_r1", "ceiling_and_walls_r2", "venturi_throat_r2", "mist_eliminator_r2", "repairs_needed_r2", "comments_r2", "photo_r2", "ceiling_and_walls_c1", "venturi_throat_c1", "mist_eliminator_c1", "repairs_needed_c1", "comments_c1", "photo_c1", "ceiling_and_walls_b1", "venturi_throat_b1", "mist_eliminator_b1", "repairs_needed_b1", "comments_b1", "photo_b1", "score", "total", "overall_rate"]
+
+form_name = "Spare Parts Report"
+class_name = "Forms::SparePartsReport"
+parser_name = "ProntoForms::SparePartsReportParser"
+file_path = "data/spare_parts_report.json"
+required_fields = ["reference_number", "server_receive_date", "device_submit_date", "username", "version", "altitude", "latitude", "longitude", "source", "file_path", "part_number", "images", "manufacturer", "area_of_use1", "area_of_use2", "area_of_use3"]
+
+
+hash = read_hash_from_jon_data(file_path)
+code = get_code(hash,class_name,required_fields,form_name,parser_name)
+
+out_file = File.new("output/#{form_name}.out", "w")
+out_file.puts(code)

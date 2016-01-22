@@ -1,0 +1,39 @@
+# Parser to for Cleaning Event forms submitted from ProntoForms
+class ProntoForms::CleaningEventParser < AbstractFormParser
+  
+  # name of the form according to ProntoForms
+  NAME = "Cleaning Event"
+  
+  # Returns the highest version number this parser is capable of parsing.
+  #
+  # @return [numeric] highest version number this parser is capable of parsing
+  def max_version
+    1
+  end
+  
+  # Attempts to convert the hash provided into a database object.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @param model [Forms::CleaningEvent] object to update, nil if a new object should be created
+  # @return [ActiveRecord] instance of the object
+  # @raise [ParserException] if the hash could not be parsed for whatever reason
+  def parse(form_hash, model = nil)
+    model ||= Forms::CleaningEvent.new
+
+    ProntoForms::SourceParser.get_common_answer_values(form_hash, model)    
+    
+    model.process    = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 0)[0]
+    model.event  = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 1)[0]
+    if model.process == "Jigs"
+      model.unit     = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 2)[0]
+      model.datetime = ProntoForms::SourceParser.get_answer_date_time(form_hash, 0, 3)
+      model.comments = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 4)[0]
+    elsif model.process == "Dollies"
+      model.unit     = ""
+      model.datetime = ProntoForms::SourceParser.get_answer_date_time(form_hash, 0, 2)
+      model.comments = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 3)[0]
+    end
+   
+    model
+  end
+end

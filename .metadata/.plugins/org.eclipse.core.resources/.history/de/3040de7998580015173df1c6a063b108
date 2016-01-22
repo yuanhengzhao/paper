@@ -1,0 +1,102 @@
+# Migrate to import iform data to database
+
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user
+# - version (string) - current version of the form
+# - altitude (decimal(20,20)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,20)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,20)) - longitude of the user's location when submitted the form
+# - source (string) - name of the provider, for example,"prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+
+# - client (string) - name of customer - "Toyota", "GM", etc.
+# - site (string) - name of site/city - "Cambridge", "Oshawa", etc.
+# - shop (string) - name of area in site - "North Paint", "ED Weld", etc.
+# - location (string) - name of area in shop - "H1", "A5", etc.
+# - floor (string) - floor of the shop - "2nd", etc.
+# - type_mwu (string) - type of restroom - "Mens", "Womens", "Unisex"
+# - reference (string) - additional information about restroom - "Medical"
+# - plant_id (string) - id of plant
+# - fi (string) - first impression - "Green", "Yellow", "Red"
+# - cv (string) - ceiling/vents - "Green", "Yellow", "Red"
+# - wc (string) - walls/ceramic - "Green", "Yellow", "Red"
+# - pw (string) - partition walls - "Green", "Yellow", "Red"
+# - disp (string) - dispensers - "Green", "Yellow", "Red"
+# - floor_baseboard (string) - floors/baseboards - "Green", "Yellow", "Red"
+# - mirror (string) - mirrors/doors - "Green", "Yellow", "Red"
+# - sink (string) - sinks/bradleys - "Green", "Yellow", "Red"
+# - locker (string) - lockers - "Green", "Yellow", "Red"
+# - light (string) - light fixtures - "Green", "Yellow", "Red"
+# - ut (string) - urinals and toilets - "Green", "Yellow", "Red"
+# - fg (string) - feminine hygiene and garbage disposals - "Green", "Yellow", "Red"
+# - sh (string) - showers - "Green", "Yellow", "Red"
+# - sw (string) - stairwells - "Green", "Yellow", "Red"
+# - safety (string) - safety procedures have been followed - "Green", "Yellow", "Red"
+# - eq (string) - equipment returned - "Green", "Yellow", "Red"
+# - fives (string) - 5"S" janitor closets clean - "Green", "Yellow", "Red"
+# - overall_rate (decimal(3,3)) -  overall score out of three
+# - are_repairs_required (string) - "Yes"/"No"
+# - list_repairs (string) - list of repairs required
+# - comments (string) - comments
+# - photo1 (attachment) - photo taken in the restroom
+# - photo2 (attachment) - photo taken in the restroom
+
+class Iforms::RestroomChecklistMigrate < Iforms::AbstractIformMigrate
+
+  def get_record(item_hash,dir)
+    record = Forms::RestroomChecklist.new
+    get_common_answer_values(record,item_hash,"v2")
+    
+    record.client = item_hash["qr_client"]
+    record.site = item_hash["qr_site"]
+    record.shop = item_hash["qr_plant"]
+    record.location = item_hash["qr_location"]
+    record.floor = item_hash["qr_floor"]
+    record.type_mwu = item_hash["qr_type_mwu"]
+    record.reference = item_hash["qr_reference"]
+    record.plant_id = item_hash["qr_plant_id"]
+    record.fi = item_hash["fi"]
+    record.cv = item_hash["cv"]
+    record.wc = item_hash["wc"]
+    record.pw = item_hash["pw"]
+    record.disp = item_hash["disp"]
+    record.floor_baseboard  = item_hash["floor"]
+    record.mirror = item_hash["mirror"]
+    record.sink = item_hash["sink"]
+    record.locker = item_hash["locker"]
+    record.light = item_hash["light"]
+    record.ut = item_hash["ut"]
+    record.fg = item_hash["fg"]
+    record.sh = item_hash["sh"]
+    record.sw = item_hash["sw"]
+    record.safety = item_hash["safety"]
+    record.eq  = item_hash["eq"]
+    record.fives = item_hash["fives"]
+    record.overall_rate = item_hash["overall_rate"]
+    record.are_repairs_required = item_hash["are_repairs_required"]
+    record.list_repairs = item_hash["list_reapairs"]
+    record.comments = item_hash["comments_optional"]
+    
+    record.photo1= create_image_attachment(item_hash,"photo_optional",dir)
+    record.photo2 = create_image_attachment(item_hash,"photo_2",dir)
+    
+    return record
+  end
+  
+end
+
+
+
+
+
+
+
+
+
+
+
+

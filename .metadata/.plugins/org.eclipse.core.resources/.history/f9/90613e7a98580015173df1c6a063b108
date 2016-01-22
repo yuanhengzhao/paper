@@ -1,0 +1,34 @@
+require "spec_helper"
+
+describe Forms::DollyCleaningsController do
+  describe "routing" do
+
+    it "routes to #index" do
+      get("/forms/dolly_cleanings").should route_to("forms/dolly_cleanings#index")
+    end
+
+    it "routes to #show" do
+      get("/forms/dolly_cleanings/1").should route_to("forms/dolly_cleanings#show", :id => "1")
+    end
+    
+    it "routes to #datatable" do
+      get("/forms/dolly_cleanings/datatable").should route_to("forms/dolly_cleanings#datatable")
+    end
+    
+    it "routes to #reparse" do
+      post("/forms/dolly_cleanings/1/reparse").should route_to("forms/dolly_cleanings#reparse", :id => "1")
+    end
+    
+    it "routes to #update_export" do
+      get("/forms/dolly_cleanings/update_export").should route_to("forms/dolly_cleanings#update_export")
+    end
+    
+    it "routes to #download_export" do
+      get("/forms/dolly_cleanings/download_export").should route_to("forms/dolly_cleanings#download_export")
+    end
+    
+    it "routes to #submission" do
+      get("/forms/dolly_cleanings/1/submission").should route_to("forms/dolly_cleanings#submission", :id => "1")
+    end
+  end
+end

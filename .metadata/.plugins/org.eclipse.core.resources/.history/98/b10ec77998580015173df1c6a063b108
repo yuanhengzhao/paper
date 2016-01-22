@@ -1,0 +1,101 @@
+#data_sources_datatable td.column-count { text-align: right; }
+
+table.data-source-table td.actions {
+  width: 200px;
+  ul {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    li {
+      display: inline;
+      padding: 0 10px;
+      border-left: solid black 1px;
+      &:first-child {
+        border-left: none;
+      }
+    }
+  }
+}
+
+form.data_sources_form {
+  label, input, select, div.field_with_errors { display: inline-block; }
+/*  label {
+    padding: 15px; width: 200px; background-color: #f9f9f9;
+    &:nth-child(even) { background-color: #f9f9f9; }
+    margin-bottom: 0px;
+    height: 100%;
+    float: left;
+  }
+  input { margin-left: 15px; width: initial; line-height: normal; float: left}
+  .input-group { margin-top: 10px; }
+  div.field, div.actions {
+    border-top: 1px solid #ddd;
+  }
+  div.field {
+    background-color: white;
+    &:nth-child(even) { background-color: #f1f1f1; }
+  }
+  div.field > input {
+    
+  }
+*/
+  div.actions {
+    padding: 15px 0px;
+    input.button-submit, a { margin: 0px; margin-right: 10px; width: 100px; }
+    a {
+      display: inline-block; padding: 10px 0px; cursor: pointer; background: rgb(1,100,165); color: white; text-decoration: none; text-align: center;
+      &:hover { background-color: rgb(94, 151, 50); } 
+    }
+  }
+  
+  .form-group{
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  
+  .form-img { max-width: 250px; display: block;}
+  
+  .single-checkbox {
+    width: 30px;
+    height: 30px;
+    display: block;
+  }
+}
+
+
+// show view format
+.data-source-details {
+  table {
+    width: 100%; border-collapse: collapse;
+    td {
+      padding: 15px;
+      &:first-child { width: 100px; }
+    }
+    tbody {
+      tr {
+        border-top: 1px solid #dddddd;
+        &:last-child { border-bottom: 1px solid #dddddd; }
+        &:nth-child(odd) {
+          td:first-child { background-color: #f9f9f9; }
+          td:last-child { background-color: #ffffff; }
+        }
+        &:nth-child(even) {
+          td:first-child { background-color: #f1f1f1; }
+          td:last-child { background-color: #f9f9f9; }
+        }
+      }
+    }
+    tfoot {
+      td {
+        ul {
+          list-style: none; padding: 0px; margin: 0px;
+          li {
+            display: inline;
+            a { display: inline-block; padding: 10px 0px; margin-right: 10px; width: 100px; cursor: pointer; background: #0164a5; color: white; text-decoration: none; text-align: center; }
+          }
+        }
+      }
+    }
+  }
+}
+

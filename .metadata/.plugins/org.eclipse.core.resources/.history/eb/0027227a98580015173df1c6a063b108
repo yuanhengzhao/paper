@@ -1,0 +1,150 @@
+require_relative '../spec_helper'
+
+describe FormsController do
+  
+  shared_examples_for "an unauthorized index controller access" do
+    context "HTML" do
+      it "should fail and redirect to root" do
+        get 'index'
+        response.should_not be_success
+        response.status.should eq(302)
+        response.should redirect_to(root_url)
+      end
+    end
+  end
+  
+  shared_examples_for "an authorized index controller access" do
+    context "HTML" do
+      it "should fail and redirect to root" do
+        get 'index'
+        response.should be_success
+        response.status.should eq(200)
+        response.should render_template("index")
+      end
+    end
+  end
+  
+  shared_examples_for "an unauthorized datatable controller access" do
+    context "HTML" do
+      it "should fail and redirect to root" do
+        get 'datatable'
+        response.should_not be_success
+        response.status.should eq(302)
+        response.should redirect_to(root_url)
+      end
+    end
+    
+    context "JSON" do
+      it "should fail and redirect to root" do
+        get 'datatable', :format => :json
+        response.should_not be_success
+        response.status.should eq(302)
+        response.should redirect_to(root_url)
+      end
+    end
+  end
+  
+  shared_examples_for "an authorized datatable controller access" do
+    context "HTML" do
+      it "should fail and redirect to forms index page" do
+        get 'datatable'
+        response.should_not be_success
+        response.status.should eq(302)
+        response.should redirect_to(forms_url)
+      end
+    end
+    
+    context "JSON" do
+      it "should succeed" do
+        get 'datatable', :format => :json
+        response.should be_success
+        response.status.should eq(200)
+      end
+      
+      # TODO complete spec
+      it "should count"
+      
+      # TODO complete spec
+      it "should filter"
+      
+      # TODO complete spec
+      it "should sort"
+      
+      # TODO complete spec
+      it "should paginate"
+    end
+  end
+
+  describe "GET 'index'" do
+    describe "for an anonymous user" do
+      # no signed in user
+      it_behaves_like "an unauthorized index controller access"
+    end
+    
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+      # log in a user who has not been authorized to view application data
+      it_behaves_like "an unauthorized index controller access"
+    end
+    
+    describe "for an authorized logged in user", :with_authorized_user => true do
+      # log in a user who has been authorized to view application data
+      it_behaves_like "an authorized index controller access"
+    end
+    
+    describe "for a logged in admin", :with_admin_user => true do
+      # log in an admin user
+      it_behaves_like "an authorized index controller access"
+    end
+  end
+
+  describe "GET 'datatable'" do
+    describe "for an anonymous user" do
+      # no signed in user
+      it_behaves_like "an unauthorized index controller access"
+    end
+    
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+      # log in a user who has not been authorized to view application data
+      it_behaves_like "an unauthorized datatable controller access"
+    end
+    
+    describe "for an authorized logged in user", :with_authorized_user => true do
+      # log in a user who has been authorized to view application data
+      it_behaves_like "an authorized datatable controller access"
+      
+      describe "with no form permissions" do
+        it "should return an empty collection" do
+          get 'datatable', :format => :json
+          parsed = JSON.parse(response.body)
+          expect(parsed["data"]).to be_empty
+        end        
+      end
+      
+      describe "with one form permission" do
+        let!(:permission) { create(:permission, category: "Forms", subject: "RestroomChecklist", user: @user) }
+        
+        it "should return a single row" do
+          get 'datatable', :format => :json
+          parsed = JSON.parse(response.body)
+          expect(parsed["data"].size).to eq(1)
+        end
+      end
+      
+      describe "with the ALL permission" do
+        let!(:permission) { create(:permission, category: "Forms", subject: "ALL", user: @user) }
+        
+        it "should return all rows" do
+          get 'datatable', :format => :json
+          parsed = JSON.parse(response.body)
+          expect(parsed["data"].size).to eq(Forms.list.size)
+        end
+      end
+    end
+    
+    describe "for a logged in admin", :with_admin_user => true do
+      # log in an admin user
+      it_behaves_like "an authorized datatable controller access"
+    end
+  end
+
+end

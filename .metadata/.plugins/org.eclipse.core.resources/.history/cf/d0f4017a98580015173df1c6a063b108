@@ -1,0 +1,36 @@
+class AddFieldsForSocHourlyProductionReportV4 < ActiveRecord::Migration
+  def change
+    add_column :forms_soc_hourly_production_reports, :p1lut,  :decimal
+    add_column :forms_soc_hourly_production_reports, :p2lut,  :decimal
+    add_column :forms_soc_hourly_production_reports, :p3lut,  :decimal
+    add_column :forms_soc_hourly_production_reports, :p4lut,  :decimal
+    
+    add_column :forms_soc_hourly_production_reports, :p1m,  :integer
+    add_column :forms_soc_hourly_production_reports, :p2m,  :integer
+    add_column :forms_soc_hourly_production_reports, :p3m,  :integer
+    add_column :forms_soc_hourly_production_reports, :p4m,  :integer
+    
+    add_column :forms_soc_hourly_production_reports, :press_1_downtime_desc, :string
+    add_column :forms_soc_hourly_production_reports, :press_2_downtime_desc, :string
+    add_column :forms_soc_hourly_production_reports, :press_3_downtime_desc, :string
+    add_column :forms_soc_hourly_production_reports, :press_4_downtime_desc, :string
+    
+    add_attachment :forms_soc_hourly_production_reports, :press_1_chart
+    add_attachment :forms_soc_hourly_production_reports, :press_2_chart
+    add_attachment :forms_soc_hourly_production_reports, :press_3_chart
+    add_attachment :forms_soc_hourly_production_reports, :press_4_chart
+    
+    add_column :forms_soc_hourly_production_reports, :end_of_shift, :boolean
+    add_column :forms_soc_hourly_production_reports, :employee_scheduled, :integer
+    add_column :forms_soc_hourly_production_reports, :absent_employees, :text
+    add_column :forms_soc_hourly_production_reports, :overtime_employees, :text
+    add_column :forms_soc_hourly_production_reports, :total_employees, :integer
+    
+    add_column :forms_soc_hourly_production_reports, :incidents, :integer
+    add_column :forms_soc_hourly_production_reports, :incident_type1, :string
+    add_column :forms_soc_hourly_production_reports, :incident_type2, :string
+    add_column :forms_soc_hourly_production_reports, :incident_type3, :string
+    
+    add_column :forms_soc_hourly_production_reports, :shift_notes, :text
+  end
+end

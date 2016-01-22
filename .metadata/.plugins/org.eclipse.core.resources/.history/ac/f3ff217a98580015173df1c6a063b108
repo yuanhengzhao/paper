@@ -1,0 +1,934 @@
+require 'spec_helper'
+
+describe Forms::UnrecognizedSubmissionsController do
+
+  let(:non_id) { 100 }
+  let(:record) do
+    create(:unrecognized_submission)
+    return Forms::UnrecognizedSubmission.first
+  end
+
+  describe "GET 'index'" do
+
+    describe "for an anonymous user" do
+
+      it "does not succeed" do
+        get :index
+        expect(response).not_to be_success
+      end
+
+      it "responds with redirect HTTP 302" do
+        get :index
+        expect(response.status).to eq(302)
+        expect(response).to redirect_to(root_url)
+      end
+
+      it "does not render index template" do
+        get :index
+        expect(response).to_not render_template("index")
+      end
+
+      it "does not render the empty collection" do
+        expect(Forms::UnrecognizedSubmission.all).to be_empty
+
+        get :index
+
+        result = assigns(:unrecognized_submissions)
+        expect(result).to be_nil
+      end
+
+      it "does not render a non-empty collection" do
+        create(:unrecognized_submission)
+        expect(Forms::UnrecognizedSubmission.all).to_not be_empty
+
+        get :index
+
+        result = assigns(:unrecognized_submissions)
+        expect(result).to be_nil
+      end
+
+    end
+
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+
+      it "does not succeed" do
+        get :index
+        expect(response).to_not be_success
+      end
+
+      it "responds with redirect HTTP 302" do
+        get :index
+        expect(response.status).to eq(302)
+        expect(response).to redirect_to(authenticated_root_url)
+      end
+
+      it "does not render index template" do
+        get :index
+        expect(response).to_not render_template("index")
+      end
+
+      it "renders the empty collection" do
+        expect(Forms::UnrecognizedSubmission.all).to be_empty
+
+        get :index
+
+        result = assigns(:unrecognized_submissions)
+        expect(result).to_not be_nil
+        expect(result).to be_empty
+      end
+
+      it "renders an empty collection" do
+        create(:unrecognized_submission)
+        expect(Forms::UnrecognizedSubmission.all).to_not be_empty
+
+        get :index
+
+        result = assigns(:unrecognized_submissions)
+        expect(result).to_not be_nil
+        expect(result).to be_empty
+      end
+
+    end
+
+    describe "for an authorized user", :with_authorized_user => true do
+      describe "with no permissions" do
+        before(:each) do
+          expect(@user.permissions).to be_empty
+        end
+        
+        it "does not succeed" do
+          get :index
+          expect(response).not_to be_success
+        end
+  
+        it "responds with redirect HTTP 302" do
+          get :index
+          expect(response.status).to eq(302)
+          expect(response).to redirect_to(root_url)
+        end
+  
+        it "does not render index template" do
+          get :index
+          expect(response).to_not render_template("index")
+        end
+      end
+
+      describe "with specific permission" do
+      # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: "UnrecognizedSubmission", user: @user)
+        end
+
+        it "succeeds" do
+          get :index
+          expect(response).to be_success
+        end
+
+        it "responds successfully with HTTP 200" do
+          get :index
+          expect(response.status).to eq(200)
+        end
+
+        it "renders index template" do
+          get :index
+          expect(response).to render_template("index")
+        end
+
+        it "renders the empty collection" do
+          expect(Forms::UnrecognizedSubmission.all).to be_empty
+
+          get :index
+
+          result = assigns(:unrecognized_submissions)
+          expect(result).to_not be_nil
+          expect(result).to be_empty
+        end
+
+        it "renders a non-empty collection" do
+          create(:unrecognized_submission)
+          expect(Forms::UnrecognizedSubmission.all).to_not be_empty
+
+          get :index
+
+          result = assigns(:unrecognized_submissions)
+          expect(result).to_not be_nil
+          expect(result.size).to eq(1)
+        end
+      end
+
+      describe "with ALL permission" do
+      # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: "ALL", user: @user)
+        end
+
+        it "succeeds" do
+          get :index
+          expect(response).to be_success
+        end
+
+        it "responds successfully with HTTP 200" do
+          get :index
+          expect(response.status).to eq(200)
+        end
+
+        it "renders index template" do
+          get :index
+          expect(response).to render_template("index")
+        end
+
+        it "renders the empty collection" do
+          expect(Forms::UnrecognizedSubmission.all).to be_empty
+
+          get :index
+
+          result = assigns(:unrecognized_submissions)
+          expect(result).to_not be_nil
+          expect(result).to be_empty
+        end
+
+        it "renders a non-empty collection" do
+          create(:unrecognized_submission)
+          expect(Forms::UnrecognizedSubmission.all).to_not be_empty
+
+          get :index
+
+          result = assigns(:unrecognized_submissions)
+          expect(result).to_not be_nil
+          expect(result.size).to eq(1)
+        end
+      end
+    end
+
+  end
+
+  describe "GET 'show'" do
+
+    describe "an existing Unrecognized Submission object" do
+
+      describe "for an anonymous user" do
+
+        it "responds with redirect HTTP 302" do
+          get :show, id: record.id
+          expect(response).not_to be_success
+          expect(response.status).to eq(302)
+        end
+
+        it "renders show template" do
+          get :show, id: record.id
+          expect(response).not_to render_template("show")
+        end
+
+        it "does not render the Unrecognized Submission that matches the id" do
+          get :show, id: record.id
+          result = assigns(:unrecognized_submission)
+          expect(result).to be_nil
+        end
+
+      end
+
+      describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+
+        it "responds with redirect HTTP 302" do
+          get :show, id: record.id
+          expect(response.status).to eq(302)
+          expect(response).to redirect_to(authenticated_root_url)
+        end
+
+        it "does not render show template" do
+          get :show, id: record.id
+          expect(response).to_not render_template("show")
+        end
+
+        it "renders the Unrecognized Submission that matches the id" do
+          get :show, id: record.id
+          result = assigns(:unrecognized_submission)
+          expect(result).to eq(record)
+        end
+
+      end
+
+      describe "for an authorized user", :with_authorized_user => true do
+        describe "with no permissions" do
+          before(:each) do
+            expect(@user.permissions).to be_empty
+          end
+          
+          it "responds with redirect HTTP 302" do
+            get :show, id: record.id
+            expect(response).not_to be_success
+            expect(response.status).to eq(302)
+          end
+  
+          it "renders show template" do
+            get :show, id: record.id
+            expect(response).not_to render_template("show")
+          end
+        end
+
+        describe "with specific permission" do
+        # attach read permission to the user
+          before(:each) do
+            create(:read_permission, category: "Forms", subject: "UnrecognizedSubmission", user: @user)
+          end
+
+          it "responds successfully with HTTP 200" do
+            get :show, id: record.id
+            expect(response).to be_success
+            expect(response.status).to eq(200)
+          end
+
+          it "renders show template" do
+            get :show, id: record.id
+            expect(response).to render_template("show")
+          end
+
+          it "renders the Unrecognized Submission that matches the id" do
+            get :show, id: record.id
+            result = assigns(:unrecognized_submission)
+            expect(result).to eq(record)
+          end
+        end
+
+        describe "with ALL permission" do
+        # attach read permission to the user
+          before(:each) do
+            create(:read_permission, category: "Forms", subject: "UnrecognizedSubmission", user: @user)
+          end
+
+          it "responds successfully with HTTP 200" do
+            get :show, id: record.id
+            expect(response).to be_success
+            expect(response.status).to eq(200)
+          end
+
+          it "renders show template" do
+            get :show, id: record.id
+            expect(response).to render_template("show")
+          end
+
+          it "renders the Unrecognized Submission that matches the id" do
+            get :show, id: record.id
+            result = assigns(:unrecognized_submission)
+            expect(result).to eq(record)
+          end
+        end
+      end
+    end
+
+  end
+
+  describe "GET datatable" do
+
+    describe "for an anonymous user" do
+
+      context "HTML" do
+
+        it "responds with HTTP 401" do
+          get :index, { format: "json" }
+          expect(response.status).to eq(401)
+        end
+
+      end
+
+      context "JSON" do
+
+        it "does not succeed" do
+          get :datatable, { :format => "json" }
+          expect(response).not_to be_success
+        end
+
+        it "responds with HTTP 401" do
+          get :datatable, { :format => "json" }
+          expect(response.status).to eq(401)
+        end
+
+        it "does not render index template" do
+          get :datatable, { :format => "json" }
+          expect(response).to_not render_template("index")
+        end
+
+        it "does not render the empty collection" do
+          expect(Forms::UnrecognizedSubmission.all).to be_empty
+
+          get :datatable, { :format => "json" }
+
+          result = assigns(:unrecognized_submissions)
+          expect(result).to be_nil
+        end
+
+        it "does not render a non-empty collection" do
+          create(:unrecognized_submission)
+          expect(Forms::UnrecognizedSubmission.all).to_not be_empty
+
+          get :datatable, { :format => "json" }
+
+          result = assigns(:unrecognized_submissions)
+          expect(result).to be_nil
+        end
+
+      end
+
+    end
+
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+
+      context "HTML" do
+
+        it "should redirect to root" do
+          get :datatable
+          expect(response).to redirect_to(root_url)
+        end
+
+      end
+
+      context "JSON" do
+
+        it "fails" do
+          get :datatable, { :format => "json" }
+          expect(response).to_not be_success
+        end
+
+        it "responds with redirect HTTP 302" do
+          get :datatable, { :format => "json" }
+          expect(response.status).to eq(302)
+        end
+
+        it "should redirect to root" do
+          get :datatable
+          expect(response).to redirect_to(root_url)
+        end
+
+      end
+
+    end
+
+    describe "for an authorized user", :with_authorized_user => true do
+      describe "with no permissions" do
+        context "HTML" do
+  
+          it "should redirect to root" do
+            get :datatable
+            expect(response).to redirect_to(root_url)
+          end
+  
+        end
+  
+        context "JSON" do
+  
+          it "fails" do
+            get :datatable, { :format => "json" }
+            expect(response).to_not be_success
+          end
+  
+          it "responds with redirect HTTP 302" do
+            get :datatable, { :format => "json" }
+            expect(response.status).to eq(302)
+          end
+  
+          it "should redirect to root" do
+            get :datatable
+            expect(response).to redirect_to(root_url)
+          end
+  
+        end
+      end
+
+      describe "with specific permission" do
+      # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: "UnrecognizedSubmission", user: @user)
+        end
+
+        context "HTML" do
+
+          it "should redirect to index" do
+            get :datatable
+            expect(response).to redirect_to(forms_unrecognized_submissions_url)
+          end
+
+        end
+
+        context "JSON" do
+
+          it "succeeds" do
+            get :datatable, { :format => "json" }
+            expect(response).to be_success
+          end
+
+          it "responds successfully with HTTP 200" do
+            get :datatable, { :format => "json" }
+            expect(response.status).to eq(200)
+          end
+
+          it "renders no template" do
+            get :datatable, { :format => "json" }
+            expect(response).to render_template(nil)
+          end
+
+          it "renders the empty collection" do
+            expect(Forms::UnrecognizedSubmission.all).to be_empty
+
+            get :datatable, { :format => "json" }
+
+            result = assigns(:unrecognized_submissions)
+            expect(result).to_not be_nil
+            expect(result).to be_empty
+          end
+
+          it "renders a non-empty collection" do
+            create(:unrecognized_submission)
+            expect(Forms::UnrecognizedSubmission.all).to_not be_empty
+
+            get :datatable, { :format => "json" }
+
+            result = assigns(:unrecognized_submissions)
+            expect(result).to_not be_nil
+            expect(result.size).to eq(1)
+          end
+        end
+      end
+
+      describe "with ALL permission" do
+      # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: "ALL", user: @user)
+        end
+
+        context "HTML" do
+
+          it "should redirect to index" do
+            get :datatable
+            expect(response).to redirect_to(forms_unrecognized_submissions_url)
+          end
+
+        end
+
+        context "JSON" do
+
+          it "succeeds" do
+            get :datatable, { :format => "json" }
+            expect(response).to be_success
+          end
+
+          it "responds successfully with HTTP 200" do
+            get :datatable, { :format => "json" }
+            expect(response.status).to eq(200)
+          end
+
+          it "renders no template" do
+            get :datatable, { :format => "json" }
+            expect(response).to render_template(nil)
+          end
+
+          it "renders the empty collection" do
+            expect(Forms::UnrecognizedSubmission.all).to be_empty
+
+            get :datatable, { :format => "json" }
+
+            result = assigns(:unrecognized_submissions)
+            expect(result).to_not be_nil
+            expect(result).to be_empty
+          end
+
+          it "renders a non-empty collection" do
+            create(:unrecognized_submission)
+            expect(Forms::UnrecognizedSubmission.all).to_not be_empty
+
+            get :datatable, { :format => "json" }
+
+            result = assigns(:unrecognized_submissions)
+            expect(result).to_not be_nil
+            expect(result.size).to eq(1)
+          end
+        end
+      end
+
+    end
+
+  end
+
+  describe "GET 'submission'" do
+
+    describe "for an anonymous user" do
+
+      describe "on a non-existant Unrecognized Submission object" do
+        before(:each) do
+          get :submission, id: non_id
+        end
+
+        it { should redirect_to root_url }
+        it "should alert the user" do
+          expect(flash[:alert]).to eq("You need to sign in or sign up before continuing.")
+        end
+      end
+
+      describe "on an existing Unrecognized Submission object" do
+        before(:each) do
+          get :submission, id: record.id
+        end
+
+        it { should redirect_to root_url }
+        it "should alert the user" do
+          expect(flash[:alert]).to eq("You need to sign in or sign up before continuing.")
+        end
+      end
+    end
+
+    describe "for an authorized user", :with_authorized_user => true do
+      describe "with no permissions" do
+        describe "on a non-existant Unrecognized Submission object" do
+          before(:each) do
+            get :submission, id: non_id
+          end
+
+          it { should redirect_to root_url }
+          it "should alert the user" do
+            expect(flash[:alert]).to eq("You are not authorized to access this page.")
+          end
+        end
+
+        describe "on an existing Unrecognized Submission object" do
+          before(:each) do
+            get :submission, id: record.id
+          end
+
+          it { should redirect_to root_url }
+          it "should alert the user" do
+            expect(flash[:alert]).to eq("You are not authorized to access this page.")
+          end
+        end
+      end
+
+      describe "with specific permission" do
+      # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: "UnrecognizedSubmission", user: @user)
+        end
+
+        describe "on a non-existant Unrecognized Submission object" do
+          before(:each) do
+            get :submission, id: non_id
+          end
+
+          it { should redirect_to forms_unrecognized_submissions_url }
+          it "should alert the user" do
+            expect(flash[:alert]).to eq("Couldn't find Forms::UnrecognizedSubmission with 'id'=#{non_id}")
+          end
+        end
+
+        describe "on an existing Unrecognized Submission object" do
+          before(:each) do
+            get :submission, id: record.id
+          end
+
+          it { should redirect_to record.submission.url }
+        end
+      end
+
+      describe "with ALL permission" do
+      # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: "ALL", user: @user)
+        end
+
+        describe "on a non-existant Unrecognized Submission object" do
+          before(:each) do
+            get :submission, id: non_id
+          end
+
+          it { should redirect_to forms_unrecognized_submissions_url }
+          it "should alert the user" do
+            expect(flash[:alert]).to eq("Couldn't find Forms::UnrecognizedSubmission with 'id'=#{non_id}")
+          end
+        end
+
+        describe "on an existing Unrecognized Submission object" do
+          before(:each) do
+            get :submission, id: record.id
+          end
+
+          it { should redirect_to record.submission.url }
+        end
+      end
+    end
+
+    describe "for an admin user" do
+      before(:each) do
+        @user = create(:admin)
+        sign_in @user
+      end
+      
+      describe "on a non-existant Unrecognized Submission object" do
+        before(:each) do
+          get :submission, id: non_id
+        end
+        
+        it { should redirect_to forms_unrecognized_submissions_url }
+        it "should alert the user" do
+          expect(flash[:alert]).to eq("Couldn't find Forms::UnrecognizedSubmission with 'id'=#{non_id}")
+        end
+      end
+      
+      describe "on an existing Unrecognized Submission object" do
+        before(:each) do
+          get :submission, id: record.id
+        end
+        
+        it { should redirect_to record.submission.url }
+      end
+    end
+  end
+
+  describe "GET 'parse'" do
+    describe "for an anonymous user" do
+
+      describe "on a non-existant Unrecognized Submission object" do
+        before(:each) do
+          get :parse, id: non_id
+        end
+
+        it { should redirect_to root_url }
+        it "should alert the user" do
+          expect(flash[:alert]).to eq("You need to sign in or sign up before continuing.")
+        end
+      end
+
+      describe "on an existing Unrecognized Submission object" do
+        before(:each) do
+          get :parse, id: record.id
+        end
+
+        it { should redirect_to root_url }
+        it "should alert the user" do
+          expect(flash[:alert]).to eq("You need to sign in or sign up before continuing.")
+        end
+      end
+    end
+
+    describe "for an authorized user", :with_authorized_user => true do
+      describe "with no permissions" do
+        before(:each) do
+          expect(@user.permissions).to be_empty
+        end
+
+        describe "on a non-existant Unrecognized Submission object" do
+          before(:each) do
+            get :parse, id: non_id
+          end
+
+          it { should redirect_to forms_unrecognized_submissions_url }
+          it "should alert the user" do
+            expect(flash[:alert]).to eq("Couldn't find Forms::UnrecognizedSubmission with 'id'=#{non_id}")
+          end
+        end
+
+        describe "on an existing Unrecognized Submission object" do
+          before(:each) do
+            get :parse, id: record.id
+          end
+
+          it { should redirect_to root_url }
+          it "should alert the user" do
+            expect(flash[:alert]).to eq("You are not authorized to access this page.")
+          end
+        end
+      end
+
+      describe "with specific permission" do
+      # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: "UnrecognizedSubmission", user: @user)
+        end
+
+        describe "on a non-existant Unrecognized Submission object" do
+          before(:each) do
+            get :parse, id: non_id
+          end
+
+          it { should redirect_to forms_unrecognized_submissions_url }
+          it "should alert the user" do
+            expect(flash[:alert]).to eq("Couldn't find Forms::UnrecognizedSubmission with 'id'=#{non_id}")
+          end
+        end
+
+        describe "on an existing Unrecognized Submission object" do
+          before(:each) do
+            get :parse, id: record.id
+          end
+
+          it { should redirect_to root_url }
+          it "should alert the user" do
+            expect(flash[:alert]).to eq("You are not authorized to access this page.")
+          end
+        end
+      end
+
+      describe "with ALL permission" do
+      # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: "ALL", user: @user)
+        end
+
+        describe "on a non-existant Unrecognized Submission object" do
+          before(:each) do
+            get :parse, id: non_id
+          end
+
+          it { should redirect_to forms_unrecognized_submissions_url }
+          it "should alert the user" do
+            expect(flash[:alert]).to eq("Couldn't find Forms::UnrecognizedSubmission with 'id'=#{non_id}")
+          end
+        end
+
+        describe "on an existing Unrecognized Submission object" do
+          before(:each) do
+            get :parse, id: record.id
+          end
+
+          it { should redirect_to root_url }
+          it "should alert the user" do
+            expect(flash[:alert]).to eq("You are not authorized to access this page.")
+          end
+        end
+      end
+    end
+
+    describe "for an admin user", :with_admin_user => true do
+      let!(:unrecognized) do
+        return record
+      end
+
+      let!(:recognized) do
+        create(:recognized_submission)
+        return Forms::UnrecognizedSubmission.all[1]
+      end
+
+      describe "for parsing a record still unrecognized" do
+        before(:each) do
+          get :parse, id: unrecognized.id, format: :json
+        end
+
+        it "responds errors with HTTP 406" do
+          expect(response.status).to eq(406)
+        end
+
+        it "responds fail to parse" do
+          reason = ActiveSupport::JSON.decode(response.body)["reason"]
+          expect(reason).to eq("No matching parser found")
+        end
+      end
+
+      describe "for parsing a record now recognized" do
+        before(:each) do
+          expect(Forms::SocIncidentReport.count).to eq(0)
+          expect(Forms::UnrecognizedSubmission.count).to eq(2)
+          expect(Forms::UnrecognizedSubmission.find(recognized.id).should_not be_nil)
+
+          get :parse, id: recognized.id, format: :json
+        end
+
+        it "responds success with HTTP 202" do
+          #puts response.body
+          expect(response.status).to eq(202)
+        end
+
+        it "create a recognized form record" do
+          expect(Forms::SocIncidentReport.count).to eq(1)
+
+          soc_incident = Forms::SocIncidentReport.first
+          expect(soc_incident.reference_number).to eq("reference_number 1")
+        end
+
+        it "should destory the unrecognized record" do
+          expect(Forms::UnrecognizedSubmission.count).to eq(1)
+          expect{ Forms::UnrecognizedSubmission.find(recognized.id) }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+      end
+    end
+  end
+
+  describe "GET 'parse all'" do
+    describe "for an anonymous user" do
+      before(:each) do
+        get :parse_all
+      end
+
+      it { should redirect_to root_url }
+      it "should alert the user" do
+        expect(flash[:alert]).to eq("You need to sign in or sign up before continuing.")
+      end
+    end
+
+    describe "for an authorized user", :with_unauthorized_user => true do
+
+      before(:each) do
+        get :parse, id: record.id
+      end
+
+      it { should redirect_to root_url }
+      it "should alert the user" do
+        expect(flash[:alert]).to eq("You are not authorized to access this page.")
+      end
+    end
+
+    describe "for an admin user", :with_admin_user => true do
+      let!(:unrecognized) do
+        return record
+      end
+
+      let!(:recognized) do
+        create(:recognized_submission)
+        return Forms::UnrecognizedSubmission.all[1]
+      end
+
+      let!(:recognized2) do
+        create(:recognized_submission2)
+        return Forms::UnrecognizedSubmission.all[2]
+      end
+
+      before(:each) do
+        expect(Forms::SocIncidentReport.count).to eq(0)
+        expect(Forms::UnrecognizedSubmission.count).to eq(3)
+        expect(Forms::UnrecognizedSubmission.find(recognized.id).should_not be_nil)
+        expect(Forms::UnrecognizedSubmission.find(recognized2.id).should_not be_nil)
+        
+        get :parse_all, format: :json
+      end
+
+      it "responds errors with HTTP 200" do
+        expect(response.status).to eq(200)
+      end
+
+      it "responds success:1. fail:1" do
+        expect(response.body).to eq("Success: 2. Failure: 1")
+      end
+
+      it "create two recognized form records" do
+        expect(Forms::SocIncidentReport.count).to eq(2)
+
+        expect(Forms::SocIncidentReport.first.reference_number).to eq("reference_number 1")
+        expect(Forms::SocIncidentReport.all[1].reference_number).to eq("reference_number 2")
+      end
+      
+      it "create recognized forms with submissions attached" do
+        expect(Forms::SocIncidentReport.count).to eq(2)
+
+        expect(Forms::SocIncidentReport.first.reference_number).to eq("reference_number 1")
+        expect(Forms::SocIncidentReport.all[1].reference_number).to eq("reference_number 2")
+        
+        expect(Forms::SocIncidentReport.first.submission_file_name).to eq("submission.json")
+        expect(Forms::SocIncidentReport.all[1].submission_file_name).to eq("submission.json")
+        expect(Forms::SocIncidentReport.first.submission_content_type).to eq("text/plain")
+        expect(Forms::SocIncidentReport.all[1].submission_content_type).to eq("text/plain")
+        expect(Forms::SocIncidentReport.first.submission_file_size).not_to eq(nil)
+        expect(Forms::SocIncidentReport.all[1].submission_file_size).not_to eq(nil)
+      end
+
+      it "should destory the unrecognized record" do
+        expect(Forms::UnrecognizedSubmission.count).to eq(1)
+        expect{ Forms::UnrecognizedSubmission.find(recognized.id) }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+  end
+end

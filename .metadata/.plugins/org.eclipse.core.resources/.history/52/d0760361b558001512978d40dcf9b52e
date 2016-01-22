@@ -1,0 +1,17 @@
+<body>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Diary</a>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+        
+        <li><%= link_to 'My idea', controller: 'ideas'%></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+</body>

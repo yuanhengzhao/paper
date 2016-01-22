@@ -1,0 +1,23 @@
+<% title @option_group_name %>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Group</th>
+      <th>Value</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+  	
+    <% @options.each do |option| %>
+      <tr>
+      	<td><%= option.group %></td>
+      	<td><%= option.value %></td>
+        <td>
+        	<%= link_to 'Show', admin_show_option_path(option.group, option.id) %>
+        	</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,115 @@
+class ReportsController < ApplicationController
+  
+  # Login required for all the actions
+  before_filter :login_required
+  
+  # autoload and ability check in following actions
+  load_and_authorize_resource :only => [:index, :show, :download, :destroy]
+  
+  DATATABLES_COLUMNS = [ "author", "title" ]
+  
+  def index
+    
+    options = {
+      :safe_columns => DATATABLES_COLUMNS,
+      :aliases =>{}
+    }
+    
+    respond_to do |format|
+      format.html #index.html.erb
+      format.json { render json:datatable_data(@reports.joins(""), params, options) }
+    end
+  end
+  
+    def datatable_data(collection, params, options = {})
+    safe_columns = options[:safe_columns] || []
+    column_filters = options[:column_filters] || {}
+    
+    # count number of initial records
+    recordsTotal = collection.count
+
+    # global filter
+    if params.has_key?(:search) and !params[:search][:value].blank?
+      # protect against SQL injection by intersecting provided columns with known list
+      cleaned_columns = (safe_columns & params[:columns].values.select{ |x| x[:searchable] == "true" }.collect{ |y| y[:data] })
+
+      # as long as one known column still remains
+      unless cleaned_columns.empty?
+        # create OR of LIKE statements
+        filter_query = cleaned_columns.map{ |x| "#{x} LIKE :search" }.join(" OR ")
+        collection = collection.where(filter_query, :search => "%#{params[:search][:value]}%")
+      end
+    end
+
+    # column filter
+    if params.has_key?(:columns)
+      params[:columns].values.each do |col|
+        if safe_columns.include?(col[:data]) and !col[:search][:value].blank?
+          # assignment will default to nil if no key found
+          match_type = column_filters[col[:data]]
+          if match_type == 'match'
+            collection = collection.where({ "#{col[:data]}" => col[:search][:value] })
+          elsif match_type == 'boolean'
+            collection = collection.where({ "#{col[:data]}" => (col[:search][:value].downcase == 'true' || col[:search][:value] == '1') })
+          else
+            collection = collection.where("#{col[:data]} LIKE ?", "%#{col[:search][:value]}%")
+          end
+        end
+      end
+    end
+
+    # count after all filtering
+    recordsFiltered = collection.count
+
+    # sort
+    if params.has_key?(:order)
+      params[:order].values.each do |col|
+        temp_column = params[:columns][col[:column]][:data]
+        if safe_columns.include?(temp_column)
+          if options[:aliases].has_key? temp_column
+            temp_column = options[:aliases][temp_column]
+          end
+          collection = collection.order("#{temp_column} #{col[:dir].upcase}")
+        end
+      end
+    end
+
+    # paginate
+    if params.has_key?(:length)
+      limit = params[:length].to_i
+      collection = collection.limit(limit)
+
+      if params.has_key?(:start)
+        offset = params[:start].to_i
+        collection = collection.offset(offset)
+      end
+    end
+
+    # return collection
+    draw = params[:draw].to_i || 0
+    
+    collection.each do |item|
+      item.can_destroy = can? :destroy, item
+      item.can_manage = can? :manage, item
+    end 
+    
+    return { :draw => draw, :recordsTotal => recordsTotal, :recordsFiltered => recordsFiltered, :data => collection, :manage => (can? :manage, Report::Report ) }
+  end
+  
+  def show
+    respond_to do |format|
+      format.json { render json: @report }
+    end
+  end
+  
+  def destroy
+    @report.destroy
+    respond_to do |format|
+      format.html { redirect_to report_reports_url, :notice => "Report deleted" }
+    end
+  end
+  
+  def download
+    redirect_to @report.file
+  end
+end

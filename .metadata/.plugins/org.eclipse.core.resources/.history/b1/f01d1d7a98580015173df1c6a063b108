@@ -1,0 +1,98 @@
+require 'spec_helper'
+
+describe Devise::PasswordsController do
+  
+  before :each do
+    request.env['devise.mapping'] = Devise.mappings[:user]
+  end
+  
+  let!(:external_user) { create(:external_user) }
+  
+  describe "GET 'new' (Forget/Reset password page)" do
+    it "should succeed" do
+      get :new
+      response.should be_success
+      response.status.should eq(200)
+    end
+  end
+  
+  describe "Post 'create' (Send reset instructions through email)" do
+    before(:each) do
+      ActionMailer::Base.delivery_method = :test
+      ActionMailer::Base.perform_deliveries = true
+      ActionMailer::Base.deliveries = []
+    end
+    
+    after(:each) do
+      ActionMailer::Base.deliveries.clear
+    end
+
+    describe "For failure cases" do
+      it "should give error message if the email is not registered" do
+        post :create, { user: { email: "unknow@unknow.com"} }
+        response.should be_success
+        response.status.should eq(200)
+        expect(controller.resource.errors.full_messages * ",").to eq("Email not found")
+      end
+    end
+    
+    describe "For successful cases" do
+      before(:each) do
+        expect(external_user.reset_password_token).to eq(nil)
+        post :create, { user: { email: external_user.email } }
+        external_user.reload
+        expect(external_user.reset_password_token).to_not eq(nil)
+      end
+      
+      it "should give error message if the email is not registered" do
+        expect(response).to redirect_to new_user_session_url
+        expect(flash[:notice]).to eq("You will receive an email with instructions on how to reset your password in a few minutes.")
+      end
+      
+      it "should send the email" do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+        expect(ActionMailer::Base.deliveries.first.to.first).to eq(external_user.email)
+        expect(ActionMailer::Base.deliveries.first.body).to include(external_user.email)
+        expect(ActionMailer::Base.deliveries.first.body).to include("/users/password/edit?reset_password_token=")
+      end
+    end
+  end
+  
+  describe "Get 'edit' (edit page for changing password)" do
+    it "should redirect to root without a token" do
+      get :edit
+      expect(response).to redirect_to new_user_session_url
+      expect(flash[:alert]).to eq("You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided.")
+    end
+    
+    it "should succeed with a token" do
+      get :edit, {reset_password_token: "faketoken"}
+      response.should be_success
+      response.status.should eq(200)  
+    end
+  end
+  
+  describe "Put 'update' (new password submitted)" do
+    it "should not succeed if token is blank" do
+      put :update, { user: { password: "newpassword", password_confirmation: "newpassword"} }
+      response.should be_success
+      expect(controller.resource.errors.full_messages * ",").to eq("Reset password token can't be blank")
+    end
+    
+    it "should not succeed without a valid token" do
+      put :update, { user: { password: "newpassword", password_confirmation: "newpassword", reset_password_token: "faketoken" } }
+      response.should be_success
+      expect(controller.resource.errors.full_messages * ",").to eq("Reset password token is invalid")
+    end
+    
+    it "should succeed with a valid token" do
+      reset_token = external_user.send_reset_password_instructions
+      put :update, { user: { password: "newpassword", password_confirmation: "newpassword", reset_password_token: reset_token } }
+      expect(response).to redirect_to root_url
+      expect(flash[:notice]).to eq("Your password was changed successfully. You are now signed in.")
+    end
+    
+   end
+  
+end
+  

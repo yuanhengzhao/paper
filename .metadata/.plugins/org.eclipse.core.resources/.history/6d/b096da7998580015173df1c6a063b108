@@ -1,0 +1,52 @@
+# Permission
+#
+# Grants read or edit access to a specific model. If a non-admin has no access to a specific
+# model, then no Security::Permission object will exist associating that user and the model class.
+#
+# Properties:
+# - id (integer) - primary key
+# - category (string) - "Forms", "DataSources", etc.
+# - subject (string) - name of the class
+# - action (string) - "read" or "edit"
+class Security::Permission < ActiveRecord::Base
+  belongs_to :user, class_name: "Security::User", foreign_key: "user_id"
+  validates_presence_of :user
+  accepts_nested_attributes_for :user
+  
+  validates :category, inclusion: { in: %w(Forms DataSources) }
+  validates :subject, presence: true
+  validates :action, inclusion: { in: %w(read edit) }, allow_nil: true
+  
+  # cannot create a permission for a subject in a category if the user already has an ALL permission for that category
+  validate :no_matching_all_permission, on: :create
+  def no_matching_all_permission
+    # do not check if user attribute is nil
+    unless self.user.nil?
+      unless Security::Permission.where(:user_id => self.user.id, :category => self.category, :subject => "ALL").empty?
+        errors[:base] << "This permission is invalid because a superseding ALL permission already exists for category [#{self.category}] for user [#{self.user.id}]"
+      end
+    end
+  end
+  
+  scope :forms, -> { where(category: "Forms") }
+  scope :datasources, -> { where(category: "DataSources") }
+  scope :sorted, -> { order(:category, :subject) }
+  
+  # when committing an ALL permission, destroy any specific permissions for the same category for this user
+  after_save do
+    if self.subject == "ALL"
+      Security::Permission.where(:user_id => self.user_id, :category => self.category).where.not(:subject => "ALL").destroy_all
+    end
+  end
+  
+  def subject_class
+    "#{self.category}::#{self.subject}" 
+  end
+  
+  def action_symbol
+    result = nil
+    result  = :read if action == "read"
+    result = :manage if action == "edit"
+    result
+  end
+end

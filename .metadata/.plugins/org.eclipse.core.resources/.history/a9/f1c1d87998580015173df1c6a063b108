@@ -1,0 +1,91 @@
+# Forms::SocHourlyProductionReport's Model
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user
+# - version (string) - current version of the form
+# - altitude (decimal(20,20)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,20)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,20)) - longitude of the user's location when submitted the form
+# - source (string) - name of the provider, for example,"prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+
+# - crew (string) - 
+# - supervisor (string) - 
+# - supervisor_name (string) - 
+# - date (date) - 
+# - reported_time (string) - 
+# - ampm (string) - 
+# - press_1_cct (integer) - 
+# - press_1_curing_cycle (integer) - 
+# - press_1_downtime (decimal) - 
+# - press_1_downtime_desc (text) - 
+# - press_1_chart (attachment) - 
+# - press_2_cct (integer) - 
+# - press_2_curing_cycle (integer) - 
+# - press_2_downtime (decimal) - 
+# - press_2_downtime_desc (text) - 
+# - press_2_chart (attachment) - 
+# - press_3_cct (integer) - 
+# - press_3_curing_cycle (integer) - 
+# - press_3_downtime (decimal) - 
+# - press_3_downtime_desc (text) - 
+# - press_3_chart (attachment) - 
+# - press_4_cct (integer) - 
+# - press_4_curing_cycle (integer) - 
+# - press_4_downtime (decimal) - 
+# - press_4_downtime_desc (text) - 
+# - press_4_chart (attachment) - 
+# - press_1_blanks (decimal) - 
+# - press_2_blanks (decimal) - 
+# - press_3_blanks (decimal) - 
+# - press_4_blanks (decimal) - 
+# - press_1_treads (decimal) - 
+# - press_2_treads (decimal) - 
+# - press_3_treads (decimal) - 
+# - press_4_treads (decimal) - 
+# - total_treads (decimal) - 
+# - total_blanks (decimal) - 
+# - press_1_efficiency (decimal) - 
+# - press_2_efficiency (decimal) - 
+# - press_3_efficiency (decimal) - 
+# - press_4_efficiency (decimal) - 
+# - projected_total (decimal) - 
+# - overall_efficiency (decimal) - 
+# - comments (text) - 
+# - end_of_shift (string) - 
+# - show_shift_report (string) - 
+# - employee_scheduled (integer) - 
+# - absent_employees (text) - 
+# - overtime_employees (text) - 
+# - total_employees (integer) - 
+# - incidents (integer) - 
+# - incident_type1 (string) - 
+# - incident_type2 (string) - 
+# - incident_type3 (string) - 
+# - shift_notes (text) - 
+# - press_1_2p (decimal) - 
+# - press_2_2p (decimal) - 
+# - press_3_2p (decimal) - 
+# - press_4_2p (decimal) - 
+
+
+class Forms::SocHourlyProductionReport < ActiveRecord::Base
+  include HasSubmission
+  include Reparseable
+  
+  has_attached_file :press_1_chart
+  validates_attachment_content_type :press_1_chart, :content_type => /\Aimage/
+  
+  has_attached_file :press_2_chart
+  validates_attachment_content_type :press_2_chart, :content_type => /\Aimage/
+
+  has_attached_file :press_3_chart
+  validates_attachment_content_type :press_3_chart, :content_type => /\Aimage/
+
+  has_attached_file :press_4_chart
+  validates_attachment_content_type :press_4_chart, :content_type => /\Aimage/
+end

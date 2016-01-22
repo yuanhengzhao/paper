@@ -1,0 +1,27 @@
+require 'spec_helper'
+
+describe DataSources::SiteShift do
+  it "has a valid factory" do
+    expect(build(:site_shift)).to be_valid
+  end
+  
+  it "is invalid without a site" do
+    expect(build(:site_shift, site: nil)).to_not be_valid
+  end
+  
+  it "is invalid without a shift" do
+    expect(build(:site_shift, shift: nil)).to_not be_valid
+  end
+  
+  it "cannot have the same combination of attributes as another record" do
+    original = create(:site_shift)
+    duplicate = build(:site_shift, site: original.site, shift: original.shift)
+    expect(duplicate).to_not be_valid
+  end
+  
+  it "can duplicate some attributes as long as at least one attribute is different" do
+    original = create(:site_shift)
+    expect(build(:site_shift, site: original.site+"1", shift: original.shift)).to be_valid
+    expect(build(:site_shift, site: original.site, shift: original.shift+"1")).to be_valid
+  end
+end

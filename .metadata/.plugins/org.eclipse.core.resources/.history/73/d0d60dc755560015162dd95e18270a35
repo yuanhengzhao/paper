@@ -1,0 +1,73 @@
+jQuery ->
+  form = $("form.incident-form")
+  if form.length > 0
+    bind_events = () ->
+      $("button.btn-remove-photo").on "click", ->
+        remove_photo($(this))
+        return
+        
+      $("button.btn-undo-remove-photo").on "click", ->
+        console.log($(this).parent().prev(".image-true-holder").find("img").hasClass("img-to-remove"))
+        if($(this).parent().prev(".image-true-holder").find("img").hasClass("img-to-remove"))
+          $(this).parent().prev(".image-true-holder").find("img").removeClass("img-to-remove")
+        $(this).prev("button.btn-remove-photo").show()
+        $(this).hide()
+        $(this).closest(".col-lg-12.col-md-12.col-sm-12.col-xs-12").next("input[type='hidden']").val("false")
+        $(this).closest(".col-lg-12.col-md-12.col-sm-12.col-xs-12").next("input[type='file']").hide()
+      
+      return
+      
+        
+    add_new_photo = (image_url, button, index) ->
+      container = button.closest("div.form-photo-container")
+      if(index == '')
+        new_index = (container.find("input[type='hidden']").size() + container.find("input[as='file']").size())
+      else
+        new_index = index
+      group = container.data("group")
+      name_prefix = 'incident['+group+']['+new_index+']'
+      id_prefix = 'incident_'+group+'_'+new_index+'_'
+      content = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><div class='col-lg-9 col-md-9 col-sm-12 col-xs-12 image-true-holder'>"
+      
+      if(image_url != '')
+        content += "<img style='width:inherit' src='"+image_url+"' />"
+       
+      content += "</div><div class='col-lg-2 col-md-2 col-sm-12 col-xs-12 button-true-holder'><button class=\"btn btn-danger btn-small btn-remove-photo col-sm-12 col-xs-12\" data-id=\""+index+"\"><span class=\"glyphicon glyphicon-remove visible-lg visible-md hidden-sm hidden-xs\"></span><div class='idden-lg hidden-md visible-sm visible-xs'>Remove</div></button>"+
+        "<button class='btn btn-success btn-small btn-undo-remove-photo col-sm-12 col-xs-12'>Undo</button></div>"+
+        "<input type=\"file\" as=\"file\" class=\"form-control\" id=\""+id_prefix+"file\" name=\""+name_prefix+"[file]\" data-fv-field=\""+name_prefix+"[file]\" "+if(image_url != '') then "style=\"display:none\""+" /></div><br />"
+      
+      button.before(content)
+      
+      bind_events()
+      return
+    
+    remove_photo = (button) ->
+      # TODO image processing for the existing image
+      console.log(button.closest(".col-lg-12.col-md-12.col-sm-12.col-xs-12"))
+      if(button.parent().hasClass("button-true-holder"))
+        #show undo button
+        button.next("button.btn-undo-remove-photo").show()
+        button.hide()
+        #showing the Undo button
+        button.parent().prev(".image-true-holder").find("img").addClass("img-to-remove")
+        #set up the image to delete
+        button.closest(".col-lg-12.col-md-12.col-sm-12.col-xs-12").next("input[type='hidden']").val("true")
+        #show the input field for the replacement
+        #button.closest(".col-lg-12.col-md-12.col-sm-12.col-xs-12").find("input[type='file']").show()
+      else # if the image is not there
+        button.closest(".col-lg-12.col-md-12.col-sm-12.col-xs-12").find("input[as='file']").hide()
+        button.hide()
+    
+    
+    
+    $("input.photo-collection-data[type='hidden']").each ->
+      add_new_photo($(this).data("url"), $(this).parent().find("button.add-photo-button"), $(this).data("index"))
+      return
+    
+    $("button.add-photo-button").on "click", ->
+        add_new_photo('', $(this), '')
+    
+    $("button.btn-undo-remove-photo").each ->
+      $(this).hide()    
+    
+    bind_events

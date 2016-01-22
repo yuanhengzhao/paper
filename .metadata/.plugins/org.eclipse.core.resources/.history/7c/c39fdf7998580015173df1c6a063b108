@@ -1,0 +1,38 @@
+# Parser to for Enps forms submitted from ProntoForms
+class ProntoForms::EnpsReportParser < AbstractFormParser
+ 
+  # name of the form according to ProntoForms
+  NAME = "eNPS"
+  
+  # Returns the highest version number this parser is capable of parsing.
+  #
+  # @return [numeric] highest version number this parser is capable of parsing
+  def max_version
+    3
+  end
+  
+  # Attempts to convert the hash provided into a database object.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @param model [Forms::Enps] object to update, nil if a new object should be created
+  # @return [ActiveRecord] instance of the object
+  # @raise [ParserException] if the hash could not be parsed for whatever reason
+  def parse(form_hash, model = nil)
+    # create a new model object if one was not provided
+    model ||= Forms::EnpsReport.new
+    
+    # assign common values
+    ProntoForms::SourceParser.get_common_answer_values(form_hash, model)
+    
+    # page 1
+    model.qr_code    = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 1)[0]['data']
+    model.site       = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 3)[0]
+    model.shop       = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 1)[0]
+    model.question1  = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 1)[0]
+    model.question2  = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 2)[0]
+    model.employee   = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 1)[0]
+    model.exclude    = false
+        
+    return model
+  end
+end

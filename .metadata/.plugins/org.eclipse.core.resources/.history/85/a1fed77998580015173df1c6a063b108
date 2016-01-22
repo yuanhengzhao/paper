@@ -1,0 +1,107 @@
+# Forms::EscrubKops's model
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms 
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user 
+# - version (string) - current version of the form
+# - altitude (decimal(20,20)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,20)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,20)) - longitude of the user's location when submitted the form
+# - source (string) - name of the provider, for example,"prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+#
+# - date (date) - Current date selected by default
+# - time (time) - Time form is created/opened
+# - crew (string) - Select crew performing inspection: Select from list - A1, A2, B1, B2
+# - shift (string) - Based on Shift: eg A1 means Crew 1 on Day Shift (A=Day, B=Night) - Day, Night
+# - check_list (string) - Refers to inspection type: Selecting option sends you to appropriate page(s) - Module Inspection or Key Operating Parameters or Key Chemistry Parameters
+#
+#  Module Inspection
+# - bc_matrix_dist (string) - BC matrix distribution on passive plates - Good, Dry Front, Dry Middle, Dry Rear, Dry All
+# - bc_matrix_flow (string) - BC matrix flow
+# - bc_particles_trough (string) - BC particles trough
+# - bc_residues (string) - BC Residues On Passive Plates
+# - bc_remarks (string) - BC Remarks
+# - bc_picture (attachment) - BC Picture for version1
+# - bc_picture1 (attachment) - BC Picture for version2+
+# - bc_picture2 (attachment) - BC Picture for version2+
+# - bc_picture3 (attachment) - BC Picture for version2+
+# - bc_picture4 (attachment) - BC Picture for version2+
+# - bc_picture5 (attachment) - BC Picture for version2+
+# - cc_matrix_dist (string) - CC matrix distribution on passive plates - Good, Dry Front, Dry Middle, Dry Rear, Dry All
+# - cc_matrix_flow (string) - CC matrix flow
+# - cc_particles_trough (string) - CC particles trough
+# - cc_residues (string) - CC Residues On Passive Plates
+# - cc_remarks (string) - CC Remarks
+# - cc_picture (attachment) - CC Picture for version1
+# - cc_picture1 (attachment) - CC Picture for version2+
+# - cc_picture2 (attachment) - CC Picture for version2+
+# - cc_picture3 (attachment) - CC Picture for version2+
+# - cc_picture4 (attachment) - CC Picture for version2+
+# - cc_picture5 (attachment) - CC Picture for version2+
+#
+#  Key Operating Parameters
+# - bc_sludge (integer) - BC sludge (lbs)
+# - bc_sludge_stick_test (string) - BC sludge stick test
+# - bc_supply_mtr11 (integer) - BC Supply MTR11 (Hz)
+# - bc_supply_mtr21 (integer) - BC Supply MTR21 (Hz)
+# - bc_supply_mtr31 (integer) - BC Supply MTR31
+# - bc_flow_rate_em0104 (integer) - Required  BC Flow Rate EM01-EM06 (GPM) (EM01-EM04 in version1)
+# - bc_flow_rate_em0508 (integer) - Required  BC Flow Rate EM07-EM11 (GPM) (EM05-EM11 in version1)
+# - cc_sludge (integer) - CC sludge (lbs)
+# - cc_sludge_stick_test (string) - CC sludge stick test
+# - cc_supply_mtr11 (integer) - CC Supply MTR11 (Hz)
+# - cc_supply_mtr21 (integer) - CC Supply MTR21 (Hz)
+# - cc_supply_mtr31 (integer) - CC Supply MTR31 (HZ)
+# - cc_flow_rate_em0104 (integer) - CC Flow Rate EM01-EM04 (GPM)
+# - cc_flow_rate_em0508 (integer) - CC Flow Rate EM05-EM08 (GPM)
+# - operating_comments (text) - comments
+#
+#  Key Chemistry Parameters
+# - bc_viscosity (decimal)
+# - bc_system_tank_level (decimal)
+# - bc_surface_tension (decimal)
+# - bc_ratio_st_vis (decimal)
+# - bc_imhoff (integer)
+# - bc_centrifuge (integer)
+# - cc_viscosity (decimal)
+# - cc_system_tank_level (decimal)
+# - cc_surface_tension (decimal)
+# - cc_ratio_st_vis (decimal)
+# - cc_imhoff (integer)
+# - cc_centrifuge (integer)
+# - chemistry_comments (text)
+
+class Forms::EscrubKop < ActiveRecord::Base
+  has_attached_file :bc_picture
+  validates_attachment_content_type :bc_picture, :content_type => /\Aimage/
+  has_attached_file :bc_picture1
+  validates_attachment_content_type :bc_picture1, :content_type => /\Aimage/
+  has_attached_file :bc_picture2
+  validates_attachment_content_type :bc_picture2, :content_type => /\Aimage/
+  has_attached_file :bc_picture3
+  validates_attachment_content_type :bc_picture3, :content_type => /\Aimage/
+  has_attached_file :bc_picture4
+  validates_attachment_content_type :bc_picture4, :content_type => /\Aimage/
+  has_attached_file :bc_picture5
+  validates_attachment_content_type :bc_picture5, :content_type => /\Aimage/
+
+  has_attached_file :cc_picture
+  validates_attachment_content_type :cc_picture, :content_type => /\Aimage/
+  has_attached_file :cc_picture1
+  validates_attachment_content_type :cc_picture1, :content_type => /\Aimage/
+  has_attached_file :cc_picture2
+  validates_attachment_content_type :cc_picture2, :content_type => /\Aimage/
+  has_attached_file :cc_picture3
+  validates_attachment_content_type :cc_picture3, :content_type => /\Aimage/
+  has_attached_file :cc_picture4
+  validates_attachment_content_type :cc_picture4, :content_type => /\Aimage/
+  has_attached_file :cc_picture5
+  validates_attachment_content_type :cc_picture5, :content_type => /\Aimage/
+  
+  include HasSubmission
+  include Reparseable
+end

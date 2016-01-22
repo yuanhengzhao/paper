@@ -1,0 +1,5 @@
+<% title "Shift Reports" %>
+<%= render :partial => 'forms/form_export_section', :locals => {:update_url => update_export_forms_shift_reports_url(format: :json), :download_url => download_export_forms_shift_reports_url} %>
+<table id="shift_reports_datatable" class="display<%= (can?(:manage, Forms::ShiftReport) ? ' admin' : '') %>">
+	<%= render :partial => 'forms/form_header_footer' %>
+</table>

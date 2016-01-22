@@ -1,0 +1,25 @@
+<% title @option_group_name %>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Group</th>
+      <th>Value</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+  	
+    <% @options.each do |option| %>
+      <tr>
+      	<td><%= option.group %></td>
+      	<td><%= option.value %></td>
+        <td>
+        	<%#= link_to 'Show', admin_option_path(option) %>
+        	<% if can? :update, option %>| <%#= link_to 'Edit', edit_admin_option_path(option) %><% end %>
+        	<% if can? :destroy, option %>| <%#= link_to 'Destroy', admin_option_path(option), method: :delete, data: { confirm: 'Are you sure?' } %><% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

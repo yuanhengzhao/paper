@@ -1,0 +1,12 @@
+class ChangeEnpsQuestion2ToText < ActiveRecord::Migration
+  def up
+    change_table :forms_enps_reports do |t|
+      t.change :question2, :text
+    end
+  end
+  def down
+    change_table :forms_enps_reports do |t|
+      t.change :question2, :string
+    end
+  end
+end

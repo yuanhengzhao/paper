@@ -1,0 +1,88 @@
+class Forms::UnrecognizedSubmissionsController < ApplicationController
+  
+  include DatatableServerSideProcessing
+  
+  before_action :authenticate_user!
+  
+  load_and_authorize_resource :except => [:submission]
+  
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  
+  add_breadcrumb "forms", :forms_index_path
+  add_breadcrumb "unrecognized submissions", :forms_unrecognized_submissions_path
+  
+  DATATABLES_COLUMNS = [ "id", "source", "created_at" ]
+  
+  def index
+    # @unrecognized_submissions is automatically loaded
+  end
+
+  def show
+    # @unrecognized_submission is automatically loaded
+    add_breadcrumb "unrecognized submission #{@unrecognized_submission.id}", :forms_unrecognized_submission_path
+  end
+  
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html { redirect_to forms_unrecognized_submissions_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS
+        }
+        
+        # call concern function using collection of all records the user has access to
+        @unrecognized_submissions = Forms::UnrecognizedSubmission.accessible_by(current_ability)
+        render :json => datatable_data(@unrecognized_submissions, params, options)
+      }
+    end
+  end
+
+  def submission
+    authorize! :read, Forms::UnrecognizedSubmission
+    @unrecognized_submission = Forms::UnrecognizedSubmission.find(params[:id])
+    authorize! :read, @unrecognized_submission
+    redirect_to(@unrecognized_submission.submission.expiring_url(10))
+  end
+  
+  def parse
+    authorize! :manage, Forms::UnrecognizedSubmission
+    
+    succeed = @unrecognized_submission.parse
+    
+    respond_to do |format|
+      if succeed
+        format.json { render nothing: true, status: :accepted }
+      else
+        format.json { render json: @unrecognized_submission, status: :not_acceptable }
+      end
+    end
+  end
+  
+  def parse_all
+    authorize! :manage, Forms::UnrecognizedSubmission
+    
+    num_succeed = 0
+    num_fail = 0
+    
+    Forms::UnrecognizedSubmission.all.each do |record|
+      if record.parse
+        num_succeed += 1
+      else
+        num_fail += 1
+      end
+    end
+    
+    respond_to do |format|
+      format.json { render text:"Success: #{num_succeed}. Failure: #{num_fail}" }
+    end
+  end
+
+  private
+  
+  def record_not_found(exception)
+    # redirect back to index if id not found
+    flash[:alert] = exception.message
+    redirect_to forms_unrecognized_submissions_path
+  end
+end

@@ -1,0 +1,33 @@
+class CreateFormsSparePartsReport < ActiveRecord::Migration
+  def change
+    create_table :forms_spare_parts_reports do |t|
+      t.string :reference_number
+      t.datetime :server_receive_date
+      t.datetime :device_submit_date
+      t.string :username
+      t.string :version
+      t.decimal :altitude, precision: 20, scale: 16
+      t.decimal :latitude, precision: 20, scale: 16
+      t.decimal :longitude, precision: 20, scale: 16
+      t.string :source
+      t.attachment :submission
+      
+      t.string :part_number
+      t.attachment :image1
+      t.attachment :image2
+      t.attachment :image3
+      t.attachment :image4
+      t.attachment :image5
+      t.attachment :image6
+      t.attachment :image7
+      t.attachment :image8
+      t.text :comments
+      t.string :manufacturer
+      t.string :area_of_use1
+      t.string :area_of_use2
+      t.string :area_of_use3
+      
+      t.timestamps null: true
+    end
+  end
+end

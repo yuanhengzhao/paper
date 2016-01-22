@@ -1,0 +1,77 @@
+// Place all the styles related to the Forms controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+#forms_datatable td.column-count { text-align: right; }
+#report-table{
+  margin-top:20px;
+  margin-bottom: 40px; 
+  float:right;
+    border-collapse: collapse;
+}
+
+#report-table, #report-table th, #report-table td {
+  border: 1px solid black;
+  text-align:center;
+}
+
+.submission-data-section .container pre { overflow-x: scroll; padding-bottom: 10px; }
+.submission-data-section .container pre .string { color: fuchsia; }
+.submission-data-section .container pre .number { color: cornflowerblue; }
+.submission-data-section .container pre .boolean { color: blue; }
+.submission-data-section .container pre .null { color: blue; }
+.submission-data-section .container pre .key { color: blue; }
+.submission-data-section {padding-bottom: 25px;}
+// Make up for form page
+.form-table { width: 100%; border-collapse: collapse; }
+// .form-table tr:nth-child(even) td:first-child { background-color: #f1f1f1; }
+// .form-table tr:nth-child(even) td:last-child { background-color: #f9f9f9; }
+//.form-table tr:nth-child  td:first-child { background-color: #f9f9f9; }
+//.form-table tr:nth-child  td:last-child { background-color: #ffffff; }
+//.form-table tr { border-top: 1px solid #dddddd; }
+.form-table td { padding: 15px; }
+
+// Make up for form history table
+.form-history-table {font-size:12px; width:100%;}
+.form-history-table td, th { text-align:left; padding:10px;}
+.form-history-table tr:nth-child(even){ background-color: #f1f1f1; }
+.form-history-table tr:nth-child(odd){ background-color: #f9f9f9; }
+.form-history-table tr { border-top: 1px solid #dddddd; }
+
+// Make up for filter form
+#form-filter-form {
+  background: #f0f6fa;
+  border: 1px solid #d6e6f0;
+  color: #0065a4;
+  margin: 20px 0px 40px 0px;
+  padding: 10px;
+  
+  .form-title {
+    margin: 0px 10px;
+    color: #0065a4;
+    cursor: pointer;
+  }
+  
+  .form-fields {
+    margin-top:5px;
+    border-top: 1px solid;
+  }
+}
+
+.form-filter-group {
+  width:30%;
+  display:inline-block;
+  margin: 10px 10px;
+  position:relative;
+  
+  label {
+    display:block;
+    margin-bottom: 5px;
+    font-size:13px;
+  }
+  
+  input, select {
+    width:100%;
+    background-color:white;
+    height:25px;
+  }
+}

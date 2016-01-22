@@ -1,0 +1,11 @@
+require 'spec_helper'
+
+describe Forms::EscrubKopsController do
+  it_behaves_like "a form controller" do
+    let(:model) { Forms::EscrubKop }
+    let(:image_fields) { [ :bc_picture, :cc_picture, :bc_picture1, :bc_picture2, :bc_picture3, :bc_picture4, :bc_picture5, :cc_picture1, :cc_picture2, :cc_picture3, :cc_picture4, :cc_picture5 ] }
+    let(:pre_model_name) { "" }
+  end
+  
+  
+end

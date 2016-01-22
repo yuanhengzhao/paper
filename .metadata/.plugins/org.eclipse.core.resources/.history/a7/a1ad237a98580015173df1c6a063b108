@@ -1,0 +1,7 @@
+FactoryGirl.define do
+  factory :jig_cleaning_record, class: FormExtensions::JigCleaningRecord do
+    jig_type "type"
+    side "L"
+    count 1
+  end
+end

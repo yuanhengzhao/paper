@@ -1,0 +1,33 @@
+<% title "Equipment Unit" %>
+
+<table id="equipment_units_datatable" class="data-source-table display">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Site</th>
+      <th>Shop</th>
+      <th>Equipment Type</th>
+      <th>Unit Number</th>
+      <th class="actions">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @equipment_units.each do |data_sources_equipment_unit| %>
+      <tr>
+      	<td><%= data_sources_equipment_unit.id %></td>
+        <td><%= data_sources_equipment_unit.site %></td>
+        <td><%= data_sources_equipment_unit.shop %></td>
+        <td><%= data_sources_equipment_unit.equipment_type %></td>
+        <td><%= data_sources_equipment_unit.unit_number %></td>
+        <td class="actions">
+        	<ul>
+        		<li><%= link_to 'Show', data_sources_equipment_unit %></li>
+        	    <% if can? :edit, data_sources_equipment_unit %><li><%= link_to 'Edit', edit_data_sources_equipment_unit_path(data_sources_equipment_unit) %></li><% end %>
+        	    <% if can? :destroy, data_sources_equipment_unit %><li><%= link_to 'Destroy', data_sources_equipment_unit, method: :delete, data: { confirm: 'Are you sure?' } %></li><% end %>
+        	</ul>
+		</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

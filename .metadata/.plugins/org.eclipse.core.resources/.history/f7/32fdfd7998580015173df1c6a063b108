@@ -1,0 +1,6 @@
+class UnrecognizedSubmissionAsTextNotFilePath < ActiveRecord::Migration
+  def change
+    remove_column :forms_unrecognized_submissions, :file_path
+    add_column :forms_unrecognized_submissions, :submission, :text
+  end
+end

@@ -1,0 +1,15 @@
+FactoryGirl.define do
+  factory :pre_task_safety_plan, class: Forms::PreTaskSafetyPlan do
+    submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'submissions', 'fake.json'), 'text/plain') }
+    
+    factory :pre_task_safety_plan_valid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'pre_task_safety_plan', 'valid.json'), 'text/plain') }
+    end
+    
+    factory :pre_task_safety_plan_invalid do
+      source "prontoforms"
+      submission { fixture_file_upload(Rails.root.join( 'spec', 'resources', 'forms', 'pre_task_safety_plan', 'too_many_pictures.json'), 'text/plain') }
+    end
+  end
+end

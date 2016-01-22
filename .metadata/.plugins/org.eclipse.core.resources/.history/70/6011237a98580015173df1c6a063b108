@@ -1,0 +1,1057 @@
+require 'spec_helper'
+
+describe Security::UsersController do
+
+  describe "POST create" do
+    it "does not create a user if logged in as an anonymous user" do
+      post :create, email: "test@gmail.com" 
+      
+      expect(Security::User.all.size).to eq(0)
+      expect(response.status).to eq(302)
+      expect(response).to redirect_to(root_url)
+    end
+    
+    it "does not create a user if not an admin" do
+      @user = create(:user)
+      sign_in @user
+      expect(Security::User.all.size).to eq(1)
+      
+      post :create, email: "test@gmail.com" 
+      
+      expect(Security::User.all.size).to eq(1)
+      expect(response.status).to eq(302)
+      expect(response).to redirect_to(root_url)       
+    end
+    
+    it "creates a user if logged in as an admin" do
+      @user = create(:admin)
+      sign_in @user
+      expect(Security::User.all.size).to eq(1)
+      
+      post :create, email: "test@test.com", company: "Robinson"
+      
+      expect(Security::User.all.size).to eq(2)      
+      user = Security::User.all[1]
+      expect(user.email).to eq("test@test.com")
+      expect(user.company).to eq("Robinson")
+      expect(user.encrypted_password).not_to be_nil
+      expect(user.uid).to eq(nil)
+      expect(user.provider).to eq(nil)
+    end
+  end
+
+  describe "GET index" do
+
+    describe "for an anonymous user" do
+
+      context "HTML" do
+
+        it "does not succeed" do
+          get :index
+          expect(response).not_to be_success
+        end
+
+        it "responds with redirect HTTP 302" do
+          get :index
+          expect(response.status).to eq(302)
+          expect(response).to redirect_to(root_url)
+        end
+
+        it "does not render index template" do
+          get :index
+          expect(response).to_not render_template("index")
+        end
+
+        it "does not render the empty collection" do
+          expect(Security::User.all).to be_empty
+
+          get :index
+
+          result = assigns(:users)
+          expect(result).to be_nil
+        end
+
+        it "does not render a non-empty collection" do
+          create(:user)
+          expect(Security::User.all).to_not be_empty
+
+          get :index
+
+          result = assigns(:users)
+          expect(result).to be_nil
+        end
+        
+        it "could not change others to admin" do
+          user = create(:authorized)
+
+          post :change_to_admin, id: user.id
+          should redirect_to root_url
+          
+          user = Security::User.find(user)
+          expect(user.admin).to eq(false)
+          
+        end
+        
+        it "could not change others to authorized" do
+          user = create(:user)
+
+          post :change_to_authorized, id: user.id
+          should redirect_to root_url
+          
+          user = Security::User.find(user)
+          expect(user.authorized).to eq(false)
+          
+        end
+        
+        it "could not change others to non-admin" do
+          user = create(:admin)
+
+          post :change_to_non_admin, id: user.id
+          should redirect_to root_url
+          
+          user = Security::User.find(user)
+          expect(user.admin).to eq(true)
+          
+        end
+        
+        it "could not change others to non-authorized" do
+          user = create(:authorized)
+
+          post :change_to_non_authorized, id: user.id
+          should redirect_to root_url
+          
+          user = Security::User.find(user)
+          expect(user.authorized).to eq(true)
+          
+        end
+
+      end
+
+      context "JSON" do
+
+        it "does not succeed" do
+          get :index, { format: "json" }
+          expect(response).not_to be_success
+        end
+
+        it "responds with HTTP 401" do
+          get :index, { format: "json" }
+          expect(response.status).to eq(401)
+        end
+
+        it "does not render index template" do
+          get :index, { format: "json" }
+          expect(response).to_not render_template("index")
+        end
+
+        it "does not render the empty collection" do
+          expect(Security::User.all).to be_empty
+
+          get :index, { format: "json" }
+
+          result = assigns(:users)
+          expect(result).to be_nil
+        end
+
+        it "does not render a non-empty collection" do
+          create(:user)
+          expect(Security::User.all).to_not be_empty
+
+          get :index, { format: "json" }
+
+          result = assigns(:users)
+          expect(result).to be_nil
+        end
+        
+        it "could not change others to admin" do
+          user = create(:authorized)
+
+          post :change_to_admin,  { format: "json", id: user.id }
+          expect(response.status).to eq(401)
+          
+          user = Security::User.find(user)
+          expect(user.admin).to eq(false)
+          
+        end
+        
+        it "could not change others to authorized" do
+          user = create(:user)
+
+          post :change_to_authorized,  { format: "json", id: user.id }
+          expect(response.status).to eq(401)
+          
+          user = Security::User.find(user)
+          expect(user.authorized).to eq(false)
+          
+        end
+        
+        it "could not change others to non-admin" do
+          user = create(:admin)
+
+          post :change_to_non_admin,  { format: "json", id: user.id }
+          expect(response.status).to eq(401)
+          
+          user = Security::User.find(user)
+          expect(user.admin).to eq(true)
+          
+        end
+        
+        it "could not change others to non-authorized" do
+          user = create(:authorized)
+
+          post :change_to_non_authorized, { format: "json", id: user.id }
+          expect(response.status).to eq(401)
+          
+          user = Security::User.find(user)
+          expect(user.authorized).to eq(true)
+          
+        end
+
+      end
+
+    end
+
+    describe "for an unauthorized logged in user" do
+
+      before(:each) do
+        @user = create(:user)
+        sign_in @user
+      end
+
+      context "HTML" do
+
+        it "succeeds" do
+          get :index
+          expect(response).to_not be_success
+        end
+
+        it "responds with redirect HTTP 302" do
+          get :index
+          expect(response.status).to eq(302)
+          expect(response).to redirect_to(authenticated_root_url)
+        end
+
+        it "does not render index template" do
+          get :index
+          expect(response).to_not render_template("index")
+        end
+
+        it "renders an empty collection" do
+          create(:user)
+          expect(Security::User.all).to_not be_empty
+
+          get :index
+
+          result = assigns(:users)
+          expect(result).to_not be_nil
+          expect(result).to be_empty
+        end
+        
+        it "could not change others to admin" do
+          user = create(:authorized)
+
+          post :change_to_admin, id: user.id
+          should redirect_to root_url
+          
+          user = Security::User.find(user)
+          expect(user.admin).to eq(false)
+          
+        end
+        
+        it "could not change others to authorized" do
+          user = create(:user)
+
+          post :change_to_authorized, id: user.id
+          should redirect_to root_url
+          
+          user = Security::User.find(user)
+          expect(user.authorized).to eq(false)
+          
+        end
+        
+        it "could not change others to non-admin" do
+          user = create(:admin)
+
+          post :change_to_non_admin, id: user.id
+          should redirect_to root_url
+          
+          user = Security::User.find(user)
+          expect(user.admin).to eq(true)
+          
+        end
+        
+        it "could not change others to non-authorized" do
+          user = create(:authorized)
+
+          post :change_to_non_authorized, id: user.id
+          should redirect_to root_url
+          
+          user = Security::User.find(user)
+          expect(user.authorized).to eq(true)
+          
+        end
+
+      end
+
+      context "JSON" do
+
+        it "succeeds" do
+          get :index, { format: "json" }
+          expect(response).to_not be_success
+        end
+
+        it "responds with redirect HTTP 302" do
+          get :index, { format: "json" }
+          expect(response.status).to eq(302)
+        end
+
+        it "does not render index template" do
+          get :index, { format: "json" }
+          expect(response).to_not render_template("index")
+        end
+
+        it "renders an empty collection" do
+          create(:user)
+          expect(Security::User.all).to_not be_empty
+
+          get :index, { format: "json" }
+
+          result = assigns(:users)
+          expect(result).to_not be_nil
+          expect(result).to be_empty
+        end
+        
+        it "could not change others to admin" do
+          user = create(:authorized)
+
+          post :change_to_admin,  { format: "json", id: user.id }
+          should redirect_to root_url
+          
+          user = Security::User.find(user)
+          expect(user.admin).to eq(false)
+          
+        end
+        
+        it "could not change others to authorized" do
+          user = create(:user)
+
+          post :change_to_authorized,  { format: "json", id: user.id }
+          should redirect_to root_url
+          
+          user = Security::User.find(user)
+          expect(user.authorized).to eq(false)
+          
+        end
+        
+        it "could not change others to non-admin" do
+          user = create(:admin)
+
+          post :change_to_non_admin,  { format: "json", id: user.id }
+          should redirect_to root_url
+          
+          user = Security::User.find(user)
+          expect(user.admin).to eq(true)
+          
+        end
+        
+        it "could not change others to non-authorized" do
+          user = create(:authorized)
+
+          post :change_to_non_authorized, { format: "json", id: user.id }
+          should redirect_to root_url
+          
+          user = Security::User.find(user)
+          expect(user.authorized).to eq(true)
+          
+        end
+      end
+
+    end
+    
+    describe "for an authorized logged in user" do
+
+      before(:each) do
+        @user = create(:user)
+        sign_in @user
+      end
+
+      context "HTML" do
+
+        it "succeeds" do
+          get :index
+          expect(response).to_not be_success
+        end
+
+        it "responds with redirect HTTP 302" do
+          get :index
+          expect(response.status).to eq(302)
+          expect(response).to redirect_to(authenticated_root_url)
+        end
+
+        it "does not render index template" do
+          get :index
+          expect(response).to_not render_template("index")
+        end
+
+        it "renders an empty collection" do
+          create(:user)
+          expect(Security::User.all).to_not be_empty
+
+          get :index
+
+          result = assigns(:users)
+          expect(result).to_not be_nil
+          expect(result).to be_empty
+        end
+        
+        it "could not change others to admin" do
+          user = create(:authorized)
+
+          post :change_to_admin, id: user.id
+          should redirect_to root_url
+          
+          user = Security::User.find(user)
+          expect(user.admin).to eq(false)
+          
+        end
+        
+        it "could not change others to authorized" do
+          user = create(:user)
+
+          post :change_to_authorized, id: user.id
+          should redirect_to root_url
+          
+          user = Security::User.find(user)
+          expect(user.authorized).to eq(false)
+          
+        end
+        
+        it "could not change others to non-admin" do
+          user = create(:admin)
+
+          post :change_to_non_admin, id: user.id
+          should redirect_to root_url
+          
+          user = Security::User.find(user)
+          expect(user.admin).to eq(true)
+          
+        end
+        
+        it "could not change others to non-authorized" do
+          user = create(:authorized)
+
+          post :change_to_non_authorized, id: user.id
+          should redirect_to root_url
+          
+          user = Security::User.find(user)
+          expect(user.authorized).to eq(true)
+          
+        end
+
+      end
+
+      context "JSON" do
+
+        it "succeeds" do
+          get :index, { format: "json" }
+          expect(response).to_not be_success
+        end
+
+        it "responds with redirect HTTP 302" do
+          get :index, { format: "json" }
+          expect(response.status).to eq(302)
+        end
+
+        it "does not render index template" do
+          get :index, { format: "json" }
+          expect(response).to_not render_template("index")
+        end
+
+        it "renders an empty collection" do
+          create(:user)
+          expect(Security::User.all).to_not be_empty
+
+          get :index, { format: "json" }
+
+          result = assigns(:users)
+          expect(result).to_not be_nil
+          expect(result).to be_empty
+        end
+        
+        it "could not change others to admin" do
+          user = create(:authorized)
+
+          post :change_to_admin,  { format: "json", id: user.id }
+          should redirect_to root_url
+          
+          user = Security::User.find(user)
+          expect(user.admin).to eq(false)
+          
+        end
+        
+        it "could not change others to authorized" do
+          user = create(:user)
+
+          post :change_to_authorized,  { format: "json", id: user.id }
+          should redirect_to root_url
+          
+          user = Security::User.find(user)
+          expect(user.authorized).to eq(false)
+          
+        end
+        
+        it "could not change others to non-admin" do
+          user = create(:admin)
+
+          post :change_to_non_admin,  { format: "json", id: user.id }
+          should redirect_to root_url
+          
+          user = Security::User.find(user)
+          expect(user.admin).to eq(true)
+          
+        end
+        
+        it "could not change others to non-authorized" do
+          user = create(:authorized)
+
+          post :change_to_non_authorized, { format: "json", id: user.id }
+          should redirect_to root_url
+          
+          user = Security::User.find(user)
+          expect(user.authorized).to eq(true)
+          
+        end
+
+      end
+
+    end
+
+    describe "for an admin logged in user" do
+
+      before(:each) do
+        @user = create(:admin)
+        sign_in @user
+      end
+
+      context "HTML" do
+
+        it "succeeds" do
+          get :index
+          expect(response).to be_success
+        end
+
+        it "responds successfully with HTTP 200" do
+          get :index
+          expect(response.status).to eq(200)
+        end
+
+        it "renders index template" do
+          get :index
+          expect(response).to render_template("index")
+        end
+
+        it "renders a non-empty collection" do
+          create(:user)
+          expect(Security::User.all).to_not be_empty
+
+          get :index
+
+          result = assigns(:users)
+          expect(result).to_not be_nil
+          expect(result.size).to eq(2)
+        end
+
+        it "could change others to admin" do
+          user = create(:user)
+
+          post :change_to_admin, id: user.id
+          expect(response.status).to eq(302)
+          
+          user = Security::User.find(user)
+          expect(user.admin).to eq(true)
+          expect(user.authorized).to eq(true)
+          
+        end
+        
+        it "could change others to authorized" do
+          user = create(:user)
+
+          post :change_to_authorized, id: user.id
+          expect(response.status).to eq(302)
+          
+          user = Security::User.find(user)
+          expect(user.admin).to eq(false)
+          expect(user.authorized).to eq(true)
+          
+        end
+        
+        it "could change others to non-admin" do
+          user = create(:admin)
+
+          post :change_to_non_admin, id: user.id
+          expect(response.status).to eq(302)
+          
+          user = Security::User.find(user)
+          expect(user.admin).to eq(false)
+          expect(user.authorized).to eq(true)
+          
+        end
+        
+        it "could change others to non-authorized" do
+          user = create(:authorized)
+
+          post :change_to_non_authorized, id: user.id
+          expect(response.status).to eq(302)
+          
+          user = Security::User.find(user)
+          expect(user.admin).to eq(false)
+          expect(user.authorized).to eq(false)
+          
+        end
+        
+      end
+
+      context "JSON" do
+
+        it "succeeds" do
+          get :index, { format: "json" }
+          expect(response).to be_success
+        end
+
+        it "responds successfully with HTTP 200" do
+          get :index, { format: "json" }
+          expect(response.status).to eq(200)
+        end
+
+        it "renders no template" do
+          get :index, { format: "json" }
+          expect(response).to render_template(nil)
+        end
+
+        it "renders a non-empty collection" do
+          create(:user)
+          expect(Security::User.all).to_not be_empty
+
+          get :index, { format: "json" }
+
+          result = assigns(:users)
+          expect(result).to_not be_nil
+          expect(result.size).to eq(2)
+        end
+        
+        it "could change others to admin" do
+          user = create(:user)
+
+          post :change_to_admin,  { id: user.id , format: "json" }
+          expect(response.status).to eq(200)
+          
+          user = Security::User.find(user)
+          expect(user.admin).to eq(true)
+          expect(user.authorized).to eq(true)
+          
+        end
+        
+        it "could change others to authorized" do
+          user = create(:user)
+
+          post :change_to_authorized,  { id: user.id , format: "json" }
+          expect(response.status).to eq(200)
+          
+          user = Security::User.find(user)
+          expect(user.admin).to eq(false)
+          expect(user.authorized).to eq(true)
+          
+        end
+        
+        it "could change others to non-admin" do
+          user = create(:admin)
+
+          post :change_to_non_admin,  { id: user.id , format: "json" }
+          expect(response.status).to eq(200)
+          
+          user = Security::User.find(user)
+          expect(user.admin).to eq(false)
+          expect(user.authorized).to eq(true)
+          
+        end
+        
+        it "could change others to non-authorized" do
+          user = create(:authorized)
+
+          post :change_to_non_authorized,  { id: user.id , format: "json" }
+          expect(response.status).to eq(200)
+          
+          user = Security::User.find(user)
+          expect(user.admin).to eq(false)
+          expect(user.authorized).to eq(false)
+        end
+        
+      end
+
+    end
+
+  end
+  
+  describe "GET 'edit_permissions'" do
+    let(:view) { 'edit_permissions' }
+    let(:record) { create(:user) }
+    let(:options) { { id: record.id } }
+    
+    describe "for an anonymous user" do
+      it_behaves_like "an unauthorized GET"
+    end
+    
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+      it_behaves_like "an unauthorized GET"
+    end
+    
+    describe "for an authorized logged in user", :with_authorized_user => true do
+      it_behaves_like "an unauthorized GET"
+    end
+    
+    describe "for a logged in admin", :with_admin_user => true do
+      it_behaves_like "an authorized GET"
+      it "assigns the user" do
+        get view, options
+        expect(assigns('user')).to eq(record)
+      end
+    end
+  end
+  
+  describe "POST 'set_permissions'" do
+    
+    shared_examples_for "an unauthorized set_permissions POST" do
+      let(:record) { create(:user) }
+      it "fails and redirects to root" do
+        post 'set_permissions', { id: record.id, security_permission: { category: "Forms", subject: "ShiftReport", action: "none" } }
+        expect(response).to_not be_success
+        expect(response.status).to eq(302)
+        expect(response).to redirect_to(root_url)
+      end
+    end
+    
+    describe "for an anonymous user" do
+      it_behaves_like "an unauthorized set_permissions POST"
+    end
+    
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+      it_behaves_like "an unauthorized set_permissions POST"
+    end
+    
+    describe "for an authorized logged in user", :with_authorized_user => true do
+      it_behaves_like "an unauthorized set_permissions POST"
+    end
+    
+    shared_examples_for "a successful adding of permission" do
+      before(:each) do
+        # expects the record to exist and the params to match the user
+        expect(record).to_not be_nil
+        expect(params).to_not be_nil
+        expect(params[:id]).to eq(record.id)
+        # since this is an add record, the action cannot be 'none'
+        expect(params[:security_permission][:action]).to_not eq('none')
+      end
+      
+      it "succeeds and updates" do
+        post 'set_permissions', params
+        expect(response).to be_success
+        
+        record.reload
+        expect(record.permissions.where(category: params[:security_permission][:category], subject: params[:security_permission][:subject]).first.action).to eq(params[:security_permission][:action])
+      end
+    end
+    
+    describe "for a logged in admin", :with_admin_user => true do
+      #Parameters: {"security_permission"=>{"category"=>"Forms", "subject"=>"ShiftReport", "action"=>"none"}, "id"=>"1"}
+      describe "adding a read permission" do
+        let!(:record) { create(:user) }
+        let!(:params) { { format: 'json', id: record.id, security_permission: { category: "Forms", subject: "ShiftReport", action: "read" } } }
+        
+        describe "when the target user has no permissions" do
+          before(:each) do
+            expect(record.permissions).to be_empty
+          end
+          
+          it_behaves_like "a successful adding of permission"
+        end
+        
+        describe "when the target user has one permission for a different subject" do
+          let!(:other_permission) { create(:permission, user: record, category: "Forms", subject: other_subject(params[:security_permission][:subject]), action: "read") }
+          before(:each) do
+            record.reload
+            expect(record.permissions.where(category: other_permission.category, subject: other_permission.subject).first.action).to eq(other_permission.action)
+          end
+          
+          it_behaves_like "a successful adding of permission"
+          
+          it "doesn't remove the unrelated permission" do
+            post 'set_permissions', params
+            record.reload
+            expect(record.permissions.where(category: other_permission.category, subject: other_permission.subject).first.action).to eq(other_permission.action)
+          end
+        end
+        
+        describe "when the target user has one permission for the same subject" do
+          describe "for the same action" do
+            let!(:other_permission) { create(:permission, user: record, category: params[:security_permission][:category], subject: params[:security_permission][:subject], action: params[:security_permission][:action]) }
+            before(:each) do
+              expect(other_permission.action).to eq(params[:security_permission][:action])
+            end
+          
+            it_behaves_like "a successful adding of permission"
+            
+            it "doesn't increase the number of permissions on the user" do
+              post 'set_permissions', params
+              record.reload
+              expect(record.permissions.size).to eq(1)
+            end
+          end
+          describe "for a different action" do
+            let!(:other_permission) { create(:permission, user: record, category: params[:security_permission][:category], subject: params[:security_permission][:subject], action: other_action(params[:security_permission][:action])) }
+            before(:each) do
+              expect(other_permission.action).to_not eq(params[:security_permission][:action])
+            end
+          
+            it_behaves_like "a successful adding of permission"
+            
+            it "doesn't increase the number of permissions on the user" do
+              post 'set_permissions', params
+              record.reload
+              expect(record.permissions.size).to eq(1)
+            end
+          end
+        end
+        
+        describe "when the target user has the ALL permission for the same category" do
+          let!(:other_permission) { create(:permission, user: record, category: params[:security_permission][:category], subject: "ALL", action: params[:security_permission][:action]) }
+          it "the ALL permission remains and a new permission is not created" do
+            post 'set_permissions', params
+            record.reload
+            expect(record.permissions).to eq([other_permission])
+          end
+        end
+      end
+      
+      describe "adding an edit permission" do
+        let!(:record) { create(:user) }
+        let!(:params) { { format: 'json', id: record.id, security_permission: { category: "Forms", subject: "ShiftReport", action: "edit" } } }
+        
+        describe "when the target user has no permissions" do
+          before(:each) do
+            expect(record.permissions).to be_empty
+          end
+          
+          it_behaves_like "a successful adding of permission"
+        end
+        
+        describe "when the target user has one permission for a different subject" do
+          let!(:other_permission) { create(:permission, user: record, category: "Forms", subject: other_subject(params[:security_permission][:subject]), action: "read") }
+          before(:each) do
+            record.reload
+            expect(record.permissions.where(category: other_permission.category, subject: other_permission.subject).first.action).to eq(other_permission.action)
+          end
+          
+          it_behaves_like "a successful adding of permission"
+          
+          it "doesn't remove the unrelated permission" do
+            post 'set_permissions', params
+            record.reload
+            expect(record.permissions.where(category: other_permission.category, subject: other_permission.subject).first.action).to eq(other_permission.action)
+          end
+        end
+        
+        describe "when the target user has one permission for the same subject" do
+          describe "for the same action" do
+            let!(:other_permission) { create(:permission, user: record, category: params[:security_permission][:category], subject: params[:security_permission][:subject], action: params[:security_permission][:action]) }
+            before(:each) do
+              expect(other_permission.action).to eq(params[:security_permission][:action])
+            end
+            
+            it_behaves_like "a successful adding of permission"
+            
+            it "doesn't increase the number of permissions on the user" do
+              post 'set_permissions', params
+              record.reload
+              expect(record.permissions.size).to eq(1)
+            end
+          end
+          describe "for a different action" do
+            let!(:other_permission) { create(:permission, user: record, category: params[:security_permission][:category], subject: params[:security_permission][:subject], action: other_action(params[:security_permission][:action])) }
+            before(:each) do
+              expect(other_permission.action).to_not eq(params[:security_permission][:action])
+            end
+          
+            it_behaves_like "a successful adding of permission"
+            
+            it "doesn't increase the number of permissions on the user" do
+              post 'set_permissions', params
+              record.reload
+              expect(record.permissions.size).to eq(1)
+            end
+          end
+        end
+        
+        describe "when the target user has the ALL permission for the same category" do
+          let!(:other_permission) { create(:permission, user: record, category: params[:security_permission][:category], subject: "ALL", action: params[:security_permission][:action]) }
+          it "the ALL permission remains and a new permission is not created" do
+            post 'set_permissions', params
+            record.reload
+            expect(record.permissions).to eq([other_permission])
+          end
+        end
+      end
+      
+      describe "adding a none permission" do
+        let!(:record) { create(:user) }
+        let!(:params) { { format: 'json', id: record.id, security_permission: { category: "Forms", subject: "ShiftReport", action: "none" } } }
+        
+        describe "when the target user has no permissions" do
+          before(:each) do
+            expect(record.permissions).to eq([])
+          end
+          it "succeeds" do
+            post 'set_permissions', params
+            expect(response).to be_success
+          end
+          it "doesn't change the number of permissions on the user" do
+            post 'set_permissions', params
+            record.reload
+            expect(record.permissions).to eq([])
+          end
+        end
+        
+        describe "when the target user has one permission for the subject" do
+          let!(:other_permission) { create(:permission, user: record, category: params[:security_permission][:category], subject: params[:security_permission][:subject], action: "read") }
+          it "succeeds" do
+            post 'set_permissions', params
+            expect(response).to be_success
+          end
+          it "removes the existing permission" do
+            post 'set_permissions', params
+            record.reload
+            expect(record.permissions).to eq([])
+          end
+        end
+        
+        describe "when the target user has one permission for a different subject" do
+          let!(:other_permission) { create(:permission, user: record, category: params[:security_permission][:category], subject: other_subject(params[:security_permission][:subject]), action: "read") }
+          it "succeeds" do
+            post 'set_permissions', params
+            expect(response).to be_success
+          end
+          it "doesn't remove the existing permission" do
+            post 'set_permissions', params
+            record.reload
+            expect(record.permissions).to eq([other_permission])
+          end
+        end
+        
+        describe "when the target user has the ALL permission for the same category" do
+          let!(:other_permission) { create(:permission, user: record, category: params[:security_permission][:category], subject: "ALL", action: "read") }
+          it "succeeds" do
+            post 'set_permissions', params
+            expect(response).to be_success
+          end
+          it "doesn't remove the existing permission" do
+            post 'set_permissions', params
+            record.reload
+            expect(record.permissions).to eq([other_permission])
+          end
+        end
+      end
+      
+      describe "adding an ALL permission" do
+        let!(:record) { create(:user) }
+        let!(:params) { { format: 'json', id: record.id, security_permission: { category: "Forms", subject: "ALL", action: "read" } } }
+        
+        describe "when the target user has no permissions" do
+          before(:each) do
+            expect(record.permissions).to eq([])
+          end
+          
+          it_behaves_like "a successful adding of permission"
+        end
+        
+        describe "when the target user already has the ALL permission" do
+          describe "for the same category" do
+            describe "for the same action" do
+              let!(:other_permission) { create(:permission, user: record, category: params[:security_permission][:category], subject: params[:security_permission][:subject], action: params[:security_permission][:action]) }
+              
+              it_behaves_like "a successful adding of permission"
+              
+              it "doesn't change the number of permissions on the user" do
+                post 'set_permissions', params
+                record.reload
+                expect(record.permissions.size).to eq(1)
+              end
+            end
+            
+            describe "for a different action" do
+              let!(:other_permission) { create(:permission, user: record, category: params[:security_permission][:category], subject: params[:security_permission][:subject], action: other_action(params[:security_permission][:action])) }
+              
+              it_behaves_like "a successful adding of permission"
+              
+              it "doesn't change the number of permissions on the user" do
+                post 'set_permissions', params
+                record.reload
+                expect(record.permissions.size).to eq(1)
+              end
+            end
+          end
+          
+          describe "for a different category" do
+            let!(:other_permission) { create(:permission, user: record, category: other_category(params[:security_permission][:category]), subject: params[:security_permission][:subject], action: params[:security_permission][:action]) }
+            
+            it_behaves_like "a successful adding of permission"
+            
+            it "keeps the specific permission" do
+              post 'set_permissions', params
+              record.reload
+              expect(record.permissions).to include(other_permission)
+            end
+          end
+        end
+        
+        describe "when the target user has one specific permssion" do
+          describe "for the same category" do
+            let!(:other_permission) { create(:permission, user: record, category: params[:security_permission][:category], subject: other_subject(params[:security_permission][:subject]), action: params[:security_permission][:action]) }
+            
+            it_behaves_like "a successful adding of permission"
+            
+            it "removes the specific permission" do
+              post 'set_permissions', params
+              record.reload
+              expect(record.permissions).to_not eq([other_permission])
+            end
+          end
+          describe "for a different category" do
+            let!(:other_permission) { create(:permission, user: record, category: other_category(params[:security_permission][:category]), subject: other_subject(params[:security_permission][:subject]), action: params[:security_permission][:action]) }
+            
+            it_behaves_like "a successful adding of permission"
+            
+            it "keeps the specific permission" do
+              post 'set_permissions', params
+              record.reload
+              expect(record.permissions).to include(other_permission)
+            end
+          end
+        end
+      end
+    end
+  end
+  
+  # helper function to get a different category
+  def other_category(category)
+    if category == "Forms" then "DataSources" else "Forms" end
+  end
+  
+  # helper function to get a different subject
+  def other_subject(subject)
+    if subject == "ShiftReport" then "RestroomChecklist" else "ShiftReport" end
+  end
+  
+  # helper function to get a different action
+  def other_action(action)
+    if action == "read" then "edit" else "read" end
+  end
+end

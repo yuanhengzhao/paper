@@ -1,0 +1,54 @@
+class Admin::ProntoFormsController < ApplicationController
+  
+  add_breadcrumb "admin", :admin_index_path
+  add_breadcrumb "pronto forms", :admin_pronto_forms_index_path
+  
+  def initialize
+    @pronto_forms_service = ProntoForms::RestService.new
+    super
+  end
+  
+  # Main page for the controller listing the actions to perform
+  def index
+    # forward on to view if current user can read user information
+    authorize! :read, Security::User
+  end
+  
+  # Action to create and update user records in ProntoForms according to LDAP entries
+  def synchronize_users
+    # delegate to helper
+    synchronize(:synchronize_users)
+  end
+
+  # Action to create user records in ProntoForms in the Training space according to LDAP entries
+  def synchronize_trainees
+    # delegate to helper
+    synchronize(:synchronize_trainees)
+  end
+  
+  private
+  
+  # Helper method to remove repeated code
+  #
+  # @param method_name [Symbol] name of the method to call
+  def synchronize(method_name)
+    authorize! :sync, Security::User
+    result = @pronto_forms_service.public_send(method_name)
+    success = result.empty?
+    message = (success ? "Success" : "Error")
+    
+    respond_to do |format|
+      format.html {
+        if success
+          flash[:notice] = message
+        else
+          flash[:alert] = "The following user#{(result.size > 1 ? "s" : "")} could not be updated #{result.to_s}" 
+        end
+        redirect_to admin_pronto_forms_index_path
+      }
+      format.json {
+        render json: { :message => message, :failures => result }, :status => 200
+      }
+    end
+  end
+end

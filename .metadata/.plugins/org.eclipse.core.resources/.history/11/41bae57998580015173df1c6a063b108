@@ -1,0 +1,75 @@
+<% title "Equipment Unit #{@equipment_unit.id}"  %>
+
+<div class="data-source-details">
+<table>
+	<tbody>
+		<tr>
+			<td>ID:</td>
+			<td><%= @equipment_unit.id %></td>
+		</tr>
+		<tr>
+			<td>Site:</td>
+			<td><%= @equipment_unit.site %></td>
+		</tr>
+		<tr>
+			<td>Shop:</td>
+			<td><%= @equipment_unit.shop %></td>
+		</tr>
+		<tr>
+			<td>Equipment type:</td>
+			<td><%= @equipment_unit.equipment_type %></td>
+		</tr>
+		<tr>
+			<td>Unit number:</td>
+			<td><%= @equipment_unit.unit_number %></td>
+		</tr>
+		<tr>
+			<td>Barcode:</td>
+			<td><%= @equipment_unit.barcode %></td>
+		</tr>
+		<tr>
+			<td>photo</td>
+			<td><%= image_tag photo_data_sources_equipment_unit_url(@equipment_unit) %></td>
+		</tr>
+		<tr>
+			<td>Manufacturer:</td>
+			<td><%= @equipment_unit.manufacturer %></td>
+		</tr>
+		<tr>
+			<td>Date into service:</td>
+			<td><%= @equipment_unit.date_into_service %></td>
+		</tr>
+		<tr>
+			<td>Battery serial number:</td>
+			<td><%= @equipment_unit.battery_serial_number %></td>
+		</tr>
+		<tr>
+			<td>Battery voltage:</td>
+			<td><%= @equipment_unit.battery_voltage %></td>
+		</tr>
+		<tr>
+			<td>Inspection frequency:</td>
+			<td><%= @equipment_unit.inspection_frequency %></td>
+		</tr>
+		<tr>
+			<td>Inspection code:</td>
+			<td><%= @equipment_unit.inspection_code %></td>
+		</tr>
+		<tr>
+			<td>Inspection days:</td>
+			<td><%= @equipment_unit.inspection_days %></td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="2">
+				<ul>
+					<% if can? :edit, @equipment_unit %><li><%= link_to 'Edit', edit_data_sources_equipment_unit_path(@equipment_unit) %></li><% end %>
+					<li><%= link_to 'Back', data_sources_equipment_units_path %></li>
+				</ul>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+
+</div>

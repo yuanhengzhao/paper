@@ -1,0 +1,25 @@
+<%
+# Builds the section for displaying the actual submission record in the page.
+#
+# Requires:
+#  - object: the instance being displayed
+#  - submission_path: path of the submission object
+#  - reparse_path: path of the reparse action for the object
+
+show_reparse = !local_assigns[:reparse_path].nil? and !local_assigns[:object].nil?
+if show_reparse
+	show_reparse = can?(:reparse, local_assigns[:object])
+end
+%>
+	<tr class="submission-data-section">
+		<td>submission</td>
+		<td class="link command-list">
+			<ul>
+				<li class="show"><%= link_to "JSON", submission_path %></li>
+				<% if show_reparse %><li class="reparse"><%= button_to "Re-parse", reparse_path %></li><% end %>
+			</ul>
+		</td>
+	</tr>
+	<tr class="submission-data-section">
+		<td colspan="2" class="container"></td>
+	</tr>

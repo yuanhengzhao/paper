@@ -1,0 +1,28 @@
+# Place all the behaviors and hooks related to the matching controller here.
+# All this logic will automatically be available in application.js.
+# You can use CoffeeScript in this file: http://coffeescript.org/
+jQuery ->
+  # initialize loading window
+  $("a.login").on "click", (e, xhr, settings) ->
+    href = $(this).attr("href")
+    
+    bootbox.dialog({title: 'Loading...', message: '<h4>Redirecting...</h4><div class="dialog-loading"></div>'})
+    callback = -> window.location.href = href 
+    setTimeout callback, 100
+    
+    false
+  
+  # resize login sections to be the same height
+  login_section = $(".login-group")
+  if login_section
+    # count login sections
+    login_body = $(".login-section div.body", login_section)
+    if login_body.length == 1
+      # only one child, center it
+      login_section.css('text-align', 'center')
+    else
+      # resize heights of login panels to be the same
+      heights = login_body.map () ->
+        $(this).height()
+      max_height = Math.max.apply(null, heights.get())
+      login_body.height(max_height)

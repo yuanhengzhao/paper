@@ -1,0 +1,16 @@
+require 'rails_helper'
+
+RSpec.describe "options/show", type: :view do
+  before(:each) do
+    @option = assign(:option, Option.create!(
+      :group => "body_)location",
+      :value => "Value"
+    ))
+  end
+
+  it "renders attributes in <p>" do
+    render
+    expect(rendered).to match(/Group/)
+    expect(rendered).to match(/Value/)
+  end
+end

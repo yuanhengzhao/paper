@@ -1,0 +1,116 @@
+# Forms::PunchlistForm's Model
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms 
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user 
+# - version (string) - current version of the form
+# - altitude (decimal(20,20)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,20)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,20)) - longitude of the user's location when submitted the form
+# - source (string) - name of the provider, for example,"prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+
+# - customer (string) - name of customer - should be just "BMW" for most cases.
+# - shop (string) - the shop of the site - "North Paint" or "South Paint"
+# - project_area (string) - defined by BMW, only space, '-', capital letters and numbers are allowed - "Ecoat", "Pretreatment", "IPP", etc
+# - level (string) - defined by BMW, only space, '-', capital letters and numbers are allowed
+# - column_location (string) - defined by BMW, only space, '-', capital letters and numbers are allowed
+# - els_number (string) - defined by BMW, only space, '-', capital letters and numbers are allowed
+# - task_description (text) - description of the task
+# - bmw_comment (text) - comments from BMW
+# - responsible (string) - who is responsible to the task - "Eisenmann", "ABB", "Sturm", "Complete Automation", "BMW", "Others"
+# - picture1 (attachment) - picture taken about the task
+# - picture2 (attachment) - picture taken about the task
+# - picture3 (attachment) - picture taken about the task
+# - picture4 (attachment) - picture taken about the task
+# - picture5 (attachment) - picture taken about the task
+# - picture6 (attachment) - picture taken about the task
+# - picture7 (attachment) - picture taken about the task
+# - picture8 (attachment) - picture taken about the task
+# - status (string) - status of the task - "Open", "Verified", "Rejected", "Cancelled", "Closed"
+# - supplier_status - status of supplier - "Assigned", "Open", "Clarification", "Check"
+
+
+class Forms::PunchlistForm < ActiveRecord::Base
+  has_attached_file :picture1
+  validates_attachment_content_type :picture1, :content_type => /\Aimage/
+
+  has_attached_file :picture2
+  validates_attachment_content_type :picture2, :content_type => /\Aimage/
+
+  has_attached_file :picture3
+  validates_attachment_content_type :picture3, :content_type => /\Aimage/
+
+  has_attached_file :picture4
+  validates_attachment_content_type :picture4, :content_type => /\Aimage/
+
+  has_attached_file :picture5
+  validates_attachment_content_type :picture5, :content_type => /\Aimage/
+
+  has_attached_file :picture6
+  validates_attachment_content_type :picture6, :content_type => /\Aimage/
+
+  has_attached_file :picture7
+  validates_attachment_content_type :picture7, :content_type => /\Aimage/
+
+  has_attached_file :picture8
+  validates_attachment_content_type :picture8, :content_type => /\Aimage/
+
+  include HasSubmission
+  include Reparseable
+  
+  has_many :punchlist_form_histories ,class_name: "FormExtensions::PunchlistFormHistory", dependent: :destroy
+  
+  after_create :create_punchlist_history
+  
+  def create_punchlist_history
+    punchlist_hitory = FormExtensions::PunchlistFormHistory.new
+    
+    punchlist_hitory.punchlist_form = self
+    punchlist_hitory.status = self.status
+    punchlist_hitory.responsible = self.responsible
+    punchlist_hitory.supplier_status = self.supplier_status
+    punchlist_hitory.bmw_comment = self.bmw_comment
+    punchlist_hitory.user_email = self.username
+    punchlist_hitory.comment = 'Origin'
+    
+    punchlist_hitory.save!(:validate => false)
+  end
+  
+  def self.distinct_usernames
+    Forms::PunchlistForm.select(:username).distinct.order(:username).collect { |f| f.username }
+  end
+  
+  #TODO: Review this. It's hard coded because some values could be missing in distinct_statuses
+  def self.all_statuses
+    ["Open","Verified","Rejected","Cancelled","Closed"]
+  end
+  
+  #TODO: Review this. It's hard coded because some values could be missing in distinct_responsibles
+  def self.all_responsibles
+    ["ABB","Sturm","Complete Automation","BMW","Others", "Eisenmann", "DD", "ASIS"]
+  end
+  
+  def self.supplier_status
+    ["Assigned","Accepted","Clarification","Check"]
+  end
+  
+  def self.distinct_statuses
+    Forms::PunchlistForm.select(:status).distinct.order(:status).collect { |f| f.status }
+  end
+  
+  def self.distinct_responsibles
+    Forms::PunchlistForm.select(:responsible).distinct.order(:responsible).collect { |f| f.responsible }
+  end
+  
+  def self.distinct_project_areas
+    Forms::PunchlistForm.select(:project_area).distinct.order(:project_area).collect { |f| f.project_area }
+  end
+  
+  def self.distinct_supplier_status
+    Forms::PunchlistForm.select(:supplier_status).distinct.order(:supplier_status).collect { |f| f.supplier_status }
+  end
+end

@@ -1,0 +1,129 @@
+# Parser to for Janitorial Checklist forms submitted from ProntoForms
+class ProntoForms::JanitorialChecklistParser < AbstractFormParser
+  
+  # name of the form according to ProntoForms
+  NAME = "Janitorial Checklist"
+  
+  # Returns the highest version number this parser is capable of parsing.
+  #
+  # @return [numeric] highest version number this parser is capable of parsing
+  def max_version
+    2
+  end
+  
+  # Attempts to convert the hash provided into a database object.
+  #
+  # @param form_hash [Hash] hash of the form submission
+  # @param result [Forms::JanitorialChecklist] object to update, nil if a new object should be created
+  # @return [ActiveRecord] instance of the object
+  # @raise [ParserException] if the hash could not be parsed for whatever reason
+  def parse(form_hash, result = nil)
+    result ||= Forms::JanitorialChecklist.new
+    
+    # assign common values
+    ProntoForms::SourceParser.get_common_answer_values(form_hash, result)
+    
+    # Page 1
+    result.client            = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 2)[0]
+    result.site              = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 3)[0]
+    result.shop              = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 4)[0]
+    result.location          = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 5)[0]
+    result.floor             = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 6)[0]
+    result.type_mwu          = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 7)[0]
+    result.reference         = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 8)[0]
+    result.plant_id          = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 9)[0]
+    result.area_type         = ProntoForms::SourceParser.get_answer_values(form_hash, 0, 10)[0]
+    
+    # One of the pages from 2 to 7 depending on which area type is chosen
+    case result.area_type
+    
+    when "Office"
+      result.fi             = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 1)[0]
+      result.floors         = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 2)[0]
+      result.trash          = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 3)[0]
+      result.ledges         = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 4)[0]
+      result.windows        = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 5)[0]
+      result.chairs         = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 6)[0]
+      result.drinking_fount = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 7)[0]
+      result.tables         = ProntoForms::SourceParser.get_answer_values(form_hash, 1, 8)[0]
+      
+    when "Conference / Training Room"
+      result.fi             = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 1)[0]
+      result.floors         = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 2)[0]
+      result.trash          = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 3)[0]
+      result.ledges         = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 4)[0]
+      result.windows        = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 5)[0]
+      result.vent          = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 6)[0]
+      result.chairs         = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 7)[0]
+      result.drinking_fount = ProntoForms::SourceParser.get_answer_values(form_hash, 2, 8)[0]
+    
+    when "Halls / Reception"
+      result.fi             = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 1)[0]
+      result.floors         = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 2)[0]
+      result.trash          = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 3)[0]
+      result.ledges         = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 4)[0]
+      result.windows        = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 5)[0]
+      result.vent           = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 6)[0]
+      result.chairs         = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 7)[0]
+      result.drinking_fount = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 8)[0]
+      result.tables         = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 9)[0]
+      result.microwave      = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 10)[0]
+      result.sinks          = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 11)[0]
+      result.dispensers     = ProntoForms::SourceParser.get_answer_values(form_hash, 3, 12)[0]
+      
+    when "Cafeteria / Kitchenette"
+      result.fi             = ProntoForms::SourceParser.get_answer_values(form_hash, 4, 1)[0]
+      result.floors         = ProntoForms::SourceParser.get_answer_values(form_hash, 4, 2)[0]
+      result.trash          = ProntoForms::SourceParser.get_answer_values(form_hash, 4, 3)[0]
+      result.ledges         = ProntoForms::SourceParser.get_answer_values(form_hash, 4, 4)[0]
+      result.windows        = ProntoForms::SourceParser.get_answer_values(form_hash, 4, 5)[0]
+      result.vent           = ProntoForms::SourceParser.get_answer_values(form_hash, 4, 6)[0]
+      result.chairs         = ProntoForms::SourceParser.get_answer_values(form_hash, 4, 7)[0]
+      result.tables         = ProntoForms::SourceParser.get_answer_values(form_hash, 4, 8)[0]
+      result.microwave      = ProntoForms::SourceParser.get_answer_values(form_hash, 4, 9)[0]
+      result.dispensers     = ProntoForms::SourceParser.get_answer_values(form_hash, 4, 10)[0]
+    
+    when "Break Area / Team Room"
+      result.fi          = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 1)[0]
+      result.floors      = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 2)[0]
+      result.trash       = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 3)[0]
+      result.ledges      = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 4)[0]
+      result.windows     = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 5)[0]
+      result.vent        = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 6)[0]
+      result.sinks       = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 7)[0]
+      result.dispensers  = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 8)[0]
+      result.guard_rails = ProntoForms::SourceParser.get_answer_values(form_hash, 5, 9)[0]
+    
+    when "Lab / GSC"  
+      result.fi          = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 1)[0]
+      result.floors      = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 2)[0]
+      result.trash       = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 3)[0]
+      result.ledges      = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 4)[0]
+      result.sinks       = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 5)[0]
+      result.guard_rails = ProntoForms::SourceParser.get_answer_values(form_hash, 6, 6)[0]
+      
+    end
+    
+    # Page 8
+    if result.version == 1
+      result.are_repairs_required = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 26)[0]
+    else
+      result.are_repairs_required = ProntoForms::SourceParser.get_answer_values(form_hash, 7, 0)[0]
+    end  
+    # page 9 if are_repairs_required is yes.
+    if result.are_repairs_required == "Yes"
+      result.list_repairs = ProntoForms::SourceParser.get_answer_values(form_hash, 8, 0)[0]
+    end
+    
+    result.comments     = ProntoForms::SourceParser.get_answer_values(form_hash, 9, 0)[0]
+    result.sum_total    = ProntoForms::SourceParser.get_answer_values(form_hash, 9, 2)[0]
+    result.overall_rate = ProntoForms::SourceParser.get_answer_values(form_hash, 9, 4)[0]
+    
+    
+    # field with multiple images
+    ProntoForms::SourceParser.handle_images(result, form_hash, 9, 1, 2, "image")
+    
+    return result
+  end
+  
+end

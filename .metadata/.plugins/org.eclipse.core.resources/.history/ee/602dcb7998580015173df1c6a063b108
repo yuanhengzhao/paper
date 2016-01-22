@@ -1,0 +1,107 @@
+class DataSources::EquipmentUnitsController < ApplicationController
+
+  include DatatableServerSideProcessing
+  DATATABLES_COLUMNS = [ "id", "site", "shop", "equipment_type", "unit_number", "barcode", "photo",
+    "manufacturer", "date_into_service", "battery_serial_number", "battery_voltage", "inspection_frequency",
+    "inspection_code", "inspection_days" ]
+  
+  before_action :authenticate_user!
+
+  load_and_authorize_resource :except => [:photo]
+  before_action :set_data_sources_equipment_unit, only: [:edit, :update, :destroy]
+
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  
+  add_breadcrumb "data sources", :data_sources_index_path
+  add_breadcrumb "equipment units", :data_sources_equipment_units_path
+  
+  # GET /data_sources/equipment_units
+  # GET /data_sources/equipment_units.json
+  def index
+    # @equipment_units is automatically loaded
+  end
+
+  # GET /data_sources/equipment_units/1
+  # GET /data_sources/equipment_units/1.json
+  def show
+    # @equipment_unit is automatically loaded
+    add_breadcrumb "equipment unit #{@equipment_unit.id}", :data_sources_equipment_unit_path
+  end
+
+  # GET /data_sources/equipment_units/1/edit
+  def edit
+    add_breadcrumb "equipment unit #{@equipment_unit.id}", :data_sources_equipment_unit_path
+  end
+
+  # PATCH/PUT /data_sources/equipment_units/1
+  # PATCH/PUT /data_sources/equipment_units/1.json
+  def update
+    respond_to do |format|
+      if @equipment_unit.update(data_sources_equipment_unit_params)
+        format.html { redirect_to @equipment_unit, notice: 'Equipment unit was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @equipment_unit.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /data_sources/equipment_units/1
+  # DELETE /data_sources/equipment_units/1.json
+  def destroy
+    @equipment_unit.destroy
+    respond_to do |format|
+      format.html { redirect_to data_sources_equipment_units_url }
+      format.json { head :no_content }
+    end
+  end
+    
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html { redirect_to data_sources_equipment_units_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS
+        }
+        
+        # call concern function using collection of all records the user has access to
+        @equipment_units = DataSources::EquipmentUnit.accessible_by(current_ability)
+        render :json => datatable_data(@equipment_units, params, options)
+      }
+    end
+  end
+  
+  def photo
+    authorize! :read, DataSources::EquipmentUnit
+    @equipment_unit = DataSources::EquipmentUnit.find(params[:id])
+    authorize! :read, @equipment_unit
+    redirect_to(@equipment_unit.photo.expiring_url(10))
+  end
+
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_data_sources_equipment_unit
+    @equipment_unit = DataSources::EquipmentUnit.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def data_sources_equipment_unit_params
+    params.require(:equipment_unit).permit(:site, :shop, :equipment_type, :unit_number, :barcode,
+    :photo, :manufacturer, :date_into_service, :battery_serial_number, :battery_voltage, 
+    :inspection_frequency, :inspection_code, :inspection_days)
+  end
+  
+  # callback when no record matches the id provided
+  def record_not_found(exception)
+    respond_to do |format|
+      format.html {
+        flash[:alert] = exception.message
+        redirect_to data_sources_equipment_units_path
+      }
+      format.any { raise ActiveRecord::RecordNotFound }
+    end
+  end
+end

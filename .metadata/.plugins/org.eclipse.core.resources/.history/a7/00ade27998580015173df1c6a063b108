@@ -1,0 +1,34 @@
+<%= form_for(@customer_site, { html: { class: "data_sources_form form-horizontal" } }) do |f| %>
+  <% if @customer_site.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@customer_site.errors.count, "error") %> prohibited this data_sources_customer_site from being saved:</h2>
+
+      <ul>
+      <% @customer_site.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field form-group">
+    <%= f.label :company %>
+    <%= f.text_field :company, name: "customer_site[company]", class: "form-control" %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :customer %>
+    <%= f.text_field :customer, name: "customer_site[customer]", class: "form-control"  %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :site %>
+    <%= f.text_field :site, name: "customer_site[site]", class: "form-control"  %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :shop %>
+    <%= f.text_field :shop, name: "customer_site[shop]", class: "form-control"  %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Submit", class: 'button-submit' %>
+    <%= link_to 'Back', data_sources_customer_sites_path %>
+  </div>
+<% end %>

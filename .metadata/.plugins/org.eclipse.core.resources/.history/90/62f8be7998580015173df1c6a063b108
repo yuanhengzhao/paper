@@ -1,0 +1,18 @@
+jQuery ->
+  # action triggers
+  $('.action-pronto-forms').on 'click', () ->
+    bootbox.dialog({title: 'Loading...', message: '<div class="dialog-loading"></div>'})
+    $.ajax(
+      'url': '/admin/pronto_forms/' + $(this).attr('data-action')
+      'type': 'POST'
+      'dataType': 'json'
+      'success': (data, status, xhr) ->
+        bootbox.hideAll()
+        bootbox.alert('<p>' + data.message + '</p>')
+      'error': (xhr, status, error) ->
+        # extract the response text if JSON is returned, otherwise use generic message
+        msg = if /application\/json/.test(xhr.getResponseHeader('Content-Type')) then xhr.responseText else "Unexpected Error"
+        bootbox.hideAll()
+        bootbox.alert('<p>' + msg + '</p>')
+    )
+  true

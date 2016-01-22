@@ -1,0 +1,124 @@
+require_relative '../../spec_helper'
+
+describe ProntoForms::SocIncidentReportParser do
+
+  let(:missing_image) { "/assets/missing.jpg" }
+
+  subject { ProntoForms::SocIncidentReportParser.new }
+
+  it "should have a NAME constant with the expected value" do
+    ProntoForms::SocIncidentReportParser::NAME.should eq("SOC Incident Report")
+  end
+
+  describe "max_version" do
+    subject { ProntoForms::SocIncidentReportParser.new }
+    it "should not throw an error" do
+      lambda { subject.max_version }.should_not raise_error
+    end
+  end
+
+  describe "parse" do
+
+  # call the parse method on a parameter defined in the sub-describes
+    subject { ProntoForms::SocIncidentReportParser.new.parse(form_hash) }
+
+    # ensure that form_hash has been properly set for the specs
+    before(:each) do
+      form_hash.should_not be_nil
+    end
+
+    describe "for a hash missing pages" do
+
+      let(:form_hash) {
+        f = Rails.root.join('spec', 'resources', 'forms', 'soc_incident_report', 'missing_pages.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+
+      it "should throw a parser error" do
+        lambda { subject }.should raise_error(ParserException, "Could not find expected answer [page: 0][answer: 14]")
+      end
+
+    end
+
+    describe "for a valid hash" do
+
+      let(:form_hash) {
+        f = Rails.root.join('spec', 'resources', 'forms', 'soc_incident_report', 'valid.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+
+      let(:expected) {
+        o = Forms::SocIncidentReport.new
+
+        o.reference_number = "20140811-1814621354"
+        o.server_receive_date = "2014-08-11T10:54:05.000Z"
+        o.device_submit_date = "2014-08-11T10:54:02.000Z"
+        o.username = "imaldonado"
+        o.version = "2"
+        o.altitude = "266.177"
+        o.latitude = "39.0510835731766"
+        o.longitude = "-84.6573551372482"
+        o.source = "prontoforms"
+
+        o.site = "Social Circle"
+        o.shop = "Flat Presses"
+        o.column_loc = "F12"
+        o.employee_name = "Ivan X"
+        o.date_of_incident = "2014-08-11"
+        o.class_of_incident = "First Aid"
+        o.type_of_injury = "Laceration"
+        o.description = "Cut left hand when loading \nGreen stick into press 3"
+        o.job_task_name = "Press Loader"
+        o.shift_starts = "19:00:20-04:00"
+        o.shift_ends = "07:00:31-04:00"
+        o.time_of_incident = "06:45:44-04:00"
+        o.time_reported = "06:50:55-04:00"
+        o.supervisor_name = "Alonzo Jeffries"
+        o.safety_rep_contacted = "Al Olivera"
+
+        return o
+      }
+
+      it "should return a Forms::SocIncidentReport object" do
+        subject.should be_a_kind_of(Forms::SocIncidentReport)
+      end
+      
+      it "should be valid" do
+        expect(subject).to  be_valid
+        expect(expected).to be_valid
+      end
+
+      describe "should match expected" do
+
+        before(:each) do
+          subject.save
+          subject.reload
+        end
+
+        it "should have the same base form values" do
+          expect(subject).to have_same_base_form_attributes_as(expected)
+        end
+
+        it "should have the same values as expected" do
+          subject.site.should eq(expected.site)
+          subject.shop.should eq(expected.shop)
+          subject.column_loc.should eq(expected.column_loc)
+          subject.employee_name.should eq(expected.employee_name)
+          subject.date_of_incident.should eq(expected.date_of_incident)
+          subject.class_of_incident.should eq(expected.class_of_incident)
+          subject.type_of_injury.should eq(expected.type_of_injury)
+          subject.description.should eq(expected.description)
+          subject.job_task_name.should eq(expected.job_task_name)
+          subject.shift_starts.should eq(expected.shift_starts)
+          subject.shift_ends.should eq(expected.shift_ends)
+          subject.time_of_incident.should eq(expected.time_of_incident)
+          subject.time_reported.should eq(expected.time_reported)
+          subject.supervisor_name.should eq(expected.supervisor_name)
+          subject.safety_rep_contacted.should eq(expected.safety_rep_contacted)
+        end
+      end
+    end
+
+  end
+
+end

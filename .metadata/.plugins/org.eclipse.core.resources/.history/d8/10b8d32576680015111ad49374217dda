@@ -1,0 +1,11 @@
+require 'rake'
+namespace :reports do
+  desc "To clean the reports data which have been created for 5 or more than 5 days."
+  task :clean => :environment do
+    # Days to keep the reports.
+    days = 5
+    #Delete those reports which is older than five days.
+    Report.where("datediff(curdate(), date(reports.created_at))>=#{days}").delete_all
+      puts " reports have been cleaned."
+  end
+end

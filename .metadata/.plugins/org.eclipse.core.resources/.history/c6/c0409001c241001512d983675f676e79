@@ -1,0 +1,7 @@
+class Option < ActiveRecord::Base
+  validates_presence_of :group
+  
+  def to_s
+    self.value
+  end
+end

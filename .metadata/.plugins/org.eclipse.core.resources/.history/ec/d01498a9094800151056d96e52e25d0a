@@ -1,0 +1,35 @@
+require "rails_helper"
+
+RSpec.describe Admin::OptionsController, :type => :routing do
+  describe "routing" do
+
+    it "routes to #index" do
+      expect(:get => "/admin/options/body_location").to route_to("admin/options#index", :group =>"body_location")
+    end
+
+    it "routes to #new" do
+      expect(:get => "/admin/options/body_location/new").to route_to("admin/options#new", :group =>"body_location")
+    end
+
+    it "routes to #show" do
+      expect(:get => "/admin/options/body_location/show/1").to route_to("admin/options#show", :group =>"body_location", :id => "1")
+    end
+
+    it "routes to #edit" do
+      expect(:get => "/admin/options/body_location/edit/1").to route_to("admin/options#edit", :group =>"body_location", :id => "1")
+    end
+
+    it "routes to #create" do
+      expect(:post => "/admin/options/body_location/create").to route_to("admin/options#create", :group =>"body_location")
+    end
+
+    it "routes to #update" do
+      expect(:put => "/admin/options/body_location/update/1").to route_to("admin/options#update", :group =>"body_location", :id => "1")
+    end
+
+    it "routes to #destroy" do
+      expect(:delete => "/admin/options/body_location/delete/1").to route_to("admin/options#destroy", :group =>"body_location", :id => "1")
+    end
+
+  end
+end

@@ -1,0 +1,41 @@
+<% title "Safety Tracker" %>
+
+<table id="safety-tracker" class="table table-striped table-hover table-bordered safety-tracker">
+  <thead>
+  	<tr>
+      <th>Date of Incident</th>
+      <th>Site</th>
+      <th>Building</th>
+      <th>Supervisor</th>
+      <th>Shift</th>
+      <th>Employee Name</th>
+      <th>Job</th>
+      <th>Safety Rep</th>
+      <th>Reported</th>
+      <th>Incident Class</th>
+      <th>Incident Type</th>
+      <th>Body Part</th>
+      <th>Location</th>
+      <th>Description</th>
+      <th>Full Report Received</th>
+      <th>WSIB Recordable?</th>
+      <th>WSIB Form 7 Submitted</th>
+      <th>WSIB Lost Time</th>
+      <th>Claim Number</th></th>
+      <th>OSHA Recordable?</th>
+      <th>OSHA Lost Time</th>
+      <th>Modified Work Start</th>
+      <th>Modified Work End</th>
+      <th>Total Modified Work Days</th>
+      <th>Lost Days Start</th>
+      <th>Lost Days End</th>
+      <th>Total Lost Days</th>
+      <th>H&S Manager Comment</th>
+      <th>Date Closed</th>
+      <th>Objective Evidence Showing Countermeasures Implemented</th>
+  	</tr>
+  </thead>
+
+  <tbody>
+  </tbody>
+</table>

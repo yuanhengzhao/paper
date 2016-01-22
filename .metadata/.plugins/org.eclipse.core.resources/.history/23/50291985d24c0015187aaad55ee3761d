@@ -1,0 +1,9 @@
+<% title "Admin" %>
+<ul>
+	<li><%= link_to "Users", admin_users_path %></li>
+	<li><%= link_to "Sites", admin_sites_path %></li>
+	<li><%= link_to "Buildings", admin_buildings_path %></li>
+	<li><%= link_to "Body Parts", admin_body_parts_path %></li>
+	<li><%= link_to "Incident Classes", admin_options_path({ :group => 'incident_class' }) %></li>
+	<li><%= link_to "Incident Types", admin_incident_types_path %></li>
+</ul>

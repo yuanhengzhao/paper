@@ -1,0 +1,40 @@
+#punchlist_forms_datatable {
+  font-size:13px;
+}
+
+.btn-punchlist-details, .btn-punchlist-full-details{
+  width:100%;
+  margin-bottom:2px;
+  font-size:12px;
+}
+
+.btn-punchlist-update {
+  width:100%;
+  font-size:12px;
+}
+
+#punchlist-dialog {
+  padding: 20px;
+  .row {
+    .title {
+      width: 30%;
+      display:inline-block;
+      font-weight:bold;
+    }
+    .field {
+      width: 65%;
+      display:inline-block;
+    }
+    
+    margin-bottom: 10px;
+    font-size:14px;
+  }
+}
+
+.punchlist-change-history-modal {
+  width:90%;
+}
+
+#punchlist-update-form > div{
+  margin-bottom:15px;
+}

@@ -1,0 +1,32 @@
+class CreateFormsGembaObservations < ActiveRecord::Migration
+  def change
+    create_table :forms_gemba_observations do |t|
+      t.string :reference_number
+      t.datetime :server_receive_date
+      t.datetime :device_submit_date
+      t.string :username
+      t.string :version
+      t.decimal :altitude, :precision => 20, :scale => 16 
+      t.decimal :latitude, :precision => 20, :scale => 16 
+      t.decimal :longitude, :precision => 20, :scale => 16 
+      t.string :source
+      t.string :file_path
+    
+      t.string :short_title
+      t.string :site
+      t.string :shop
+      t.text :description      
+      t.string :send_to_email
+    end
+    add_attachment :forms_gemba_observations, :image1
+    add_attachment :forms_gemba_observations, :image2
+    add_attachment :forms_gemba_observations, :image3
+    add_attachment :forms_gemba_observations, :image4
+    add_attachment :forms_gemba_observations, :image5
+    add_attachment :forms_gemba_observations, :image6
+    add_attachment :forms_gemba_observations, :image7
+    add_attachment :forms_gemba_observations, :image8
+    add_attachment :forms_gemba_observations, :image9
+    add_attachment :forms_gemba_observations, :image10
+  end
+end

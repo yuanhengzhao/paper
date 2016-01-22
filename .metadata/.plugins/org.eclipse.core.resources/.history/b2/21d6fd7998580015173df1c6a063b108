@@ -1,0 +1,48 @@
+class CreateFormsPaintBoothProcessChecklists < ActiveRecord::Migration
+  def change
+    create_table :forms_paint_booth_process_checklists do |t|
+      t.string :reference_number
+      t.datetime :server_receive_date
+      t.datetime :device_submit_date
+      t.string :username
+      t.string :version
+      t.decimal :altitude, :precision => 20, :scale => 16
+      t.decimal :latitude, :precision => 20, :scale => 16
+      t.decimal :longitude, :precision => 20, :scale => 16
+      t.string :source
+      t.string :file_path
+      
+      t.string :client
+      t.string :site
+      t.string :shop
+      t.string :process
+      t.string :line
+      t.string :area
+      t.string :ceiling_filter
+      t.string :lights_fixtures
+      t.string :walls_windows
+      t.string :robot_covers
+      t.string :grates
+      t.string :conveyor
+      t.string :structural_steel
+      t.string :flood_pan
+      t.string :floor_platforms
+      t.string :comments
+      t.attachment :image1
+      t.decimal :overall_rate, :precision => 20, :scale => 16
+
+      t.timestamps null: true
+    end
+  end
+end
+
+# by default, a decimal field has precision 10 and scale 0 - thus all values were rounded
+class ChangeOverallRatingToDecimal < ActiveRecord::Migration
+  def up
+    change_column :forms_restroom_checklists, :overall_rate, :decimal, :precision => 10, :scale => 3
+  end
+  
+  def down
+    change_column :forms_restroom_checklists, :overall_rate, :decimal, :precision => 10, :scale => 0
+  end
+end

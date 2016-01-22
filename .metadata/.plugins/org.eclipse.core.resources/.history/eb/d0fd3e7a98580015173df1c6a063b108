@@ -1,0 +1,225 @@
+require_relative '../../spec_helper'
+
+describe Consumer::AwsSqsS3, :mock_fog_reset => true do
+  
+  # options to use when initializing AWS objects -- since mocks should be in place, fake keys are ok
+  let(:fog_credentials) {
+    {
+      :aws_secret_access_key => 'not a real key',
+      :aws_access_key_id => 'not a real key',
+      :region => 'us-east-1' 
+    }
+  }
+  let(:sqs) { Fog::AWS::SQS.new(fog_credentials) }
+  let(:s3) { Fog::Storage::AWS.new(fog_credentials) }
+  
+  # url of a queue that exists
+  let(:queue_url_exists) {
+    # create a queue and hold its url
+    response = sqs.create_queue('test-queue')
+    response.body['QueueUrl']
+  }
+  
+  # source to use
+  let(:source) { "source" }
+  
+  # bucket name to use
+  let(:bucket_name_unknown) { "bucket_name_unknown" }
+  let(:bucket_name_exists) { "bucket_name_exists" }
+  before(:each) do
+    s3.directories.create(:key => bucket_name_exists, :public => true)
+  end
+  
+  describe "initialize" do
+  
+    it "required a fog_credentials parameter" do
+      lambda { Consumer::AwsSqsS3.new(nil, queue_url_exists, bucket_name_exists, source, {}) }.should raise_exception(ArgumentError, "fog_credentials cannot be nil")
+    end
+    
+    it "requires a queue_url parameter" do
+      lambda { Consumer::AwsSqsS3.new(fog_credentials, nil, bucket_name_exists, source, {}) }.should raise_exception(ArgumentError, "queue_url cannot be nil")
+    end
+    
+    it "requires a bucket_name parameter" do
+      lambda { Consumer::AwsSqsS3.new(fog_credentials, queue_url_exists, nil, source, {}) }.should raise_exception(ArgumentError, "bucket_name cannot be nil")
+    end
+    
+    it "requires a bucket_name that exists" do
+      lambda { Consumer::AwsSqsS3.new(fog_credentials, queue_url_exists, bucket_name_unknown, source, {}) }.should raise_exception(ArgumentError, "no bucket found for bucket_name [#{bucket_name_unknown}]")
+    end
+    
+    it "requires a source parameter" do
+      lambda { Consumer::AwsSqsS3.new(fog_credentials, queue_url_exists, bucket_name_exists, nil, {}) }.should raise_exception(ArgumentError, "source cannot be nil")
+    end
+    
+    it "does not require an options parameter" do
+      lambda { Consumer::AwsSqsS3.new(fog_credentials, queue_url_exists, bucket_name_exists, source) }.should_not raise_exception
+    end
+    
+  end
+  
+  describe "fetch_submission" do
+    
+    let(:consumer) { Consumer::AwsSqsS3.new(fog_credentials, queue_url_exists, bucket_name_exists, source) }
+    
+    let(:path) { "path/to/file" }
+    let(:body) { "test" }
+    before(:each) do
+      # put a file at the message's target
+      s3.directories.get(bucket_name_exists).files.create(
+        :key => path,
+        :body => body,
+        :public => true
+      )
+    end
+    
+    it "should return the expected contents" do
+      consumer.send("fetch_submission", path).should eq(body)
+    end
+    
+  end
+  
+  describe "destroy_submission" do
+    
+    let(:consumer) { Consumer::AwsSqsS3.new(fog_credentials, queue_url_exists, bucket_name_exists, source) }
+    
+    let(:path) { "path/to/file" }
+    let(:body) { "test" }
+    before(:each) do
+      # put a file at the message's target
+      s3.directories.get(bucket_name_exists).files.create(
+        :key => path,
+        :body => body,
+        :public => true
+      )
+      
+      # confirm that the file is there
+      s3.directories.get(bucket_name_exists).files.get(path).body.should eq(body)
+    end
+    
+    subject { consumer.send("destroy_submission", path) }
+    
+    it "should return true and have deleted the file" do
+      subject.should be_true
+      s3.directories.get(bucket_name_exists).files.get(path).should be_nil
+    end
+    
+  end
+  
+  describe "poll" do
+    
+    let(:consumer) { Consumer::AwsSqsS3.new(fog_credentials, queue_url_exists, bucket_name_exists, source) }
+    
+    describe "empty queue" do
+      
+      it "should work" do
+        lambda { consumer.poll }.should_not raise_exception
+      end
+      
+    end
+    
+    describe "non-empty queue" do
+      
+      # message in queue
+      let(:message) { Rails.root.join('spec', 'resources', 'sqs', 'message.json').read }
+      
+      # contents of form submission
+      let(:submission) { Rails.root.join('spec', 'resources', 'forms', 'restroom_checklist', 'valid.json').read }
+      
+      # path of the submission object from message
+      let(:path) { ActiveSupport::JSON.decode(message)["Message"] }
+      
+      # set up AWS services
+      before(:each) do
+        # ensure it is empty
+        sqs.receive_message(queue_url_exists).body["Message"].should be_empty
+        # put the message in the queue some time ago
+        Timecop.freeze(Time.now - 10.minutes)
+        sqs.send_message(queue_url_exists, message)
+        # roll forward some minutes to get out of visibility timeout
+        Timecop.freeze(Time.now + 5.minutes)
+        sqs.receive_message(queue_url_exists).body["Message"].should_not be_empty
+        # restore clock for rest of tests
+        Timecop.return
+        
+        # put a file at the message's target
+        s3.directories.get(bucket_name_exists).files.create(
+          :key => path,
+          :body => submission,
+          :public => true
+        )
+        
+        # confirm that the file is there
+        s3.directories.get(bucket_name_exists).files.get(path).body.should eq(submission)
+      end
+      
+      subject { consumer.poll }
+      
+      describe "with a good parser" do
+        
+        # stub the parser so its parameters are stored for later analysis
+        let(:parse_arguments) { {} }
+        before(:each) do
+          ParserService.any_instance.stub(:parse) do |arg1, arg2|
+            parse_arguments[:source] = arg1
+            parse_arguments[:submission] = arg2
+          end
+        end
+      
+        it "should pass source and submission to parser" do
+          subject
+          parse_arguments.should eq({ :source => source, :submission => submission })
+        end
+        
+        it "should clear the message from the queue" do
+          subject
+          
+          # roll time ahead for second call to get out of visibility timeout
+          Timecop.freeze(Time.now + 5.minutes)
+          sqs.receive_message(queue_url_exists).body["Message"].should be_empty
+          
+          # restore time
+          Timecop.return
+        end
+        
+        it "should delete the file from S3" do
+          subject
+          s3.directories.get(bucket_name_exists).files.get(path).should be_nil
+        end
+        
+      end
+      
+      describe "with a bad parser" do
+        
+        # stub the parser to throw an error
+        before(:each) do
+          ParserService.any_instance.stub(:parse).and_raise(StandardError)
+        end
+        
+        it "should raise an exception and should not remove the message from the queue" do
+          # initial call
+          lambda { subject }.should raise_error(StandardError)
+          
+          # roll time ahead for second call to get out of visibility timeout
+          Timecop.freeze(Time.now + 5.minutes)
+          sqs.receive_message(queue_url_exists).body['Message'].should_not be_empty
+          
+          # restore time
+          Timecop.return
+        end
+        
+        it "should not delete the file from S3" do
+          # initial call
+          lambda { subject }.should raise_error(StandardError)
+          
+          # file should still be there
+          s3.directories.get(bucket_name_exists).files.get(path).should_not be_nil
+        end
+        
+      end
+      
+    end
+    
+  end
+  
+end

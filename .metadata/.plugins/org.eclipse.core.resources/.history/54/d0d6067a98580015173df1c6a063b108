@@ -1,0 +1,23 @@
+class ChangeTheGeographicalCoordinates < ActiveRecord::Migration
+  def up
+    tables = tables_init
+    tables.each do |table_name|
+      change_column table_name, :altitude, :decimal, precision: 20, scale: 15
+    end
+  end
+  
+  def down
+    tables = tables_init
+    tables.each do |table_name|
+      change_column table_name, :altitude, :decimal, precision: 20, scale: 16
+    end
+  end
+  
+  def tables_init
+    return [:forms_area_inspections, :forms_booth_eliminator_checklists, :forms_cleaning_events, :forms_dolly_cleanings, :forms_enps_reports, :forms_escrub_kops,
+              :forms_gemba_observations, :forms_janitorial_checklists, :forms_jig_cleanings, :forms_net_promoter_scores, :forms_paint_booth_process_checklists, 
+              :forms_pre_task_safety_plans, :forms_punchlist_forms, :forms_restroom_checklists, :forms_safety_observations, :forms_shift_reports, :forms_snow_audits,
+              :forms_soc_hourly_production_reports, :forms_soc_incident_reports, :forms_spare_parts_reports, :forms_special_service_requests, :forms_task_inspections
+             ]
+  end
+end

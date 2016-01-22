@@ -1,0 +1,8 @@
+class RenameSignatureToSignatureInSafetyObservations < ActiveRecord::Migration
+  def change
+     rename_column :forms_safety_observations, :Signature_file_name, :signature_file_name
+     rename_column :forms_safety_observations, :Signature_content_type, :signature_content_type
+     rename_column :forms_safety_observations, :Signature_file_size, :signature_file_size
+     rename_column :forms_safety_observations, :Signature_updated_at, :signature_updated_at
+  end
+end

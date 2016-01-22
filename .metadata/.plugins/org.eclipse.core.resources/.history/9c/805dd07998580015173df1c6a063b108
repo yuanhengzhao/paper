@@ -1,0 +1,149 @@
+class Forms::PunchlistFormsController < ApplicationController
+  
+  FORM_NAME = "punchlist forms"
+  
+  include DatatableServerSideProcessing
+  include XlsxReportProcessing
+  
+  before_action :authenticate_user!
+  
+  load_and_authorize_resource :except => [:picture1, :picture2, :picture3, :picture4, :picture5, :picture6, :picture7, :picture8, :update_export, :download_export, :submission]
+  
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  
+  add_breadcrumb "forms", :forms_index_path
+  add_breadcrumb FORM_NAME, :forms_punchlist_forms_path
+  
+  DATATABLES_COLUMNS = [ "id", "username", "reference_number", "device_submit_date", "responsible", "status", "supplier_status", "project_area", "level", "column_location", "els_number", "task_description", "bmw_comment", "updated_at" ]
+  
+  def index
+    # @punchlist_forms is automatically loaded
+  end
+
+  def show
+    # @punchlist_form is automatically loaded
+    add_breadcrumb "punchlist form #{@punchlist_form.id}", :forms_punchlist_form_path
+  end
+  
+  # Overwrites the model's existing properties with the contents of the original submission document attached.
+  def reparse
+    # @punchlist_form is automatically loaded
+    result = @punchlist_form.reparse
+    # render the show action associated with the result object
+    render action: 'show', location: result
+  end
+  
+  def update_export
+    authorize! :read, Forms::PunchlistForm
+    
+    begin
+      raise "No data in this form."  if Forms::PunchlistForm.all.count == 0
+      @export = generate_xlsx(Forms::PunchlistForm, FORM_NAME, Forms::PunchlistForm.maximum("updated_at"))
+      respond_to do |format|
+        format.json { render :json => @export, status: :ok  }
+      end
+    rescue => e
+      respond_to do |format|
+        format.json { render text:e.message, status: :not_acceptable }
+      end
+    end  
+  end
+  
+  
+  def download_export
+    authorize! :read, Forms::PunchlistForm
+    @export = Report::FormExport.find_by(form_name: FORM_NAME)
+    redirect_to(@export.attachment.expiring_url(10))
+  end
+    
+  # server-side processing method for jquery datatable
+  def datatable
+    respond_to do |format|
+      format.html { redirect_to forms_punchlist_forms_url }
+      format.json {
+        options = {
+          :safe_columns => DATATABLES_COLUMNS,
+          :column_filters => {:user_name => "match", "device_submit_date" => "range"}
+        }
+        
+        # call concern function using collection of all records the user has access to
+        @punchlist_forms = Forms::PunchlistForm.accessible_by(current_ability)
+        @punchlist_forms = @punchlist_forms.where(responsible: current_user.company)  if can? :read, Forms::PunchlistForm and cannot? :edit, Forms::PunchlistForm
+        
+        render :json => datatable_data(@punchlist_forms, params, options)
+      }
+    end
+  end
+
+  def picture1
+    authorize! :read, Forms::PunchlistForm
+    @punchlist_form = Forms::PunchlistForm.find(params[:id])
+    authorize! :read, @punchlist_form
+    redirect_to(@punchlist_form.picture1.expiring_url(10))
+  end
+  
+  def picture2
+    authorize! :read, Forms::PunchlistForm
+    @punchlist_form = Forms::PunchlistForm.find(params[:id])
+    authorize! :read, @punchlist_form
+    redirect_to(@punchlist_form.picture2.expiring_url(10))
+  end
+  
+  def picture3
+    authorize! :read, Forms::PunchlistForm
+    @punchlist_form = Forms::PunchlistForm.find(params[:id])
+    authorize! :read, @punchlist_form
+    redirect_to(@punchlist_form.picture3.expiring_url(10))
+  end
+  
+  def picture4
+    authorize! :read, Forms::PunchlistForm
+    @punchlist_form = Forms::PunchlistForm.find(params[:id])
+    authorize! :read, @punchlist_form
+    redirect_to(@punchlist_form.picture4.expiring_url(10))
+  end
+  
+  def picture5
+    authorize! :read, Forms::PunchlistForm
+    @punchlist_form = Forms::PunchlistForm.find(params[:id])
+    authorize! :read, @punchlist_form
+    redirect_to(@punchlist_form.picture5.expiring_url(10))
+  end
+  
+  def picture6
+    authorize! :read, Forms::PunchlistForm
+    @punchlist_form = Forms::PunchlistForm.find(params[:id])
+    authorize! :read, @punchlist_form
+    redirect_to(@punchlist_form.picture6.expiring_url(10))
+  end
+  
+  def picture7
+    authorize! :read, Forms::PunchlistForm
+    @punchlist_form = Forms::PunchlistForm.find(params[:id])
+    authorize! :read, @punchlist_form
+    redirect_to(@punchlist_form.picture7.expiring_url(10))
+  end
+  
+  def picture8
+    authorize! :read, Forms::PunchlistForm
+    @punchlist_form = Forms::PunchlistForm.find(params[:id])
+    authorize! :read, @punchlist_form
+    redirect_to(@punchlist_form.picture8.expiring_url(10))
+  end
+  
+  def submission
+    authorize! :read, Forms::PunchlistForm
+    @punchlist_form = Forms::PunchlistForm.find(params[:id])
+    authorize! :read, @punchlist_form
+    redirect_to(@punchlist_form.submission.expiring_url(10))
+  end
+  
+  private
+  
+  def record_not_found(exception)
+    # redirect back to index if id not found
+    flash[:alert] = exception.message
+    redirect_to forms_punchlist_forms_path
+  end
+
+end

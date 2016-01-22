@@ -1,0 +1,68 @@
+<% title "Area Inspection #{@area_inspection.id}" %>
+
+<table class="form-table">
+	<tr>
+		<td>reference_number</td><td><%= @area_inspection.reference_number %></td>
+	</tr>
+	<tr>
+		<td>server_receive_date</td><td><%= @area_inspection.server_receive_date %></td>
+	</tr>
+	<tr>
+		<td>device_submit_date</td><td><%= @area_inspection.device_submit_date %></td>
+	</tr>
+	<tr>
+		<td>username</td><td><%= @area_inspection.username %></td>
+	</tr>
+	<tr>
+		<td>version</td><td><%= @area_inspection.version %></td>
+	</tr>
+	<tr>
+		<td>altitude</td><td><%= @area_inspection.altitude %></td>
+	</tr>
+	<tr>
+		<td>latitude</td><td><%= @area_inspection.latitude %></td>
+	</tr>
+	<tr>
+		<td>longitude</td><td><%= @area_inspection.longitude %></td>
+	</tr>
+	<tr>
+		<td>source</td><td><%= @area_inspection.source %></td>
+	</tr>
+	<tr>
+		<td>inspection_date</td><td><%= @area_inspection.inspection_date %></td>
+	</tr>
+	<tr>
+		<td>site</td><td><%= @area_inspection.site %></td>
+	</tr>
+	<tr>
+		<td>client</td><td><%= @area_inspection.client %></td>
+	</tr>
+	<tr>
+		<td>shop</td><td><%= @area_inspection.shop %></td>
+	</tr>
+	<tr>
+		<td>equipment_area_type</td><td><%= @area_inspection.equipment_area_type %></td>
+	</tr>
+	<tr>
+		<td>deck_area</td><td><%= @area_inspection.deck_area %></td>
+	</tr>
+	<tr>
+		<td>abnormality</td><td><%= @area_inspection.abnormality %></td>
+	</tr>
+	<tr>
+		<td>comments</td><td><%= @area_inspection.comments %></td>
+	</tr>
+	<tr>
+		<td>image1</td>
+		<td><%= image_tag image1_forms_area_inspection_path(@area_inspection) %></td>
+	</tr>
+	<tr>
+		<td>image2</td>
+		<td><%= image_tag image2_forms_area_inspection_path(@area_inspection) %></td>
+	</tr>
+	<tr>
+		<td>image3</td>
+		<td><%= image_tag image3_forms_area_inspection_path(@area_inspection) %></td>
+	</tr>
+<%= render :partial => 'forms/form_submission_section', :locals => { :submission_path => submission_forms_area_inspection_path(@area_inspection), :reparse_path => reparse_forms_area_inspection_path(@area_inspection) } %>
+</table>

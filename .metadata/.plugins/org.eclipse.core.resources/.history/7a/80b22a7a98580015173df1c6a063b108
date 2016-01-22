@@ -1,0 +1,29 @@
+require_relative '../../spec_helper'
+
+describe Report::RenderJob do
+  let(:form_class) { Forms::AreaInspection }
+  
+  describe "initialize" do
+    let(:export) do 
+      create(:form_export) 
+    end
+    
+    it "should change the status of the export to updating" do
+      expect(Report::FormExport.find(export.id).status).to eq("available")
+      job = Report::RenderJob.new(form_class,export)
+      expect(Report::FormExport.find(export.id).status).to eq("updating")
+    end
+  end
+  
+  describe "perform" do
+    let(:export) do 
+      create(:form_export_no_attachment) 
+    end
+    
+    it "should create a new attachment" do
+      expect(Report::FormExport.find(export.id).attachment_file_name).to be_nil
+      Report::RenderJob.new(form_class,export).perform
+      expect(Report::FormExport.find(export.id).attachment_file_name).to eq("sample.xlsx")
+   end
+  end
+end

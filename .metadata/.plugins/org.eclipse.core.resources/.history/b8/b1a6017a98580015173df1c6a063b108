@@ -1,0 +1,10 @@
+class CreateDataSourcesSiteShifts < ActiveRecord::Migration
+  def change
+    create_table :data_sources_site_shifts do |t|
+      t.string :site
+      t.string :shift
+
+      t.timestamps null: true
+    end
+  end
+end

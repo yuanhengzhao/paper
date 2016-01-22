@@ -1,0 +1,368 @@
+{
+    "identifier": "1814883063",
+    "version": "v1",
+    "zone": "America/Toronto",
+    "referenceNumber": "20140821164141-1814883063",
+    "state": "Complete",
+    "deviceSubmitDate": {
+        "time": "2014-08-21T12:41:23-04:00",
+        "zone": "America/Toronto"
+    },
+    "shiftedDeviceSubmitDate": "2014-08-21T12:41:23-04:00",
+    "serverReceiveDate": "2014-08-21T12:41:44-04:00",
+    "form": {
+        "identifier": "141786282",
+        "versionIdentifier": "152198558",
+        "name": "Snow Audit",
+        "version": 1,
+        "formSpaceIdentifier": "191492117",
+        "formSpaceName": "Robinson Solutions Forms"
+    },
+    "user": {
+        "identifier": "131590063",
+        "username": "mliao@robinsonsolutions.com",
+        "displayName": "Mengxi Liao (mliao@robinsonsolutions.com)"
+    },
+    "dispatcher": null,
+    "geoStamp": {
+        "success": true,
+        "captureTimestamp": {
+            "provided": {
+                "time": "2014-08-21T12:39:31-04:00",
+                "zone": "America/Toronto"
+            },
+            "shifted": "2014-08-21T12:39:31-04:00"
+        },
+        "errorMessage": null,
+        "source": "Network",
+        "coordinates": {
+            "latitude": 43.6521137,
+            "longitude": -79.3821294,
+            "altitude": null
+        },
+        "address": "Queen Street West, Toronto, ON, CA"
+    },
+    "pages": [
+        {
+            "name": "Snow Audit",
+            "answers": [
+                {
+                    "label": "audit_date",
+                    "dataType": "Date",
+                    "question": "Audit Date",
+                    "values": [
+                        "2014-08-21"
+                    ]
+                },
+                {
+                    "label": "audit_time",
+                    "dataType": "Time",
+                    "question": "Audit Time",
+                    "values": [
+                        {
+                            "provided": {
+                                "time": "12:33:00-04:00",
+                                "zone": "America/Toronto"
+                            },
+                            "shifted": "12:33:00-04:00"
+                        }
+                    ]
+                },
+                {
+                    "label": "contractors_supervis",
+                    "dataType": "FreeText",
+                    "question": "Contractor's Supervisor",
+                    "values": [
+                        "sunil"
+                    ]
+                },
+                {
+                    "label": "time_snow_called_for",
+                    "dataType": "Time",
+                    "question": "Time Snow Called For",
+                    "values": [
+                        {
+                            "provided": {
+                                "time": "12:39:00-04:00",
+                                "zone": "America/Toronto"
+                            },
+                            "shifted": "12:39:00-04:00"
+                        }
+                    ]
+                },
+                {
+                    "label": "time_snow_started",
+                    "dataType": "Time",
+                    "question": "Time Snow Started",
+                    "values": [
+                        {
+                            "provided": {
+                                "time": "12:39:00-04:00",
+                                "zone": "America/Toronto"
+                            },
+                            "shifted": "12:39:00-04:00"
+                        }
+                    ]
+                },
+                {
+                    "label": "time_snow_ended",
+                    "dataType": "Time",
+                    "question": "Time Snow Ended",
+                    "values": [
+                        {
+                            "provided": {
+                                "time": "12:39:00-04:00",
+                                "zone": "America/Toronto"
+                            },
+                            "shifted": "12:39:00-04:00"
+                        }
+                    ]
+                },
+                {
+                    "label": "area_to_audit",
+                    "dataType": "FreeText",
+                    "question": "Area to Audit",
+                    "values": [
+                        "Stamping"
+                    ]
+                },
+                {
+                    "label": "label_1",
+                    "dataType": "Information",
+                    "question": "Audit each HIGH priority area below:",
+                    "values": []
+                },
+                {
+                    "label": "gg_supervisor_onsite",
+                    "dataType": "FreeText",
+                    "question": "GG Supervisor on-site",
+                    "values": [
+                        "NO-OK"
+                    ]
+                },
+                {
+                    "label": "comments1",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "hhhhh "
+                    ]
+                },
+                {
+                    "label": "time_operators_start",
+                    "dataType": "FreeText",
+                    "question": "Time operators started",
+                    "values": [
+                        "OK"
+                    ]
+                },
+                {
+                    "label": "comments2",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "gdhsj "
+                    ]
+                },
+                {
+                    "label": "priority_addressed",
+                    "dataType": "FreeText",
+                    "question": "Priority areas being addressed by operators",
+                    "values": [
+                        "OK"
+                    ]
+                },
+                {
+                    "label": "comments3",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "hbdhsh "
+                    ]
+                },
+                {
+                    "label": "ring_roads",
+                    "dataType": "FreeText",
+                    "question": "Ring Roads cleared and Salted Ongoing",
+                    "values": [
+                        "OK"
+                    ]
+                },
+                {
+                    "label": "comments4",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "ghhhh"
+                    ]
+                },
+                {
+                    "label": "docks_cleared_salted",
+                    "dataType": "FreeText",
+                    "question": "Docks Cleared and Salted",
+                    "values": [
+                        "OK"
+                    ]
+                },
+                {
+                    "label": "comments5",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "cbbh"
+                    ]
+                },
+                {
+                    "label": "parking_lots_salted",
+                    "dataType": "FreeText",
+                    "question": "Parking Lots/4/5/6/9/2, all Non Man Buildings cleared and salted on going",
+                    "values": [
+                        "NO-OK"
+                    ]
+                },
+                {
+                    "label": "comments6",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "hhhjh"
+                    ]
+                },
+                {
+                    "label": "rumble_track",
+                    "dataType": "FreeText",
+                    "question": "Rumble Track Plowed and Salted Ongoing",
+                    "values": [
+                        "OK"
+                    ]
+                },
+                {
+                    "label": "comments7",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "hjjj"
+                    ]
+                },
+                {
+                    "label": "awl_chute",
+                    "dataType": "FreeText",
+                    "question": "AWL Chute to Stevenson Road Plowed and salted Ongoing",
+                    "values": [
+                        "OK"
+                    ]
+                },
+                {
+                    "label": "comments8",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "hjjjjj"
+                    ]
+                },
+                {
+                    "label": "quality_auditslopes",
+                    "dataType": "FreeText",
+                    "question": "Quality Audit/Slopes and entrances maintained and salted Ongoing",
+                    "values": [
+                        "NO-OK"
+                    ]
+                },
+                {
+                    "label": "comments9",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "ghhkjj "
+                    ]
+                },
+                {
+                    "label": "emergency_addressed",
+                    "dataType": "FreeText",
+                    "question": "Emergency Plowing or Salting Requests Addressed",
+                    "values": [
+                        "NO-OK"
+                    ]
+                },
+                {
+                    "label": "comments10",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "ghhhh "
+                    ]
+                },
+                {
+                    "label": "all_equipment",
+                    "dataType": "FreeText",
+                    "question": "All Equipment Utilized Number of Pieces on site working",
+                    "values": [
+                        "NO-OK"
+                    ]
+                },
+                {
+                    "label": "comments11",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "gjndndnn "
+                    ]
+                },
+                {
+                    "label": "label_2",
+                    "dataType": "Information",
+                    "question": "Audit each Lower priority area below:",
+                    "values": []
+                },
+                {
+                    "label": "emergency_entrances",
+                    "dataType": "FreeText",
+                    "question": "Emergency Entrances cleared",
+                    "values": [
+                        "OK"
+                    ]
+                },
+                {
+                    "label": "comments12",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "ghhhh "
+                    ]
+                },
+                {
+                    "label": "windrows_removed",
+                    "dataType": "FreeText",
+                    "question": "Windrows Removed and Building Walls snow removed",
+                    "values": [
+                        "OK"
+                    ]
+                },
+                {
+                    "label": "comments13",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "hdjjdn "
+                    ]
+                },
+                {
+                    "label": "cleanuppile_removal",
+                    "dataType": "FreeText",
+                    "question": "Cleanup/Pile Removal",
+                    "values": [
+                        "OK"
+                    ]
+                },
+                {
+                    "label": "comments14",
+                    "dataType": "FreeText",
+                    "question": "Comments",
+                    "values": [
+                        "hjjjj "
+                    ]
+                }
+            ]
+        }
+    ]
+}

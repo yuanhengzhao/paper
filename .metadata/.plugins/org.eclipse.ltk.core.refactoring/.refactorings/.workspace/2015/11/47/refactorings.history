@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;incidents/lib/tasks/incidents.rake&apos;" deleteContents="false" description="Delete resource &apos;incidents/lib/tasks/incidents.rake&apos;" element1="/incidents/lib/tasks/incidents.rake" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1447967391110"/>
+</session>

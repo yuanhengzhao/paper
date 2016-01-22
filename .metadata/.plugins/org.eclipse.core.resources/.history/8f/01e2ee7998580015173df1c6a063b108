@@ -1,0 +1,5 @@
+<% title "Enps" %>
+<%= render :partial => 'forms/form_export_section', :locals => {:update_url => update_export_forms_enpss_url(format: :json), :download_url => download_export_forms_enpss_url} %>
+<table id="enpss_datatable" class="display<%= (can?(:manage, Forms::Enps) ? ' admin' : '') %>">
+	<%= render :partial => 'forms/form_header_footer' %>
+</table>

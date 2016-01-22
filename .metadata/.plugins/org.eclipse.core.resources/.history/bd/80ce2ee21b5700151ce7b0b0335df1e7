@@ -1,0 +1,1733 @@
+require 'rails_helper'
+require 'views/incidents/show/show_view_helpers'
+
+RSpec.describe "incidents/show", :type => :view do
+  
+  
+  describe "worker_been_trained" do
+    it "should render the worker_been_trained" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', worker_been_trained: 'Yes Yes')
+      should_show(t('incidents.employee_trained'), 'Yes Yes')
+    end
+    
+    it "should not render the worker_been_trained" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', worker_been_trained: 'Yes Yes')
+      should_not_show(t('incidents.employee_trained'), 'Yes Yes')
+    end
+  end
+  
+  describe "date_last_trained" do
+    it "should render the date_last_trained" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', worker_been_trained: 'Yes', date_last_trained: '2014/01/01')
+      should_show(t('incidents.date_last_trained'), '2014-01-01')
+    end
+    
+    it "should not render the date_last_trained" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', worker_been_trained: 'Yes', date_last_trained: '2014/01/01')
+      should_not_show(t('incidents.date_last_trained'), '2014-01-01')
+    end
+    
+    it "should not render the date_last_trained" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', worker_been_trained: 'No', date_last_trained: '2014/01/01')
+      should_not_show(t('incidents.date_last_trained'), '2014-01-01')
+    end
+  end
+  
+  describe "reason_not_trained" do
+    it "should render the reason_not_trained" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', worker_been_trained: 'No', reason_not_trained: 'reason abc')
+      should_show(t('incidents.reason_not_trained'), 'reason abc', 1)
+    end
+    
+    it "should not render the reason_not_trained" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', worker_been_trained: 'No', reason_not_trained: 'reason abc')
+      should_not_show(t('incidents.reason_not_trained'), 'reason abc', 1)
+    end
+    
+    it "should not render the reason_not_trained" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', worker_been_trained: 'Yes', reason_not_trained: 'reason abc')
+      should_not_show(t('incidents.reason_not_trained'), 'reason abc', 1)
+    end
+  end
+  
+  describe "was_not_trained_employee_involved" do
+    it "should render the was_not_trained_employee_involved" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_not_trained_employee_involved: 'Yes Yes')
+      should_show(t('incidents.working_with_others'), 'Yes Yes')
+    end
+    
+    it "should not render the was_not_trained_employee_involved" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_not_trained_employee_involved: 'Yes Yes')
+      should_not_show(t('incidents.working_with_others'), 'Yes Yes')
+    end
+  end
+  
+  describe "not_trained_employee_names" do
+    it "should render the not_trained_employee_names" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_not_trained_employee_involved: 'Yes', not_trained_employee_names: 'employee 123')
+      should_show(t('incidents.working_with'), 'employee 123')
+    end
+    
+    it "should not render the not_trained_employee_names" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_not_trained_employee_involved: 'No', not_trained_employee_names: 'employee 123')
+      should_not_show(t('incidents.working_with'), 'employee 123')
+    end
+    
+    it "should not render the not_trained_employee_names" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_not_trained_employee_involved: 'Yes', not_trained_employee_names: 'employee 123')
+      should_not_show(t('incidents.working_with'), 'employee 123')
+    end
+  end
+  
+  describe "were_reporter_aware" do
+    it "should render the were_reporter_aware" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', were_reporter_aware: 'Yes Yes')
+      should_show(t('incidents.aware_of_incident'), 'Yes Yes')
+    end
+    
+    it "should not render the were_reporter_aware" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', were_reporter_aware: 'Yes Yes')
+      should_not_show(t('incidents.aware_of_incident'), 'Yes Yes')
+    end
+  end
+  
+  describe "reason_why_not_aware" do
+    let(:value) { 'reason abc' }
+    let(:attr)  { 'reason_why_not_aware' }
+    let(:label)  { t('incidents.reason_not_aware') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', were_reporter_aware: 'No', attr.to_sym => value)
+      should_show(label, value, 1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', were_reporter_aware: 'No', attr.to_sym => value)
+      should_not_show(label, value, 1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', were_reporter_aware: 'Yes', attr.to_sym => value)
+      should_not_show(label, value, 1)
+    end
+  end
+  
+  describe "witnesses_present" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'did_anyone_witness' }
+    let(:label)  { t('incidents.witnesses_present') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "witnesses" do
+    let(:value) { 'Witness 123' }
+    let(:attr)  { 'witness_names' }
+    let(:label)  { t('incidents.witnesses') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', did_anyone_witness: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', did_anyone_witness: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', did_anyone_witness: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "was_reporter_involved" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'was_reporter_involved' }
+    let(:label)  { t('incidents.reported_by_employee') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "involved_individual_names_who_reported" do
+    let(:value) { 'reporter132 asd' }
+    let(:attr)  { 'involved_individual_names_who_reported' }
+    let(:label)  { t('incidents.reported_by') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_reporter_involved: 'No', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_reporter_involved: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_reporter_involved: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "was_mbl_eqp_involved" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'was_mbl_eqp_involved' }
+    let(:label)  { t('incidents.mobile_equipment.involved') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "mobile_equipment" do
+    let(:value) { 'mobile equipasdkjk' }
+    let(:attr)  { 'mobile_equipment' }
+    let(:label)  { t('incidents.mobile_equipment.type') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_mbl_eqp_involved: 'Yes',attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_mbl_eqp_involved: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_mbl_eqp_involved: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "unit_identification_number" do
+    let(:value) { '12312123123' }
+    let(:attr)  { 'unit_identification_number' }
+    let(:label)  { t('incidents.mobile_equipment.id_number') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_mbl_eqp_involved: 'Yes',attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_mbl_eqp_involved: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_mbl_eqp_involved: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "does_mbl_eqp_provider_have_license" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'does_mbl_eqp_provider_have_license' }
+    let(:label)  { t('incidents.mobile_equipment.valid_license') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_mbl_eqp_involved: 'Yes',attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_mbl_eqp_involved: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_mbl_eqp_involved: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "reason_mbl_eqp_provider_no_license" do
+    let(:value) { 'reason 1234123123' }
+    let(:attr)  { 'reason_mbl_eqp_provider_no_license' }
+    let(:label)  { t('incidents.mobile_equipment.why_not_valid') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_mbl_eqp_involved: 'Yes', does_mbl_eqp_provider_have_license: 'No', attr.to_sym => value)
+      should_show(label, value, 1)
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_mbl_eqp_involved: 'Yes', does_mbl_eqp_provider_have_license: 'Yes', attr.to_sym => value)
+      should_not_show(label, value, 1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_mbl_eqp_involved: 'No', does_mbl_eqp_provider_have_license: 'No', attr.to_sym => value)
+      should_not_show(label, value, 1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_mbl_eqp_involved: 'Yes', does_mbl_eqp_provider_have_license: 'No', attr.to_sym => value)
+      should_not_show(label, value, 1)
+    end
+  end
+  
+  describe "num_months_mbl_opt_exp" do
+    let(:value) { '12344' }
+    let(:attr)  { 'num_months_mbl_opt_exp' }
+    let(:label)  { t('incidents.mobile_equipment.experience') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_mbl_eqp_involved: 'Yes',attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_mbl_eqp_involved: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_mbl_eqp_involved: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "date_last_pm_eqp_performed" do
+    let(:value) { '2015-01-01' }
+    let(:attr)  { 'date_last_pm_eqp_performed' }
+    let(:label)  { t('incidents.mobile_equipment.last_pm_date') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_mbl_eqp_involved: 'Yes',attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_mbl_eqp_involved: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_mbl_eqp_involved: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "was_pre_shift_inspec_completed" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'was_pre_shift_inspec_completed' }
+    let(:label)  { t('incidents.mobile_equipment.circle_check_done') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_mbl_eqp_involved: 'Yes',attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_mbl_eqp_involved: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_mbl_eqp_involved: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "reason_pre_shift_inspec_not_completed" do
+    let(:value) { 'reason ahfjhajk123' }
+    let(:attr)  { 'reason_pre_shift_inspec_not_completed' }
+    let(:label)  { t('incidents.mobile_equipment.circle_check_not_done_reason') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_mbl_eqp_involved: 'Yes', was_pre_shift_inspec_completed: 'No', attr.to_sym => value)
+      should_show(label, value,1)
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_mbl_eqp_involved: 'Yes', was_pre_shift_inspec_completed: 'Yes', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_mbl_eqp_involved: 'No', was_pre_shift_inspec_completed: 'No', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_mbl_eqp_involved: 'Yes', was_pre_shift_inspec_completed: 'No', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+  end
+  
+  describe "was_eqp_tls_involved" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'was_eqp_tls_involved' }
+    let(:label)  { t('incidents.tools.involved') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+     
+  describe "eqp_tls_involved" do
+    let(:value) { 'tools 1231234' }
+    let(:attr)  { 'eqp_tls_involved' }
+    let(:label)  { t('incidents.tools.type') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_eqp_tls_involved: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_eqp_tls_involved: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_eqp_tls_involved: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "was_eqp_tls_used_properly" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'was_eqp_tls_used_properly' }
+    let(:label)  { t('incidents.tools.used_properly') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_eqp_tls_involved: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_eqp_tls_involved: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_eqp_tls_involved: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "reason_eqp_tls_not_used_properly" do
+    let(:value) { 'Reason whatetever' }
+    let(:attr)  { 'reason_eqp_tls_not_used_properly' }
+    let(:label)  { t('incidents.tools.reason_used_improperly') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_eqp_tls_involved: 'Yes', was_eqp_tls_used_properly: 'No', attr.to_sym => value)
+      should_show(label, value, 1)
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_eqp_tls_involved: 'Yes', was_eqp_tls_used_properly: 'Yes', attr.to_sym => value)
+      should_not_show(label, value, 1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_eqp_tls_involved: 'No', was_eqp_tls_used_properly: 'No', attr.to_sym => value)
+      should_not_show(label, value, 1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_eqp_tls_involved: 'Yes', was_eqp_tls_used_properly: 'No', attr.to_sym => value)
+      should_not_show(label, value, 1)
+    end
+  end
+  
+  describe "was_eqp_tls_inspec_before" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'was_eqp_tls_inspec_before' }
+    let(:label)  { t('incidents.tools.inspected') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_eqp_tls_involved: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_eqp_tls_involved: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_eqp_tls_involved: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "reason_eqp_tls_not_inspec_before" do
+    let(:value) { 'Reason whatetever' }
+    let(:attr)  { 'reason_eqp_tls_not_inspec_before' }
+    let(:label)  { t('incidents.tools.reason_not_inspected') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_eqp_tls_involved: 'Yes', was_eqp_tls_inspec_before: 'No', attr.to_sym => value)
+      should_show(label, value, 1)
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_eqp_tls_involved: 'Yes', was_eqp_tls_inspec_before: 'Yes', attr.to_sym => value)
+      should_not_show(label, value, 1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_eqp_tls_involved: 'No', was_eqp_tls_inspec_before: 'No', attr.to_sym => value)
+      should_not_show(label, value, 1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_eqp_tls_involved: 'Yes', was_eqp_tls_inspec_before: 'No', attr.to_sym => value)
+      should_not_show(label, value, 1)
+    end
+  end
+  
+  describe "does_eqp_tls_require_doc_inspec" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'does_eqp_tls_require_doc_inspec' }
+    let(:label)  { t('incidents.tools.documentation.required') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_eqp_tls_involved: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_eqp_tls_involved: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_eqp_tls_involved: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+    
+  describe "was_eqp_tls_inspec_doc" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'was_eqp_tls_inspec_doc' }
+    let(:label)  { t('incidents.tools.documentation.performed') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_eqp_tls_involved: 'Yes', does_eqp_tls_require_doc_inspec: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_eqp_tls_involved: 'Yes', does_eqp_tls_require_doc_inspec: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_eqp_tls_involved: 'No', does_eqp_tls_require_doc_inspec: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_eqp_tls_involved: 'Yes', does_eqp_tls_require_doc_inspec: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "reason_eqp_tls_inspec_not_doc" do
+    let(:value) { 'Reason asdhaskh' }
+    let(:attr)  { 'reason_eqp_tls_inspec_not_doc' }
+    let(:label)  { t('incidents.tools.documentation.reason_not_done') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_eqp_tls_involved: 'Yes', does_eqp_tls_require_doc_inspec: 'Yes', was_eqp_tls_inspec_doc: 'No', attr.to_sym => value)
+      should_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_eqp_tls_involved: 'Yes', does_eqp_tls_require_doc_inspec: 'Yes', was_eqp_tls_inspec_doc: 'Yes', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_eqp_tls_involved: 'Yes', does_eqp_tls_require_doc_inspec: 'No', was_eqp_tls_inspec_doc: 'No', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_eqp_tls_involved: 'No', does_eqp_tls_require_doc_inspec: 'Yes', was_eqp_tls_inspec_doc: 'No', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_eqp_tls_involved: 'Yes', does_eqp_tls_require_doc_inspec: 'Yes', was_eqp_tls_inspec_doc: 'No', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+  end
+  
+  describe "is_any_ppe_required" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'is_any_ppe_required' }
+    let(:label)  { t('incidents.ppe.is_required') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "ppes" do
+    let(:value) { [ 'ppe1', 'ppe2' ] }
+    let(:attr)  { 'ppes' }
+    let(:label)  { t('incidents.ppe.required') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', is_any_ppe_required: 'Yes', attr.to_sym => value)
+      should_show(label, '<div>ppe1</div><div>ppe2</div>')
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', is_any_ppe_required: 'No', attr.to_sym => value)
+      should_not_show(label, '<div>ppe1</div><div>ppe2</div>')
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', is_any_ppe_required: 'Yes', attr.to_sym => value)
+      should_not_show(label, '<div>ppe1</div><div>ppe2</div>')
+    end
+    
+    describe "with other" do
+      let(:value_other) { 'Other PPE' }
+      let(:value) { [ 'ppe1', 'Other' ] }
+      let(:attr_other)  { 'other_ppe' }
+      let(:attr)  { 'ppes' }
+      let(:label)  { t('incidents.ppe.required') }
+      it "should render" do
+        @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', is_any_ppe_required: 'Yes', attr.to_sym => value, attr_other => value_other)
+        should_show(label, '<div>ppe1</div><div>Other: Other PPE</div>')
+      end
+      
+      it "should not render" do
+        @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', is_any_ppe_required: 'No', attr.to_sym => value, attr_other => value_other)
+        should_not_show(label, '<div>ppe1</div><div>Other: Other PPE</div>')
+      end
+      
+      it "should not render" do
+        @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', is_any_ppe_required: 'Yes', attr.to_sym => value, attr_other => value_other)
+        should_not_show(label, '<div>ppe1</div><div>Other: Other PPE</div>')
+      end
+    end
+  end
+  
+  describe "was_all_ppe_worn_properly" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'was_all_ppe_worn_properly' }
+    let(:label)  { t('incidents.ppe.worn_properly') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', is_any_ppe_required: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', is_any_ppe_required: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', is_any_ppe_required: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "reason_ppe_not_worn_properly" do
+    let(:value) { 'Reason asd Yes' }
+    let(:attr)  { 'reason_ppe_not_worn_properly' }
+    let(:label)  { t('incidents.ppe.reason_worn_improperly') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', is_any_ppe_required: 'Yes', was_all_ppe_worn_properly: 'No', attr.to_sym => value)
+      should_show(label, value, 1)
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', is_any_ppe_required: 'Yes', was_all_ppe_worn_properly: 'Yes', attr.to_sym => value)
+      should_not_show(label, value, 1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', is_any_ppe_required: 'No', was_all_ppe_worn_properly: 'No', attr.to_sym => value)
+      should_not_show(label, value, 1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', is_any_ppe_required: 'Yes', was_all_ppe_worn_properly: 'No', attr.to_sym => value)
+      should_not_show(label, value, 1)
+    end
+  end
+  
+  describe "was_ppe_good_cond" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'was_ppe_good_cond' }
+    let(:label)  { t('incidents.ppe.good_condition') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', is_any_ppe_required: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', is_any_ppe_required: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', is_any_ppe_required: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+    
+  describe "reason_ppe_bad_cond" do
+    let(:value) { 'Reason hjaskfh' }
+    let(:attr)  { 'reason_ppe_bad_cond' }
+    let(:label)  { t('incidents.ppe.reason_bad_condition') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', is_any_ppe_required: 'Yes', was_ppe_good_cond: 'No', attr.to_sym => value)
+      should_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', is_any_ppe_required: 'Yes', was_ppe_good_cond: 'Yes', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', is_any_ppe_required: 'No', was_ppe_good_cond: 'No', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', is_any_ppe_required: 'Yes', was_ppe_good_cond: 'No', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+  end
+  
+  describe "is_ppe_required_in_work_inst" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'is_ppe_required_in_work_inst' }
+    let(:label)  { t('incidents.ppe.in_work_instruction') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', is_any_ppe_required: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', is_any_ppe_required: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', is_any_ppe_required: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "missing_ppe" do
+    let(:value) { 'Mising PPe123' }
+    let(:attr)  { 'missing_ppe' }
+    let(:label)  { t('incidents.ppe.missing_ppe') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', is_any_ppe_required: 'Yes', is_ppe_required_in_work_inst: 'No', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', is_any_ppe_required: 'Yes', is_ppe_required_in_work_inst: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', is_any_ppe_required: 'No', is_ppe_required_in_work_inst: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', is_any_ppe_required: 'Yes', is_ppe_required_in_work_inst: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "was_chemical_involved" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'was_chemical_involved' }
+    let(:label)  { t('incidents.chemical.involved') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "name_chemical" do
+    let(:value) { 'Chemical Name 123' }
+    let(:attr)  { 'name_chemical' }
+    let(:label)  { t('incidents.chemical.name') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_chemical_involved: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_chemical_involved: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_chemical_involved: nil, attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_chemical_involved: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "was_chemical_used_properly" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'was_chemical_used_properly' }
+    let(:label)  { t('incidents.chemical.used_properly') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_chemical_involved: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_chemical_involved: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_chemical_involved: nil, attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_chemical_involved: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "reason_chemical_not_used_properly" do
+    let(:value) { 'Reason 12312390' }
+    let(:attr)  { 'reason_chemical_not_used_properly' }
+    let(:label)  { t('incidents.chemical.reason_used_improperly') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_chemical_involved: 'Yes', was_chemical_used_properly: 'No', attr.to_sym => value)
+      should_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_chemical_involved: 'Yes', was_chemical_used_properly: 'Yes', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_chemical_involved: 'No', was_chemical_used_properly: 'No', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', was_chemical_involved: nil, was_chemical_used_properly: 'No', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', was_chemical_involved: 'Yes', was_chemical_used_properly: 'No', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+  end
+    
+  describe "environmental_factors" do
+    let(:value) { [ 'factor1', 'factor2' ] }
+    let(:attr)  { 'environmental_factors' }
+    let(:label)  { t('incidents.environmental.factors') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', attr.to_sym => value)
+      should_show(label, '<div>factor1</div><div>factor2</div>')
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', attr.to_sym => value)
+      should_not_show(label, '<div>factor1</div><div>factor2</div>')
+    end
+    
+    describe "with other" do
+      let(:value) { [ 'factor1', 'factor2', 'Other' ] }
+      let(:value_other) { 'other factor' }
+      let(:attr)  { 'environmental_factors' }
+      let(:attr_other)  { 'other_env_factors' }
+      let(:label)  { t('incidents.environmental.factors') }
+      it "should render" do
+        @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', attr.to_sym => value, attr_other.to_sym => value_other)
+        should_show(label, '<div>factor1</div><div>factor2</div><div>Other: other factor</div>')
+      end
+      
+      it "should not render" do
+        @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', attr.to_sym => value, attr_other.to_sym => value_other)
+        should_not_show(label, '<div>factor1</div><div>factor2</div><div>Other: other factor</div>')
+      end
+    end
+  end
+  
+  describe "explain_more_env_factors" do
+    let(:value) { 'explaination 123521312' }
+    let(:attr)  { 'explain_more_env_factors' }
+    let(:label)  { t('incidents.environmental.explanation') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', :environmental_factors => [ 'factor1' ], attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', :environmental_factors => [ 'factor1' ], attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', :environmental_factors => [], attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "additional_factors" do
+    let(:value) { [ 'factor1' , 'factor2' ] }
+    let(:attr)  { 'additional_factors' }
+    let(:label)  { t('incidents.factors.contributed') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', attr.to_sym => value)
+      should_show(label, '<div>factor1</div><div>factor2</div>')
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', attr.to_sym => value)
+      should_not_show(label, '<div>factor1</div><div>factor2</div>')
+    end
+    
+    describe "with other" do
+      let(:value) { [  'factor1' , 'factor2', 'Other' ] }
+      let(:value_other) { 'other factor' }
+      let(:attr)  { 'additional_factors' }
+      let(:attr_other)  { 'other_add_factors' }
+      let(:label)  { t('incidents.factors.contributed') }
+      it "should render" do
+        @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', attr.to_sym => value, attr_other.to_sym => value_other)
+        should_show(label, '<div>factor1</div><div>factor2</div><div>Other: other factor</div>')
+      end
+      
+      it "should not render" do
+        @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', attr.to_sym => value, attr_other.to_sym => value_other)
+        should_not_show(label, '<div>factor1</div><div>factor2</div><div>Other: other factor</div>')
+      end
+    end
+  end
+  
+  describe "explain_more_add_factors" do
+    let(:value) { 'explaination 123521312' }
+    let(:attr)  { 'explain_more_add_factors' }
+    let(:label)  { t('incidents.factors.explanation') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', additional_factors: ['factor1'], attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', additional_factors: ['factor1'], attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', additional_factors: [], attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+    
+  describe "description_investigation" do
+    let(:value) { 'desc desc desc desc 1231234' }
+    let(:attr)  { 'description_investigation' }
+    let(:label)  { t('incidents.investigation.description') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "investigation_photo1" do
+    let(:label)  { t('incidents.investigation.photos') }
+    let(:attr) { 'investigation_photo1' }
+    let(:value) { File.new('spec/resources/test_image.jpg') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', attr.to_sym => value)
+      should_show(label, (image_tag investigation_photo1_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', attr.to_sym => value)
+      should_not_show(label, (image_tag investigation_photo1_incident_url(@incident.id)))
+    end
+  end
+  
+  describe "investigation_photo2" do
+    let(:label)  { t('incidents.investigation.photos') }
+    let(:attr) { 'investigation_photo2' }
+    let(:value) { File.new('spec/resources/test_image.jpg') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', attr.to_sym => value)
+      should_show(label, (image_tag investigation_photo2_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', attr.to_sym => value)
+      should_not_show(label, (image_tag investigation_photo2_incident_url(@incident.id)))
+    end
+  end
+  
+  describe "modified_duties_prescribed_after" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'modified_duties_prescribed_after' }
+    let(:label)  { t('incidents.modified_duties_prescribed.required') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "immediate_action" do
+    let(:value) { 'action 11231234' }
+    let(:attr)  { 'immediate_action' }
+    let(:label)  { t('incidents.immediate_action') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "irreversible_countermeasures" do
+    let(:attr)  { 'irreversible_countermeasures' }
+    
+      FactoryGirl.reload
+
+    describe "corrective_action" do
+      let(:value) { [
+          FactoryGirl.build(:irreversible_countermeasure, corrective_action: 'action asdasd1'),
+          FactoryGirl.build(:irreversible_countermeasure, corrective_action: 'action aadsfd2')
+        ]
+      }
+      let(:label)  { t('incidents.countermeasure.name') }
+      it "should render corrective_action 1" do
+        @incident = FactoryGirl.create(:incident_full, incident_class: FactoryGirl.create(:incident_class, name: 'Whatever'), attr.to_sym => value)
+        should_show("#{label} 1", "action asdasd1")
+      end
+      
+      it "should render corrective_action 2" do
+        @incident = FactoryGirl.create(:incident_full, incident_class: FactoryGirl.create(:incident_class, name: 'Whatever'), attr.to_sym => value)
+        should_show("#{label} 2", "action aadsfd2")
+      end
+      
+      it "should not render corrective_action 1" do
+        @incident = FactoryGirl.create(:incident_full, incident_class: FactoryGirl.create(:incident_class, name: 'Non Work Related'), attr.to_sym => value)
+        should_not_show("#{label} 1", "action asdasd1")
+      end
+      
+      it "should not render corrective_action 2" do
+        @incident = FactoryGirl.create(:incident_full, incident_class: FactoryGirl.create(:incident_class, name: 'Non Work Related'), attr.to_sym => value)
+        should_not_show("#{label} 2", "action aadsfd2")
+      end
+    end
+    
+    describe "corrective_action_date" do
+      let(:value) { [
+          FactoryGirl.build(:irreversible_countermeasure, corrective_action_date: '2015-01-01'),
+          FactoryGirl.build(:irreversible_countermeasure, corrective_action_date: '2016-02-02')
+        ]
+      }
+      let(:label)  { t('incidents.countermeasure.target_date') }
+      it "should render corrective_action_date 1" do
+        @incident = FactoryGirl.create(:incident_full, incident_class: FactoryGirl.create(:incident_class, name: 'Whatever'), attr.to_sym => value)
+        should_show("#{label} 1", '2015-01-01')
+      end
+      
+      it "should render corrective_action_date 2" do
+        @incident = FactoryGirl.create(:incident_full, incident_class: FactoryGirl.create(:incident_class, name: 'Whatever'), attr.to_sym => value)
+        should_show("#{label} 2", '2016-02-02')
+      end
+      
+      it "should not render corrective_action_date 1" do
+        @incident = FactoryGirl.create(:incident_full, incident_class: FactoryGirl.create(:incident_class, name: 'Non Work Related'), attr.to_sym => value)
+        should_not_show("#{label} 1", '2015-01-01')
+      end
+      
+      it "should not render corrective_action_date 2" do
+        @incident = FactoryGirl.create(:incident_full, incident_class: FactoryGirl.create(:incident_class, name: 'Non Work Related'), attr.to_sym => value)
+        should_not_show("#{label} 2", '2016-02-02')
+      end
+      
+    end
+    
+    describe "corrective_action_responsible" do
+      let(:value) { [
+          FactoryGirl.build(:irreversible_countermeasure, corrective_action_responsible: 'responsible 123'),
+          FactoryGirl.build(:irreversible_countermeasure, corrective_action_responsible: 'responsible 345')
+        ]
+      }
+      let(:label)  { t('incidents.countermeasure.responsible') }
+      it "should render corrective_action_responsible 1" do
+        @incident = FactoryGirl.create(:incident_full, incident_class: FactoryGirl.create(:incident_class, name: 'Whatever'), attr.to_sym => value)
+        should_show("#{label} 1", 'responsible 123')
+      end
+      
+      it "should render corrective_action_responsible 2" do
+        @incident = FactoryGirl.create(:incident_full, incident_class: FactoryGirl.create(:incident_class, name: 'Whatever'), attr.to_sym => value)
+        should_show("#{label} 2", 'responsible 345')
+      end
+      
+      it "should not render corrective_action_responsible 1" do
+        @incident = FactoryGirl.create(:incident_full, incident_class: FactoryGirl.create(:incident_class, name: 'Non Work Related'), attr.to_sym => value)
+        should_not_show("#{label} 1", 'responsible 123')
+      end
+      
+      it "should not render corrective_action_responsible 2" do
+        @incident = FactoryGirl.create(:incident_full, incident_class: FactoryGirl.create(:incident_class, name: 'Non Work Related'), attr.to_sym => value)
+        should_not_show("#{label} 2", 'responsible 345')
+      end
+    end
+  end
+  
+  describe "names_involved_in_investigation" do
+    let(:value) { 'names 1231123' }
+    let(:attr)  { 'names_involved_in_investigation' }
+    let(:label)  { t('incidents.investigators') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "additional_comments" do
+    let(:value) { 'comments 1231123' }
+    let(:attr)  { 'additional_comments' }
+    let(:label)  { t('incidents.comments') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Non Work Related', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "has_customer_property_damaged" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'has_customer_property_damaged' }
+    let(:label)  { t('incidents.property_damage.customer_owned') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Property Damage', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever Else', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "type_of_damage" do
+    let(:value) { 'Type 1823004' }
+    let(:attr)  { 'type_of_damage' }
+    let(:label)  { t('incidents.property_damage.explain') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Property Damage', has_customer_property_damaged: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Property Damage', has_customer_property_damaged: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever Else', has_customer_property_damaged: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "customers_contacted" do
+    let(:value) { 'customer 1823004' }
+    let(:attr)  { 'customers_contacted' }
+    let(:label)  { t('incidents.property_damage.customer_contacted') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Property Damage', has_customer_property_damaged: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Property Damage', has_customer_property_damaged: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever Else', has_customer_property_damaged: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "has_employee_done_modified_work_form" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'has_employee_done_modified_work_form' }
+    let(:label)  { t('incidents.modified_work.form_complete') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever Else', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "has_employee_done_modified_work_form" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'reason_employee_not_done_modified_work_form' }
+    let(:label)  { t('incidents.modified_work.reason_form_incomplete') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_done_modified_work_form: 'No', attr.to_sym => value)
+      should_show(label, value,1)
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_done_modified_work_form: 'No', attr.to_sym => value)
+      should_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_done_modified_work_form: 'Yes', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_done_modified_work_form: 'Yes', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever Else', has_employee_done_modified_work_form: 'No', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+  end
+  
+  describe "modified_work_form_signed" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'modified_work_form_signed' }
+    let(:label)  { t('incidents.modified_work.form_uploadable') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_done_modified_work_form: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_done_modified_work_form: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_done_modified_work_form: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_done_modified_work_form: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever Else', has_employee_done_modified_work_form: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "photo_modified_work_form_signed1" do
+    let(:value) { File.new('spec/resources/test_image.jpg') }
+    let(:attr)  { 'photo_modified_work_form_signed1' }
+    let(:label)  { t('incidents.modified_work.form_upload') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_done_modified_work_form: 'Yes', modified_work_form_signed: 'Yes', attr.to_sym => value)
+      should_show(label, (image_tag photo_modified_work_form_signed1_incident_url(@incident.id)))
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_done_modified_work_form: 'Yes', modified_work_form_signed: 'Yes', attr.to_sym => value)
+      should_show(label, (image_tag photo_modified_work_form_signed1_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_done_modified_work_form: 'Yes', modified_work_form_signed: 'No', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_modified_work_form_signed1_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_done_modified_work_form: 'Yes', modified_work_form_signed: 'No', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_modified_work_form_signed1_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_done_modified_work_form: 'No', modified_work_form_signed: 'Yes', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_modified_work_form_signed1_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_done_modified_work_form: 'No', modified_work_form_signed: 'Yes', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_modified_work_form_signed1_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever Else', has_employee_done_modified_work_form: 'Yes', modified_work_form_signed: 'Yes', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_modified_work_form_signed1_incident_url(@incident.id)))
+    end
+  end
+  
+  describe "photo_modified_work_form_signed2" do
+    let(:value) { File.new('spec/resources/test_image.jpg') }
+    let(:attr)  { 'photo_modified_work_form_signed2' }
+    let(:label)  { t('incidents.modified_work.form_upload') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_done_modified_work_form: 'Yes', modified_work_form_signed: 'Yes', attr.to_sym => value)
+      should_show(label, (image_tag photo_modified_work_form_signed2_incident_url(@incident.id)))
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_done_modified_work_form: 'Yes', modified_work_form_signed: 'Yes', attr.to_sym => value)
+      should_show(label, (image_tag photo_modified_work_form_signed2_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_done_modified_work_form: 'Yes', modified_work_form_signed: 'No', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_modified_work_form_signed2_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_done_modified_work_form: 'Yes', modified_work_form_signed: 'No', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_modified_work_form_signed2_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_done_modified_work_form: 'No', modified_work_form_signed: 'Yes', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_modified_work_form_signed2_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_done_modified_work_form: 'No', modified_work_form_signed: 'Yes', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_modified_work_form_signed2_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever Else', has_employee_done_modified_work_form: 'Yes', modified_work_form_signed: 'Yes', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_modified_work_form_signed2_incident_url(@incident.id)))
+    end
+  end
+  
+  describe "why_modified_work_form_not_signed" do
+    let(:value) { 'Reason 123891289379' }
+    let(:attr)  { 'why_modified_work_form_not_signed' }
+    let(:label)  { t('incidents.modified_work.reason_form_not_uploaded') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_done_modified_work_form: 'Yes', modified_work_form_signed: 'No', attr.to_sym => value)
+      should_show(label, value,1)
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_done_modified_work_form: 'Yes', modified_work_form_signed: 'No', attr.to_sym => value)
+      should_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_done_modified_work_form: 'Yes', modified_work_form_signed: 'Yes', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_done_modified_work_form: 'Yes', modified_work_form_signed: 'Yes', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_done_modified_work_form: 'No',  modified_work_form_signed: 'No', attr.to_sym => value)
+      should_not_show(label, value,2)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_done_modified_work_form: 'No',  modified_work_form_signed: 'No', attr.to_sym => value)
+      should_not_show(label, value,2)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever Else', has_employee_done_modified_work_form: 'Yes',  modified_work_form_signed: 'No', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+  end
+  
+  describe "has_employee_received_medical_attention" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'has_employee_received_medical_attention' }
+    let(:label)  { t('incidents.medical_attention.received') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever Else', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "name_clinic_hospital" do
+    let(:value) { 'Hospital 123789123' }
+    let(:attr)  { 'name_clinic_hospital' }
+    let(:label)  { t('incidents.medical_attention.hospital') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_received_medical_attention: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_received_medical_attention: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_received_medical_attention: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_received_medical_attention: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever Else', has_employee_received_medical_attention: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "name_nurse_doctor" do
+    let(:value) { 'Doctor Nurse 123789123' }
+    let(:attr)  { 'name_nurse_doctor' }
+    let(:label)  { t('incidents.medical_attention.doctor') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_received_medical_attention: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_received_medical_attention: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_received_medical_attention: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_received_medical_attention: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever Else', has_employee_received_medical_attention: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "medical_treatment" do
+    let(:value) { 'Treatment 123789123' }
+    let(:attr)  { 'medical_treatment' }
+    let(:label)  { t('incidents.medical_attention.treatment') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_received_medical_attention: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_received_medical_attention: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_received_medical_attention: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_received_medical_attention: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever Else', has_employee_received_medical_attention: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "can_upload_medical_doc" do
+    let(:value) { 'Yes Yes' }
+    let(:attr)  { 'can_upload_medical_doc' }
+    let(:label)  { t('incidents.medical_attention.form_uploadable') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_received_medical_attention: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_received_medical_attention: 'Yes', attr.to_sym => value)
+      should_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_received_medical_attention: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_received_medical_attention: 'No', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever Else', has_employee_received_medical_attention: 'Yes', attr.to_sym => value)
+      should_not_show(label, value)
+    end
+  end
+  
+  describe "photo_medical_doc1" do
+    let(:label)  { t('incidents.medical_attention.form_upload') }
+    let(:attr) { 'photo_medical_doc1' }
+    let(:value) { File.new('spec/resources/test_image.jpg') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'Yes', attr.to_sym => value)
+      should_show(label, (image_tag photo_medical_doc1_incident_url(@incident.id)))
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'Yes', attr.to_sym => value)
+      should_show(label, (image_tag photo_medical_doc1_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'No', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_medical_doc1_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'No', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_medical_doc1_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_received_medical_attention: 'No', can_upload_medical_doc: 'Yes', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_medical_doc1_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_received_medical_attention: 'No', can_upload_medical_doc: 'Yes', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_medical_doc1_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever Else', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'Yes', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_medical_doc1_incident_url(@incident.id)))
+    end
+  end
+  
+  describe "photo_medical_doc2" do
+    let(:label)  { t('incidents.medical_attention.form_upload') }
+    let(:attr) { 'photo_medical_doc2' }
+    let(:value) { File.new('spec/resources/test_image.jpg') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'Yes', attr.to_sym => value)
+      should_show(label, (image_tag photo_medical_doc2_incident_url(@incident.id)))
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'Yes', attr.to_sym => value)
+      should_show(label, (image_tag photo_medical_doc2_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'No', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_medical_doc2_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'No', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_medical_doc2_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_received_medical_attention: 'No', can_upload_medical_doc: 'Yes', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_medical_doc2_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_received_medical_attention: 'No', can_upload_medical_doc: 'Yes', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_medical_doc2_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever Else', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'Yes', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_medical_doc2_incident_url(@incident.id)))
+    end
+  end
+  
+  describe "photo_medical_doc3" do
+    let(:label)  { t('incidents.medical_attention.form_upload') }
+    let(:attr) { 'photo_medical_doc3' }
+    let(:value) { File.new('spec/resources/test_image.jpg') }
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'Yes', attr.to_sym => value)
+      should_show(label, (image_tag photo_medical_doc3_incident_url(@incident.id)))
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'Yes', attr.to_sym => value)
+      should_show(label, (image_tag photo_medical_doc3_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'No', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_medical_doc3_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'No', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_medical_doc3_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_received_medical_attention: 'No', can_upload_medical_doc: 'Yes', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_medical_doc3_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_received_medical_attention: 'No', can_upload_medical_doc: 'Yes', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_medical_doc3_incident_url(@incident.id)))
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever Else', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'Yes', attr.to_sym => value)
+      should_not_show(label, (image_tag photo_medical_doc3_incident_url(@incident.id)))
+    end
+  end
+  
+  describe "reason_not_upload_medical_doc" do
+    let(:label)  { t('incidents.medical_attention.reason_form_not_uploaded') }
+    let(:attr) { 'reason_not_upload_medical_doc' }
+    let(:value) { 'Reason 12347106jk'}
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'No', attr.to_sym => value)
+      should_show(label, value,1)
+    end
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'No', attr.to_sym => value)
+      should_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'Yes', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'Yes', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'OSHA/WSIB', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'Yes', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'WSIB/OSHA', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'Yes', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+    
+    it "should not render" do
+      @incident = FactoryGirl.create(:incident_full, incident_class: 'Whatever Else', has_employee_received_medical_attention: 'Yes', can_upload_medical_doc: 'Yes', attr.to_sym => value)
+      should_not_show(label, value,1)
+    end
+  end
+  
+  describe "ready_to_submit_investigation" do
+    let(:label)  { t('incidents.submit_to_coordinator') }
+    let(:attr) { 'ready_to_submit_investigation' }
+    let(:value) { true }
+    
+    it "should render" do
+      @incident = FactoryGirl.create(:incident_full, attr.to_sym => value)
+      should_show(label, value)
+    end
+  end
+end
+
+
+
+
+
+
+
+
+
+

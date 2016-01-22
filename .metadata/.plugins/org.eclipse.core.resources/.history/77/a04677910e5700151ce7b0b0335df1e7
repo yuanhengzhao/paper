@@ -1,0 +1,317 @@
+$(document).ready(function() {
+	// helper function to calculate appropriate height of datatable
+	if ($('#safety-tracker').length > 0) {
+		// helper function to determine the height of the scrollable table area
+		var calculateDataTableHeight = function() {
+			var buffer = 7,
+				diff = buffer + $('nav.navbar').outerHeight() + $('.custom-filter').outerHeight() + $('.dataTables_scrollHead').outerHeight() + $('#safety-tracker_info').outerHeight();
+			return $(window).height() - diff;
+		};
+		
+		// helper function to create the HTML fragment for text that may overflow the cell
+		var wrapText = function(data, type, full) {
+			return '<div class="wide-cell unverified"><button type="button" class="icon btn btn-info btn-xs"><span class="glyphicon glyphicon-plus"></span></button><span class="text">' + data + '</span></div>';
+		};
+		
+		// helper function to format a date time to include the timezone
+		var formatDateTime = function(dt, tz) {
+			return moment.tz(dt, tz).format('YYYY-MMM-DD HH:mm z');
+		};
+		
+		// helper function to format a date with no time component
+		var formatDate = function(dt, tz) {
+			return moment.tz(dt, tz).format('YYYY-MMM-DD');
+		};
+		
+		// helper function to determine if a value is null, undefined, or the empty string
+		var blank = function(val) {
+			return (val == null || val == undefined || val == "");
+		};
+		
+		// initialize the scrollable datatable
+		var datatable = $('#safety-tracker').dataTable({
+			"processing": true,
+			"serverSide": true,
+			"ajax": {
+				"url": "/incidents/datatable.json",
+				"data": function(data) {
+					for (i in data.columns) {
+						// for each column, find the filter (or filters, in the case of a range) that match
+						var col = data.columns[i];
+						var filter = $('#filter-collapse [data-filter-column="' + col.data + '"]');
+						if (filter.attr('data-filter-type') == 'range') {
+							// range filter -- get both field values into a hash
+							col.search.value = {};
+							filter.each(function() {
+								// use the data-range attribute as the key for the hash
+								var key = $(this).attr('data-range');
+								var val = $(this).val();
+								if (key && !blank(val)) {
+									col.search.value[key] = val;
+								}
+							});
+						} else if (filter.hasClass('filter-button')) {
+							// for the toggles, only filter if it is 'filtering'
+							if (filter.hasClass('filtering')) {
+								col.search.value = filter.attr('data-value');
+							}
+						} else if (filter.attr('type') == 'checkbox') {
+							// for a checkbox, only attach the value if the checkbox is checked
+							if (filter.is(":checked")) {
+								col.search.value = filter.val();
+							}
+						} else {
+							// value filter
+							var val = filter.val();
+							if (!blank(val)) {
+								col.search.value = val;
+							}
+						}
+					}
+				}
+			},
+			"autoWidth": false,
+			"stateSave": true,
+			"columns": [
+				{ "data": "incident_time",
+					"render": function(data, type, full) {
+						// render date of incident as a link
+						return '<a href="/incidents/' + full.id + '">' + formatDateTime(data, full.site.timezone) + '</a>';
+					}
+				},
+				{ "data": "site.name" },
+				{ "data": "building.name" },
+				{ "data": "supervisor" },
+				{ "data" : "shift" },
+				{ "data" : "employee" },
+				{ "data" : "job" },
+				{ "data" : "safety_rep.full_name" },
+				{ "data" : "report_time",
+					"render": function (data, type, full) {
+						return (data == null ? "" : formatDateTime(data, full.site.timezone));
+					}
+				},
+				{ "data" : "incident_class" },
+				{ "data" : "incident_type" },
+				{ "data" : "body_part" },
+				{ "data" : "body_location" },
+				{ "data" : "description", "orderable": false, "render": wrapText },
+				{ "data" : "report_submitted_time",
+					"render": function(data, type, full) {
+						return (data == null ? "" : formatDateTime(data, full.site.timezone));
+					}
+				},
+				{ "data" : "corrective_action", "orderable": false, "render": wrapText },
+				{ "data" : "corrective_action_date",
+					"render": function(data, type, full) {
+						return (data == null ? "" : formatDate(data, full.site.timezone));
+					}
+				},
+				{ "data" : "wsib_recordable" },
+				{ "data" : "wsib_form_7" },
+				{ "data" : "wsib_lost_time" },
+				{ "data" : "wsib_claim" },
+				{ "data" : "osha_recordable" },
+				{ "data" : "osha_lost_time" },
+				{ "data" : "modified_work_start",
+					"render": function(data, type, full) {
+						return (data == null ? "" : formatDate(data, full.site.timezone));
+					}
+				},
+				{ "data" : "modified_work_end",
+					"render": function(data, type, full) {
+						return (data == null ? "" : formatDate(data, full.site.timezone));
+					}
+				},
+				{ "data" : "modified_work_days" },
+				{ "data" : "lost_days_start",
+					"render": function(data, type, full) {
+						return (data == null ? "" : formatDate(data, full.site.timezone));
+					}
+				},
+				{ "data" : "lost_days_end",
+					"render": function(data, type, full) {
+						return (data == null ? "" : formatDate(data, full.site.timezone));
+					}
+				},
+				{ "data" : "lost_days" },
+				{ "data" : "comment", "orderable": false, "render": wrapText },
+				{ "data" : "closed_date",
+					"render": function(data, type, full) {
+						return (data == null ? "" : formatDate(data, full.site.timezone));
+					}
+				},
+				{ "data" : "implemented" }
+			],
+			"order": [[ 0, "desc" ]],
+			"sScrollY": calculateDataTableHeight(),
+			"sScrollX": '100%',
+			"dom": '<"custom-filter">rtiS',
+			"drawCallback": function(settings) {
+				// verify all unverified wide cells after a draw and apply appropriate class to hide/show button
+				$('.unverified.wide-cell').each(function() {
+					$(this).addClass($('.text', $(this)).width() > $(this).width() ? 'overflow' : 'underflow').removeClass('unverified');
+				});
+			}
+		});
+		
+		datatable.on('order.dt', function(e, settings) {
+			var order = datatable.api().order(),
+				sort_column = settings.aoColumns[order[0][0]].sTitle,
+				sort_direction = order[0][1].toUpperCase();
+			$('#sort-values').html('<li class="label"><span class="column">' + sort_column + '</span> <span class="direction">(' + sort_direction + ')</span></li>');
+		});
+		
+		// load the filter block from request and populate on page
+		$.get('/tracker/filter.js', function(data) {
+			$('#safety-tracker_wrapper .custom-filter').html(data);
+			
+			// attach collapse listener to hide clear button
+			$('#filter-collapse')
+				.on('hide.bs.collapse', function() {
+					$('#filter-clear').hide();
+				})
+				.on('hidden.bs.collapse', function() {
+					$('.table-helper').show();
+					resize_datatable();
+				})
+				.on('show.bs.collapse', function() {
+					$('.table-helper').hide();
+				})
+				.on('shown.bs.collapse', function() {
+					$('#filter-clear').show();
+					resize_datatable();
+				});
+			
+			// re-colourizes the filter button to indicate state
+			var refresh_filter_button = function() {
+				// change filter button's class accordingly
+				var is_filtering = ($('.filtering').size() > 0);
+				$('button[data-target="#filter-collapse"]')
+					.toggleClass('btn-primary', is_filtering)
+					.toggleClass('btn-default', !is_filtering);
+			};
+			
+			$('.filter-form input[type=text]').on('keyup', function() {
+				$(this).change();
+			});
+			
+			// attach listener to clear button
+			$('#filter-clear').on('click', function() {
+				// clear input and select boxes
+				$('input[type="text"], select').not('#filter_site_name, #filter_building_name').removeClass('filtering').val('');
+				$('#filter_site_name').removeClass('filtering').selectpicker('val', '');
+				$('#filter_building_name').removeClass('filtering').selectpicker('val', '');
+				$('.filter-button.active').removeClass('filtering').button('toggle');
+				$('#fitler-values').empty();
+				refresh_filter_button();
+				datatable.fnDraw();
+			});
+			
+			// attach date pickers
+			$('#safety-tracker_wrapper .bootstrap-date-picker').datetimepicker({
+				'format': 'YYYY/MM/DD',
+				'pickTime': false
+			}).on('dp.change', function (ev) {
+				// trigger change event on target input
+				$('input[type="text"]', $(this)).change();
+			});
+			
+			// add bootstrap-select
+			$('#filter_site_name, #filter_building_name').selectpicker();
+			
+			// when the site select changes
+			$('#filter_site_name').on('change', function() {
+				// if a single site is selected, filter the building options to those that match, otherwise, leave options blank
+				$('#filter_building_name option[data-site]').hide();
+				var selected_sites = $(this).val();
+				if (!!selected_sites && selected_sites.length == 1) {
+					$(selected_sites.map(function(k) { return '#filter_building_name option[data-site^="' + k + '"]'; }).join()).show();
+				}
+				// reset the field to blank
+				$('#filter_building_name').val('');
+				$('#filter_building_name').selectpicker('refresh');
+			});
+			$('#filter_site_name').trigger('change');
+			
+			var filter_helper = function(target) {
+				var filter_id = target.attr('id'),
+					filter_label = target.attr('data-filter-label'),
+					filter_value = target.val();
+				$('[data-filter-id="' + filter_id + '"]', $('#fitler-values')).remove();
+				if (!!filter_value) {
+					$('#fitler-values').append('<li class="label" data-filter-id="' + filter_id + '"><span class="column">' + filter_label + '</span> = <span class="value">' + filter_value + '</span></li>');
+				} else if (target.hasClass("filter-button") && target.hasClass("filtering")) {
+					$('#fitler-values').append('<li class="label" data-filter-id="' + filter_id + '"><span class="column">' + filter_label + '</span></li>');
+				}
+			};
+
+			// redraw the table when a filter toggle is clicked or a filter field changes
+			var filter_changed = function() {
+				var $this = $(this);
+				
+				if ($this.hasClass('filter-button')) {
+					// assign class because 'active' cannot be relied upon
+					$this.toggleClass('filtering');
+				} else {
+					// mark this field as filtering if it is active
+					$this.toggleClass('filtering', !!$this.val());
+				}
+				
+				// update filter helper
+				filter_helper($this);
+				
+				// adjust filter button
+				refresh_filter_button();
+				
+				// redraw table
+				datatable.fnDraw();
+				if ($this.hasClass('filter-button')) {
+					// because the border width changes for buttons, resize is require on clicks
+					resize_datatable();
+				}
+			};
+			$('.filter-button').on('click', filter_changed);
+			$('#safety-tracker_wrapper .custom-filter input, #safety-tracker_wrapper .custom-filter select').on('change', filter_changed);
+			
+			// resize table now that filter has been inserted
+			setTimeout(function(){
+				resize_datatable();
+			},500);
+		});
+		
+		// create a popup handler for any overflowing text
+		$('#safety-tracker tbody').on('click', 'td:has(.overflow)', function() {
+			// dialog window with message allowing user to go to the record or close the popup
+			var message = $('.text', $(this)).text();
+			var url = $('td:first a', $(this).closest('tr')).attr('href');
+			bootbox.dialog({
+				message: message,
+				buttons: {
+					details: {
+						label: "Details",
+						className: "btn-primary",
+						callback: function() {
+							window.location = url;
+						}
+					},
+					close: {
+						label: "Close",
+						className: "btn-default"
+					}
+				}
+			});
+		});
+		
+		// resize datatable according to window size -- debounce to prevent excessive requests
+		var resize_datatable = function(e) {
+			var oSettings = datatable.fnSettings();
+			if (oSettings) {
+				oSettings.oScroll.sY = calculateDataTableHeight();
+				$('.dataTables_scrollBody', datatable.fnSettings().nTableWrapper).css('height', calculateDataTableHeight());
+				datatable.fnDraw();
+			}
+		};
+		$(window).on('resize', $.debounce(200, resize_datatable));
+	}
+});

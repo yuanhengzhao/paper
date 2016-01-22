@@ -1,0 +1,31 @@
+class Security::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  
+  skip_before_filter :verify_authenticity_token
+  
+  def google_oauth2
+    omniauth = request.env["omniauth.auth"]
+
+    allowed_email_domains = ["robinsonsolutions.com"]
+    
+    @user = Security::User.find_for_omniauth(omniauth)
+   
+    # check if the user's domain belongs to Robinson
+    if allowed_email_domains.include?(@user.email.split("@").last)
+	  # attempt to persist user back to database unless they already exist
+	  unless @user.persisted?
+        @user.save
+	  end
+      # sign into app if the user is valid
+      if @user.valid?
+        sign_in_and_redirect @user, :event => :authentication
+        set_flash_message(:notice, :success, :kind => "Robinson Google") if is_navigational_format?
+      else
+        flash[:error] = @user.errors.full_messages
+        redirect_to root_url
+      end
+    else
+      flash[:error] = "Please log into your Robinson Google account"
+      redirect_to root_url
+    end
+  end
+end

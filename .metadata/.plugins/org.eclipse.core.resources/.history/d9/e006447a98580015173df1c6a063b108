@@ -1,0 +1,162 @@
+require_relative '../../spec_helper'
+
+shared_examples_for "an unauthorized GET" do
+  before(:each) do
+    # verify provided parameters
+    expect(view).to_not be_nil
+    options ||= {}
+  end
+  
+  context "HTML" do
+    it "fails and redirect to root" do
+      get view, options
+      expect(response).to_not be_success
+      expect(response.status).to eq(302)
+      expect(response).to redirect_to(root_url)
+      expect(response).to_not render_template(view)
+    end
+  end
+end
+
+shared_examples_for "an authorized GET" do
+  before(:each) do
+    # verify provided parameters
+    expect(view).to_not be_nil
+    options ||= {}
+  end
+  
+  context "HTML" do
+    it "fails and redirect to root" do
+      get view, options
+      expect(response).to be_success
+      expect(response.status).to eq(200)
+      expect(response).to render_template(view)
+    end
+  end
+end
+
+shared_examples_for "an unauthorized index access" do
+  context "HTML" do
+    it "fails and redirect to root" do
+      get 'index'
+      expect(response).to_not be_success
+      expect(response.status).to eq(302)
+      expect(response).to redirect_to(root_url)
+      expect(response).to_not render_template("index")
+    end
+  end
+end
+
+shared_examples_for "an authorized index access" do
+  context "HTML" do
+    it "succeeds and renders template" do
+      get 'index'
+      response.should be_success
+      response.status.should eq(200)
+      response.should render_template("index")
+    end
+
+    it "renders the empty collection" do
+      expect(model.all).to be_empty
+      get 'index'
+      result = assigns(model_name.pluralize.to_sym)
+      expect(result).to eq([])
+    end
+
+    it "renders a non-empty collection" do
+      object = create(factory_valid)
+      expect(model.all).to_not be_empty
+      get 'index'
+      result = assigns(model_name.pluralize.to_sym)
+      expect(result).to eq([object])
+    end
+  end
+end
+
+shared_examples_for "an unauthorized show access" do
+  let(:record) { create(factory_valid) }
+
+  context "HTML" do
+    it "fails and redirect to root" do
+      get 'show', id: record.id
+      expect(response).to_not be_success
+      expect(response.status).to eq(302)
+      expect(response).to redirect_to(root_url)
+      expect(response).to_not render_template("show")
+    end
+  end
+end
+
+shared_examples_for "an authorized show access" do
+  let(:record) { create(factory_valid) }
+
+  context "HTML" do
+    it "succeeds and renders template" do
+      get 'show', id: record.id
+      response.should be_success
+      response.status.should eq(200)
+      response.should render_template("show")
+    end
+
+    it "renders the record" do
+      get 'show', id: record.id
+      result = assigns(model_name)
+      expect(result).to eq(record)
+    end
+  end
+end
+
+shared_examples_for "an unauthorized datatable access" do
+  context "HTML" do
+    it "fails and redirect to root" do
+      get 'datatable'
+      expect(response).to_not be_success
+      expect(response.status).to eq(302)
+      expect(response).to redirect_to(root_url)
+    end
+  end
+
+  context "JSON" do
+    it "fails" do
+      get 'datatable', :format => :json
+      response.should_not be_success
+      if @user.nil?
+        expect(response.status).to eq(401)
+      else
+        expect(response.status).to eq(302)
+        expect(response).to redirect_to(root_url)
+      end
+    end
+  end
+end
+
+shared_examples_for "an authorized datatable access" do
+  context "HTML" do
+    it "fails and redirects to model's index page" do
+      get 'datatable'
+      response.should_not be_success
+      response.status.should eq(302)
+      response.should redirect_to(send("#{module_name}_#{model_name.pluralize}_path"))
+    end
+  end
+
+  context "JSON" do
+    it "should succeed" do
+      get 'datatable', :format => :json
+      response.should be_success
+      response.status.should eq(200)
+    end
+
+    # TODO complete spec
+    it "should count"
+
+    # TODO complete spec
+    it "should filter"
+
+    # TODO complete spec
+    it "should sort"
+
+    # TODO complete spec
+    it "should paginate"
+  end
+end

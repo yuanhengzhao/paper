@@ -1,0 +1,119 @@
+RSpec::Matchers.define :have_same_janitorial_checklist_attributes_as do |expected|
+  match do |actual|
+    differences = []
+    
+    if actual.reference_number != expected.reference_number
+      differences << { :field => "reference_number", :expected => expected.reference_number, :actual => actual.reference_number }
+    end
+    if actual.server_receive_date != expected.server_receive_date
+      differences << { :field => "server_receive_date", :expected => expected.server_receive_date, :actual => actual.server_receive_date }
+    end
+    if actual.device_submit_date != expected.device_submit_date
+      differences << { :field => "device_submit_date", :expected => expected.device_submit_date, :actual => actual.device_submit_date }
+    end
+    if actual.username != expected.username
+      differences << { :field => "username", :expected => expected.username, :actual => actual.username }
+    end
+    if actual.version != expected.version
+      differences << { :field => "version", :expected => expected.version, :actual => actual.version }
+    end
+    if actual.altitude != expected.altitude
+      differences << { :field => "altitude", :expected => expected.altitude, :actual => actual.altitude }
+    end
+    if actual.latitude != expected.latitude
+      differences << { :field => "latitude", :expected => expected.latitude, :actual => actual.latitude }
+    end
+    if actual.longitude != expected.longitude
+      differences << { :field => "longitude", :expected => expected.longitude, :actual => actual.longitude }
+    end
+    if actual.source != expected.source
+      differences << { :field => "source", :expected => expected.source, :actual => actual.source }
+    end
+      
+    if actual.client != expected.client
+      differences << { :field => "client", :expected => expected.client, :actual => actual.client }
+    end
+    if actual.site != expected.site
+      differences << { :field => "site", :expected => expected.site, :actual => actual.site }
+    end
+    if actual.shop != expected.shop
+      differences << { :field => "shop", :expected => expected.shop, :actual => actual.shop }
+    end
+    if actual.location != expected.location
+      differences << { :field => "location", :expected => expected.location, :actual => actual.location }
+    end
+    if actual.floor != expected.floor
+      differences << { :field => "floor", :expected => expected.floor, :actual => actual.floor }
+    end
+    if actual.type_mwu != expected.type_mwu
+      differences << { :field => "type_mwu", :expected => expected.type_mwu, :actual => actual.type_mwu }
+    end
+    if actual.reference != expected.reference
+      differences << { :field => "reference", :expected => expected.reference, :actual => actual.reference }
+    end
+    if actual.plant_id != expected.plant_id
+      differences << { :field => "plant_id", :expected => expected.plant_id, :actual => actual.plant_id }
+    end
+    if actual.area_type != expected.area_type
+      differences << { :field => "area_type", :expected => expected.area_type, :actual => actual.area_type }
+    end
+      
+    if actual.fi != expected.fi
+      differences << { :field => "fi", :expected => expected.fi, :actual => actual.fi }
+    end
+    if actual.floors != expected.floors
+      differences << { :field => "floors", :expected => expected.floors, :actual => actual.floors }
+    end
+    if actual.trash != expected.trash
+      differences << { :field => "trash", :expected => expected.trash, :actual => actual.trash }
+    end
+    if actual.ledges != expected.ledges
+      differences << { :field => "ledges", :expected => expected.ledges, :actual => actual.ledges }
+    end
+    if actual.windows != expected.windows
+      differences << { :field => "windows", :expected => expected.windows, :actual => actual.windows }
+    end
+    if actual.chairs != expected.chairs
+      differences << { :field => "chairs", :expected => expected.chairs, :actual => actual.chairs }
+    end
+    if actual.drinking_fount != expected.drinking_fount
+      differences << { :field => "drinking_fount", :expected => expected.drinking_fount, :actual => actual.drinking_fount }
+    end
+    if actual.tables != expected.tables
+      differences << { :field => "tables", :expected => expected.tables, :actual => actual.tables }
+    end
+      
+    if actual.are_repairs_required != expected.are_repairs_required
+      differences << { :field => "are_repairs_required", :expected => expected.are_repairs_required, :actual => actual.are_repairs_required }
+    end
+    if actual.list_repairs != expected.list_repairs
+      differences << { :field => "list_repairs", :expected => expected.list_repairs, :actual => actual.list_repairs }
+    end
+      
+    if actual.comments != expected.comments
+      differences << { :field => "comments", :expected => expected.comments, :actual => actual.comments }
+    end
+    if actual.sum_total != expected.sum_total
+      differences << { :field => "sum_total", :expected => expected.sum_total, :actual => actual.sum_total }
+    end
+    if actual.overall_rate != expected.overall_rate
+      differences << { :field => "overall_rate", :expected => expected.overall_rate, :actual => actual.overall_rate }
+    end
+    
+    if actual.image1_content_type != expected.image1_content_type
+      differences << { :field => "image1_content_type", :expected => expected.image1_content_type, :actual => actual.image1_content_type }
+    end
+    if actual.image1_file_name != expected.image1_file_name
+      differences << { :field => "image1_file_name", :expected => expected.image1_file_name, :actual => actual.image1_file_name }
+    end
+    if actual.image1_file_size != expected.image1_file_size
+      differences << { :field => "image1_file_size", :expected => expected.image1_file_size, :actual => actual.image1_file_size }
+    end
+    
+    differences.empty?
+  end
+  
+  description do
+    "have same janitorial checklist attributes as #{expected}"
+  end
+end

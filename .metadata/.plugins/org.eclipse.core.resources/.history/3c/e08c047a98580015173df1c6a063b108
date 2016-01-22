@@ -1,0 +1,55 @@
+class CreateFormsJigCleanings < ActiveRecord::Migration
+  def change
+    create_table :forms_jig_cleanings do |t|
+      
+      t.string :reference_number
+      t.datetime :server_receive_date
+      t.datetime :device_submit_date
+      t.string :username
+      t.string :version
+      t.decimal :altitude, :precision => 20, :scale => 16 
+      t.decimal :latitude, :precision => 20, :scale => 16 
+      t.decimal :longitude, :precision => 20, :scale => 16 
+      t.string :source
+      t.string :file_path
+      t.attachment :submission
+      
+      t.string :machine
+      t.datetime :time_in
+      t.decimal :cycle, :precision => 20, :scale => 16 
+      
+      t.integer :count_rear_door
+      t.decimal :extra_time_rear_door, :precision => 20, :scale => 16 
+      t.text :notes_rear_door
+      
+      t.integer :count_front_door
+      t.decimal :extra_time_front_door, :precision => 20, :scale => 16 
+      t.text :notes_front_door
+      
+      t.integer :count_kickstand_left
+      t.integer :count_kickstand_right
+      t.decimal :extra_time_kickstand, :precision => 20, :scale => 16 
+      t.text :notes_kickstand
+      
+      t.integer :count_hood_lifter
+      t.decimal :extra_time_hood_lifter, :precision => 20, :scale => 16 
+      t.text :notes_hood_lifter
+      
+      t.integer :count_weld
+      t.decimal :extra_time_weld, :precision => 20, :scale => 16 
+      t.text :notes_weld
+      
+      t.integer :count_luggage_hook
+      t.decimal :extra_time_luggage_hook, :precision => 20, :scale => 16 
+      t.text :notes_luggage_hook
+      
+      t.integer :count_fuel_lid
+      t.decimal :extra_time_fuel_lid, :precision => 20, :scale => 16 
+      t.text :notes_fuel_lid
+      
+      t.datetime :time_out
+      
+      t.timestamps null: true
+    end
+  end
+end

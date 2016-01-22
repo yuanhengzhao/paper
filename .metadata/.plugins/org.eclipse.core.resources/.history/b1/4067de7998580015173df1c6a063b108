@@ -1,0 +1,71 @@
+# Migrate to import iform data to database
+#
+# Forms::SafetyObservation's Model
+#
+# Properties:
+# - id (integer) - primary key
+# - reference_number (string) - reference number assigned to each report by ProntoForms
+# - server_receive_date (date/time) - date and time the server received the report
+# - device_submit_date (date/time) - date and time the form was submitted
+# - username (string) - email address of the user
+# - version (string) - current version of the form
+# - altitude (decimal(20,20)) - altitude of the user's location when submitted the form
+# - latitude (decimal(20,20)) - latitude of the user's location when submitted the form
+# - longitude (decimal(20,20)) - longitude of the user's location when submitted the form
+# - source (string) - name of the provider, for example,"prontoforms", "iforms", etc
+# - submission (attachment) - json file attachment of the form submission
+
+# - task_observed (string) - 
+# - site (string) - 
+# - shop (string) - 
+# - shift (string) - 
+# - all_safe (string) - 
+# - safe_acts_observed (text) - 
+# - unsafe_acts_observed (text) - 
+# - pbr (text) - 
+# - ep (text) - 
+# - ws (text) - 
+# - ppe (text) - 
+# - etws (text) - 
+# - fs (text) - 
+# - image1 (attachment) - 
+# - image2 (attachment) - 
+# - signature (attachment) - 
+
+class Iforms::SafetyObservationMigrate < Iforms::AbstractIformMigrate
+
+  def get_record(item_hash,dir)
+    record = Forms::SafetyObservation.new
+    get_common_answer_values(record,item_hash)
+    
+    record.task_observed = item_hash["task_observed"]
+    record.site = item_hash["site"]
+    record.shop = item_hash["shop"]
+    record.shift = item_hash["shift"]
+    record.safe_acts_observed = item_hash["safe_acts_observed"]
+    record.unsafe_acts_observed = item_hash["unsafe_acts_observed"]
+    record.pbr = item_hash["pbr"]
+    record.ep = item_hash["ep"]
+    record.ws = item_hash["ws"]
+    record.ppe = item_hash["ppe"]
+    record.etws = item_hash["etws"]
+    record.fs = item_hash["fs"]
+    record.image1 = create_image_attachment(item_hash,"picture1",dir)
+    record.image2 = create_image_attachment(item_hash,"picture2",dir)
+    
+    return record
+  end
+  
+end
+
+
+
+
+
+
+
+
+
+
+
+

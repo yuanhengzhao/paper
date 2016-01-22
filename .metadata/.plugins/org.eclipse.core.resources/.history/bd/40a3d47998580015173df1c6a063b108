@@ -1,0 +1,17 @@
+class ErrorNotificationMailer < ActionMailer::Base
+  include ActionView::Helpers::TextHelper
+  default from: 'no-reply@robinsonsolutions.com', to: Rails.application.config.admin_email, template_name: 'error_notification'
+  
+  def error_notification_email(subject, short_info, msg)
+    @short_info = short_info
+    @msg = simple_format(msg)
+    mail(subject: subject)
+  end
+  
+  def unrecognized_submission_email(id)
+    subject = "[FormData] An Unrecognized submission has been received"
+    @short_info = "An unrecognized submission has been received"
+    @msg = view_context.link_to "Please click here to see the details", forms_unrecognized_submission_url(id)
+    mail(subject: subject)
+  end
+end

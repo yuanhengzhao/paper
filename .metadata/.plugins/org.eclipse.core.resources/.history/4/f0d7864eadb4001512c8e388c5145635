@@ -1,0 +1,7 @@
+<%= title "Incidents" %>
+
+<%= render partial: "index_view_table", :locals => { :table_name => "Drafts", :incidents_in => @incidents.draft } %>
+
+<%= render partial: "index_view_table", :locals => { :table_name => "Open cases", :incidents_in => @incidents.ready.open } %>
+
+<%= render partial: "index_view_table", :locals => { :table_name => "Closed cases", :incidents_in => @incidents.ready.closed } %>

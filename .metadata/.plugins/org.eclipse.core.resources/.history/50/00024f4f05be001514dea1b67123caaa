@@ -1,0 +1,17 @@
+class HomeController < ApplicationController
+  before_action :authenticate_user!
+  
+  skip_authorization_check :only => [:index]
+  
+  layout "splash", only: [:index]
+  
+  def index
+    #unless current_user.nil?
+      # TODO the following line will overwrite any existing flash alert message present, consider rewriting to preserve message and append
+    #  flash[:alert] = "Your account has not yet been authorized by an administrator. Until that time, you will not be able to access this application." unless current_user.authorized
+    #end
+  end  
+  
+  #def signin
+  #end
+end

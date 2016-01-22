@@ -1,0 +1,50 @@
+require 'rake'
+namespace :incidents do
+  desc "Correct lost_days and modified_work_days of old data following the logic of count_days."
+  task correct_date_ranges: :environment do
+    
+    @incidents=Incident.all
+    tag = false
+    hash={
+      :lost_days => [
+        :lost_days_start,
+        :lost_days_end,
+        :lost_days
+      ],
+      :modified_work_days => [
+        :modified_work_start,
+        :modified_work_end,
+        :modified_work_days
+      ]
+    }
+    @incidents.each do |i|
+      new_attributes = {}
+      
+      hash.each_value do |start_date,end_date,count_days|
+        diff = nil
+        if i[start_date] != nil
+          if i[end_date] != nil
+            diff = (i[end_date] - i[start_date]).to_i
+            diff = nil if diff < 0
+          end
+        else
+          if i[end_date] == nil
+            diff = 0
+          end
+        end
+        
+        if i[count_days] != diff
+          new_attributes[count_days] = diff
+        end
+      end
+      
+      unless new_attributes.empty?
+        i.update_attributes(new_attributes)
+        puts "#{new_attributes.keys} of No.#{i.id} incidents has been corrected."
+        tag = tag||true
+      else
+      end
+    end
+    puts "change nothing" unless tag
+  end
+end

@@ -1,0 +1,201 @@
+require_relative '../../spec_helper'
+
+describe ProntoForms::JkkAuditParser do
+
+  let(:missing_image) { "/assets/missing.jpg" }
+
+  subject { ProntoForms::JkkAuditParser.new }
+
+  it "should have a NAME constant with the expected value" do
+    ProntoForms::JkkAuditParser::NAME.should eq("JKK Audit")
+  end
+
+  describe "max_version" do
+    subject { ProntoForms::JkkAuditParser.new }
+    it "should not throw an error" do
+      lambda { subject.max_version }.should_not raise_error
+    end
+  end
+
+  describe "parse" do
+
+  # call the parse method on a parameter defined in the sub-describes
+    subject { ProntoForms::JkkAuditParser.new.parse(form_hash) }
+
+    # ensure that form_hash has been properly set for the specs
+    before(:each) do
+      form_hash.should_not be_nil
+    end
+
+    describe "for an invalid hash" do
+
+      let(:form_hash) {
+        f = Rails.root.join('spec', 'resources', 'forms', 'jkk_audit', 'not_valid.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+
+      it "should throw a parser error" do
+        lambda { subject }.should raise_error(ParserException, "Could not find expected answer [page: 1][answer: 50]")
+      end
+
+    end
+
+    describe "for a valid hash" do
+
+      let(:form_hash) {
+        f = Rails.root.join('spec', 'resources', 'forms', 'jkk_audit', 'valid.json')
+        return ActiveSupport::JSON.decode(f.read)
+      }
+
+      let(:expected) {
+        o = Forms::JkkAudit.new
+
+        o.reference_number = "20150806150418-1825944429"
+        o.server_receive_date = "2015-08-06T11:04:20-04:00"
+        o.device_submit_date = "2015-08-06T11:04:17-04:00"
+        o.username = "nshakoori@robinsonsolutions.com"
+        o.version = "1"
+        o.altitude = 113.385
+        o.latitude = 43.65196582093044
+        o.longitude = -79.38196543058145
+        o.source = "prontoforms"
+        
+        o.audit_time = "2015-08-06T11:02:59-04:00"
+        o.site = "Woodstock"
+        o.shop = "Press"
+        o.job_name = "BOLSTER PLATE"
+        o.job_number = "TOY-WP-A5"
+        o.frequency = "1/3M"
+        o.form_identifier = "JKK_TOY-WP-A5_20150806"
+        o.hazards_identified = "X"
+        o.hazards_identified_comments = "Gf"
+        o.hazards_aware = "O"
+        o.hazards_aware_comments = "not required"
+        o.ppe_specified = "O"
+        o.ppe_specified_comments = "not required"
+        o.ppe_properly = "O"
+        o.ppe_properly_comments = "not required"
+        o.lockout_identified = "O"
+        o.lockout_identified_comments = "not required"
+        o.lockout_performed = "O"
+        o.lockout_performed_comments = "not required"
+        o.trained = "O"
+        o.trained_comments = "not required"
+        o.steps = "O"
+        o.steps_comments = "not required"
+        o.sequential = "O"
+        o.sequential_comments = "not required"
+        o.requirements = "O"
+        o.requirements_comments = "not required"
+        o.approved = "O"
+        o.approved_comments = "not required"
+        o.five_s = "O"
+        o.five_s_comments = "not required"
+        o.standardized_work_good_total = 11
+        o.standardized_work_no_good_total = 1
+        o.standardized_work_percentage = 91.67
+        
+        o.equipment_present = "O"
+        o.equipment_present_comments = "not required"
+        o.equipment_adequate = "O"
+        o.equipment_adequate_comments = "not required"
+        o.equipment_safe = "O"
+        o.equipment_safe_comments = "not required"
+        o.equipment_good = "O"
+        o.equipment_good_comments = "not required"
+        o.lighting = "O"
+        o.lighting_comments = "not required"
+        o.plan = "O"
+        o.plan_comments = "not required"
+        o.energy = "O"
+        o.energy_comments = "not required"
+        o.temperature = "O"
+        o.temperature_comments = "not required"
+        o.necessary_conditions_good_total = 8
+        o.necessary_conditions_no_good_total = 0
+        o.necessary_conditions_percentage = 100
+        o.jkk_ratio = 0.92
+        o.time_scheduled_hours = 0.2
+        o.time_studied = 5
+        return o
+      }
+
+      it "should return a Forms::JkkAudit object" do
+        subject.should be_a_kind_of(Forms::JkkAudit)
+      end
+      
+      it "should be valid" do
+        expect(subject).to  be_valid
+        expect(expected).to be_valid
+      end
+
+      describe "should match expected" do
+
+        before(:each) do
+          subject.save
+          subject.reload
+        end
+
+        it "should have the same base form values" do
+          expect(subject).to have_same_base_form_attributes_as(expected)
+        end
+        
+        it "should have the same values as expected" do
+          subject.audit_time.should eq(expected.audit_time)
+          subject.site.should eq(expected.site)
+          subject.shop.should eq(expected.shop)
+          subject.job_name.should eq(expected.job_name)
+          subject.job_number.should eq(expected.job_number)
+          subject.frequency.should eq(expected.frequency)
+          subject.form_identifier.should eq(expected.form_identifier)
+          
+          subject.hazards_identified.should eq(expected.hazards_identified)
+          subject.hazards_aware.should eq(expected.hazards_aware)
+          subject.ppe_specified.should eq(expected.ppe_specified)
+          subject.ppe_specified_comments.should eq(expected.ppe_specified_comments)
+          subject.ppe_properly.should eq(expected.ppe_properly)
+          subject.lockout_identified.should eq(expected.lockout_identified)
+          subject.lockout_identified_comments.should eq(expected.lockout_identified_comments)
+          subject.lockout_performed.should eq(expected.lockout_performed)
+          subject.trained.should eq(expected.trained)
+          subject.trained_comments.should eq(expected.trained_comments)
+          subject.steps.should eq(expected.steps)
+          subject.sequential.should eq(expected.sequential)
+          subject.sequential_comments.should eq(expected.sequential_comments)
+          subject.requirements.should eq(expected.requirements)
+          subject.requirements_comments.should eq(expected.requirements_comments)
+          subject.approved.should eq(expected.approved)
+          subject.five_s.should eq(expected.five_s)
+          subject.standardized_work_good_total.should eq(expected.standardized_work_good_total)
+          subject.standardized_work_no_good_total.should eq(expected.standardized_work_no_good_total)
+          subject.standardized_work_percentage.should eq(expected.standardized_work_percentage)
+          
+          subject.equipment_present.should eq(expected.equipment_present)
+          subject.equipment_present_comments.should eq(expected.equipment_present_comments)
+          subject.equipment_adequate.should eq(expected.equipment_adequate)
+          subject.equipment_safe.should eq(expected.equipment_safe)
+          subject.equipment_good.should eq(expected.equipment_good)
+          subject.equipment_good_comments.should eq(expected.equipment_good_comments)
+          subject.lighting.should eq(expected.lighting)
+          subject.lighting_comments.should eq(expected.lighting_comments)
+          subject.plan.should eq(expected.plan)
+          subject.plan_comments.should eq(expected.plan_comments)
+          subject.energy.should eq(expected.energy)
+          subject.energy_comments.should eq(expected.energy_comments)
+          subject.temperature.should eq(expected.temperature)
+          subject.temperature_comments.should eq(expected.temperature_comments)
+          subject.necessary_conditions_good_total.should eq(expected.necessary_conditions_good_total)
+          subject.necessary_conditions_no_good_total.should eq(expected.necessary_conditions_no_good_total)
+          subject.necessary_conditions_percentage.should eq(expected.necessary_conditions_percentage)
+          
+          subject.jkk_ratio.should eq(expected.jkk_ratio)
+          subject.time_scheduled_hours.should eq(expected.time_scheduled_hours)
+          subject.time_studied.should eq(expected.time_studied)
+          
+        end
+      end
+    end
+
+  end
+
+end

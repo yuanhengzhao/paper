@@ -1,0 +1,46 @@
+FactoryGirl.define do
+  factory :dolly_cleaning, class: Forms::DollyCleaning do
+    submission { fixture_file_upload(Rails.root.join('spec', 'resources', 'forms', 'dolly_cleaning', 'valid_version_1.json'), 'text/plain') }
+    
+    factory :dolly_cleaning_v1 do
+      reference_number "20150223-1819478212"
+      server_receive_date "2015-02-23T10:39:39-05:00"
+      device_submit_date "2015-02-23T10:39:38-05:00"
+      username "spai@robinsonsolutions.com"
+      version "1"
+      altitude 109.228
+      latitude 43.6520477694093
+      longitude -79.38201706653744
+      source "prontoforms"
+      
+      association :dolly, factory: :dolly, identifier: "248"
+      dolly_identifier "248"
+      time_in "2015-02-23T10:39:23-05:00"
+      time_out "2015-02-23T10:43:28-05:00"
+      notes "Clean"
+      
+      factory :dolly_cleaning_missing_pages, aliases: [:dolly_cleaning_invalid] do
+        submission { fixture_file_upload(Rails.root.join('spec', 'resources', 'forms', 'dolly_cleaning', 'missing_pages.json'), 'text/plain') }
+      end
+    end
+    
+    factory :dolly_cleaning_v2, aliases: [:dolly_cleaning_valid] do
+      submission { fixture_file_upload(Rails.root.join('spec', 'resources', 'forms', 'dolly_cleaning', 'valid_version_2.json'), 'text/plain') }
+      reference_number "20150223-1819478212"
+      server_receive_date "2015-02-23T10:39:39-05:00"
+      device_submit_date "2015-02-23T10:39:38-05:00"
+      username "spai@robinsonsolutions.com"
+      version "2"
+      altitude 109.228
+      latitude 43.6520477694093
+      longitude -79.38201706653744
+      source "prontoforms"
+      
+      association :dolly, factory: :dolly, identifier: "248"
+      dolly_identifier "248"
+      time_in "2015-02-23T10:39:23-05:00"
+      time_out "2015-02-23T10:43:28-05:00"
+      notes "Clean"
+    end
+  end
+end

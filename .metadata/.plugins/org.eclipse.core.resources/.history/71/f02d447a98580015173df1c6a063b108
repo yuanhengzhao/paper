@@ -1,0 +1,663 @@
+require_relative '../../spec_helper'
+
+# Shared examples that any controller for a form object should handle. This includes:
+# - index
+# - show
+# - datatable
+# - submission
+# - reparse
+# - download_export
+# - update_export
+# - all image attribute paths
+# for anonymous, unauthorized, authorized without permission, authorized with permission, and admin users.
+#
+# In the appropriate controller, implement as below:
+#
+# it_behaves_like "a form controller" do
+#   let(:model) { Forms::<name of class> }
+#   let(:image_fields) { [<image attribute as a symbol>] } # empty array if no images attached to this form
+# end
+#
+# Any functionality beyond the general case must be implemented in the controller specific spec file.
+shared_examples_for "a form controller" do
+  before(:each) do
+  # verify provided parameters
+    expect(model).to_not be_nil
+    expect(image_fields).to_not be_nil
+    expect(image_fields).to be_a Array
+    image_fields.each do |image_field|
+      expect(image_field).to be_a Symbol
+    end
+  end
+
+  # determine remaining variables from 'model' context
+  let(:class_name) { model.name.split(/::/).last }
+  let(:module_name) { model.name.split(/::/).first.underscore }
+  let(:model_name) { class_name.underscore }
+  let(:form_name) { model_name.tr('_', ' ') }
+  let(:factory_valid) { "#{pre_model_name}#{model_name}_valid".to_sym }
+  let(:factory_invalid) { "#{pre_model_name}#{model_name}_invalid".to_sym }
+
+  # index view
+  describe "GET 'index'" do
+    describe "for an anonymous user" do
+      # no signed in user
+      it_behaves_like "an unauthorized index access"
+    end
+
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+      # log in a user who has not been authorized to view application data
+      it_behaves_like "an unauthorized index access"
+    end
+
+    describe "for an authorized logged in user", :with_authorized_user => true do
+      describe "with no permissions" do
+        # ensure user has no permissions
+        before(:each) do
+          expect(@user.permissions.forms).to be_empty
+        end
+
+        # log in a user who has not been authorized to view this specific form's data
+        it_behaves_like "an unauthorized index access"
+      end
+
+      describe "with specific permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: class_name, user: @user)
+        end
+
+        # log in a user who has been authorized to view application data
+        it_behaves_like "an authorized index access"
+      end
+
+      describe "with ALL permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: "ALL", user: @user)
+        end
+
+        # log in a user who has been authorized to view application data
+        it_behaves_like "an authorized index access"
+      end
+    end
+
+    describe "for a logged in admin", :with_admin_user => true do
+    # log in an admin user
+      it_behaves_like "an authorized index access"
+    end
+  end
+
+  # show view
+  describe "GET 'show'" do
+    describe "for an anonymous user" do
+    # no signed in user
+      it_behaves_like "an unauthorized show access"
+    end
+
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+    # log in a user who has not been authorized to view application data
+      it_behaves_like "an unauthorized show access"
+    end
+
+    describe "for an authorized logged in user", :with_authorized_user => true do
+      describe "with no permissions" do
+      # ensure user has no permissions
+        before(:each) do
+          expect(@user.permissions.forms).to be_empty
+        end
+
+        # log in a user who has not been authorized to view this specific form's data
+        it_behaves_like "an unauthorized show access"
+      end
+
+      describe "with specific permission" do
+      # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: class_name, user: @user)
+        end
+
+        # log in a user who has been authorized to view application data
+        it_behaves_like "an authorized show access"
+      end
+
+      describe "with ALL permission" do
+      # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: "ALL", user: @user)
+        end
+
+        # log in a user who has been authorized to view application data
+        it_behaves_like "an authorized show access"
+      end
+    end
+
+    describe "for a logged in admin", :with_admin_user => true do
+    # log in an admin user
+      it_behaves_like "an authorized show access"
+    end
+  end
+
+  # datatable view
+  describe "GET 'datatable'" do
+    describe "for an anonymous user" do
+    # no signed in user
+      it_behaves_like "an unauthorized datatable access"
+    end
+
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+      # log in a user who has not been authorized to view application data
+      it_behaves_like "an unauthorized datatable access"
+    end
+
+    describe "for an authorized logged in user", :with_authorized_user => true do
+      describe "with no permissions" do
+        # ensure user has no permissions
+        before(:each) do
+          expect(@user.permissions.forms).to be_empty
+        end
+
+        # log in a user who has not been authorized to view this specific form's data
+        it_behaves_like "an unauthorized datatable access"
+      end
+
+      describe "with specific permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: class_name, user: @user)
+        end
+
+        # log in a user who has been authorized to view application data
+        it_behaves_like "an authorized datatable access"
+      end
+
+      describe "with ALL permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: "ALL", user: @user)
+        end
+
+        # log in a user who has been authorized to view application data
+        it_behaves_like "an authorized datatable access"
+      end
+    end
+
+    describe "for a logged in admin", :with_admin_user => true do
+      # log in an admin user
+      it_behaves_like "an authorized datatable access"
+    end
+  end
+  
+  # submission
+  describe "GET 'submission'" do
+    describe "for an anonymous user" do
+      describe "on a non-existant form object" do
+        it_behaves_like "an unauthorized submission property access" do
+          let(:record_id) { 100 }
+        end
+      end
+      describe "on an existing form object" do
+        it_behaves_like "an unauthorized submission property access" do
+          let(:record_id) { create(factory_valid).id }
+        end
+      end
+    end
+
+    describe "for an unauthorized logged in user", :with_unauthorized_user => true do
+      describe "on a non-existant form object" do
+        it_behaves_like "an unauthorized submission property access" do
+          let(:record_id) { 100 }
+        end
+      end
+      describe "on an existing form object" do
+        it_behaves_like "an unauthorized submission property access" do
+          let(:record_id) { create(factory_valid).id }
+        end
+      end
+    end
+    
+    describe "for an authorized user", :with_authorized_user => true do
+      describe "with no permissions" do
+        describe "on a non-existant form object" do
+          it_behaves_like "an unauthorized submission property access" do
+            let(:record_id) { 100 }
+          end
+        end
+        describe "on an existing form object" do
+          it_behaves_like "an unauthorized submission property access" do
+            let(:record_id) { create(factory_valid).id }
+          end
+        end
+      end
+      
+      describe "with specific permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: class_name, user: @user)
+        end
+        describe "on a non-existant form object" do
+          it_behaves_like "an authorized submission property access on a non-record" do
+            let(:record_id) { 100 }
+          end
+        end
+        describe "on an existing form object" do
+          it_behaves_like "an authorized submission property access" do
+            let(:record) { create(factory_valid) }
+          end
+        end
+      end
+      
+      describe "with ALL permission" do
+        # attach read permission to the user
+        before(:each) do
+          create(:read_permission, category: "Forms", subject: "ALL", user: @user)
+        end
+        describe "on a non-existant form object" do
+          it_behaves_like "an authorized submission property access on a non-record" do
+            let(:record_id) { 100 }
+          end
+        end
+        describe "on an existing form object" do
+          it_behaves_like "an authorized submission property access" do
+            let(:record) { create(factory_valid) }
+          end
+        end
+      end
+    end
+
+    describe "for an admin user", :with_admin_user => true do
+      describe "on a non-existant form object" do
+        it_behaves_like "an authorized submission property access on a non-record" do
+          let(:record_id) { 100 }
+        end
+      end
+      describe "on an existing form object" do
+        it_behaves_like "an authorized submission property access" do
+          let(:record) { create(factory_valid) }
+        end
+      end
+    end
+  end
+
+  # reparse action
+  describe "reparse" do
+    before(:each) {
+      # no unrecognized objects should exist
+      expect(Forms::UnrecognizedSubmission.all).to be_empty
+
+      # original should have a recognized source value
+      expect(original.source).to_not be_nil
+      expect(ParserService.new.get_source_parser(original.source)).to_not be_nil
+    }
+
+    describe "for an admin user" do
+      before(:each) do
+        @user = create(:admin)
+        sign_in @user
+      end
+
+      describe "on a form with valid JSON" do
+        let(:original) { create(factory_valid) }
+
+        before(:each) do
+          post :reparse, { format: :json, id: original.id }
+        end
+
+        it "does not delete the object" do
+          subject
+          expect(model.find_by_id(original.id)).to_not be_nil
+        end
+
+        it "does not create an unrecognized object" do
+          subject
+          expect(Forms::UnrecognizedSubmission.all).to be_empty
+        end
+      end
+
+      describe "on a form with invalid JSON" do
+        let(:original) { create(factory_invalid) }
+
+        before(:each) do
+          post :reparse, { format: :json, id: original.id }
+        end
+
+        it "deletes the object" do
+          subject
+          expect(model.find_by_id(original.id)).to be_nil
+        end
+
+        it "creates an unrecognized object" do
+          subject
+          expect(Forms::UnrecognizedSubmission.all).to_not be_empty
+        end
+      end
+    end
+  end
+  
+  # download_export
+  describe "GET 'download_export'" do
+    describe "for an anonymous user" do
+      it_behaves_like "an unauthorized download_export access"
+    end
+    
+    describe "for an unauthorized user", :with_unauthorized_user => true do
+      it_behaves_like "an unauthorized download_export access"
+    end
+
+    describe "for an authorized user", :with_authorized_user => true do
+      describe "with no permissions" do
+        it_behaves_like "an unauthorized download_export access"
+      end
+      
+      describe "with specific permission" do
+        let!(:permission) { create(:permission, category: "Forms", subject: class_name, user: @user) }
+        it_behaves_like "an authorized download_export access"
+      end
+      
+      describe "with ALL permission" do
+        let!(:permission) { create(:permission, category: "Forms", subject: "ALL", user: @user) }
+        it_behaves_like "an authorized download_export access"
+      end
+    end
+    
+    describe "for an admin user", :with_admin_user => true do
+      it_behaves_like "an authorized download_export access"
+    end
+  end
+  
+  # update_export
+  describe "GET 'update_export'" do
+    describe "for an anonymous user" do
+      it_behaves_like "an unauthorized update_export access"
+    end
+    
+    describe "for an unauthorized user", :with_unauthorized_user => true do
+      it_behaves_like "an unauthorized update_export access"
+    end
+
+    describe "for an authorized user", :with_authorized_user => true do
+      describe "with no permissions" do
+        it_behaves_like "an unauthorized update_export access"
+      end
+      
+      describe "with specific permission" do
+        let!(:permission) { create(:permission, category: "Forms", subject: class_name, user: @user) }
+        it_behaves_like "an authorized update_export access"
+      end
+      
+      describe "with ALL permission" do
+        let!(:permission) { create(:permission, category: "Forms", subject: "ALL", user: @user) }
+        it_behaves_like "an authorized update_export access"
+      end
+    end
+    
+    describe "for an admin user", :with_admin_user => true do
+      it_behaves_like "an authorized update_export access"
+    end
+  end
+
+  # image attributes
+  describe "GET image attributes" do
+    describe "for an anonymous user" do
+    # no signed in user
+      describe "on a non-existant form object" do
+        it_behaves_like "an unauthorized image property access" do
+          let(:record_id) { 100 }
+        end
+      end
+      describe "on an existing form object" do
+        it_behaves_like "an unauthorized image property access" do
+          let(:record_id) { create(factory_valid).id }
+        end
+      end
+    end
+
+    describe "for an authorized user", :with_authorized_user => true do
+      describe "with no permissions" do
+        describe "on a non-existant form object" do
+          it_behaves_like "an unauthorized image property access" do
+            let(:record_id) { 100 }
+          end
+        end
+        describe "on an existing form object" do
+          it_behaves_like "an unauthorized image property access" do
+            let(:record_id) { create(factory_valid).id }
+          end
+        end
+      end
+
+      describe "with specific permission" do
+        let!(:permission) { create(:permission, category: "Forms", subject: class_name, user: @user) }
+        describe "on a non-existant form object" do
+          it_behaves_like "an authorized image property access on a non-record" do
+            let(:record_id) { 100 }
+          end
+        end
+        describe "on an existing form object" do
+          it_behaves_like "an authorized image property access" do
+            let(:record) { create(factory_valid) }
+          end
+        end
+      end
+
+      describe "with ALL permission" do
+        let!(:permission) { create(:permission, category: "Forms", subject: "ALL", user: @user) }
+        describe "on a non-existant form object" do
+          it_behaves_like "an authorized image property access on a non-record" do
+            let(:record_id) { 100 }
+          end
+        end
+        describe "on an existing form object" do
+          it_behaves_like "an authorized image property access" do
+            let(:record) { create(factory_valid) }
+          end
+        end
+      end
+    end
+
+    describe "for an admin user", :with_admin_user => true do
+      describe "on a non-existant form object" do
+        it_behaves_like "an authorized image property access on a non-record" do
+          let(:record_id) { 100 }
+        end
+      end
+      describe "on an existing form object" do
+        it_behaves_like "an authorized image property access" do
+          let(:record) { create(factory_valid) }
+        end
+      end
+    end
+  end
+end
+
+shared_examples_for "an unauthorized image property access" do
+  before(:each) do
+    expect(record_id).to_not be_nil
+  end
+
+  it "should fail on each image and redirect to root" do
+    image_fields.each do |image_field|
+      get image_field, id: record_id
+      expect(response).to_not be_success
+      expect(response.status).to eq(302)
+      expect(response).to redirect_to(root_url)
+      if @user.nil?
+        expect(flash[:alert]).to eq("You need to sign in or sign up before continuing.")
+      end
+    end
+  end
+end
+
+shared_examples_for "an authorized image property access" do
+  before(:each) do
+    expect(record).to_not be_nil
+  end
+
+  it "should redirect to image url" do
+    image_fields.each do |image_field|
+      get image_field, id: record.id
+      response.status.should eq(302)
+      response.should redirect_to(record.send(image_field).url)
+    end
+  end
+end
+
+shared_examples_for "an authorized image property access on a non-record" do
+  before(:each) do
+    expect(record_id).to_not be_nil
+  end
+
+  it "should fail and redirect to model's index" do
+    image_fields.each do |image_field|
+      get image_field, id: record_id
+      expect(response).to_not be_success
+      expect(response.status).to eq(302)
+      response.should redirect_to(send("#{module_name}_#{model_name.pluralize}_url"))
+      expect(flash[:alert]).to eq("Couldn't find #{model.name} with 'id'=#{record_id}")
+    end
+  end
+end
+
+shared_examples_for "an unauthorized submission property access" do
+  before(:each) do
+    expect(record_id).to_not be_nil
+  end
+
+  it "should fail and redirect to root" do
+    get :submission, id: record_id
+    expect(response).to_not be_success
+    expect(response.status).to eq(302)
+    expect(response).to redirect_to(root_url)
+    if @user.nil?
+      expect(flash[:alert]).to eq("You need to sign in or sign up before continuing.")
+    end
+  end
+end
+
+shared_examples_for "an authorized submission property access" do
+  before(:each) do
+    expect(record).to_not be_nil
+  end
+  
+  it "should redirect to submission url" do
+    get :submission, id: record.id
+    expect(response).to redirect_to(record.submission.url)
+  end
+end
+
+shared_examples_for "an authorized submission property access on a non-record" do
+  before(:each) do
+    expect(record_id).to_not be_nil
+  end
+  
+  it "should redirect to submission url" do
+    get :submission, id: record_id
+    expect(response).to_not be_success
+    expect(response.status).to eq(302)
+    response.should redirect_to(send("#{module_name}_#{model_name.pluralize}_url"))
+    expect(flash[:alert]).to eq("Couldn't find #{model.name} with 'id'=#{record_id}")
+  end
+end
+
+shared_examples_for "an unauthorized download_export access" do
+  it "fails and redirect to root" do
+    get 'download_export'
+    expect(response).to_not be_success
+    expect(response.status).to eq(302)
+    expect(response).to redirect_to(root_url)
+  end
+end
+
+shared_examples_for "an authorized download_export access" do
+  let!(:form_export) { create(:form_export, status: "available", form_name: form_name.pluralize) }
+  
+  it "succeeds and redirects to export attachment url" do
+    get 'download_export'
+    expect(response).to redirect_to(form_export.attachment.url)
+  end
+end
+
+shared_examples_for "an unauthorized update_export access" do
+  it "fails and redirect to root" do
+    get 'update_export'
+    expect(response).to_not be_success
+    expect(response.status).to eq(302)
+    expect(response).to redirect_to(root_url)
+  end
+end
+
+shared_examples_for "an authorized update_export access" do
+  describe "no form object exists" do
+    before(:each) do
+      expect(model.all).to be_empty
+    end
+    
+    it "should return an error message" do
+      get :update_export, { format: :json }
+      expect(response.body).to eq("No data in this form.")
+    end
+  end
+  
+  describe "form object exists but export does not" do
+    # force create a record
+    let!(:form) { create(factory_valid) }
+    
+    before(:each) do
+      expect(Report::FormExport.all).to be_empty
+    end
+    
+    it "should create an export object for the form" do
+      get :update_export, { format: :json }
+      
+      expect(Report::FormExport.all.size).to eq(1)
+      export = Report::FormExport.first
+      expect(export.form_name).to eq(form_name.pluralize)
+      expect(export.status).to eq("updating")
+    end
+  end
+  
+  describe "both objects exist, but export is newer than form object" do
+    
+    before(:each) do
+      # force create a record then the export
+      Timecop.freeze(Time.parse("2011-1-2 11:00:00"))
+      create(factory_valid) 
+      Timecop.freeze(Time.parse("2011-1-2 12:00:00"))
+      form_export = create(:form_export, status: "available", form_name: form_name.pluralize)
+      Timecop.return
+      
+      expect(Report::FormExport.all).to eq([form_export])
+    end
+    
+    it "should use the existing export object for the form" do
+      get :update_export, { format: :json }
+      
+      expect(Report::FormExport.all.size).to eq(1)
+      export = Report::FormExport.first
+      expect(export.form_name).to eq(form_name.pluralize)
+      expect(export.status).to eq("available")
+    end
+  end
+  
+  describe "both objects exist, but form object is newer than export" do
+    before(:each) do
+      # force create the export then the record
+      Timecop.freeze(Time.parse("2011-1-2 11:00:00"))
+      form_export = create(:form_export, status: "available", form_name: form_name.pluralize)
+      Timecop.freeze(Time.parse("2011-1-2 12:00:00"))
+      create(factory_valid) 
+      Timecop.return
+      
+      expect(Report::FormExport.all).to eq([form_export])
+    end
+    
+    it "should use the existing export object for the form" do
+      get :update_export, { format: :json }
+      
+      expect(Report::FormExport.all.size).to eq(1)
+      export = Report::FormExport.first
+      expect(export.form_name).to eq(form_name.pluralize)
+      expect(export.status).to eq("updating")
+    end
+  end
+end
